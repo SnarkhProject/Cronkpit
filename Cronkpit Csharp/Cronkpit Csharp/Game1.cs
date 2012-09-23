@@ -90,7 +90,7 @@ namespace Cronkpit_Csharp
 
             if (bad_turn)
             {
-                f1.update_all_monsters(p1);
+                f1.update_dungeon_floor(p1);
                 bad_turn = false;
             }
 
@@ -272,6 +272,10 @@ namespace Cronkpit_Csharp
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
             f1.drawEntities(ref spriteBatch);
+            spriteBatch.End();
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+            f1.drawEnemies(ref spriteBatch);
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);

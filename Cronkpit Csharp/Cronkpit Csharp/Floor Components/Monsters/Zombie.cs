@@ -14,11 +14,15 @@ namespace Cronkpit_Csharp
         public Zombie(gridCoordinate sGridCoord, ContentManager sCont, int sIndex)
             : base(sGridCoord, sCont, sIndex)
         {
-            my_Texture = cont.Load<Texture2D>("Entities/lolzombie");
-            aggro = false;
+            my_Texture = cont.Load<Texture2D>("Enemies/lolzombie");
+            can_see_player = false;
             hitPoints = 10;
             min_damage = 2;
             max_damage = 8;
+            can_melee_attack = true;
+
+            //SENSORY
+            sight_range = 3;
         }
 
         public override void Update_Monster(Player pl, Floor fl)
@@ -27,217 +31,20 @@ namespace Cronkpit_Csharp
             //When not aggroed, there is a 25% chance that a zombie will wander in a random direction.
             //If it cannot wander in the first direction, it will try up to 5 times for another one.
             //Aggroed when the player comes within 7 blocks of it. Then it will move towards the player.
-            if (!aggro)
+            can_see_player = false;
+            look_for_player(fl, pl, sight_range);
+            if (!can_see_player)
             {
-                int wander = rGen.Next(4);
-                if (wander == 1)
-                {                    
-                    bool walked = false;
-                    int tries = 0;
-                    while (tries < 5 && !walked)
-                    {
-                        int numeric_direction = rGen.Next(8);
-                        switch (numeric_direction)
-                        {
-                            //up, y-
-                            case 0:
-                                my_grid_coord.y--;
-                                if (is_spot_free(fl, pl))
-                                {
-                                    reset_my_drawing_position();
-                                    walked = true;
-                                }
-                                else
-                                {
-                                    my_grid_coord.y++;
-                                    tries++;
-                                }
-                                break;
-                            //down, y+
-                            case 1:
-                                my_grid_coord.y++;
-                                if (is_spot_free(fl, pl))
-                                {
-                                    reset_my_drawing_position();
-                                    walked = true;
-                                }
-                                else
-                                {
-                                    my_grid_coord.y--;
-                                    tries++;
-                                }
-                                break;
-                            //left, x-
-                            case 2:
-                                my_grid_coord.x--;
-                                if (is_spot_free(fl, pl))
-                                {
-                                    reset_my_drawing_position();
-                                    walked = true;
-                                }
-                                else
-                                {
-                                    my_grid_coord.x++;
-                                    tries++;
-                                }
-                                break;
-                            //right, x+
-                            case 3:
-                                my_grid_coord.x++;
-                                if (is_spot_free(fl, pl))
-                                {
-                                    reset_my_drawing_position();
-                                    walked = true;
-                                }
-                                else
-                                {
-                                    my_grid_coord.x--;
-                                    tries++;
-                                }
-                                break;
-                            //down right, x+ y+
-                            case 4:
-                                my_grid_coord.x++;
-                                my_grid_coord.y++;
-                                if (is_spot_free(fl, pl))
-                                {
-                                    reset_my_drawing_position();
-                                    walked = true;
-                                }
-                                else
-                                {
-                                    my_grid_coord.x--;
-                                    my_grid_coord.y--;
-                                    tries++;
-                                }
-                                break;
-                            //down left, x- y+
-                            case 5:
-                                my_grid_coord.x--;
-                                my_grid_coord.y++;
-                                if (is_spot_free(fl, pl))
-                                {
-                                    reset_my_drawing_position();
-                                    walked = true;
-                                }
-                                else
-                                {
-                                    my_grid_coord.x++;
-                                    my_grid_coord.y--;
-                                    tries++;
-                                }
-                                break;
-                            //up right, x+ y-
-                            case 6:
-                                my_grid_coord.x++;
-                                my_grid_coord.y--;
-                                if (is_spot_free(fl, pl))
-                                {
-                                    reset_my_drawing_position();
-                                    walked = true;
-                                }
-                                else
-                                {
-                                    my_grid_coord.x--;
-                                    my_grid_coord.y++;
-                                    tries++;
-                                }
-                                break;
-                            //up left, x- y-
-                            case 7:
-                                my_grid_coord.x--;
-                                my_grid_coord.y--;
-                                if (is_spot_free(fl, pl))
-                                {
-                                    reset_my_drawing_position();
-                                    walked = true;
-                                }
-                                else
-                                {
-                                    my_grid_coord.x++;
-                                    my_grid_coord.y++;
-                                    tries++;
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    //Then aggro the monster if the player is within 5 tiles.
-                    aggro = is_player_within(pl, 5);
+                int should_i_wander = rGen.Next(4);
+                if (should_i_wander == 1)
+                {
+                    wander(pl, fl);
                 }
             }
             else
             {
                 //the monster is aggroed!
-                bool attacked = false;
-                if (pl.get_my_grid_C().x != my_grid_coord.x)
-                    if (my_grid_coord.x > pl.get_my_grid_C().x)
-                    {
-                        my_grid_coord.x--;
-                        if (is_spot_free(fl, pl))
-                            reset_my_drawing_position();
-                        else
-                        {
-                            if(am_i_on_player(pl))
-                                if (!attacked)
-                                {
-                                    pl.take_damage(dealDamage());
-                                    attacked = true;
-                                }
-                            my_grid_coord.x++;
-                        }
-                    }
-                    else
-                    {
-                        my_grid_coord.x++;
-                        if (is_spot_free(fl, pl))
-                            reset_my_drawing_position();
-                        else
-                        {
-                            if (am_i_on_player(pl))
-                                if (!attacked)
-                                {
-                                    pl.take_damage(dealDamage());
-                                    attacked = true;
-                                }
-                            my_grid_coord.x--;
-                        }
-                    }
-
-                if (pl.get_my_grid_C().y != my_grid_coord.y)
-                    if (my_grid_coord.y > pl.get_my_grid_C().y)
-                    {
-                        my_grid_coord.y--;
-                        if (is_spot_free(fl, pl))
-                            reset_my_drawing_position();
-                        else
-                        {
-                            if (am_i_on_player(pl))
-                                if (!attacked)
-                                {
-                                    pl.take_damage(dealDamage());
-                                    attacked = true;
-                                }
-                            my_grid_coord.y++;
-                        }
-                    }
-                    else
-                    {
-                        my_grid_coord.y++;
-                        if (is_spot_free(fl, pl))
-                            reset_my_drawing_position();
-                        else
-                        {
-                            if (am_i_on_player(pl))
-                                if (!attacked)
-                                {
-                                    pl.take_damage(dealDamage());
-                                    attacked = true;
-                                }
-                            my_grid_coord.y--;
-                        }
-                    }
+                advance_towards_single_point(pl.get_my_grid_C(), pl, fl);
             }
         }
     }

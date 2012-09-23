@@ -108,6 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="Floor Components\Monster Senses\ScentPulse.cs" />
+    <Compile Include="Floor Components\Monster Senses\SightPulse.cs" />
+    <Compile Include="Floor Components\Monsters\GoreHound.cs" />
     <Compile Include="Floor.cs" />
     <Compile Include="Floor Components\Goldpile.cs" />
     <Compile Include="gridCoordinate.cs" />
@@ -120,6 +123,7 @@
     <Compile Include="Floor Components\Room.cs" />
     <Compile Include="Floor Components\Tile.cs" />
     <Compile Include="Floor Components\Monsters\Zombie.cs" />
+    <Compile Include="Floor Components\Monster Senses\Scent.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

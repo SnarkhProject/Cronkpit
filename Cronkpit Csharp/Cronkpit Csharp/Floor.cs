@@ -19,6 +19,8 @@ namespace Cronkpit_Csharp
         List<Hall> hallLayout;
         List<Monster> badGuys;
         List<Goldpile> Money;
+        List<SightPulse> Vision;
+        List<ScentPulse> Sniffs;
         //Other shit needed for the thing to function
         ContentManager cManager;
         Random randGen;
@@ -32,6 +34,8 @@ namespace Cronkpit_Csharp
             hallLayout = new List<Hall>();
             badGuys = new List<Monster>();
             Money = new List<Goldpile>();
+            Vision = new List<SightPulse>();
+            Sniffs = new List<ScentPulse>();
 
             //Next init other shit
             cManager = sCont;
@@ -191,7 +195,20 @@ namespace Cronkpit_Csharp
             //Add monsters. They can all be zombies for now.
             int number_of_monsters = 6 + randGen.Next(2, 6);
             for (int i = 0; i < number_of_monsters; i++)
-                badGuys.Add(new Zombie(random_valid_position(), cManager, i));
+            {
+                int monsterType = randGen.Next(100);
+                if (monsterType < 50)
+                    badGuys.Add(new Zombie(random_valid_position(), cManager, i));
+                else
+                    badGuys.Add(new GoreHound(random_valid_position(), cManager, i));
+            }
+        }
+
+        //Green text. Function here.
+        public void update_dungeon_floor(Player Pl)
+        {
+            update_all_monsters(Pl);
+            decay_all_scents();
         }
 
         //Green text. Function here.
@@ -294,6 +311,136 @@ namespace Cronkpit_Csharp
             }
         }
 
+        //Sensory stuff.
+        //ALL SMELL STUFF
+        //Green text. Function here.
+        public void add_smell_to_tile(gridCoordinate grid_position, int sType, int sValue)
+        {
+            floorTiles[grid_position.x][grid_position.y].addScent(sType, sValue);
+        }
+
+        //Green text.
+        public void decay_all_scents()
+        {
+            for (int x = 0; x < stdfloorSize; x++)
+                for (int y = 0; y < stdfloorSize; y++)
+                    floorTiles[x][y].decayScents();
+        }
+
+        //Green text.
+        public void scent_pulse(gridCoordinate origin, int targetSmell, int monsterID, int smellRange, int smellThreshold)
+        {
+            //Do this 8 times, once for each direction.
+            Sniffs.Add(new ScentPulse(new gridCoordinate(origin.x, origin.y - 1), 0, monsterID, smellRange));
+            Sniffs.Add(new ScentPulse(new gridCoordinate(origin.x, origin.y + 1), 1, monsterID, smellRange));
+            Sniffs.Add(new ScentPulse(new gridCoordinate(origin.x - 1, origin.y), 2, monsterID, smellRange));
+            Sniffs.Add(new ScentPulse(new gridCoordinate(origin.x + 1, origin.y), 3, monsterID, smellRange));
+            Sniffs.Add(new ScentPulse(new gridCoordinate(origin.x + 1, origin.y + 1), 4, monsterID, smellRange));
+            Sniffs.Add(new ScentPulse(new gridCoordinate(origin.x - 1, origin.y + 1), 5, monsterID, smellRange));
+            Sniffs.Add(new ScentPulse(new gridCoordinate(origin.x + 1, origin.y - 1), 6, monsterID, smellRange));
+            Sniffs.Add(new ScentPulse(new gridCoordinate(origin.x - 1, origin.y - 1), 7, monsterID, smellRange));
+            int strongest_smell_value = 0;
+            while (Sniffs.Count > 0)
+            {
+                for (int i = 0; i < Sniffs.Count; i++)
+                {
+                    //check for the target scent being present on the tile.
+                    if (floorTiles[Sniffs[i].my_coord().x][Sniffs[i].my_coord().y].is_scent_present(targetSmell))
+                    {
+                        int current_smell_value = floorTiles[Sniffs[i].my_coord().x][Sniffs[i].my_coord().y].strength_of_scent(targetSmell);
+                        //if it is, get the value, then compare it to our current strongest smell.
+                        //It also must be greater than the threshold
+                        if (current_smell_value > strongest_smell_value &&
+                            current_smell_value > smellThreshold)
+                        {
+                            strongest_smell_value = current_smell_value;
+                            //This means a scent has been found! Pass it on to the monster... if it still exists.
+                            for (int j = 0; j < badGuys.Count; j++)
+                            {
+                                if (badGuys[j].my_Index == monsterID)
+                                {
+                                    strongest_smell_value = current_smell_value;
+                                    badGuys[j].has_scent = true;
+                                    badGuys[j].strongest_smell_coord.x = Sniffs[i].my_coord().x;
+                                    badGuys[j].strongest_smell_coord.y = Sniffs[i].my_coord().y;
+                                }
+                            }
+                        }
+                    }
+                    if (Sniffs[i].my_strength() > 0)
+                        Sniffs[i].update(this);
+                    else
+                        Sniffs.RemoveAt(i);
+                }
+            }
+        }
+
+        //Green text.
+        public void add_single_scent_pulse(ScentPulse pulse)
+        {
+            Sniffs.Add(pulse);
+        }
+
+        //ALL SOUND STUFF
+        //Green text.
+        public bool is_tile_opaque(gridCoordinate grid_position)
+        {
+            return floorTiles[grid_position.x][grid_position.y].isOpaque();
+        }
+
+        //Green text.
+        public bool does_tile_deflect(gridCoordinate grid_position)
+        {
+            return floorTiles[grid_position.x][grid_position.y].isDeflector();
+        }
+
+        //Green text.
+        public int tile_absorbtion_value(gridCoordinate grid_position)
+        {
+            return floorTiles[grid_position.x][grid_position.y].sound_absorb_val();
+        }
+
+        //ALL SIGHT STUFF
+        //Green text.
+        public void sight_pulse(gridCoordinate origin,  Player pl, int monsterID, int sightRange)
+        {
+            //Do this 8 times, once for each direction.
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x, origin.y - 1), 0, monsterID, sightRange));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x, origin.y + 1), 1, monsterID, sightRange));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x - 1, origin.y), 2, monsterID, sightRange));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x + 1, origin.y), 3, monsterID, sightRange));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x + 1, origin.y + 1), 4, monsterID, sightRange));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x - 1, origin.y + 1), 5, monsterID, sightRange));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x + 1, origin.y - 1), 6, monsterID, sightRange));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x - 1, origin.y - 1), 7, monsterID, sightRange));
+            while (Vision.Count > 0)
+            {
+                for (int i = 0; i < Vision.Count; i++)
+                {
+                    //check for the player being on the particle.
+                    if (Vision[i].my_coord().x == pl.get_my_grid_C().x &&
+                        Vision[i].my_coord().y == pl.get_my_grid_C().y)
+                    {
+                        for (int j = 0; j < badGuys.Count; j++)
+                        {
+                            if(badGuys[j].my_Index == Vision[i].my_monster_ID())
+                                badGuys[j].can_see_player = true;
+                        }
+                    }
+                    if (Vision[i].my_strength() > 0)
+                        Vision[i].update(this);
+                    else
+                        Vision.RemoveAt(i);
+                }
+            }
+        }
+
+        //Green text
+        public void add_single_sight_pulse(SightPulse pulse)
+        {
+            Vision.Add(pulse);
+        }
+
         //Drawing stuff
         //Green text. Function here.
         public void drawBackground(ref SpriteBatch sBatch)
@@ -312,7 +459,10 @@ namespace Cronkpit_Csharp
         {
             for (int i = 0; i < Money.Count; i++)
                 Money[i].drawMe(ref sBatch);
+        }
 
+        public void drawEnemies(ref SpriteBatch sBatch)
+        {
             for (int i = 0; i < badGuys.Count; i++)
                 badGuys[i].drawMe(ref sBatch);
         }
