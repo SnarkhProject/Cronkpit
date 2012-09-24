@@ -36,8 +36,8 @@ namespace Cronkpit_Csharp
         public Monster(gridCoordinate sGridCoord, ContentManager sCont, int sIndex)
         {
             cont = sCont;
-            my_grid_coord = sGridCoord;
-            strongest_smell_coord = sGridCoord;
+            my_grid_coord = new gridCoordinate(sGridCoord);
+            strongest_smell_coord = new gridCoordinate(sGridCoord);
             my_Position = new Vector2(sGridCoord.x * 32, sGridCoord.y * 32);
             rGen = new Random();
             my_Index = sIndex;

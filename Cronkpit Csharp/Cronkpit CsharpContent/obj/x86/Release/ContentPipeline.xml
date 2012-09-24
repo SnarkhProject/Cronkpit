@@ -7,25 +7,25 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Background\badvoidtile.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Background\badvoidtile.xnb</Output>
       <Time>2012-09-18T03:13:34.9699346-04:00</Time>
     </Item>
     <Item>
-      <Source>Entities\lmfaoplayer.png</Source>
-      <Name>Entities\lmfaoplayer</Name>
+      <Source>Player\lmfaoplayer.png</Source>
+      <Name>Player\lmfaoplayer</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Entities\lmfaoplayer.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Player\lmfaoplayer.xnb</Output>
       <Time>2012-09-21T14:18:07.833924-04:00</Time>
     </Item>
     <Item>
-      <Source>Entities\lolzombie.png</Source>
-      <Name>Entities\lolzombie</Name>
+      <Source>Enemies\lolzombie.png</Source>
+      <Name>Enemies\lolzombie</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Entities\lolzombie.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Enemies\lolzombie.xnb</Output>
       <Time>2012-09-21T14:18:07.8359241-04:00</Time>
     </Item>
     <Item>
@@ -34,7 +34,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Entities\time2getpaid.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Entities\time2getpaid.xnb</Output>
       <Time>2012-09-21T14:18:07.8369242-04:00</Time>
     </Item>
     <Item>
@@ -43,7 +43,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Background\stonefloor.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Background\stonefloor.xnb</Output>
       <Time>2012-09-22T00:02:11.4723054-04:00</Time>
     </Item>
     <Item>
@@ -52,7 +52,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Background\stonefloorwcrack.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Background\stonefloorwcrack.xnb</Output>
       <Time>2012-09-22T00:02:11.4733055-04:00</Time>
     </Item>
     <Item>
@@ -61,7 +61,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Background\stonebrick.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Background\stonebrick.xnb</Output>
       <Time>2012-09-22T00:13:33.7003267-04:00</Time>
     </Item>
     <Item>
@@ -70,7 +70,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Background\stonebrickwtorch.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Background\stonebrickwtorch.xnb</Output>
       <Time>2012-09-22T00:13:33.7993323-04:00</Time>
     </Item>
     <Item>
@@ -79,17 +79,44 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Background\exit.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Background\exit.xnb</Output>
       <Time>2012-09-22T00:43:25.1467915-04:00</Time>
     </Item>
     <Item>
-      <Source>Entities\playercorpse.png</Source>
-      <Name>Entities\playercorpse</Name>
+      <Source>Player\playercorpse.png</Source>
+      <Name>Player\playercorpse</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Entities\playercorpse.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Player\playercorpse.xnb</Output>
       <Time>2012-09-22T01:49:53.0968892-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\goreHound.png</Source>
+      <Name>Enemies\goreHound</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Enemies\goreHound.xnb</Output>
+      <Time>2012-09-23T05:20:47.3123078-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\hollowKnight.png</Source>
+      <Name>Enemies\hollowKnight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Enemies\hollowKnight.xnb</Output>
+      <Time>2012-09-23T05:20:47.314308-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\zombieCommander.png</Source>
+      <Name>Enemies\zombieCommander</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\Enemies\zombieCommander.xnb</Output>
+      <Time>2012-09-23T05:20:47.3183082-04:00</Time>
     </Item>
     <Item>
       <Source>sfont.spritefont</Source>
@@ -97,7 +124,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\sfont.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\sfont.xnb</Output>
       <Time>2012-09-22T03:12:14.6775315-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
@@ -106,10 +133,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Release</BuildConfiguration>
       <CompressContent>true</CompressContent>
-      <RootDirectory>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit CsharpContent\</RootDirectory>
-      <LoggerRootDirectory>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\</LoggerRootDirectory>
-      <IntermediateDirectory>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit CsharpContent\obj\x86\Release\</IntermediateDirectory>
-      <OutputDirectory>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit CsharpContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit CsharpContent\obj\x86\Release\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Release\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

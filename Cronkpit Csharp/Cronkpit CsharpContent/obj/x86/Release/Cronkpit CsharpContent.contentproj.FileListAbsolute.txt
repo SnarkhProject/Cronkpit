@@ -1,1 +1,1 @@
-c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit CsharpContent\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit CsharpContent\obj\x86\Release\ResolveAssemblyReference.cache

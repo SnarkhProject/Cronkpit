@@ -42,7 +42,8 @@ namespace Cronkpit_Csharp
                 sniff_for_trail(fl, 0, smell_range, smell_threshold);
                 if(has_scent)
                     advance_towards_single_point(strongest_smell_coord, pl, fl);
-                wander(pl, fl);
+                else
+                    wander(pl, fl);
             }
         }
     }

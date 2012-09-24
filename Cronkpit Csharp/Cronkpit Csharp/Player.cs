@@ -29,7 +29,7 @@ namespace Cronkpit_Csharp
         {
             //Constructor shit
             cont = sCont;
-            my_grid_coord = sGridCoord;
+            my_grid_coord = new gridCoordinate(sGridCoord);
             my_Position = new Vector2(sGridCoord.x * 32, sGridCoord.y * 32);
             my_Texture = cont.Load<Texture2D>("Player/lmfaoplayer");
             my_dead_texture = cont.Load<Texture2D>("Player/playercorpse");
@@ -38,7 +38,7 @@ namespace Cronkpit_Csharp
             my_gold = 0;
             max_hp = 100;
             current_hp = max_hp;
-            base_smell_value = 40;
+            base_smell_value = 10;
         }
 
         //Voids here.
