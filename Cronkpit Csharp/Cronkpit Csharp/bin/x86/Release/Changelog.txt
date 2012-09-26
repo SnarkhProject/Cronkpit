@@ -1,0 +1,16 @@
+What's new in Cronkpit version:
+
+Pre-Alpha 1.0:
+* Generates a randomly laid out dungeon with several rooms, hallways between them and an exit - the goal is to reach the exit.
+* Spawn Zombies and Gold Piles in the dungeon.
+* Basic movement + combat system - You can fight and kill the zombies.
+
+Pre-Alpha 1.02:
+* Added a new monster, the Gorehound, which can track players by scent.
+* Line-of-sight and scent based tracking implemented for monsters.
+* Changed dungeon generation algorithm to make dungeons larger + added two hallways between randomly chosen rooms.
+* Added random variations to wall and floor tiles.
+
+Pre-Alpha 1.10:
+* Gorehound sprite is now transparent.
+* Removed Gorehound's sight.

@@ -22,7 +22,9 @@ namespace Cronkpit_Csharp
         private int my_gold;
         private int max_hp;
         private int current_hp;
+        //Sensory
         private int base_smell_value;
+        private int base_sound_value;
 
         //Green text. Function here.
         public Player(ContentManager sCont, gridCoordinate sGridCoord)
@@ -39,6 +41,7 @@ namespace Cronkpit_Csharp
             max_hp = 100;
             current_hp = max_hp;
             base_smell_value = 10;
+            base_sound_value = 10;
         }
 
         //Voids here.
@@ -75,6 +78,7 @@ namespace Cronkpit_Csharp
             //4 = downright, 5 = downleft, 6 = upright, 7 = upleft
             int MonsterID;
             int my_smell = my_scent_value();
+            int my_sound = my_sound_value();
             switch (numeric_direction)
             {
                 //up, y-
@@ -223,6 +227,7 @@ namespace Cronkpit_Csharp
             //after moving, loot and then add smell to current tile.
             loot(fl);
             fl.add_smell_to_tile(my_grid_coord, 0, my_scent_value());
+            fl.sound_pulse(my_grid_coord, my_sound, 0);
         }
 
         //Green text. Function here.
@@ -318,6 +323,11 @@ namespace Cronkpit_Csharp
         public int my_scent_value()
         {
             return base_smell_value; //+1/2 armor + wounds
+        }
+
+        public int my_sound_value()
+        {
+            return base_sound_value;
         }
     }
 }

@@ -110,7 +110,9 @@
     <Compile Include="Camera.cs" />
     <Compile Include="Floor Components\Monster Senses\ScentPulse.cs" />
     <Compile Include="Floor Components\Monster Senses\SightPulse.cs" />
+    <Compile Include="Floor Components\Monster Senses\SoundPulse.cs" />
     <Compile Include="Floor Components\Monsters\GoreHound.cs" />
+    <Compile Include="Floor Components\Monsters\HollowKnight.cs" />
     <Compile Include="Floor.cs" />
     <Compile Include="Floor Components\Goldpile.cs" />
     <Compile Include="gridCoordinate.cs" />

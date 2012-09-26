@@ -58,7 +58,7 @@ namespace Cronkpit_Csharp
                 case 2:
                     opaque = true;
                     deflect_sound = true;
-                    sound_absorbtion_value = 2;
+                    sound_absorbtion_value = 1;
                     if (random_variation < 15)
                         my_Texture = cont.Load<Texture2D>("Background/stonebrickwtorch");
                     else

@@ -15,7 +15,6 @@ namespace Cronkpit_Csharp
             : base(sGridCoord, sCont, sIndex)
         {
             my_Texture = cont.Load<Texture2D>("Enemies/lolzombie");
-            can_see_player = false;
             hitPoints = 10;
             min_damage = 2;
             max_damage = 8;

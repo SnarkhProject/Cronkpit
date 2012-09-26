@@ -12,6 +12,7 @@ Content\Player\playercorpse.xnb
 Content\Enemies\goreHound.xnb
 Content\Enemies\hollowKnight.xnb
 Content\Enemies\zombieCommander.xnb
+Content\Enemies\hollowKnight_idle.xnb
 Content\Background\badvoidtile.bmp
 Content\Player\lmfaoplayer.png
 Content\Enemies\lolzombie.png
@@ -23,3 +24,7 @@ Content\Background\stonebrickwtorch.png
 Content\Background\exit.png
 Content\Player\playercorpse.png
 Content\sfont.spritefont
+Content\Enemies\zombieCommander.png
+Content\Enemies\goreHound.png
+Content\Enemies\hollowKnight.png
+Content\Enemies\hollowKnight_idle.png

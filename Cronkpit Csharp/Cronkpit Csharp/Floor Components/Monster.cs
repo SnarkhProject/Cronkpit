@@ -25,9 +25,17 @@ namespace Cronkpit_Csharp
         public gridCoordinate strongest_smell_coord;
         public int smell_range;
         public int smell_threshold;
+        //Sound
+        public bool can_hear;
+        public bool heard_something;
+        public List<gridCoordinate> shortest_path_to_sound;
+        public int listen_threshold;
 
+        //Other stuff
         public bool can_melee_attack;
+        public bool active;
 
+        //Damage related - will be overhauling later.
         public int hitPoints;
         public int my_Index;
         public int min_damage;
@@ -41,13 +49,27 @@ namespace Cronkpit_Csharp
             my_Position = new Vector2(sGridCoord.x * 32, sGridCoord.y * 32);
             rGen = new Random();
             my_Index = sIndex;
+
+            //Sensory stuff
+            //Sight
+            sight_range = 0;
+            //Smell
+            has_scent = false;
+            smell_range = 0;
+            //Sound
+            can_hear = false;
+            heard_something = false;
+            shortest_path_to_sound = new List<gridCoordinate>();
+            listen_threshold = 0;
+            
+            //Damage stuff
+            can_melee_attack = false;
             hitPoints = 0;
             min_damage = 0;
             max_damage = 0;
-            can_melee_attack = false;
-            sight_range = 0;
-            has_scent = false;
-            smell_range = 0;
+
+            //other
+            active = false;
         }
 
         //don't call unless you've started the spritebatch!
@@ -328,6 +350,40 @@ namespace Cronkpit_Csharp
         public void sniff_for_trail(Floor fl, int target_scent, int smell_range, int smell_threshold)
         {
             fl.scent_pulse(my_grid_coord, target_scent, my_Index, smell_range, smell_threshold);
+        }
+
+        //Get a new path to the sound
+        public void next_path_to_sound(List<gridCoordinate> path)
+        {
+            if (heard_something == false)
+            {
+                heard_something = true;
+                shortest_path_to_sound = path;
+            }
+            else
+                if (path.Count < shortest_path_to_sound.Count)
+                    shortest_path_to_sound = path;
+        }
+
+        //Follow the path to the sound
+        public void follow_path_to_sound(Floor fl, Player pl)
+        {
+            //Get rid of the coordinate that we're standing on.
+            int path_length = shortest_path_to_sound.Count - 1;
+
+            if (path_length >= 0)
+            {
+                advance_towards_single_point(shortest_path_to_sound[path_length], pl, fl);
+                if (my_grid_coord.x == shortest_path_to_sound[path_length].x &&
+                    my_grid_coord.y == shortest_path_to_sound[path_length].y)
+                {
+                    shortest_path_to_sound.RemoveAt(path_length);
+                    if (path_length <= 0)
+                        heard_something = false;
+                }
+            }
+            else
+                heard_something = false;
         }
     }
 }

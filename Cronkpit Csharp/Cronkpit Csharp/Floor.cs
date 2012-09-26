@@ -19,8 +19,10 @@ namespace Cronkpit_Csharp
         List<Hall> hallLayout;
         List<Monster> badGuys;
         List<Goldpile> Money;
+        //Sensory lists
         List<SightPulse> Vision;
         List<ScentPulse> Sniffs;
+        List<SoundPulse> Noises;
         //Other shit needed for the thing to function
         ContentManager cManager;
         Random randGen;
@@ -36,6 +38,7 @@ namespace Cronkpit_Csharp
             Money = new List<Goldpile>();
             Vision = new List<SightPulse>();
             Sniffs = new List<ScentPulse>();
+            Noises = new List<SoundPulse>();
 
             //Next init other shit
             cManager = sCont;
@@ -62,11 +65,11 @@ namespace Cronkpit_Csharp
 
             //Randomly generate rooms and hallways.
             //First rooms.
-            int number_of_rooms = 4 + randGen.Next(3);
+            int number_of_rooms = 5 + randGen.Next(4);
             for (int i = 0; i < number_of_rooms; i++)
             {
-                int next_room_height = randGen.Next(3, 7);
-                int next_room_width = randGen.Next(3, 7);
+                int next_room_height = randGen.Next(4, 9);
+                int next_room_width = randGen.Next(4, 9);
                 int next_room_startX = randGen.Next(1, ((stdfloorSize - 1) - next_room_width));
                 int next_room_startY = randGen.Next(1, ((stdfloorSize - 1) - next_room_height));
                 roomLayout.Add(new Room(next_room_height,
@@ -76,6 +79,7 @@ namespace Cronkpit_Csharp
             }
             //Next hallways.
             int number_of_hallways = number_of_rooms - 1;
+            int number_of_random_hallways = 2;
             for (int i = 0; i < number_of_hallways; i++)
             {
                 int next_hallway_start = 0;
@@ -99,7 +103,27 @@ namespace Cronkpit_Csharp
                                         next_hallway_endX,
                                         next_hallway_endY));
             }
-            
+            for (int i = 0; i < number_of_random_hallways; i++)
+            {
+                int next_hallway_start = 0;
+                int next_hallway_end = 0;
+                while (next_hallway_start == next_hallway_end)
+                {
+                    next_hallway_start = randGen.Next(roomLayout.Count);
+                    next_hallway_end = randGen.Next(roomLayout.Count);
+                }
+                int next_hallway_startX = roomLayout[next_hallway_start].findCenter("x");
+                int next_hallway_endX = roomLayout[next_hallway_end].findCenter("x");
+                int next_hallway_startY = roomLayout[next_hallway_start].findCenter("y");
+                int next_hallway_endY = roomLayout[next_hallway_end].findCenter("y");
+                hallLayout.Add(new Hall(next_hallway_start,
+                                        next_hallway_end,
+                                        next_hallway_startX,
+                                        next_hallway_startY,
+                                        next_hallway_endX,
+                                        next_hallway_endY));
+            }
+
             //Alter void tiles to floor tiles.
             //First rooms
             for (int i = 0; i < roomLayout.Count; i++)
@@ -188,20 +212,26 @@ namespace Cronkpit_Csharp
                         replace_surrounding_void(floorTiles[x][y].get_grid_c(), 2);
 
             //Add gold piles
-            int number_of_goldpiles = 5 + randGen.Next(6);
+            int number_of_goldpiles = 7 + randGen.Next(8);
             for (int i = 0; i < number_of_goldpiles; i++)
                 Money.Add(new Goldpile(random_valid_position(), cManager, 10 + randGen.Next(41)));
 
-            //Add monsters. They can all be zombies for now.
-            int number_of_monsters = 6 + randGen.Next(2, 6);
+            //Add monsters.
+            int number_of_monsters = 7 + randGen.Next(4, 8);
             for (int i = 0; i < number_of_monsters; i++)
             {
                 int monsterType = randGen.Next(100);
                 if (monsterType < 50)
                     badGuys.Add(new Zombie(random_valid_position(), cManager, i));
                 else
-                    badGuys.Add(new GoreHound(random_valid_position(), cManager, i));
+                    badGuys.Add(new HollowKnight(random_valid_position(), cManager, i));
             }
+            //Have monsters wander
+            /*
+            for(int i = 0; i < stdfloorSize; i++)
+                for(int j = 0; j < badGuys.Count; j++)
+                    badGuys[j].wander(
+             */
         }
 
         //Green text. Function here.
@@ -383,15 +413,13 @@ namespace Cronkpit_Csharp
 
         //ALL SOUND STUFF
         //Green text.
-        public bool is_tile_opaque(gridCoordinate grid_position)
-        {
-            return floorTiles[grid_position.x][grid_position.y].isOpaque();
-        }
-
-        //Green text.
         public bool does_tile_deflect(gridCoordinate grid_position)
         {
-            return floorTiles[grid_position.x][grid_position.y].isDeflector();
+            if (grid_position.x > 0 && grid_position.x < stdfloorSize &&
+                grid_position.y > 0 && grid_position.y < stdfloorSize)
+                return floorTiles[grid_position.x][grid_position.y].isDeflector();
+            else
+                return true;
         }
 
         //Green text.
@@ -400,7 +428,55 @@ namespace Cronkpit_Csharp
             return floorTiles[grid_position.x][grid_position.y].sound_absorb_val();
         }
 
+        //Green text.
+        public void sound_pulse(gridCoordinate origin, int soundRange, int soundType)
+        {
+            int mults = 4;
+            //Do this 8 times, once for each direction.
+            Noises.Add(new SoundPulse(new gridCoordinate(origin.x, origin.y - 1), origin, 0, soundRange, ref randGen, mults, soundType));
+            Noises.Add(new SoundPulse(new gridCoordinate(origin.x, origin.y + 1), origin, 1, soundRange, ref randGen, mults, soundType));
+            Noises.Add(new SoundPulse(new gridCoordinate(origin.x - 1, origin.y), origin, 2, soundRange, ref randGen, mults, soundType));
+            Noises.Add(new SoundPulse(new gridCoordinate(origin.x + 1, origin.y), origin, 3, soundRange, ref randGen, mults, soundType));
+            Noises.Add(new SoundPulse(new gridCoordinate(origin.x + 1, origin.y + 1), origin, 4, soundRange, ref randGen, mults, soundType));
+            Noises.Add(new SoundPulse(new gridCoordinate(origin.x - 1, origin.y + 1), origin, 5, soundRange, ref randGen, mults, soundType));
+            Noises.Add(new SoundPulse(new gridCoordinate(origin.x + 1, origin.y - 1), origin, 6, soundRange, ref randGen, mults, soundType));
+            Noises.Add(new SoundPulse(new gridCoordinate(origin.x - 1, origin.y - 1), origin, 7, soundRange, ref randGen, mults, soundType));
+
+            while (Noises.Count > 0)
+            {
+                for (int i = 0; i < Noises.Count; i++)
+                {
+                    for (int j = 0; j < badGuys.Count; j++)
+                    {
+                        if(Noises[i].my_coord().x == badGuys[j].my_grid_coord.x &&
+                            Noises[i].my_coord().y == badGuys[j].my_grid_coord.y)
+                            if (badGuys[j].can_hear && Noises[i].my_strength() > badGuys[j].listen_threshold)
+                            {
+                                badGuys[j].next_path_to_sound(Noises[i].my_path());
+                            }
+                    }
+
+                    if (Noises[i].my_strength() > 0)
+                        Noises[i].update(this);
+                    else
+                        Noises.RemoveAt(i);
+                }
+            }
+        }
+
+        //Green text.
+        public void add_single_sound_pulse(SoundPulse pulse)
+        {
+            Noises.Add(pulse);
+        }
+
         //ALL SIGHT STUFF
+        //Green text.
+        public bool is_tile_opaque(gridCoordinate grid_position)
+        {
+            return floorTiles[grid_position.x][grid_position.y].isOpaque();
+        }
+
         //Green text.
         public void sight_pulse(gridCoordinate origin,  Player pl, int monsterID, int sightRange)
         {
