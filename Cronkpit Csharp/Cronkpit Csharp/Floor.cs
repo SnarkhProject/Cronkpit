@@ -221,10 +221,12 @@ namespace Cronkpit_Csharp
             for (int i = 0; i < number_of_monsters; i++)
             {
                 int monsterType = randGen.Next(100);
-                if (monsterType < 50)
-                    badGuys.Add(new Zombie(random_valid_position(), cManager, i));
-                else
+                if(monsterType < 50)
                     badGuys.Add(new HollowKnight(random_valid_position(), cManager, i));
+                else if(monsterType > 50 && monsterType < 10)
+                    badGuys.Add(new GoreHound(random_valid_position(), cManager, i));
+                else
+                    badGuys.Add(new Zombie(random_valid_position(), cManager, i));
             }
             //Have monsters wander
             /*

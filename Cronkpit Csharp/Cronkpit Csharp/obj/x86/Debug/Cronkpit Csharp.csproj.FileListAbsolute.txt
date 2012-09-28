@@ -34,3 +34,4 @@ C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit C
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Debug\Content\Enemies\hollowKnight.png
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Debug\Content\Enemies\hollowKnight_idle.xnb
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Debug\Content\Enemies\hollowKnight_idle.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Debug\Content\sound shit.xnb

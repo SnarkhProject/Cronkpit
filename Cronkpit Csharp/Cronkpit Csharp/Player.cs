@@ -38,7 +38,7 @@ namespace Cronkpit_Csharp
             rGen = new Random();
             //!Constructor shit
             my_gold = 0;
-            max_hp = 100;
+            max_hp = 10000;
             current_hp = max_hp;
             base_smell_value = 10;
             base_sound_value = 10;

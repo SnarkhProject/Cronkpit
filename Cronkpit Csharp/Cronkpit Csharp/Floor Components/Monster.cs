@@ -12,6 +12,7 @@ namespace Cronkpit_Csharp
     class Monster
     {
         public Texture2D my_Texture;
+        public Texture2D sound_shit;
         public Vector2 my_Position;
         public ContentManager cont;
         public gridCoordinate my_grid_coord;
@@ -50,6 +51,9 @@ namespace Cronkpit_Csharp
             rGen = new Random();
             my_Index = sIndex;
 
+            //Unused
+            sound_shit = sCont.Load<Texture2D>("sound shit");
+
             //Sensory stuff
             //Sight
             sight_range = 0;
@@ -76,6 +80,10 @@ namespace Cronkpit_Csharp
         public void drawMe(ref SpriteBatch sb)
         {
             sb.Draw(my_Texture, my_Position, Color.White);
+            for (int i = 0; i < shortest_path_to_sound.Count; i++)
+            {
+                sb.Draw(sound_shit, new Vector2(shortest_path_to_sound[i].x*32, shortest_path_to_sound[i].y*32), Color.White);
+            }
         }
 
         //overidden on a per-monster basis. The goal is to ONLY have this function
@@ -355,14 +363,8 @@ namespace Cronkpit_Csharp
         //Get a new path to the sound
         public void next_path_to_sound(List<gridCoordinate> path)
         {
-            if (heard_something == false)
-            {
-                heard_something = true;
-                shortest_path_to_sound = path;
-            }
-            else
-                if (path.Count < shortest_path_to_sound.Count)
-                    shortest_path_to_sound = path;
+            shortest_path_to_sound = new List<gridCoordinate>(path);
+            heard_something = true;
         }
 
         //Follow the path to the sound
@@ -370,7 +372,7 @@ namespace Cronkpit_Csharp
         {
             //Get rid of the coordinate that we're standing on.
             int path_length = shortest_path_to_sound.Count - 1;
-
+             
             if (path_length >= 0)
             {
                 advance_towards_single_point(shortest_path_to_sound[path_length], pl, fl);
@@ -384,6 +386,83 @@ namespace Cronkpit_Csharp
             }
             else
                 heard_something = false;
+
+            //shortest_path_to_sound.Clear();
+            //heard_something = false;
+
+             /*so the old shit worked. so I'm commenting out the new shit.
+              * bool moved = false;
+
+            if (path_length >= 0)
+            {
+                if (path_to_origin_clear(fl, pl))
+                    if (!moved)
+                    {
+                        advance_towards_single_point(shortest_path_to_sound[0], pl, fl);
+                        moved = true;
+                    }
+                    else
+                    {
+                        //Iterate back through the list backwards.
+                        for (int i = path_length; i > 0; i--)
+                        {
+                            var targetPoint = shortest_path_to_sound[i];
+                            //find the last point in the list that goes towards the origin
+                            //Then move towards that.
+                            if (advances_towards_origin(targetPoint) && !moved)
+                            {
+                                advance_towards_single_point(targetPoint, pl, fl);
+                                moved = true;
+                            }
+                        }
+                    }
+            }
+              */
         }
+
+        /*Also old shit.
+        public bool path_to_origin_clear(Floor fl, Player pl)
+        {
+            int originx = shortest_path_to_sound[0].x;
+            int originy = shortest_path_to_sound[0].y;
+
+            gridCoordinate testCoordinate = new gridCoordinate(my_grid_coord);
+
+            if (originx > testCoordinate.x)
+                testCoordinate.x--;
+            else
+                testCoordinate.x++;
+
+            if (originy > testCoordinate.y)
+                testCoordinate.y--;
+            else
+                testCoordinate.y++;
+
+            return fl.isWalkable(testCoordinate);
+        }
+
+        public bool advances_towards_origin(gridCoordinate gc)
+        {
+            int originx = shortest_path_to_sound[0].x;
+            int originy = shortest_path_to_sound[0].y;
+
+            bool validx = false;
+            bool validy = false;
+
+            //if it advances towards the origin, it should be between my coord
+            //and the origin - this is true for either axis.
+            if ((my_grid_coord.x < gc.x && gc.x < originx) ||
+                (my_grid_coord.x > gc.x && gc.x > originx))
+                validx = true;
+            if((my_grid_coord.y < gc.y && gc.y < originy) ||
+                (my_grid_coord.y > gc.y && gc.y > originy))
+                validy = true;
+
+            if (validx || validy)
+                return true;
+            else
+                return false;
+        }
+         */
     }
 }

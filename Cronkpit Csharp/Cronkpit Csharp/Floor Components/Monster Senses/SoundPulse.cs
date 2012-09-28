@@ -23,8 +23,9 @@ namespace Cronkpit_Csharp
             my_grid_position = new gridCoordinate(start_grid_C);
             my_direction = sDirection;
             strength = sStr;
-            sound_origin = sOrigin;
+            sound_origin = new gridCoordinate(sOrigin);
             my_path_taken = new List<gridCoordinate>();
+            my_path_taken.Add(sOrigin);
             rGen = srGen;
             multiplications_remaining = sMultiplications;
             my_type = sType;
@@ -37,7 +38,7 @@ namespace Cronkpit_Csharp
             my_grid_position = new gridCoordinate(start_grid_C);
             my_direction = sDirection;
             strength = sStr;
-            sound_origin = sOrigin;
+            sound_origin = new gridCoordinate(sOrigin);
             my_path_taken = new List<gridCoordinate>(sPath);
             rGen = srGen;
             multiplications_remaining = sMultiplications;

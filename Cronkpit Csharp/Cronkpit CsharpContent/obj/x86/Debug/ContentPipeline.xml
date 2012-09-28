@@ -136,6 +136,15 @@
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Debug\Content\Enemies\hollowKnight_idle.xnb</Output>
       <Time>2012-09-26T03:41:20.4284136-04:00</Time>
     </Item>
+    <Item>
+      <Source>sound shit.png</Source>
+      <Name>sound shit</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit Csharp\Cronkpit Csharp\Cronkpit Csharp\bin\x86\Debug\Content\sound shit.xnb</Output>
+      <Time>2012-09-28T12:55:56.1262693-04:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

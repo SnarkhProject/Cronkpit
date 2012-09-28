@@ -13,6 +13,7 @@ Content\Enemies\goreHound.xnb
 Content\Enemies\hollowKnight.xnb
 Content\Enemies\zombieCommander.xnb
 Content\Enemies\hollowKnight_idle.xnb
+Content\sound shit.xnb
 Content\Background\badvoidtile.bmp
 Content\Player\lmfaoplayer.png
 Content\Enemies\lolzombie.png
