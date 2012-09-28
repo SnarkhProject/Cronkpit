@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Cronkpit_Csharp
 {
-    class gridCoordinate
+    struct gridCoordinate 
     {
         public int x;
         public int y;

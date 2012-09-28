@@ -12,7 +12,9 @@ namespace Cronkpit_Csharp
     class Monster
     {
         public Texture2D my_Texture;
+        /*FOR DEBUGGING PURPOSES - PERFECTLY SAFE TO UNCOMMENT
         public Texture2D sound_shit;
+         */
         public Vector2 my_Position;
         public ContentManager cont;
         public gridCoordinate my_grid_coord;
@@ -51,8 +53,9 @@ namespace Cronkpit_Csharp
             rGen = new Random();
             my_Index = sIndex;
 
-            //Unused
+            /* FOR DEBUGGING PURPOSES - PERFECTLY SAFE TO UNCOMMENT
             sound_shit = sCont.Load<Texture2D>("sound shit");
+             */
 
             //Sensory stuff
             //Sight
@@ -80,10 +83,12 @@ namespace Cronkpit_Csharp
         public void drawMe(ref SpriteBatch sb)
         {
             sb.Draw(my_Texture, my_Position, Color.White);
+            /* FOR DEBUGGING PURPOSES - PERFECTLY SAFE TO UNCOMMENT.
             for (int i = 0; i < shortest_path_to_sound.Count; i++)
             {
                 sb.Draw(sound_shit, new Vector2(shortest_path_to_sound[i].x*32, shortest_path_to_sound[i].y*32), Color.White);
             }
+             */
         }
 
         //overidden on a per-monster basis. The goal is to ONLY have this function
