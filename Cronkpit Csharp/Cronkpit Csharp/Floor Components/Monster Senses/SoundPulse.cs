@@ -20,12 +20,11 @@ namespace Cronkpit_Csharp
         public SoundPulse(gridCoordinate start_grid_C, gridCoordinate sOrigin, 
                             int sDirection, int sStr, ref Random srGen, int sMultiplications, int sType)
         {
-            my_grid_position = start_grid_C;
+            my_grid_position = new gridCoordinate(start_grid_C);
             my_direction = sDirection;
             strength = sStr;
             sound_origin = sOrigin;
             my_path_taken = new List<gridCoordinate>();
-            my_path_taken.Add(sound_origin);
             rGen = srGen;
             multiplications_remaining = sMultiplications;
             my_type = sType;
@@ -35,11 +34,11 @@ namespace Cronkpit_Csharp
                             int sDirection, int sStr, ref Random srGen, int sMultiplications, int sType,
                             List<gridCoordinate> sPath)
         {
-            my_grid_position = start_grid_C;
+            my_grid_position = new gridCoordinate(start_grid_C);
             my_direction = sDirection;
             strength = sStr;
             sound_origin = sOrigin;
-            my_path_taken = sPath;
+            my_path_taken = new List<gridCoordinate>(sPath);
             rGen = srGen;
             multiplications_remaining = sMultiplications;
             my_type = sType;
@@ -64,7 +63,7 @@ namespace Cronkpit_Csharp
         {
             //First calculate strength based on current tile. Then if strength > 0, advance 1 tile.
             //It's going to have to make new tiles every time it advances a diagonal augh.
-            while(fl.does_tile_deflect(my_grid_position))
+            while(fl.does_tile_deflect(my_grid_position) && strength > 0)
                 bounce(fl);
             
             strength -= fl.tile_absorbtion_value(my_grid_position);
@@ -289,137 +288,47 @@ namespace Cronkpit_Csharp
             multiplications_remaining--;
             if (multiplications_remaining > 0)
             {
-                int firstrandomDir = rGen.Next(3);
-                int secondrandomDir = rGen.Next(3);
                 switch (my_direction)
                 {
                     case 0:
                         //Up
-                        if(firstrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 7, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 0, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 6, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                    
-                        if(secondrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 7, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 0, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 6, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 7, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 6, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
                         break;
                     case 1:
                         //Down
-                        if(firstrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 5, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 1, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 4, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                    
-                        if(secondrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 5, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 1, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 4, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 5, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 4, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
                         break;
                     case 2:
                         //Left
-                        if(firstrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 7, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 2, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 5, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                    
-                        if(secondrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 7, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 2, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 5, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 7, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 5, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
                         break;
                     case 3:
                         //Right
-                        if(firstrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 6, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 3, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 4, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                    
-                        if(secondrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 6, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 3, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 4, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 6, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 4, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
                         break;
                     case 4:
                         //Down Right
-                        if(firstrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 3, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 4, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 1, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                    
-                        if(secondrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 3, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 4, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 1, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 3, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 1, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
                         break;
                     case 5:
                         //Down Left
-                        if(firstrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 3, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 5, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 1, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                    
-                        if(secondrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 3, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 5, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 1, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 2, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 1, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
                         break;
                     case 6:
                         //Up Right
-                        if(firstrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 0, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 6, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 3, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                    
-                        if(secondrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 0, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 6, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 3, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 0, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 3, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
                         break;
                     case 7:
                         //Up Left
-                        if(firstrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 2, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 7, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(firstrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 0, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                    
-                        if(secondrandomDir == 0)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 2, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir == 1)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 7, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
-                        else if(secondrandomDir ==2)
-                            fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 0, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 2, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
+                        fl.add_single_sound_pulse(new SoundPulse(my_grid_position, sound_origin, 0, strength, ref rGen, multiplications_remaining, my_type, my_path_taken));
                         break;
                 }
             }

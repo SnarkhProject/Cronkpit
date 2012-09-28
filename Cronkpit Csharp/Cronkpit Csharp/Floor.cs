@@ -425,7 +425,11 @@ namespace Cronkpit_Csharp
         //Green text.
         public int tile_absorbtion_value(gridCoordinate grid_position)
         {
-            return floorTiles[grid_position.x][grid_position.y].sound_absorb_val();
+            if (grid_position.x > 0 && grid_position.x < stdfloorSize &&
+                grid_position.y > 0 && grid_position.y < stdfloorSize)
+                return floorTiles[grid_position.x][grid_position.y].sound_absorb_val();
+            else
+                return 1000;
         }
 
         //Green text.
