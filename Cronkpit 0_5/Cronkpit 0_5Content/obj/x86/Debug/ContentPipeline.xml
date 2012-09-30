@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>Entities\alilmoreGold.png</Source>
+      <Name>Entities\alilmoreGold</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Entities\alilmoreGold.xnb</Output>
+      <Time>2012-09-29T22:58:32.2444263-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\badvoidtile.bmp</Source>
+      <Name>Background\badvoidtile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Background\badvoidtile.xnb</Output>
+      <Time>2012-09-29T22:58:32.2464265-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\exit.png</Source>
+      <Name>Background\exit</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Background\exit.xnb</Output>
+      <Time>2012-09-29T22:58:32.2474265-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\goreHound.png</Source>
+      <Name>Enemies\goreHound</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Enemies\goreHound.xnb</Output>
+      <Time>2012-09-29T22:58:32.2484266-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\hollowKnight.png</Source>
+      <Name>Enemies\hollowKnight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Enemies\hollowKnight.xnb</Output>
+      <Time>2012-09-29T23:16:53.3944085-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Player\lmfaoplayer.png</Source>
+      <Name>Player\lmfaoplayer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Player\lmfaoplayer.xnb</Output>
+      <Time>2012-09-29T22:58:32.2534269-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\lolzombie.png</Source>
+      <Name>Enemies\lolzombie</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Enemies\lolzombie.xnb</Output>
+      <Time>2012-09-29T22:58:32.255427-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Entities\lowGold.png</Source>
+      <Name>Entities\lowGold</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Entities\lowGold.xnb</Output>
+      <Time>2012-09-29T22:58:32.2574271-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Player\playercorpse.png</Source>
+      <Name>Player\playercorpse</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Player\playercorpse.xnb</Output>
+      <Time>2012-09-29T22:58:32.2824285-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Entities\someGold.png</Source>
+      <Name>Entities\someGold</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Entities\someGold.xnb</Output>
+      <Time>2012-09-29T22:58:32.2834286-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\stonebrick.png</Source>
+      <Name>Background\stonebrick</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Background\stonebrick.xnb</Output>
+      <Time>2012-09-29T22:58:32.3164305-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\stonebrickwtorch.png</Source>
+      <Name>Background\stonebrickwtorch</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Background\stonebrickwtorch.xnb</Output>
+      <Time>2012-09-29T22:58:32.3354316-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\stonefloor.png</Source>
+      <Name>Background\stonefloor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Background\stonefloor.xnb</Output>
+      <Time>2012-09-29T22:58:32.3374317-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\stonefloorwcrack.png</Source>
+      <Name>Background\stonefloorwcrack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Background\stonefloorwcrack.xnb</Output>
+      <Time>2012-09-29T22:58:32.3594329-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Entities\time2getpaid.png</Source>
+      <Name>Entities\time2getpaid</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Entities\time2getpaid.xnb</Output>
+      <Time>2012-09-29T22:58:32.360433-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Entities\tonsoGold.png</Source>
+      <Name>Entities\tonsoGold</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Entities\tonsoGold.xnb</Output>
+      <Time>2012-09-29T22:59:45.0375899-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\hollowKnight_idle.png</Source>
+      <Name>Enemies\hollowKnight_idle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Enemies\hollowKnight_idle.xnb</Output>
+      <Time>2012-09-29T23:16:53.3954086-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\sfont.spritefont</Source>
+      <Name>Fonts\sfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\Fonts\sfont.xnb</Output>
+      <Time>2012-09-29T23:15:29.1455898-04:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>HiDef</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 0_5\Cronkpit 0_5\Cronkpit 0_5\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2010-08-23T12:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2010-08-23T12:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2012-06-20T04:44:27.8812656-04:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>
