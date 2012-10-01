@@ -28,7 +28,7 @@ namespace Cronkpit_1._2
 
         public MessageBufferBox(Rectangle cl, SpriteFont sf, Texture2D tx)
         {
-            isVisible = false;
+            isVisible = true;
             additionalMessages = false;
 
             sFont = sf;
@@ -45,10 +45,10 @@ namespace Cronkpit_1._2
                 width = (int)size.X;
             height = sFont.LineSpacing;
 
-            int initialX = (client.Width - (width + 40)) / 2;
-            int initialY = (client.Height - (height + 40)) + 60;
-            msg_pos = new Vector2(((float)initialX + 20), ((float)initialY + 20));
-            my_size = new Rectangle(initialX, initialY, width + 40, height + 40);
+            int initialX = (client.Width - (width + 20)) / 2;
+            int initialY = (client.Height - (height + 20)) - 10;
+            msg_pos = new Vector2(((float)initialX + 10), ((float)initialY + 10));
+            my_size = new Rectangle(initialX, initialY, width + 20, height + 20);
         }
 
         public void set_my_msg(string msg)
@@ -62,19 +62,55 @@ namespace Cronkpit_1._2
             return isVisible;
         }
 
-        //Don't call before you call a sb.begin() duh.
-        public void drawMe(ref SpriteBatch sBatch)
+        public void show()
         {
+            isVisible = true;
+        }
+
+        public void hide()
+        {
+            isVisible = false;
+        }
+
+        //Don't call before you call a sb.begin() duh.
+        public void offset_drawing(Matrix offsetMatrix)
+        {
+            my_size.X -= (int)offsetMatrix.M41;
+            my_size.Y -= (int)offsetMatrix.M42;
+            msg_pos.X -= (int)offsetMatrix.M41;
+            msg_pos.Y -= (int)offsetMatrix.M42;
+        }
+
+        public void draw_my_rect(ref SpriteBatch sBatch)
+        {
+            
             //Draw rectangle first
             sBatch.Draw(myTex, my_size, Color.Black);
+        }
+
+        public void are_there_multiple_messages(bool yesno)
+        {
+            additionalMessages = yesno;
+        }
+
+        public void draw_my_borders(ref SpriteBatch sBatch)
+        {
             //Then borders
             int border_width = 4;
             sBatch.Draw(myTex, new Rectangle(my_size.Left, my_size.Top, border_width, my_size.Height), Color.Red);
-            sBatch.Draw(myTex, new Rectangle(my_size.Right, my_size.Top, border_width, my_size.Height), Color.Red);
+            sBatch.Draw(myTex, new Rectangle(my_size.Right, my_size.Top, border_width, my_size.Height+border_width), Color.Red);
             sBatch.Draw(myTex, new Rectangle(my_size.Left, my_size.Top, my_size.Width, border_width), Color.Red);
             sBatch.Draw(myTex, new Rectangle(my_size.Left, my_size.Bottom, my_size.Width, border_width), Color.Red);
+        }
+
+        public void draw_my_text(ref SpriteBatch sBatch)
+        {
             //Then text
             sBatch.DrawString(sFont, my_msg, msg_pos, Color.White);
+            if (additionalMessages)
+            {
+                //do nothing so far.
+            }
         }
     }
 }

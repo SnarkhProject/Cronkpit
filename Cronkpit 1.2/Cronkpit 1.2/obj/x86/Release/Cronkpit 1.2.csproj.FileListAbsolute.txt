@@ -42,3 +42,4 @@ c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\
 c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
 c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Release\Cronkpit 1.2.exe
 c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Release\Cronkpit 1.2.pdb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Fonts\smallfont.xnb

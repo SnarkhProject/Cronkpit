@@ -40,6 +40,7 @@ namespace Cronkpit_1._2
         public bool active;
         public int speed_numerator;
         public int speed_denominator;
+        public bool has_moved;
 
         //Damage related - will be overhauling later.
         public int hitPoints;
@@ -271,23 +272,19 @@ namespace Cronkpit_1._2
         //If the monster collides with the player, it attacks them in melee if it can.
         public void advance_towards_single_point(gridCoordinate target_point, Player pl, Floor fl)
         {
+            has_moved = false;
             //bool attacked = false;
             if (target_point.x != my_grid_coord.x)
                 if (my_grid_coord.x > target_point.x)
                 {
                     my_grid_coord.x--;
                     if (is_spot_free(fl, pl))
+                    {
                         reset_my_drawing_position();
+                        has_moved = true;
+                    }
                     else
                     {
-                        /*
-                        if (am_i_on_player(pl))
-                            if (!attacked && can_melee_attack)
-                            {
-                                pl.take_damage(dealDamage());
-                                attacked = true;
-                            }
-                         */
                         my_grid_coord.x++;
                     }
                 }
@@ -295,17 +292,12 @@ namespace Cronkpit_1._2
                 {
                     my_grid_coord.x++;
                     if (is_spot_free(fl, pl))
+                    {
                         reset_my_drawing_position();
+                        has_moved = true;
+                    }
                     else
                     {
-                        /*
-                        if (am_i_on_player(pl))
-                            if (!attacked && can_melee_attack)
-                            {
-                                pl.take_damage(dealDamage());
-                                attacked = true;
-                            }
-                         */
                         my_grid_coord.x--;
                     }
                 }
@@ -315,17 +307,12 @@ namespace Cronkpit_1._2
                 {
                     my_grid_coord.y--;
                     if (is_spot_free(fl, pl))
+                    {
                         reset_my_drawing_position();
+                        has_moved = true;
+                    }
                     else
                     {
-                        /*
-                        if (am_i_on_player(pl))
-                            if (!attacked && can_melee_attack)
-                            {
-                                pl.take_damage(dealDamage());
-                                attacked = true;
-                            }
-                         */
                         my_grid_coord.y++;
                     }
                 }
@@ -333,17 +320,12 @@ namespace Cronkpit_1._2
                 {
                     my_grid_coord.y++;
                     if (is_spot_free(fl, pl))
+                    {
                         reset_my_drawing_position();
+                        has_moved = true;
+                    }
                     else
                     {
-                        /*
-                        if (am_i_on_player(pl))
-                            if (!attacked && can_melee_attack)
-                            {
-                                pl.take_damage(dealDamage());
-                                attacked = true;
-                            }
-                         */
                         my_grid_coord.y--;
                     }
                 }

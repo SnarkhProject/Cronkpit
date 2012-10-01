@@ -32,7 +32,7 @@ namespace Cronkpit_1._2
             if (has_scent)
             {
                 advance_towards_single_point(strongest_smell_coord, pl, fl);
-                if (is_player_within(pl, 1))
+                if (is_player_within(pl, 1) && !has_moved)
                 {
                     int dmg_value = dealDamage();
                     pl.take_damage(dmg_value);

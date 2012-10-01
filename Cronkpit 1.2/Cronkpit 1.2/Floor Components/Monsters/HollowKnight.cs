@@ -52,7 +52,7 @@ namespace Cronkpit_1._2
                 }
                 else
                     speed_numerator = 0;
-                if (is_player_within(pl, 1))
+                if (is_player_within(pl, 1) && !has_moved)
                 {
                     int dmg_value = dealDamage();
                     pl.take_damage(dmg_value);

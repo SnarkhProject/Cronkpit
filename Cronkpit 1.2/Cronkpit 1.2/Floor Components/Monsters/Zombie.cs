@@ -44,7 +44,7 @@ namespace Cronkpit_1._2
             {
                 //the monster is aggroed!
                 advance_towards_single_point(pl.get_my_grid_C(), pl, fl);
-                if (is_player_within(pl, 1))
+                if (is_player_within(pl, 1) && !has_moved)
                 {
                     int dmg_value = dealDamage();
                     pl.take_damage(dmg_value);

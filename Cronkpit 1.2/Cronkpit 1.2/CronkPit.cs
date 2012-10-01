@@ -63,8 +63,13 @@ namespace Cronkpit_1._2
             List<string> menuItems = new List<string>();
             menuItems.Add("Start");
             menuItems.Add("Exit");
-            sMenu = new MenuScreen(menuItems, "CronkPit", Content.Load<SpriteFont>("Fonts/sfont"), Content.Load<SpriteFont>("Fonts/tfont"), client_rect());
-            msgBufBox = new MessageBufferBox(client_rect(), Content.Load<SpriteFont>("Fonts/sfont"), new Texture2D(GraphicsDevice, 1, 1));
+            sMenu = new MenuScreen(menuItems, "CronkPit", 
+                                    Content.Load<SpriteFont>("Fonts/sfont"), 
+                                    Content.Load<SpriteFont>("Fonts/tfont"), 
+                                    client_rect());
+            msgBufBox = new MessageBufferBox(client_rect(), 
+                                    Content.Load<SpriteFont>("Fonts/sfont"), 
+                                    new Texture2D(GraphicsDevice, 1, 1));
             //then init the base
             base.Initialize();
         }
@@ -116,6 +121,7 @@ namespace Cronkpit_1._2
 
             if (bad_turn)
             {
+                msgBuf.Clear();
                 f1.update_dungeon_floor(p1);
                 bad_turn = false;
             }
@@ -126,11 +132,11 @@ namespace Cronkpit_1._2
             base.Update(gameTime);
         }
 
-        
-
         private void updateInput()
         {
             newState = Keyboard.GetState();
+
+            #region keypresses for the main menu
 
             if (gameState == 0)
             {
@@ -158,6 +164,8 @@ namespace Cronkpit_1._2
 
                 }
             }
+
+            #endregion
 
             #region keypresses for when the game is playing
 
@@ -225,6 +233,12 @@ namespace Cronkpit_1._2
                         p1.move("right", f1);
                         bad_turn = true;
                     }
+
+                if (check_key_press(Keys.Space))
+                    if (msgBuf.Count > 0)
+                    {
+                        msgBuf.RemoveAt(msgBuf.Count - 1);
+                    }
             }
 
             #endregion
@@ -275,11 +289,26 @@ namespace Cronkpit_1._2
                     p1.drawMe(ref spriteBatch);
                     spriteBatch.End();
 
-                    if (msgBuf.Count > 0)
+                    if (msgBuf.Count > 0 && msgBufBox.is_visible())
                     {
+                        if (msgBuf.Count > 1)
+                            msgBufBox.are_there_multiple_messages(true);
+                        else
+                            msgBufBox.are_there_multiple_messages(false);
+                        
                         msgBufBox.set_my_msg(msgBuf[msgBuf.Count - 1]);
+                        msgBufBox.offset_drawing(cam.viewMatrix);
+
                         spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
-                        msgBufBox.drawMe(ref spriteBatch);
+                        msgBufBox.draw_my_rect(ref spriteBatch);
+                        spriteBatch.End();
+
+                        spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+                        msgBufBox.draw_my_borders(ref spriteBatch);
+                        spriteBatch.End();
+
+                        spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+                        msgBufBox.draw_my_text(ref spriteBatch);
                         spriteBatch.End();
                     }
 
