@@ -1,0 +1,44 @@
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\alilmoreGold.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\lowGold.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\someGold.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\time2getpaid.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\tonsoGold.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\goreHound.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\hollowKnight.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\hollowKnight_idle.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\lolzombie.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\zombieCommander.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\badvoidtile.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\exit.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\stonebrick.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\stonebrickwtorch.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\stonefloor.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\stonefloorwcrack.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Player\lmfaoplayer.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Player\playercorpse.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Fonts\sfont.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Fonts\tfont.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\alilmoreGold.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\lowGold.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\someGold.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\time2getpaid.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\tonsoGold.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\goreHound.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\hollowKnight.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\hollowKnight_idle.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\lolzombie.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\zombieCommander.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\badvoidtile.bmp
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\exit.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\stonebrick.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\stonebrickwtorch.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\stonefloor.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\stonefloorwcrack.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Player\lmfaoplayer.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Player\playercorpse.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Cronkpit 1.2.exe
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Cronkpit 1.2.pdb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Release\ResolveAssemblyReference.cache
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Release\Cronkpit 1.2.exe
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Release\Cronkpit 1.2.pdb

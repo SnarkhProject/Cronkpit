@@ -1,0 +1,44 @@
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Entities\alilmoreGold.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Entities\lowGold.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Entities\someGold.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Entities\time2getpaid.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Entities\tonsoGold.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Enemies\goreHound.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Enemies\hollowKnight.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Enemies\hollowKnight_idle.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Enemies\lolzombie.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Enemies\zombieCommander.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Background\badvoidtile.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Background\exit.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Background\stonebrick.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Background\stonebrickwtorch.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Background\stonefloor.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Background\stonefloorwcrack.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Player\lmfaoplayer.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Player\playercorpse.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Cronkpit 1.2.exe
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Cronkpit 1.2.pdb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Debug\Cronkpit 1.2.exe
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Debug\Cronkpit 1.2.pdb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Fonts\sfont.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Fonts\tfont.xnb
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Entities\alilmoreGold.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Entities\lowGold.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Entities\someGold.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Entities\time2getpaid.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Entities\tonsoGold.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Enemies\goreHound.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Enemies\hollowKnight.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Enemies\hollowKnight_idle.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Enemies\lolzombie.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Enemies\zombieCommander.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Background\badvoidtile.bmp
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Background\exit.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Background\stonebrick.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Background\stonebrickwtorch.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Background\stonefloor.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Background\stonefloorwcrack.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Player\lmfaoplayer.png
+c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Player\playercorpse.png
