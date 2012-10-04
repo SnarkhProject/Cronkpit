@@ -41,6 +41,7 @@ namespace Cronkpit_1._2
         public int speed_numerator;
         public int speed_denominator;
         public bool has_moved;
+        public string my_name;
 
         //Damage related - will be overhauling later.
         public int hitPoints;
@@ -90,6 +91,7 @@ namespace Cronkpit_1._2
             active = false;
             speed_numerator = 0;
             speed_denominator = 0;
+            my_name = "";
         }
 
         //don't call unless you've started the spritebatch!
@@ -273,62 +275,119 @@ namespace Cronkpit_1._2
         public void advance_towards_single_point(gridCoordinate target_point, Player pl, Floor fl)
         {
             has_moved = false;
-            //bool attacked = false;
-            if (target_point.x != my_grid_coord.x)
-                if (my_grid_coord.x > target_point.x)
-                {
-                    my_grid_coord.x--;
-                    if (is_spot_free(fl, pl))
-                    {
-                        reset_my_drawing_position();
-                        has_moved = true;
-                    }
-                    else
-                    {
-                        my_grid_coord.x++;
-                    }
-                }
-                else
-                {
-                    my_grid_coord.x++;
-                    if (is_spot_free(fl, pl))
-                    {
-                        reset_my_drawing_position();
-                        has_moved = true;
-                    }
-                    else
-                    {
-                        my_grid_coord.x--;
-                    }
-                }
+            gridCoordinate oldCoord = new gridCoordinate(my_grid_coord);
 
-            if (target_point.y != my_grid_coord.y)
-                if (my_grid_coord.y > target_point.y)
+            #region directions 5, 1, 6
+
+            if (my_grid_coord.x < target_point.x && my_grid_coord.y < target_point.y && !has_moved)
+            {
+                my_grid_coord.x++;
+                my_grid_coord.y++;
+                if (is_spot_free(fl, pl))
                 {
-                    my_grid_coord.y--;
-                    if (is_spot_free(fl, pl))
-                    {
-                        reset_my_drawing_position();
-                        has_moved = true;
-                    }
-                    else
-                    {
-                        my_grid_coord.y++;
-                    }
+                    reset_my_drawing_position();
+                    has_moved = true;
                 }
                 else
+                    my_grid_coord = oldCoord;
+            }
+
+            if (my_grid_coord.x > target_point.x && my_grid_coord.y < target_point.y && !has_moved)
+            {
+                my_grid_coord.x--;
+                my_grid_coord.y++;
+                if (is_spot_free(fl, pl))
                 {
-                    my_grid_coord.y++;
-                    if (is_spot_free(fl, pl))
-                    {
-                        reset_my_drawing_position();
-                        has_moved = true;
-                    }
-                    else
-                    {
-                        my_grid_coord.y--;
-                    }
+                    reset_my_drawing_position();
+                    has_moved = true;
                 }
+                else
+                    my_grid_coord = oldCoord;
+            }
+
+            if (my_grid_coord.x == target_point.x && my_grid_coord.y < target_point.y && !has_moved)
+            {
+                my_grid_coord.y++;
+                if (is_spot_free(fl, pl))
+                {
+                    reset_my_drawing_position();
+                    has_moved = true;
+                }
+                else
+                    my_grid_coord = oldCoord;
+            }
+
+            #endregion
+
+            #region directions 7, 0, 6
+
+            if (my_grid_coord.x > target_point.x && my_grid_coord.y > target_point.y && !has_moved)
+            {
+                my_grid_coord.x--;
+                my_grid_coord.y--;
+                if (is_spot_free(fl, pl))
+                {
+                    reset_my_drawing_position();
+                    has_moved = true;
+                }
+                else
+                    my_grid_coord = oldCoord;
+            }
+
+            if (my_grid_coord.x < target_point.x && my_grid_coord.y > target_point.y && !has_moved)
+            {
+                my_grid_coord.x++;
+                my_grid_coord.y--;
+                if (is_spot_free(fl, pl))
+                {
+                    reset_my_drawing_position();
+                    has_moved = true;
+                }
+                else
+                    my_grid_coord = oldCoord;
+            }
+
+            if (my_grid_coord.x == target_point.x && my_grid_coord.y > target_point.y && !has_moved)
+            {
+                my_grid_coord.y--;
+                if (is_spot_free(fl, pl))
+                {
+                    reset_my_drawing_position();
+                    has_moved = true;
+                }
+                else
+                    my_grid_coord = oldCoord;
+            }
+
+            #endregion
+
+            #region directions 2, 3
+
+            if (my_grid_coord.x > target_point.x && my_grid_coord.y == target_point.y && !has_moved)
+            {
+                my_grid_coord.x--;
+                if (is_spot_free(fl, pl))
+                {
+                    reset_my_drawing_position();
+                    has_moved = true;
+                }
+                else
+                    my_grid_coord = oldCoord;
+            }
+
+            if (my_grid_coord.x < target_point.x && my_grid_coord.y == target_point.y && !has_moved)
+            {
+                my_grid_coord.x++;
+                if (is_spot_free(fl, pl))
+                {
+                    reset_my_drawing_position();
+                    has_moved = true;
+                }
+                else
+                    my_grid_coord = oldCoord;
+            }
+
+            #endregion
         }
 
         //damage stuff

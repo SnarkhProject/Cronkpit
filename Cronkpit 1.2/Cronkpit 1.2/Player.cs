@@ -92,7 +92,10 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        fl.damage_monster(unarmed_damage(), MonsterID);
+                        int damage_val = unarmed_damage();
+                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name + 
+                                            ", dealing " + damage_val + " damage!");
+                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.y++;
                     }
                     else
@@ -107,7 +110,10 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        fl.damage_monster(unarmed_damage(), MonsterID);
+                        int damage_val = unarmed_damage();
+                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
+                                            ", dealing " + damage_val + " damage!");
+                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.y--;
                     }
                     else
@@ -122,7 +128,10 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        fl.damage_monster(unarmed_damage(), MonsterID);
+                        int damage_val = unarmed_damage();
+                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
+                                            ", dealing " + damage_val + " damage!");
+                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.x++;
                     }
                     else
@@ -137,7 +146,10 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        fl.damage_monster(unarmed_damage(), MonsterID);
+                        int damage_val = unarmed_damage();
+                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
+                                            ", dealing " + damage_val + " damage!");
+                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.x--;
                     }
                     else
@@ -153,7 +165,10 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        fl.damage_monster(unarmed_damage(), MonsterID);
+                        int damage_val = unarmed_damage();
+                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
+                                            ", dealing " + damage_val + " damage!");
+                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.x--;
                         my_grid_coord.y--;
                     }
@@ -173,7 +188,10 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        fl.damage_monster(unarmed_damage(), MonsterID);
+                        int damage_val = unarmed_damage();
+                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
+                                            ", dealing " + damage_val + " damage!");
+                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.x++;
                         my_grid_coord.y--;
                     }    
@@ -193,7 +211,10 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        fl.damage_monster(unarmed_damage(), MonsterID);
+                        int damage_val = unarmed_damage();
+                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
+                                            ", dealing " + damage_val + " damage!");
+                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.x--;
                         my_grid_coord.y++;
                     }
@@ -213,7 +234,10 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        fl.damage_monster(unarmed_damage(), MonsterID);
+                        int damage_val = unarmed_damage();
+                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
+                                            ", dealing " + damage_val + " damage!");
+                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.x++;
                         my_grid_coord.y++;
                     }
@@ -247,7 +271,9 @@ namespace Cronkpit_1._2
                 gridCoordinate moneyPos = fl.show_me_the_money()[i].get_my_grid_C();
                 if (my_grid_coord.x == moneyPos.x && my_grid_coord.y == moneyPos.y)
                 {
-                    add_gold(fl.show_me_the_money()[i].my_quantity);
+                    int gold_val = fl.show_me_the_money()[i].my_quantity;
+                    add_gold(gold_val);
+                    message_buffer.Add("You loot " + gold_val + " gold!");
                     fl.show_me_the_money().RemoveAt(i);
                     break;
                 }
@@ -264,6 +290,8 @@ namespace Cronkpit_1._2
         public void take_damage(int dmg)
         {
             current_hp -= dmg;
+            if (current_hp <= 0)
+                message_buffer.Add("Your wounds are too much for you. You collapse and your vision fades.");
         }
 
         //Some other stuff - grid coordinates and vectors.

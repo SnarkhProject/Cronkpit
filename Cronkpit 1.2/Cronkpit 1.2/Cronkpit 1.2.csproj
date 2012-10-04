@@ -126,6 +126,8 @@
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screen Handling\IconBar.cs" />
+    <Compile Include="Screen Handling\InvAndHealthScreen.cs" />
     <Compile Include="Screen Handling\MenuScreen.cs" />
     <Compile Include="Screen Handling\MessageBufferBox.cs" />
   </ItemGroup>

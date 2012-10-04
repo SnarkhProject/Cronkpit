@@ -24,13 +24,13 @@ namespace Cronkpit_1._2
             my_grid_coord = sGridCoord;
             my_Position = new Vector2(sGridCoord.x * 32, sGridCoord.y * 32);
 
-            if(sQuan < 20)
+            if(sQuan <= 20)
                 my_Texture = cont.Load<Texture2D>("Entities/lowGold");
-            else if(sQuan > 20 && sQuan < 30)
+            else if(sQuan > 20 && sQuan <= 30)
                 my_Texture = cont.Load<Texture2D>("Entities/alilmoreGold");
-            else if(sQuan > 30 && sQuan < 40)
+            else if(sQuan > 30 && sQuan <= 40)
                 my_Texture = cont.Load<Texture2D>("Entities/someGold");
-            else if(sQuan > 40 && sQuan < 45)
+            else if(sQuan > 40 && sQuan <= 45)
                 my_Texture = cont.Load<Texture2D>("Entities/tonsoGold");
             else
                 my_Texture = cont.Load<Texture2D>("Entities/time2getpaid");

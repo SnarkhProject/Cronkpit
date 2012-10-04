@@ -22,6 +22,9 @@ namespace Cronkpit_1._2
 
             //SENSORY
             sight_range = 3;
+
+            //OTHER
+            my_name = "Zombie";
         }
 
         public override void Update_Monster(Player pl, Floor fl)

@@ -181,6 +181,24 @@
       <Output>c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Fonts\tfont.xnb</Output>
       <Time>2012-09-30T19:28:18.3141137-04:00</Time>
     </Item>
+    <Item>
+      <Source>Fonts\smallfont.spritefont</Source>
+      <Name>Fonts\smallfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Fonts\smallfont.xnb</Output>
+      <Time>2012-10-01T03:45:40.1359683-04:00</Time>
+    </Item>
+    <Item>
+      <Source>MouseTexture.png</Source>
+      <Name>MouseTexture</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\MouseTexture.xnb</Output>
+      <Time>2012-10-01T04:53:38.5082379-04:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

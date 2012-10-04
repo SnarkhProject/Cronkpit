@@ -23,6 +23,9 @@ namespace Cronkpit_1._2
             //SENSORY
             smell_range = 6;
             smell_threshold = 5;
+
+            //OTHER
+            my_name = "Gorehound";
         }
 
         public override void Update_Monster(Player pl, Floor fl)

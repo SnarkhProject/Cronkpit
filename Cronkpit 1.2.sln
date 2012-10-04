@@ -11,11 +11,12 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9777C32B-B4F1-426D-AD71-BB350470B5CA}.Debug|x86.ActiveCfg = Release|x86
-		{9777C32B-B4F1-426D-AD71-BB350470B5CA}.Debug|x86.Build.0 = Release|x86
+		{9777C32B-B4F1-426D-AD71-BB350470B5CA}.Debug|x86.ActiveCfg = Debug|x86
+		{9777C32B-B4F1-426D-AD71-BB350470B5CA}.Debug|x86.Build.0 = Debug|x86
 		{9777C32B-B4F1-426D-AD71-BB350470B5CA}.Release|x86.ActiveCfg = Release|x86
 		{9777C32B-B4F1-426D-AD71-BB350470B5CA}.Release|x86.Build.0 = Release|x86
 		{2E95B1D3-C6AC-490F-81BC-17D28BD5446C}.Debug|x86.ActiveCfg = Debug|x86
+		{2E95B1D3-C6AC-490F-81BC-17D28BD5446C}.Debug|x86.Build.0 = Debug|x86
 		{2E95B1D3-C6AC-490F-81BC-17D28BD5446C}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution

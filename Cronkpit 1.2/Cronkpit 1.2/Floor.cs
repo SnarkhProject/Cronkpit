@@ -601,6 +601,11 @@ namespace Cronkpit_1._2
             return badGuys;
         }
 
+        public Monster specific_badguy(int index)
+        {
+            return badGuys[index];
+        }
+
         public List<Goldpile> show_me_the_money()
         {
             return Money;

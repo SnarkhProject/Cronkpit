@@ -27,6 +27,7 @@ namespace Cronkpit_1._2
 
             //OTHER
             speed_denominator = 1;
+            my_name = "Hollow Knight";
         }
 
         public void set_to_activeTexture()
@@ -41,6 +42,7 @@ namespace Cronkpit_1._2
                 active = true;
                 set_to_activeTexture();
                 listen_threshold = 2;
+                fl.addmsg("The Hollow Knight awakens with a lurch and a strange creak!");
             }
 
             if (active)
@@ -51,7 +53,10 @@ namespace Cronkpit_1._2
                     speed_numerator++;
                 }
                 else
+                {
+                    has_moved = false;
                     speed_numerator = 0;
+                }
                 if (is_player_within(pl, 1) && !has_moved)
                 {
                     int dmg_value = dealDamage();

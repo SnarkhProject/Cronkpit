@@ -22,18 +22,28 @@ namespace Cronkpit_1._2
         KeyboardState oldState;
         KeyboardState newState;
 
+        Vector2 mousePosition;
+        Texture2D mouse_tex;
+
         Camera cam;
 
         int gameState;
         MenuScreen sMenu;
         MessageBufferBox msgBufBox;
+        IconBar icoBar;
 
         List<string> msgBuf;
+
+        float clear_msg_buffer_event;
+        const float time_to_clear_msg = 1.2f;
 
         public CronkPit()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
         }
 
         /// <summary>
@@ -55,11 +65,13 @@ namespace Cronkpit_1._2
             f1 = new Floor(Content, ref msgBuf);
             p1 = new Player(Content, f1.random_valid_position(), ref msgBuf);
             cam = new Camera(GraphicsDevice.Viewport.Bounds);
+            clear_msg_buffer_event = time_to_clear_msg;
             //shit without constructors
             bad_turn = false;
             victory_condition = false;
             gameState = 0;
 
+            //shit with super uber constructors
             List<string> menuItems = new List<string>();
             menuItems.Add("Start");
             menuItems.Add("Exit");
@@ -68,8 +80,10 @@ namespace Cronkpit_1._2
                                     Content.Load<SpriteFont>("Fonts/tfont"), 
                                     client_rect());
             msgBufBox = new MessageBufferBox(client_rect(), 
-                                    Content.Load<SpriteFont>("Fonts/sfont"), 
-                                    new Texture2D(GraphicsDevice, 1, 1));
+                                    Content.Load<SpriteFont>("Fonts/smallfont"),
+                                    new Texture2D(GraphicsDevice, 1, 1), ref msgBuf);
+            icoBar = new IconBar(new Texture2D(GraphicsDevice, 1, 1), 
+                                    Content.Load<SpriteFont>("Fonts/sfont"), client_rect());
             //then init the base
             base.Initialize();
         }
@@ -92,6 +106,7 @@ namespace Cronkpit_1._2
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sfont_thesecond = Content.Load<SpriteFont>("Fonts/sfont");
+            mouse_tex = Content.Load<Texture2D>("MouseTexture");
             // TODO: use this.Content to load your game content here
         }
 
@@ -109,6 +124,8 @@ namespace Cronkpit_1._2
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /// 
+        
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
@@ -117,16 +134,39 @@ namespace Cronkpit_1._2
 
             updateInput();
             if (p1.is_spot_exit(f1))
-                victory_condition = true;
+            {
+                if (!victory_condition)
+                {
+                    msgBuf.Add("You quickly dash down the stairs to the next level of the dungeon.");
+                    victory_condition = true;
+                }
+            }
 
             if (bad_turn)
             {
-                msgBuf.Clear();
                 f1.update_dungeon_floor(p1);
                 bad_turn = false;
             }
 
             cam.Pos = p1.get_my_Position();
+            mousePosition.X = Mouse.GetState().X;
+            mousePosition.Y = Mouse.GetState().Y;
+
+            #region clear message buffer code
+
+            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (msgBuf.Count > 0)
+                clear_msg_buffer_event -= elapsedTime;
+            else
+                clear_msg_buffer_event = time_to_clear_msg;
+
+            if (clear_msg_buffer_event < 0)
+            {
+                msgBufBox.scrollMSG(1);
+                clear_msg_buffer_event = time_to_clear_msg;
+            }
+
+            #endregion
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -237,8 +277,11 @@ namespace Cronkpit_1._2
                 if (check_key_press(Keys.Space))
                     if (msgBuf.Count > 0)
                     {
-                        msgBuf.RemoveAt(msgBuf.Count - 1);
+                        msgBufBox.scrollMSG(1);
                     }
+
+                if (check_key_press(Keys.M))
+                    msgBufBox.switch_my_mode();
             }
 
             #endregion
@@ -289,14 +332,8 @@ namespace Cronkpit_1._2
                     p1.drawMe(ref spriteBatch);
                     spriteBatch.End();
 
-                    if (msgBuf.Count > 0 && msgBufBox.is_visible())
-                    {
-                        if (msgBuf.Count > 1)
-                            msgBufBox.are_there_multiple_messages(true);
-                        else
-                            msgBufBox.are_there_multiple_messages(false);
-                        
-                        msgBufBox.set_my_msg(msgBuf[msgBuf.Count - 1]);
+                    if (msgBufBox.is_visible())
+                    {                        
                         msgBufBox.offset_drawing(cam.viewMatrix);
 
                         spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
@@ -312,15 +349,29 @@ namespace Cronkpit_1._2
                         spriteBatch.End();
                     }
 
-                    if (victory_condition)
+                    if (icoBar.is_visible())
                     {
-                        Vector2 vec = new Vector2(p1.get_my_Position().X-60, p1.get_my_Position().Y-60);
+                        icoBar.offset_drawing(cam.viewMatrix);
+
                         spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
-                        spriteBatch.DrawString(sfont_thesecond, "You won!", vec, Color.White);
+                        icoBar.draw_my_icons(ref spriteBatch);
+                        spriteBatch.End();
+
+                        spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+                        icoBar.draw_my_borders(ref spriteBatch);
+                        spriteBatch.End();
+
+                        spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+                        //msgBufBox.draw_my_text(ref spriteBatch);
                         spriteBatch.End();
                     }
+
                     break;
             }
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            spriteBatch.Draw(mouse_tex, mousePosition, Color.White);
+            spriteBatch.End();
             
             // TODO: Add your drawing code here
             
