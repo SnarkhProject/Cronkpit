@@ -148,6 +148,25 @@ namespace Cronkpit_1._2
             sBatch.Draw(character_wireframe, BGElement_portraitBackground, Color.White);
         }
 
+        public void draw_me(ref SpriteBatch sBatch)
+        {
+            sBatch.Begin(SpriteSortMode.BackToFront, null);
+            draw_my_back(ref sBatch);
+            sBatch.End();
+
+            sBatch.Begin(SpriteSortMode.BackToFront, null);
+            draw_my_front(ref sBatch);
+            sBatch.End();
+
+            sBatch.Begin(SpriteSortMode.BackToFront, null);
+            draw_my_borders(ref sBatch);
+            sBatch.End();
+
+            sBatch.Begin(SpriteSortMode.BackToFront, null);
+            draw_my_text(ref sBatch);
+            sBatch.End();
+        }        
+
         #endregion
     }
 }

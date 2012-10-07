@@ -149,6 +149,21 @@ namespace Cronkpit_1._2
             //Draws the shortcut text. Need to figure out the pattern for this in a bit.
         }
 
+        public void draw_me(ref SpriteBatch sBatch)
+        {
+            sBatch.Begin(SpriteSortMode.BackToFront, null);
+            draw_my_icons(ref sBatch);
+            sBatch.End();
+
+            sBatch.Begin(SpriteSortMode.BackToFront, null);
+            draw_my_borders(ref sBatch);
+            sBatch.End();
+
+            sBatch.Begin(SpriteSortMode.BackToFront, null);
+            draw_my_shortcuts(ref sBatch);
+            sBatch.End();
+        }
+
         #endregion
     }
 }

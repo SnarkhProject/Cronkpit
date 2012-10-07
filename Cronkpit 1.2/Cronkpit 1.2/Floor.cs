@@ -361,6 +361,26 @@ namespace Cronkpit_1._2
             }
         }
 
+        //Green text!
+        public gridCoordinate valid_hollowKnight_spawn()
+        {
+            bool goodPosition = false;
+            gridCoordinate returnCoord = random_valid_position();
+            while (!goodPosition)
+            {
+                gridCoordinate gc = random_valid_position();
+                if ((isWalkable(new gridCoordinate(gc.x - 1, gc.y)) && !isWalkable(new gridCoordinate(gc.x + 1, gc.y))) ||
+                    (isWalkable(new gridCoordinate(gc.x + 1, gc.y)) && !isWalkable(new gridCoordinate(gc.x - 1, gc.y))) ||
+                    (isWalkable(new gridCoordinate(gc.x, gc.y + 1)) && !isWalkable(new gridCoordinate(gc.x, gc.y - 1))) ||
+                    (isWalkable(new gridCoordinate(gc.x, gc.y - 1)) && !isWalkable(new gridCoordinate(gc.x, gc.y + 1))))
+                {
+                    goodPosition = true;
+                    returnCoord = gc;
+                }
+            }
+            return returnCoord;
+        }
+
         //Green text.
         public bool is_entity_here(gridCoordinate gc)
         {

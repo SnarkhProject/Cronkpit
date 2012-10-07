@@ -36,8 +36,15 @@ namespace Cronkpit_1._2
         IconBar icoBar;
         InvAndHealthBox invScr;
 
-        List<string> msgBuf;
+        //Game things.
+        Floor f1;
+        Player p1;
+        SpriteFont sfont_thesecond;
+        bool bad_turn;
+        bool victory_condition;
 
+        //message buffer things
+        List<string> msgBuf;
         float clear_msg_buffer_event;
         const float time_to_clear_msg = 1.2f;
 
@@ -56,11 +63,6 @@ namespace Cronkpit_1._2
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
-        Floor f1;
-        Player p1;
-        SpriteFont sfont_thesecond;
-        bool bad_turn;
-        bool victory_condition;
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -75,7 +77,7 @@ namespace Cronkpit_1._2
             victory_condition = false;
             gameState = 0;
 
-            //shit with super uber constructors
+            //shit with big constructors
             List<string> menuItems = new List<string>();
             menuItems.Add("Start");
             menuItems.Add("Exit");
@@ -397,57 +399,13 @@ namespace Cronkpit_1._2
             spriteBatch.End();
 
             if (msgBufBox.is_visible())
-            {
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-                msgBufBox.draw_my_rect(ref spriteBatch);
-                spriteBatch.End();
-
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-                msgBufBox.draw_my_elements(ref spriteBatch);
-                spriteBatch.End();
-
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-                msgBufBox.draw_my_borders(ref spriteBatch);
-                spriteBatch.End();
-
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-                msgBufBox.draw_my_text(ref spriteBatch);
-                spriteBatch.End();
-            }
+                msgBufBox.draw_me(ref spriteBatch);
 
             if (icoBar.is_visible())
-            {
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-                icoBar.draw_my_icons(ref spriteBatch);
-                spriteBatch.End();
-
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-                icoBar.draw_my_borders(ref spriteBatch);
-                spriteBatch.End();
-
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-                //msgBufBox.draw_my_text(ref spriteBatch);
-                spriteBatch.End();
-            }
+                icoBar.draw_me(ref spriteBatch);
 
             if (invScr.is_visible())
-            {
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-                invScr.draw_my_back(ref spriteBatch);
-                spriteBatch.End();
-
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-                invScr.draw_my_front(ref spriteBatch);
-                spriteBatch.End();
-
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-                invScr.draw_my_borders(ref spriteBatch);
-                spriteBatch.End();
-
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-                invScr.draw_my_text(ref spriteBatch);
-                spriteBatch.End();
-            }
+                invScr.draw_me(ref spriteBatch);
         }
     }
 }
