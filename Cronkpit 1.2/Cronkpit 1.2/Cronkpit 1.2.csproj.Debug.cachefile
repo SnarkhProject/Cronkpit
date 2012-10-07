@@ -20,6 +20,11 @@ Content\Fonts\sfont.xnb
 Content\Fonts\tfont.xnb
 Content\Fonts\smallfont.xnb
 Content\MouseTexture.xnb
+Content\UI Elements\Msg Buffer Box\msgbox_max_scrolldown.xnb
+Content\UI Elements\Msg Buffer Box\msgbox_max_scrollup.xnb
+Content\UI Elements\Msg Buffer Box\msgbox_one_scrolldown.xnb
+Content\UI Elements\Msg Buffer Box\msgbox_one_scrollup.xnb
+Content\UI Elements\Inventory Screen\wireframe.xnb
 Content\Entities\alilmoreGold.png
 Content\Entities\lowGold.png
 Content\Entities\someGold.png

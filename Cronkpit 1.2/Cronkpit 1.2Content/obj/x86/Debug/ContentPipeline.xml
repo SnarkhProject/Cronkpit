@@ -199,6 +199,51 @@
       <Output>c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\MouseTexture.xnb</Output>
       <Time>2012-10-01T04:53:38.5082379-04:00</Time>
     </Item>
+    <Item>
+      <Source>UI Elements\Msg Buffer Box\msgbox_max_scrolldown.png</Source>
+      <Name>UI Elements\Msg Buffer Box\msgbox_max_scrolldown</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\UI Elements\Msg Buffer Box\msgbox_max_scrolldown.xnb</Output>
+      <Time>2012-10-07T00:05:38.868683-04:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Msg Buffer Box\msgbox_max_scrollup.png</Source>
+      <Name>UI Elements\Msg Buffer Box\msgbox_max_scrollup</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\UI Elements\Msg Buffer Box\msgbox_max_scrollup.xnb</Output>
+      <Time>2012-10-07T00:05:38.8706831-04:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Msg Buffer Box\msgbox_one_scrolldown.png</Source>
+      <Name>UI Elements\Msg Buffer Box\msgbox_one_scrolldown</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\UI Elements\Msg Buffer Box\msgbox_one_scrolldown.xnb</Output>
+      <Time>2012-10-07T00:05:38.8726832-04:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Msg Buffer Box\msgbox_one_scrollup.png</Source>
+      <Name>UI Elements\Msg Buffer Box\msgbox_one_scrollup</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\UI Elements\Msg Buffer Box\msgbox_one_scrollup.xnb</Output>
+      <Time>2012-10-07T00:05:38.8746833-04:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\wireframe.png</Source>
+      <Name>UI Elements\Inventory Screen\wireframe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>c:\users\selene\documents\visual studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\UI Elements\Inventory Screen\wireframe.xnb</Output>
+      <Time>2012-10-07T03:29:46.8392268-04:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

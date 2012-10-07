@@ -21,6 +21,8 @@ namespace Cronkpit_1._2
 
         KeyboardState oldState;
         KeyboardState newState;
+        MouseState mouse_oldState;
+        MouseState mouse_newState;
 
         Vector2 mousePosition;
         Texture2D mouse_tex;
@@ -28,9 +30,11 @@ namespace Cronkpit_1._2
         Camera cam;
 
         int gameState;
+        //Menu stuff!
         MenuScreen sMenu;
         MessageBufferBox msgBufBox;
         IconBar icoBar;
+        InvAndHealthBox invScr;
 
         List<string> msgBuf;
 
@@ -75,15 +79,17 @@ namespace Cronkpit_1._2
             List<string> menuItems = new List<string>();
             menuItems.Add("Start");
             menuItems.Add("Exit");
+            Texture2D blank_texture = new Texture2D(GraphicsDevice, 1, 1);
             sMenu = new MenuScreen(menuItems, "CronkPit", 
                                     Content.Load<SpriteFont>("Fonts/sfont"), 
                                     Content.Load<SpriteFont>("Fonts/tfont"), 
                                     client_rect());
             msgBufBox = new MessageBufferBox(client_rect(), 
                                     Content.Load<SpriteFont>("Fonts/smallfont"),
-                                    new Texture2D(GraphicsDevice, 1, 1), ref msgBuf);
-            icoBar = new IconBar(new Texture2D(GraphicsDevice, 1, 1), 
-                                    Content.Load<SpriteFont>("Fonts/sfont"), client_rect());
+                                    blank_texture, ref msgBuf);
+            icoBar = new IconBar(blank_texture, 
+                                    Content.Load<SpriteFont>("Fonts/smallfont"), client_rect());
+            invScr = new InvAndHealthBox(blank_texture);
             //then init the base
             base.Initialize();
         }
@@ -107,6 +113,12 @@ namespace Cronkpit_1._2
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sfont_thesecond = Content.Load<SpriteFont>("Fonts/sfont");
             mouse_tex = Content.Load<Texture2D>("MouseTexture");
+
+            msgBufBox.init_textures(Content.Load<Texture2D>("UI Elements/MSG Buffer Box/msgbox_one_scrollup"),
+                                    Content.Load<Texture2D>("UI Elements/MSG Buffer Box/msgbox_max_scrollup"),
+                                    Content.Load<Texture2D>("UI Elements/MSG Buffer Box/msgbox_one_scrolldown"),
+                                    Content.Load<Texture2D>("UI Elements/MSG Buffer Box/msgbox_max_scrolldown"));
+            invScr.init_textures(Content.Load<Texture2D>("UI Elements/Inventory Screen/wireframe"));
             // TODO: use this.Content to load your game content here
         }
 
@@ -155,12 +167,9 @@ namespace Cronkpit_1._2
             #region clear message buffer code
 
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (msgBuf.Count > 0)
-                clear_msg_buffer_event -= elapsedTime;
-            else
-                clear_msg_buffer_event = time_to_clear_msg;
-
-            if (clear_msg_buffer_event < 0)
+            clear_msg_buffer_event -= elapsedTime;
+            
+            if (clear_msg_buffer_event < 0 && msgBufBox.is_scrolling())
             {
                 msgBufBox.scrollMSG(1);
                 clear_msg_buffer_event = time_to_clear_msg;
@@ -175,8 +184,9 @@ namespace Cronkpit_1._2
         private void updateInput()
         {
             newState = Keyboard.GetState();
+            mouse_newState = Mouse.GetState();
 
-            #region keypresses for the main menu
+            #region keypresses for the main menu (GS = 0)
 
             if (gameState == 0)
             {
@@ -207,10 +217,15 @@ namespace Cronkpit_1._2
 
             #endregion
 
-            #region keypresses for when the game is playing
+            #region keypresses for when the game is playing (GS = 1)
 
             if (gameState == 1)
             {
+                if (check_mouse_left_click())
+                {
+                    msgBufBox.mouseClick(new Vector2(mouse_newState.X, mouse_newState.Y));
+                }
+
                 //Down Left first
                 if (check_key_press(Keys.NumPad1))
                     if (p1.is_alive() && !victory_condition)
@@ -282,11 +297,37 @@ namespace Cronkpit_1._2
 
                 if (check_key_press(Keys.M))
                     msgBufBox.switch_my_mode();
+
+                if (check_key_press(Keys.N))
+                    icoBar.switch_my_mode();
             }
 
             #endregion
 
+            #region keypresses for either game or inventory screen (GS = 1 || 2)
+
+            if (gameState == 1 || gameState == 2)
+            {
+                if (check_key_press(Keys.I))
+                {
+                    invScr.switch_my_mode();
+                    if (invScr.is_visible())
+                        gameState = 2;
+                    else
+                        gameState = 1;
+                }
+            }
+
+            #endregion
+
+            #region keypresses for when the inventory screen is showing, this is mostly a mouse thing (GS = 2)
+
+            //do nothing
+
+            #endregion
+
             // Update saved state.
+            mouse_oldState = mouse_newState;
             oldState = newState;
         }
 
@@ -300,6 +341,11 @@ namespace Cronkpit_1._2
             return !newState.IsKeyDown(theKey) && oldState.IsKeyDown(theKey);
         }
 
+        private bool check_mouse_left_click()
+        {
+            return mouse_newState.LeftButton == ButtonState.Pressed && mouse_oldState.LeftButton == ButtonState.Released;
+        }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -311,71 +357,97 @@ namespace Cronkpit_1._2
             switch (gameState)
             {
                 case 0:
-                    spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                    spriteBatch.Begin(SpriteSortMode.BackToFront, null);
                     sMenu.drawMe(ref spriteBatch);
                     spriteBatch.End();
                     break;
                 case 1:
-                    spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
-                    f1.drawBackground(ref spriteBatch);
-                    spriteBatch.End();
-
-                    spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
-                    f1.drawEntities(ref spriteBatch);
-                    spriteBatch.End();
-
-                    spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
-                    f1.drawEnemies(ref spriteBatch);
-                    spriteBatch.End();
-
-                    spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
-                    p1.drawMe(ref spriteBatch);
-                    spriteBatch.End();
-
-                    if (msgBufBox.is_visible())
-                    {                        
-                        msgBufBox.offset_drawing(cam.viewMatrix);
-
-                        spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
-                        msgBufBox.draw_my_rect(ref spriteBatch);
-                        spriteBatch.End();
-
-                        spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
-                        msgBufBox.draw_my_borders(ref spriteBatch);
-                        spriteBatch.End();
-
-                        spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
-                        msgBufBox.draw_my_text(ref spriteBatch);
-                        spriteBatch.End();
-                    }
-
-                    if (icoBar.is_visible())
-                    {
-                        icoBar.offset_drawing(cam.viewMatrix);
-
-                        spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
-                        icoBar.draw_my_icons(ref spriteBatch);
-                        spriteBatch.End();
-
-                        spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
-                        icoBar.draw_my_borders(ref spriteBatch);
-                        spriteBatch.End();
-
-                        spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
-                        //msgBufBox.draw_my_text(ref spriteBatch);
-                        spriteBatch.End();
-                    }
-
+                    draw_game();
+                    break;
+                case 2:
+                    draw_game();
                     break;
             }
 
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null);
             spriteBatch.Draw(mouse_tex, mousePosition, Color.White);
             spriteBatch.End();
             
             // TODO: Add your drawing code here
             
             base.Draw(gameTime);
+        }
+
+        public void draw_game()
+        {
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+            f1.drawBackground(ref spriteBatch);
+            spriteBatch.End();
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+            f1.drawEntities(ref spriteBatch);
+            spriteBatch.End();
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+            f1.drawEnemies(ref spriteBatch);
+            spriteBatch.End();
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+            p1.drawMe(ref spriteBatch);
+            spriteBatch.End();
+
+            if (msgBufBox.is_visible())
+            {
+                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                msgBufBox.draw_my_rect(ref spriteBatch);
+                spriteBatch.End();
+
+                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                msgBufBox.draw_my_elements(ref spriteBatch);
+                spriteBatch.End();
+
+                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                msgBufBox.draw_my_borders(ref spriteBatch);
+                spriteBatch.End();
+
+                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                msgBufBox.draw_my_text(ref spriteBatch);
+                spriteBatch.End();
+            }
+
+            if (icoBar.is_visible())
+            {
+                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                icoBar.draw_my_icons(ref spriteBatch);
+                spriteBatch.End();
+
+                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                icoBar.draw_my_borders(ref spriteBatch);
+                spriteBatch.End();
+
+                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                //msgBufBox.draw_my_text(ref spriteBatch);
+                spriteBatch.End();
+            }
+
+            if (invScr.is_visible())
+            {
+                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                invScr.draw_my_back(ref spriteBatch);
+                spriteBatch.End();
+
+                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                invScr.draw_my_front(ref spriteBatch);
+                spriteBatch.End();
+
+                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                invScr.draw_my_borders(ref spriteBatch);
+                spriteBatch.End();
+
+                spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                invScr.draw_my_text(ref spriteBatch);
+                spriteBatch.End();
+            }
         }
     }
 }

@@ -50,9 +50,8 @@ namespace Cronkpit_1._2
             my_red_color = new Color(255, 0, 0, my_alpha_value);
             my_text_color = new Color(255, 255, 255, my_alpha_value);
 
-            //my_xPosition = client.Width + 68;
-            my_xPosition = 0;
-            my_yPosition = 0;
+            my_xPosition = client.Width - 68;
+            my_yPosition = 20;
             my_size = new Rectangle(my_xPosition, my_yPosition, 48, 48);
         }
 
@@ -62,9 +61,28 @@ namespace Cronkpit_1._2
             icon_textures.Insert(icon_to_reset, new_tex);
         }
 
-        public void change_my_mode()
+        public void switch_my_mode()
         {
             mode++;
+            if (mode > 3)
+                mode = 0;
+
+            switch (mode)
+            {
+                case 0:
+                    show();
+                    reset_color_alphas(255);
+                    break;
+                case 1:
+                    reset_color_alphas(100);
+                    break;
+                case 2:
+                    //Make the icon textures themselves transparent
+                    break;
+                case 3:
+                    hide();
+                    break;
+            }
         }
 
         public bool is_visible()
@@ -86,19 +104,29 @@ namespace Cronkpit_1._2
 
         public void offset_drawing(Matrix offsetMatrix)
         {
-            my_size.X -= (int)offsetMatrix.M41;
-            my_size.Y -= (int)offsetMatrix.M42;
+            my_xPosition = 0;
+            my_yPosition = 0;
+
+            my_xPosition -= (int)offsetMatrix.M41;
+            my_yPosition -= (int)offsetMatrix.M42;
             //msg_pos.X -= (int)offsetMatrix.M41;
             //msg_pos.Y -= (int)offsetMatrix.M42;
+        }
+
+        private void reset_color_alphas(float alpha_val)
+        {
+            my_dark_color.A = (byte)alpha_val;
+            my_red_color.A = (byte)alpha_val;
+            my_text_color.A = (byte)alpha_val;
         }
 
         public void draw_my_icons(ref SpriteBatch sBatch)
         {
             for (int i = 0; i < number_of_icons; i++)
             {
-                int next_my_Y = (my_yPosition * i) + 20;
+                int next_my_Y = my_yPosition + i * (20 + 48);
                 Rectangle a_rect = new Rectangle(my_xPosition, next_my_Y, 48, 48);
-                sBatch.Draw(icon_textures[i], a_rect, Color.White);
+                sBatch.Draw(icon_textures[i], a_rect, my_dark_color);
             }
         }
 
@@ -107,7 +135,7 @@ namespace Cronkpit_1._2
             int border_width = 4;
             for (int i = 0; i < number_of_icons; i++)
             {
-                int next_my_Y = (my_yPosition * i) + 20;
+                int next_my_Y = my_yPosition + i * (20 + 48);
                 Rectangle a_rect = new Rectangle(my_xPosition, next_my_Y, 48, 48);
                 sBatch.Draw(default_texture, new Rectangle(a_rect.Left, a_rect.Top, border_width, a_rect.Height), my_red_color);
                 sBatch.Draw(default_texture, new Rectangle(a_rect.Right, a_rect.Top, border_width, a_rect.Height + border_width), my_red_color);
@@ -118,6 +146,7 @@ namespace Cronkpit_1._2
 
         public void draw_my_shortcuts(ref SpriteBatch sBatch)
         {
+            //Draws the shortcut text. Need to figure out the pattern for this in a bit.
         }
 
         #endregion

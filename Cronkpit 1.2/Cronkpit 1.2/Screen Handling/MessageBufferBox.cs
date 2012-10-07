@@ -20,6 +20,16 @@ namespace Cronkpit_1._2
         Texture2D myTex;
         Vector2 msg_pos;
 
+        Texture2D scroll_up_max;
+        Texture2D scroll_up_one;
+        Texture2D scroll_down_max;
+        Texture2D scroll_down_one;
+
+        Rectangle scroll_up_max_rect;
+        Rectangle scroll_up_one_rect;
+        Rectangle scroll_down_max_rect;
+        Rectangle scroll_down_one_rect;
+
         Color my_dark_color;
         Color my_red_color;
         Color my_text_color;
@@ -33,6 +43,8 @@ namespace Cronkpit_1._2
 
         int c_start_index;
         int messages_shown;
+
+        bool autoscroll;
 
         public MessageBufferBox(Rectangle cl, SpriteFont sf, Texture2D tx, ref List<string> myMsgs)
         {
@@ -50,6 +62,8 @@ namespace Cronkpit_1._2
 
             c_start_index = 0;
             messages_shown = 4;
+
+            autoscroll = true;
 
             client = cl;
             my_dark_color = new Color(0, 0, 0);
@@ -71,10 +85,33 @@ namespace Cronkpit_1._2
                     width = (int)size.X;
             }
 
-            int initialX = (client.Width - (width + 20)) / 2;
+            int initialX = (client.Width - (width + 40)) / 2;
             int initialY = (client.Height - (height + 20)) - 10;
             msg_pos = new Vector2(((float)initialX + 10), ((float)initialY + 10));
-            my_size = new Rectangle(initialX, initialY, width + 20, height + 20);
+            my_size = new Rectangle(initialX, initialY, width + 40, height + 20);
+
+            //Calculate X value. Easy.
+            int scrollElements_x = initialX + width + 19;
+            //Calculate Y values. A little more complicated.
+            int spacing = 4;
+            int y_factor = height / 4;
+            //Done from the top down
+            int first_y = initialY + spacing;
+            int second_y = initialY + (spacing * 2) + y_factor;
+            int third_y = initialY + (spacing * 3) + (y_factor * 2);
+            int fourth_y = initialY + (spacing * 4) + (y_factor * 3);
+            scroll_up_max_rect = new Rectangle(scrollElements_x, first_y, 18, 18);
+            scroll_up_one_rect = new Rectangle(scrollElements_x, second_y, 18, 18);
+            scroll_down_one_rect = new Rectangle(scrollElements_x, third_y, 18, 18);
+            scroll_down_max_rect = new Rectangle(scrollElements_x, fourth_y, 18, 18);
+        }
+
+        public void init_textures(Texture2D upOne, Texture2D upMax, Texture2D downOne, Texture2D downMax)
+        {
+            scroll_up_max = upMax;
+            scroll_up_one = upOne;
+            scroll_down_max = downMax;
+            scroll_down_one = downOne;
         }
 
         public void add_a_msg(string msg)
@@ -85,6 +122,11 @@ namespace Cronkpit_1._2
         public bool is_visible()
         {
             return isVisible;
+        }
+
+        public bool is_scrolling()
+        {
+            return autoscroll;
         }
 
         public void scrollMSG(int scrollvalue)
@@ -111,7 +153,7 @@ namespace Cronkpit_1._2
         public void switch_my_mode()
         {
             mode++;
-            if (mode > 2)
+            if (mode > 3)
                 mode = 0;
             switch (mode)
             {
@@ -128,6 +170,34 @@ namespace Cronkpit_1._2
                 case 3:
                     hide();
                     break;
+            }
+        }
+
+        public void mouseClick(Vector2 clickLoc)
+        {
+            if (scroll_up_max_rect.Contains((int)clickLoc.X, (int)clickLoc.Y))
+            {
+                autoscroll = false;
+                scrollMSG(-1000);
+            }
+
+            if (scroll_up_one_rect.Contains((int)clickLoc.X, (int)clickLoc.Y))
+            {
+                autoscroll = false;
+                scrollMSG(-1);
+            }
+
+            if (scroll_down_one_rect.Contains((int)clickLoc.X, (int)clickLoc.Y))
+            {
+                scrollMSG(1);
+                if (c_start_index >= my_messages.Count)
+                    autoscroll = true;
+            }
+
+            if (scroll_down_max_rect.Contains((int)clickLoc.X, (int)clickLoc.Y))
+            {
+                autoscroll = true;
+                scrollMSG(1000);
             }
         }
 
@@ -162,6 +232,14 @@ namespace Cronkpit_1._2
             }
             //Draw rectangle first
             sBatch.Draw(myTex, my_size, my_dark_color);
+        }
+
+        public void draw_my_elements(ref SpriteBatch sBatch)
+        {
+            sBatch.Draw(scroll_down_max, scroll_down_max_rect, Color.White);
+            sBatch.Draw(scroll_down_one, scroll_down_one_rect, Color.White);
+            sBatch.Draw(scroll_up_max, scroll_up_max_rect, Color.White);
+            sBatch.Draw(scroll_up_one, scroll_up_one_rect, Color.White);
         }
 
         public void draw_my_borders(ref SpriteBatch sBatch)
