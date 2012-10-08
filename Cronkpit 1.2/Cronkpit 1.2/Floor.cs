@@ -226,7 +226,7 @@ namespace Cronkpit_1._2
             {
                 int monsterType = randGen.Next(100);
                 if(monsterType < 10)
-                    badGuys.Add(new HollowKnight(random_valid_position(), cManager, i));
+                    badGuys.Add(new HollowKnight(valid_hollowKnight_spawn(), cManager, i));
                 else if(monsterType > 10 && monsterType < 30)
                     badGuys.Add(new GoreHound(random_valid_position(), cManager, i));
                 else

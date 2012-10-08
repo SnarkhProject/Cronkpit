@@ -48,6 +48,8 @@ namespace Cronkpit_1._2
         public int my_Index;
         public int min_damage;
         public int max_damage;
+        public int dmg_type;
+        public int wound_type;
 
         public Monster(gridCoordinate sGridCoord, ContentManager sCont, int sIndex)
         {
@@ -80,6 +82,8 @@ namespace Cronkpit_1._2
             hitPoints = 0;
             min_damage = 0;
             max_damage = 0;
+            dmg_type = 0;
+            wound_type = 0;
 
             //other
             /*
@@ -396,9 +400,10 @@ namespace Cronkpit_1._2
             hitPoints -= dmg;
         }
 
-        public int dealDamage()
+        public wound dealDamage()
         {
-            return rGen.Next(min_damage, max_damage);
+            int dmgValue = rGen.Next(min_damage, (max_damage+1));
+            return new wound(wound_type, dmgValue);
         }
 
         //now for the good stuff - SENSORY STUFF.

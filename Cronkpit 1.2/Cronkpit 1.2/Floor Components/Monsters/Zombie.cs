@@ -16,8 +16,10 @@ namespace Cronkpit_1._2
         {
             my_Texture = cont.Load<Texture2D>("Enemies/lolzombie");
             hitPoints = 10;
-            min_damage = 2;
-            max_damage = 8;
+            min_damage = 1;
+            max_damage = 1;
+            dmg_type = 0;
+            wound_type = 1;
             can_melee_attack = true;
 
             //SENSORY
@@ -49,9 +51,9 @@ namespace Cronkpit_1._2
                 advance_towards_single_point(pl.get_my_grid_C(), pl, fl);
                 if (is_player_within(pl, 1) && !has_moved)
                 {
-                    int dmg_value = dealDamage();
-                    pl.take_damage(dmg_value);
-                    fl.addmsg("The Zombie claws at you, dealing " + dmg_value + " damage!");
+                    wound dmg = dealDamage();
+                    pl.take_damage(dmg);
+                    fl.addmsg("The Zombie swings at you! You take " + dmg.severity + " impact wounds!");
                 }
             }
         }

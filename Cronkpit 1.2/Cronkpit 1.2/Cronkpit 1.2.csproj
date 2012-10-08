@@ -123,13 +123,15 @@
     <Compile Include="Floor.cs" />
     <Compile Include="CronkPit.cs" />
     <Compile Include="gridCoordinate.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Player\Limb.cs" />
+    <Compile Include="Player\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screen Handling\IconBar.cs" />
     <Compile Include="Screen Handling\InvAndHealthScreen.cs" />
     <Compile Include="Screen Handling\MenuScreen.cs" />
     <Compile Include="Screen Handling\MessageBufferBox.cs" />
+    <Compile Include="Screen Handling\ShopScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

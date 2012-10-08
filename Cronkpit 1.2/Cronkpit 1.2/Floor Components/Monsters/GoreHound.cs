@@ -16,8 +16,10 @@ namespace Cronkpit_1._2
         {
             my_Texture = cont.Load<Texture2D>("Enemies/goreHound");
             hitPoints = 6;
-            min_damage = 2;
-            max_damage = 8;
+            min_damage = 1;
+            max_damage = 2;
+            dmg_type = 0;
+            wound_type = 0;
             can_melee_attack = true;
 
             //SENSORY
@@ -37,9 +39,9 @@ namespace Cronkpit_1._2
                 advance_towards_single_point(strongest_smell_coord, pl, fl);
                 if (is_player_within(pl, 1) && !has_moved)
                 {
-                    int dmg_value = dealDamage();
-                    pl.take_damage(dmg_value);
-                    fl.addmsg("The Gorehound lands a vicious bite, dealing " + dmg_value + " damage!");
+                    wound dmg = dealDamage();
+                    pl.take_damage(dmg);
+                    fl.addmsg("The Gorehound lands a vicious bite! You take " + dmg.severity + " open wounds!");
                 }
             }
             else

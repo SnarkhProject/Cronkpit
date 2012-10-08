@@ -17,6 +17,37 @@ Content\Background\stonefloorwcrack.xnb
 Content\Player\lmfaoplayer.xnb
 Content\Player\playercorpse.xnb
 Content\MouseTexture.xnb
+Content\UI Elements\Inventory Screen\wireframe.xnb
+Content\UI Elements\Msg Buffer Box\msgbox_max_scrolldown.xnb
+Content\UI Elements\Msg Buffer Box\msgbox_max_scrollup.xnb
+Content\UI Elements\Msg Buffer Box\msgbox_one_scrolldown.xnb
+Content\UI Elements\Msg Buffer Box\msgbox_one_scrollup.xnb
+Content\UI Elements\Inventory Screen\chest_blue.xnb
+Content\UI Elements\Inventory Screen\chest_green.xnb
+Content\UI Elements\Inventory Screen\chest_red.xnb
+Content\UI Elements\Inventory Screen\chest_yellow.xnb
+Content\UI Elements\Inventory Screen\larm_blue.xnb
+Content\UI Elements\Inventory Screen\larm_green.xnb
+Content\UI Elements\Inventory Screen\larm_red.xnb
+Content\UI Elements\Inventory Screen\larm_yellow.xnb
+Content\UI Elements\Inventory Screen\rarm_blue.xnb
+Content\UI Elements\Inventory Screen\rarm_green.xnb
+Content\UI Elements\Inventory Screen\rarm_red.xnb
+Content\UI Elements\Inventory Screen\rarm_yellow.xnb
+Content\UI Elements\Inventory Screen\lleg_blue.xnb
+Content\UI Elements\Inventory Screen\lleg_green.xnb
+Content\UI Elements\Inventory Screen\lleg_red.xnb
+Content\UI Elements\Inventory Screen\lleg_yellow.xnb
+Content\UI Elements\Inventory Screen\rleg_blue.xnb
+Content\UI Elements\Inventory Screen\rleg_green.xnb
+Content\UI Elements\Inventory Screen\rleg_red.xnb
+Content\UI Elements\Inventory Screen\rleg_yellow.xnb
+Content\UI Elements\Inventory Screen\head_blue.xnb
+Content\UI Elements\Inventory Screen\head_red.xnb
+Content\UI Elements\Inventory Screen\invbox_max_scrolldown.xnb
+Content\UI Elements\Inventory Screen\invbox_max_scrollup.xnb
+Content\UI Elements\Inventory Screen\invbox_one_scrolldown.xnb
+Content\UI Elements\Inventory Screen\invbox_one_scrollup.xnb
 Content\Fonts\sfont.xnb
 Content\Fonts\tfont.xnb
 Content\Fonts\smallfont.xnb
@@ -38,3 +69,31 @@ Content\Background\stonefloor.png
 Content\Background\stonefloorwcrack.png
 Content\Player\lmfaoplayer.png
 Content\Player\playercorpse.png
+Content\MouseTexture.png
+Content\UI Elements\Inventory Screen\wireframe.png
+Content\UI Elements\Msg Buffer Box\msgbox_max_scrolldown.png
+Content\UI Elements\Msg Buffer Box\msgbox_max_scrollup.png
+Content\UI Elements\Msg Buffer Box\msgbox_one_scrolldown.png
+Content\UI Elements\Msg Buffer Box\msgbox_one_scrollup.png
+Content\UI Elements\Inventory Screen\chest_blue.png
+Content\UI Elements\Inventory Screen\chest_green.png
+Content\UI Elements\Inventory Screen\chest_red.png
+Content\UI Elements\Inventory Screen\chest_yellow.png
+Content\UI Elements\Inventory Screen\larm_blue.png
+Content\UI Elements\Inventory Screen\larm_green.png
+Content\UI Elements\Inventory Screen\larm_red.png
+Content\UI Elements\Inventory Screen\larm_yellow.png
+Content\UI Elements\Inventory Screen\rarm_blue.png
+Content\UI Elements\Inventory Screen\rarm_green.png
+Content\UI Elements\Inventory Screen\rarm_red.png
+Content\UI Elements\Inventory Screen\rarm_yellow.png
+Content\UI Elements\Inventory Screen\lleg_blue.png
+Content\UI Elements\Inventory Screen\lleg_green.png
+Content\UI Elements\Inventory Screen\lleg_red.png
+Content\UI Elements\Inventory Screen\lleg_yellow.png
+Content\UI Elements\Inventory Screen\rleg_blue.png
+Content\UI Elements\Inventory Screen\rleg_green.png
+Content\UI Elements\Inventory Screen\rleg_red.png
+Content\UI Elements\Inventory Screen\rleg_yellow.png
+Content\UI Elements\Inventory Screen\head_blue.png
+Content\UI Elements\Inventory Screen\head_red.png

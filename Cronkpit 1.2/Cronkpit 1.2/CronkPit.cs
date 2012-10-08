@@ -55,6 +55,7 @@ namespace Cronkpit_1._2
 
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
+            //this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -77,21 +78,19 @@ namespace Cronkpit_1._2
             victory_condition = false;
             gameState = 0;
 
-            //shit with big constructors
+            //Some base components for shit with big constructors
+            Texture2D blank_texture = new Texture2D(GraphicsDevice, 1, 1);
+            SpriteFont big_font = Content.Load<SpriteFont>("Fonts/tfont");
+            SpriteFont normal_font = Content.Load<SpriteFont>("Fonts/sfont");
+            SpriteFont tiny_font = Content.Load<SpriteFont>("Fonts/smallfont");
             List<string> menuItems = new List<string>();
             menuItems.Add("Start");
             menuItems.Add("Exit");
-            Texture2D blank_texture = new Texture2D(GraphicsDevice, 1, 1);
-            sMenu = new MenuScreen(menuItems, "CronkPit", 
-                                    Content.Load<SpriteFont>("Fonts/sfont"), 
-                                    Content.Load<SpriteFont>("Fonts/tfont"), 
-                                    client_rect());
-            msgBufBox = new MessageBufferBox(client_rect(), 
-                                    Content.Load<SpriteFont>("Fonts/smallfont"),
-                                    blank_texture, ref msgBuf);
-            icoBar = new IconBar(blank_texture, 
-                                    Content.Load<SpriteFont>("Fonts/smallfont"), client_rect());
-            invScr = new InvAndHealthBox(blank_texture);
+            //shit with big constructors
+            sMenu = new MenuScreen(menuItems, "CronkPit", normal_font, big_font, client_rect());
+            msgBufBox = new MessageBufferBox(client_rect(), tiny_font, blank_texture, ref msgBuf);
+            icoBar = new IconBar(blank_texture, tiny_font, client_rect());
+            invScr = new InvAndHealthBox(blank_texture, tiny_font, big_font);
             //then init the base
             base.Initialize();
         }
@@ -115,13 +114,55 @@ namespace Cronkpit_1._2
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sfont_thesecond = Content.Load<SpriteFont>("Fonts/sfont");
             mouse_tex = Content.Load<Texture2D>("MouseTexture");
-
+            //Make texture arrays for wireframe, etc.
+            Texture2D[] chest_texes = new Texture2D[4];
+            load_wireframe_textures(ref chest_texes, "chest_");
+            Texture2D[] rarm_texes = new Texture2D[4];
+            load_wireframe_textures(ref rarm_texes, "rarm_");
+            Texture2D[] larm_texes = new Texture2D[4];
+            load_wireframe_textures(ref larm_texes, "larm_");
+            Texture2D[] rleg_texes = new Texture2D[4];
+            load_wireframe_textures(ref rleg_texes, "rleg_");
+            Texture2D[] lleg_texes = new Texture2D[4];
+            load_wireframe_textures(ref lleg_texes, "lleg_");
+            Texture2D[] head_texes = new Texture2D[2];
+            head_texes[0] = Content.Load<Texture2D>("UI Elements/Inventory Screen/head_blue");
+            head_texes[1] = Content.Load<Texture2D>("UI Elements/Inventory Screen/head_red");
+            //Init textures
             msgBufBox.init_textures(Content.Load<Texture2D>("UI Elements/MSG Buffer Box/msgbox_one_scrollup"),
                                     Content.Load<Texture2D>("UI Elements/MSG Buffer Box/msgbox_max_scrollup"),
                                     Content.Load<Texture2D>("UI Elements/MSG Buffer Box/msgbox_one_scrolldown"),
                                     Content.Load<Texture2D>("UI Elements/MSG Buffer Box/msgbox_max_scrolldown"));
-            invScr.init_textures(Content.Load<Texture2D>("UI Elements/Inventory Screen/wireframe"));
+            invScr.init_textures(Content.Load<Texture2D>("UI Elements/Inventory Screen/wireframe"), 
+                                chest_texes, larm_texes, rarm_texes, lleg_texes, rleg_texes, head_texes,
+                                Content.Load<Texture2D>("UI Elements/Inventory Screen/invBox_max_scrollup"),
+                                Content.Load<Texture2D>("UI Elements/Inventory Screen/invBox_one_scrollup"),
+                                Content.Load<Texture2D>("UI Elements/Inventory Screen/invBox_max_scrolldown"),
+                                Content.Load<Texture2D>("UI Elements/Inventory Screen/invBox_one_scrolldown"));
             // TODO: use this.Content to load your game content here
+        }
+
+        public void load_wireframe_textures(ref Texture2D[] targetArray, string bodyPart)
+        {
+            string basePath = "UI Elements/Inventory Screen/" + bodyPart;
+            for (int i = 0; i < 4; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        targetArray[i] = Content.Load<Texture2D>(basePath + "blue");
+                        break;
+                    case 1:
+                        targetArray[i] = Content.Load<Texture2D>(basePath + "green");
+                        break;
+                    case 2:
+                        targetArray[i] = Content.Load<Texture2D>(basePath + "yellow");
+                        break;
+                    case 3:
+                        targetArray[i] = Content.Load<Texture2D>(basePath + "red");
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -149,11 +190,8 @@ namespace Cronkpit_1._2
             updateInput();
             if (p1.is_spot_exit(f1))
             {
-                if (!victory_condition)
-                {
-                    msgBuf.Add("You quickly dash down the stairs to the next level of the dungeon.");
-                    victory_condition = true;
-                }
+                p1.heal_naturally();
+                new_floor();
             }
 
             if (bad_turn)
@@ -313,6 +351,7 @@ namespace Cronkpit_1._2
                 if (check_key_press(Keys.I))
                 {
                     invScr.switch_my_mode();
+                    invScr.update_player_info(ref p1);
                     if (invScr.is_visible())
                         gameState = 2;
                     else
@@ -324,7 +363,15 @@ namespace Cronkpit_1._2
 
             #region keypresses for when the inventory screen is showing, this is mostly a mouse thing (GS = 2)
 
-            //do nothing
+            if (gameState == 2)
+            {
+                if (check_mouse_left_click())
+                {
+                    Vector2 mouseClicked_here = new Vector2(mouse_newState.X, mouse_newState.Y);
+                    msgBufBox.mouseClick(mouseClicked_here);
+                    invScr.mouseClick(mouseClicked_here);
+                }
+            }
 
             #endregion
 
@@ -346,6 +393,15 @@ namespace Cronkpit_1._2
         private bool check_mouse_left_click()
         {
             return mouse_newState.LeftButton == ButtonState.Pressed && mouse_oldState.LeftButton == ButtonState.Released;
+        }
+
+        public void new_floor()
+        {
+            f1 = new Floor(Content, ref msgBuf);
+            p1.teleport(f1.random_valid_position());
+            bad_turn = false;
+            msgBuf.Clear();
+            msgBufBox.scrollMSG(-1000);
         }
 
         /// <summary>
@@ -372,7 +428,7 @@ namespace Cronkpit_1._2
             }
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-            spriteBatch.Draw(mouse_tex, mousePosition, Color.White);
+            spriteBatch.Draw(mouse_tex, new Vector2(mousePosition.X-8, mousePosition.Y-6), Color.White);
             spriteBatch.End();
             
             // TODO: Add your drawing code here

@@ -18,8 +18,10 @@ namespace Cronkpit_1._2
             my_Texture = cont.Load<Texture2D>("Enemies/hollowKnight_idle");
             can_hear = true;
             hitPoints = 12;
-            min_damage = 10;
-            max_damage = 30;
+            min_damage = 1;
+            max_damage = 3;
+            dmg_type = 0;
+            wound_type = 0;
             can_melee_attack = true;
 
             //SENSORY
@@ -59,9 +61,9 @@ namespace Cronkpit_1._2
                 }
                 if (is_player_within(pl, 1) && !has_moved)
                 {
-                    int dmg_value = dealDamage();
-                    pl.take_damage(dmg_value);
-                    fl.addmsg("The Hollow Knight savagely impales you, dealing " + dmg_value + " damage!");
+                    wound dmg = dealDamage();
+                    pl.take_damage(dmg);
+                    fl.addmsg("The Hollow Knight savagely impales you! You take " + dmg.severity + " open wounds!");
                 }
             }
         }
