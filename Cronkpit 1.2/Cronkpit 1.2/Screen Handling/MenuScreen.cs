@@ -95,7 +95,7 @@ namespace Cronkpit_1._2
             Vector2 t_loc = title_position;
             Color tint;
             //Don't call this unless you've called spritebatch.begin already!
-            //I mean seriously there's no begin call in here so don't fucking do it.
+            //I mean seriously there's no begin call in here so don't ing do it.
             sBatch.DrawString(tFont, titleItem, t_loc, Color.White);
             for (int i = 0; i < menuItems.Count; i++)
             {

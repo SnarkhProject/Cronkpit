@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attack.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Floor Components\Goldpile.cs" />
     <Compile Include="Floor Components\Hall.cs" />
@@ -123,6 +124,12 @@
     <Compile Include="Floor.cs" />
     <Compile Include="CronkPit.cs" />
     <Compile Include="gridCoordinate.cs" />
+    <Compile Include="Items\Item Types\Armor.cs" />
+    <Compile Include="Items\Item Types\Potion.cs" />
+    <Compile Include="Items\Item Types\Scroll.cs" />
+    <Compile Include="Items\Item Types\Talisman.cs" />
+    <Compile Include="Items\Item Types\Weapon.cs" />
+    <Compile Include="Items\Item.cs" />
     <Compile Include="Player\Limb.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Program.cs" />
@@ -131,6 +138,7 @@
     <Compile Include="Screen Handling\InvAndHealthScreen.cs" />
     <Compile Include="Screen Handling\MenuScreen.cs" />
     <Compile Include="Screen Handling\MessageBufferBox.cs" />
+    <Compile Include="Screen Handling\Shop Components\MainItemList.cs" />
     <Compile Include="Screen Handling\ShopScreen.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +178,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

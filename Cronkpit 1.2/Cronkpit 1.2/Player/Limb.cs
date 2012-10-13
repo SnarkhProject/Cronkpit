@@ -7,13 +7,11 @@ namespace Cronkpit_1._2
 {
     public class wound
     {
-        //Damge types:
-        // 0 - open wound
-        // 1 - impact wound
-        public int type;
+        public enum Wound_Type { Open, Impact };
+        public Wound_Type type;
         public int severity;
 
-        public wound(int wType, int sDmg)
+        public wound(Wound_Type wType, int sDmg)
         {
             type = wType;
             severity = sDmg;
@@ -65,7 +63,7 @@ namespace Cronkpit_1._2
             //If there's 3, make one worse. Wound is chosen at random but can't be added to a 5 strength one
             for (int i = 0; i < ouchie.severity; i++)
             {
-                int wound_type = ouchie.type;
+                wound.Wound_Type wound_type = ouchie.type;
                 int wound_count = 0;
                 for (int j = 0; j < injuries.Count; j++)
                 {
@@ -148,9 +146,9 @@ namespace Cronkpit_1._2
         {
             for (int i = 0; i < injuries.Count; i++)
             {
-                if (injuries[i].type == 0)
+                if (injuries[i].type == wound.Wound_Type.Open)
                     wReport.Add(" - A " + open_wounds[injuries[i].severity - 1]);
-                if (injuries[i].type == 1)
+                if (injuries[i].type == wound.Wound_Type.Impact)
                     wReport.Add(" - A " + impact_wounds[injuries[i].severity - 1]);
             }
         }

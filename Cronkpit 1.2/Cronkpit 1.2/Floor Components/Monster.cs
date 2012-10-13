@@ -13,7 +13,7 @@ namespace Cronkpit_1._2
     {
         public Texture2D my_Texture;
         /*FOR DEBUGGING PURPOSES - PERFECTLY SAFE TO UNCOMMENT
-        public Texture2D sound_shit;
+        public Texture2D sound_stuff;
          */
         public Vector2 my_Position;
         public ContentManager cont;
@@ -49,7 +49,7 @@ namespace Cronkpit_1._2
         public int min_damage;
         public int max_damage;
         public int dmg_type;
-        public int wound_type;
+        public wound.Wound_Type wound_type;
 
         public Monster(gridCoordinate sGridCoord, ContentManager sCont, int sIndex)
         {
@@ -61,7 +61,7 @@ namespace Cronkpit_1._2
             my_Index = sIndex;
 
             /* FOR DEBUGGING PURPOSES - PERFECTLY SAFE TO UNCOMMENT
-            sound_shit = sCont.Load<Texture2D>("sound shit");
+            sound_stuff = sCont.Load<Texture2D>("sound stuff");
              */
 
             //Sensory stuff
@@ -105,7 +105,7 @@ namespace Cronkpit_1._2
             /* FOR DEBUGGING PURPOSES - PERFECTLY SAFE TO UNCOMMENT.
             for (int i = 0; i < shortest_path_to_sound.Count; i++)
             {
-                sb.Draw(sound_shit, new Vector2(shortest_path_to_sound[i].x*32, shortest_path_to_sound[i].y*32), Color.White);
+                sb.Draw(sound_stuff, new Vector2(shortest_path_to_sound[i].x*32, shortest_path_to_sound[i].y*32), Color.White);
             }
              */
         }
@@ -116,7 +116,7 @@ namespace Cronkpit_1._2
         {
         }
 
-        //drawing shit. Maybe make more advanced later.
+        //drawing stuff. Maybe make more advanced later.
         public void reset_my_drawing_position()
         {
             my_Position.X = my_grid_coord.x * 32;
@@ -470,7 +470,7 @@ namespace Cronkpit_1._2
             //shortest_path_to_sound.Clear();
             //heard_something = false;
 
-             /*so the old shit worked. so I'm commenting out the new shit.
+             /*so the old stuff worked. so I'm commenting out the new stuff.
               * bool moved = false;
 
             if (path_length >= 0)
@@ -500,7 +500,7 @@ namespace Cronkpit_1._2
               */
         }
 
-        /*Also old shit.
+        /*Also old stuff.
         public bool path_to_origin_clear(Floor fl, Player pl)
         {
             int originx = shortest_path_to_sound[0].x;

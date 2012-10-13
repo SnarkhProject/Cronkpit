@@ -35,6 +35,7 @@ namespace Cronkpit_1._2
         MessageBufferBox msgBufBox;
         IconBar icoBar;
         InvAndHealthBox invScr;
+        ShopScreen shopScr;
 
         //Game things.
         Floor f1;
@@ -67,18 +68,18 @@ namespace Cronkpit_1._2
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            //shit with constructors
+            //stuff with constructors
             msgBuf = new List<string>();
             f1 = new Floor(Content, ref msgBuf);
-            p1 = new Player(Content, f1.random_valid_position(), ref msgBuf);
+            p1 = new Player(Content, f1.random_valid_position(), ref msgBuf, Player.Chara_Class.Warrior);
             cam = new Camera(GraphicsDevice.Viewport.Bounds);
             clear_msg_buffer_event = time_to_clear_msg;
-            //shit without constructors
+            //stuff without constructors
             bad_turn = false;
             victory_condition = false;
             gameState = 0;
 
-            //Some base components for shit with big constructors
+            //Some base components for stuff with big constructors
             Texture2D blank_texture = new Texture2D(GraphicsDevice, 1, 1);
             SpriteFont big_font = Content.Load<SpriteFont>("Fonts/tfont");
             SpriteFont normal_font = Content.Load<SpriteFont>("Fonts/sfont");
@@ -86,11 +87,18 @@ namespace Cronkpit_1._2
             List<string> menuItems = new List<string>();
             menuItems.Add("Start");
             menuItems.Add("Exit");
-            //shit with big constructors
+            List<string> shopMenuItems = new List<string>();
+            shopMenuItems.Add("Shop Weapons");
+            shopMenuItems.Add("Shop Armor");
+            shopMenuItems.Add("Shop Consumables");
+            shopMenuItems.Add("Shop Talismans");
+            shopMenuItems.Add("Exit to next floor");
+            //stuff with big constructors
             sMenu = new MenuScreen(menuItems, "CronkPit", normal_font, big_font, client_rect());
             msgBufBox = new MessageBufferBox(client_rect(), tiny_font, blank_texture, ref msgBuf);
             icoBar = new IconBar(blank_texture, tiny_font, client_rect());
             invScr = new InvAndHealthBox(blank_texture, tiny_font, big_font);
+            shopScr = new ShopScreen(shopMenuItems, normal_font, big_font, client_rect());
             //then init the base
             base.Initialize();
         }
@@ -190,8 +198,11 @@ namespace Cronkpit_1._2
             updateInput();
             if (p1.is_spot_exit(f1))
             {
+                shopScr.set_variables(p1);
+                shopScr.set_appropriate_text(0);
                 p1.heal_naturally();
                 new_floor();
+                gameState = 3;
             }
 
             if (bad_turn)
@@ -331,9 +342,7 @@ namespace Cronkpit_1._2
 
                 if (check_key_press(Keys.Space))
                     if (msgBuf.Count > 0)
-                    {
                         msgBufBox.scrollMSG(1);
-                    }
 
                 if (check_key_press(Keys.M))
                     msgBufBox.switch_my_mode();
@@ -370,6 +379,52 @@ namespace Cronkpit_1._2
                     Vector2 mouseClicked_here = new Vector2(mouse_newState.X, mouse_newState.Y);
                     msgBufBox.mouseClick(mouseClicked_here);
                     invScr.mouseClick(mouseClicked_here);
+                }
+            }
+
+            #endregion
+
+            #region keypresses for when there's a shop screen (GS = 3)
+
+            if (gameState == 3)
+            {
+                if (check_key_release(Keys.Up))
+                    shopScr.scroll_menu(-1);
+
+                if (check_key_release(Keys.Down))
+                    shopScr.scroll_menu(1);
+
+                if (check_key_release(Keys.Enter))
+                {
+                    int the_index = shopScr.get_my_index();
+                    if (!shopScr.in_submenu())
+                    {
+                        switch (the_index)
+                        {
+                            case 0:
+                                //Weapons
+                                shopScr.switch_shopping_mode(ShopScreen.Shopping_Mode.Weapons);
+                                break;
+                            case 1:
+                                //Armor
+                                shopScr.switch_shopping_mode(ShopScreen.Shopping_Mode.Armor);
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                gameState = 1;
+                                break;
+                        }
+                    }
+                    else if (shopScr.in_submenu())
+                    {
+                        if (shopScr.exit_submenu())
+                            shopScr.switch_shopping_mode(ShopScreen.Shopping_Mode.Main);
+                        else
+                            shopScr.buy_item(p1);
+                    }
                 }
             }
 
@@ -424,6 +479,11 @@ namespace Cronkpit_1._2
                     break;
                 case 2:
                     draw_game();
+                    break;
+                case 3:
+                    spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                    shopScr.drawMe(ref spriteBatch);
+                    spriteBatch.End();
                     break;
             }
 

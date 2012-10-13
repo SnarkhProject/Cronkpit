@@ -11,7 +11,8 @@ namespace Cronkpit_1._2
 {
     class Player
     {
-        //Constructor shit
+        public enum Chara_Class { Warrior };
+        //Constructor stuff
         private Texture2D my_Texture;
         private Texture2D my_dead_texture;
         private Vector2 my_Position;
@@ -19,6 +20,8 @@ namespace Cronkpit_1._2
         private gridCoordinate my_grid_coord;
         private Random rGen;
         List<string> message_buffer;
+        //Player info stuff
+        Chara_Class my_class;
         //Related to health.
         Limb Head;
         Limb Torso;
@@ -26,16 +29,23 @@ namespace Cronkpit_1._2
         Limb L_Arm;
         Limb R_Leg;
         Limb L_Leg;
-        //!Constructor shit
+        //Equipped items
+        Weapon main_hand;
+        Weapon off_hand;
+        Armor over_armor;
+        Armor under_armor;
+        //Inventory
+        List<Item> inventory;
+        //!Constructor stuff
         private int my_gold;
         //Sensory
         private int base_smell_value;
         private int base_sound_value;
 
         //Green text. Function here.
-        public Player(ContentManager sCont, gridCoordinate sGridCoord, ref List<string> msgBuffer)
+        public Player(ContentManager sCont, gridCoordinate sGridCoord, ref List<string> msgBuffer, Chara_Class myClass)
         {
-            //Constructor shit
+            //Constructor stuff
             cont = sCont;
             my_grid_coord = new gridCoordinate(sGridCoord);
             my_Position = new Vector2(sGridCoord.x * 32, sGridCoord.y * 32);
@@ -43,10 +53,12 @@ namespace Cronkpit_1._2
             my_dead_texture = cont.Load<Texture2D>("Player/playercorpse");
             rGen = new Random();
             message_buffer = msgBuffer;
-            //!Constructor shit
+            //!Constructor stuff
             my_gold = 0;
             base_smell_value = 10;
             base_sound_value = 10;
+            //Player stuff
+            my_class = myClass;
             //Health stuff.
             Head = new Limb(true, ref rGen);
             Torso = new Limb(false, ref rGen);
@@ -54,6 +66,12 @@ namespace Cronkpit_1._2
             L_Arm = new Limb(false, ref rGen);
             R_Leg = new Limb(false, ref rGen);
             L_Leg = new Limb(false, ref rGen);
+            //Inventory stuff
+            main_hand = null;
+            off_hand = null;
+            over_armor = null;
+            under_armor = null;
+            inventory = new List<Item>();
         }
 
         //Voids here.
@@ -296,6 +314,16 @@ namespace Cronkpit_1._2
             my_gold += gold_amt;
         }
 
+        public void pay_gold(int gold_amt)
+        {
+            my_gold -= gold_amt;
+        }
+
+        public void acquire_item(Item thing)
+        {
+            inventory.Add(thing);
+        }
+
         //Green text. Function here.
         public void take_damage(wound dmg)
         {
@@ -388,7 +416,12 @@ namespace Cronkpit_1._2
         //Green text. Function here.
         public int unarmed_damage()
         {
-            return rGen.Next(5, 10);
+            return rGen.Next(1, 4);
+        }
+
+        public int get_my_gold()
+        {
+            return my_gold;
         }
 
         //Green text. Function here.

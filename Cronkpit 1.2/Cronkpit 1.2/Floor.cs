@@ -25,7 +25,7 @@ namespace Cronkpit_1._2
         List<SightPulse> Vision;
         List<ScentPulse> Sniffs;
         List<SoundPulse> Noises;
-        //Other shit needed for the thing to function
+        //Other stuff needed for the thing to function
         ContentManager cManager;
         Random randGen;
 
@@ -44,7 +44,7 @@ namespace Cronkpit_1._2
 
             message_buffer = msgBuffer;
 
-            //Next init other shit
+            //Next init other stuff
             cManager = sCont;
             randGen = new Random();
         
@@ -614,7 +614,7 @@ namespace Cronkpit_1._2
 
         #endregion
 
-        #region some miscellaneous access shit
+        #region some miscellaneous access stuff
         //Green text. Function here.
         public List<Monster> see_badGuys()
         {
