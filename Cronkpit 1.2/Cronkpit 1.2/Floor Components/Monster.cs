@@ -48,7 +48,7 @@ namespace Cronkpit_1._2
         public int my_Index;
         public int min_damage;
         public int max_damage;
-        public int dmg_type;
+        public Attack.Damage dmg_type;
         public wound.Wound_Type wound_type;
 
         public Monster(gridCoordinate sGridCoord, ContentManager sCont, int sIndex)
@@ -82,8 +82,6 @@ namespace Cronkpit_1._2
             hitPoints = 0;
             min_damage = 0;
             max_damage = 0;
-            dmg_type = 0;
-            wound_type = 0;
 
             //other
             /*
@@ -281,6 +279,31 @@ namespace Cronkpit_1._2
             has_moved = false;
             gridCoordinate oldCoord = new gridCoordinate(my_grid_coord);
 
+            if (my_grid_coord.x != target_point.x)
+            {
+                if (my_grid_coord.x < target_point.x)
+                    my_grid_coord.x++;
+                else if (my_grid_coord.x > target_point.x)
+                    my_grid_coord.x--;
+            }
+
+            if (my_grid_coord.y != target_point.y)
+            {
+                if (my_grid_coord.y < target_point.y)
+                    my_grid_coord.y++;
+                else if (my_grid_coord.y > target_point.y)
+                    my_grid_coord.y--;
+            }
+
+            if (is_spot_free(fl, pl))
+            {
+                reset_my_drawing_position();
+                has_moved = true;
+            }
+            else
+                my_grid_coord = oldCoord;
+
+            /*
             #region directions 5, 1, 6
 
             if (my_grid_coord.x < target_point.x && my_grid_coord.y < target_point.y && !has_moved)
@@ -392,6 +415,7 @@ namespace Cronkpit_1._2
             }
 
             #endregion
+             */
         }
 
         //damage stuff
@@ -400,10 +424,10 @@ namespace Cronkpit_1._2
             hitPoints -= dmg;
         }
 
-        public wound dealDamage()
+        public Attack dealDamage()
         {
             int dmgValue = rGen.Next(min_damage, (max_damage+1));
-            return new wound(wound_type, dmgValue);
+            return new Attack(dmg_type, new wound(wound_type, dmgValue));
         }
 
         //now for the good stuff - SENSORY STUFF.
@@ -419,10 +443,24 @@ namespace Cronkpit_1._2
                 return false;
         }
 
+        public bool is_player_within_diamond(Player pl, int radius)
+        {
+            //get the difference between the player's x and the monster's x.
+            //get the difference between the player's y and the monster's y.
+            //Add the two differences together
+            //If the difference is less than or equal to the radius we're good!
+            gridCoordinate player_gc = pl.get_my_grid_C();
+            int xdifference = Math.Abs(player_gc.x - my_grid_coord.x);
+            int ydifference = Math.Abs(player_gc.y - my_grid_coord.y);
+
+            return (xdifference + ydifference) <= radius;
+        }
+
         //Sight pulse to find player
         public void look_for_player(Floor fl, Player pl, int sight_range)
         {
-            fl.sight_pulse(my_grid_coord, pl, my_Index, sight_range);
+            //fl.sight_pulse(my_grid_coord, pl, my_Index, sight_range);
+            fl.sight_pulse_raycast(my_grid_coord, pl, my_Index, sight_range);
         }
 
         //Scent pulse to find highest smell tile

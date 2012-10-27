@@ -18,6 +18,7 @@ namespace Cronkpit_1._2
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        ContentManager Secondary_cManager;
 
         KeyboardState oldState;
         KeyboardState newState;
@@ -53,6 +54,9 @@ namespace Cronkpit_1._2
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            Secondary_cManager = new ContentManager(Services);
+            Secondary_cManager.RootDirectory = "Content";
 
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
@@ -97,8 +101,8 @@ namespace Cronkpit_1._2
             sMenu = new MenuScreen(menuItems, "CronkPit", normal_font, big_font, client_rect());
             msgBufBox = new MessageBufferBox(client_rect(), tiny_font, blank_texture, ref msgBuf);
             icoBar = new IconBar(blank_texture, tiny_font, client_rect());
-            invScr = new InvAndHealthBox(blank_texture, tiny_font, big_font);
-            shopScr = new ShopScreen(shopMenuItems, normal_font, big_font, client_rect());
+            invScr = new InvAndHealthBox(blank_texture, tiny_font, big_font, ref Secondary_cManager);
+            shopScr = new ShopScreen(shopMenuItems, normal_font, big_font, client_rect(), ref Secondary_cManager);
             //then init the base
             base.Initialize();
         }
@@ -191,15 +195,28 @@ namespace Cronkpit_1._2
         
         protected override void Update(GameTime gameTime)
         {
+            //State updates
+            newState = Keyboard.GetState();
+            mouse_newState = Mouse.GetState();
+
+            mousePosition.X = Mouse.GetState().X;
+            mousePosition.Y = Mouse.GetState().Y;
+
+            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            updateInput();
+            if(!f1.projectiles_remaining_to_update())
+                updateInput();
+
+            f1.update_all_projectiles(p1, elapsedTime);
+
             if (p1.is_spot_exit(f1))
             {
                 shopScr.set_variables(p1);
-                shopScr.set_appropriate_text(0);
+                shopScr.switch_shopping_mode(ShopScreen.Shopping_Mode.Main);
                 p1.heal_naturally();
                 new_floor();
                 gameState = 3;
@@ -212,12 +229,11 @@ namespace Cronkpit_1._2
             }
 
             cam.Pos = p1.get_my_Position();
-            mousePosition.X = Mouse.GetState().X;
-            mousePosition.Y = Mouse.GetState().Y;
+            //Only do this if it's visible!                
 
             #region clear message buffer code
 
-            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
             clear_msg_buffer_event -= elapsedTime;
             
             if (clear_msg_buffer_event < 0 && msgBufBox.is_scrolling())
@@ -228,15 +244,17 @@ namespace Cronkpit_1._2
 
             #endregion
             // TODO: Add your update logic here
+            //Hah, more like TODONE.
+
+            //State updates - the sequel
+            mouse_oldState = mouse_newState;
+            oldState = newState;
 
             base.Update(gameTime);
         }
 
         private void updateInput()
         {
-            newState = Keyboard.GetState();
-            mouse_newState = Mouse.GetState();
-
             #region keypresses for the main menu (GS = 0)
 
             if (gameState == 0)
@@ -374,11 +392,11 @@ namespace Cronkpit_1._2
 
             if (gameState == 2)
             {
+                invScr.update_mouse_info(mousePosition, p1, check_mouse_hold_left(), check_mouse_left_click());
+
                 if (check_mouse_left_click())
                 {
-                    Vector2 mouseClicked_here = new Vector2(mouse_newState.X, mouse_newState.Y);
-                    msgBufBox.mouseClick(mouseClicked_here);
-                    invScr.mouseClick(mouseClicked_here);
+                    msgBufBox.mouseClick(mousePosition);
                 }
             }
 
@@ -430,9 +448,7 @@ namespace Cronkpit_1._2
 
             #endregion
 
-            // Update saved state.
-            mouse_oldState = mouse_newState;
-            oldState = newState;
+            // Update saved state.            
         }
 
         private bool check_key_press(Keys theKey)
@@ -448,6 +464,11 @@ namespace Cronkpit_1._2
         private bool check_mouse_left_click()
         {
             return mouse_newState.LeftButton == ButtonState.Pressed && mouse_oldState.LeftButton == ButtonState.Released;
+        }
+
+        private bool check_mouse_hold_left()
+        {
+            return mouse_newState.LeftButton == ButtonState.Pressed && mouse_oldState.LeftButton == ButtonState.Pressed;
         }
 
         public void new_floor()
@@ -514,6 +535,16 @@ namespace Cronkpit_1._2
             p1.drawMe(ref spriteBatch);
             spriteBatch.End();
 
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+            f1.drawProjectile(ref spriteBatch);
+            spriteBatch.End();
+
+            Texture2D blank_texture = new Texture2D(GraphicsDevice, 1, 1);
+            blank_texture.SetData(new[] { Color.White });
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+            f1.draw_vision_log(ref spriteBatch, blank_texture);
+            spriteBatch.End();
+
             if (msgBufBox.is_visible())
                 msgBufBox.draw_me(ref spriteBatch);
 
@@ -521,7 +552,7 @@ namespace Cronkpit_1._2
                 icoBar.draw_me(ref spriteBatch);
 
             if (invScr.is_visible())
-                invScr.draw_me(ref spriteBatch);
+                invScr.draw_me(ref spriteBatch, p1);
         }
     }
 }

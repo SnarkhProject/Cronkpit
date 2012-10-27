@@ -115,10 +115,13 @@
     <Compile Include="Floor Components\Monster Senses\ScentPulse.cs" />
     <Compile Include="Floor Components\Monster Senses\SightPulse.cs" />
     <Compile Include="Floor Components\Monster Senses\SoundPulse.cs" />
+    <Compile Include="Floor Components\Monster Senses\VisionRay.cs" />
     <Compile Include="Floor Components\Monster.cs" />
     <Compile Include="Floor Components\Monsters\GoreHound.cs" />
     <Compile Include="Floor Components\Monsters\HollowKnight.cs" />
+    <Compile Include="Floor Components\Monsters\Skeleton.cs" />
     <Compile Include="Floor Components\Monsters\Zombie.cs" />
+    <Compile Include="Floor Components\Projectile.cs" />
     <Compile Include="Floor Components\Room.cs" />
     <Compile Include="Floor Components\Tile.cs" />
     <Compile Include="Floor.cs" />

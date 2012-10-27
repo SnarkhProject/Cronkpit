@@ -53,6 +53,61 @@ namespace Cronkpit_1._2
             }
         }
 
+        public override List<string> get_my_information()
+        {
+            List<string> return_array = new List<string>();
+
+            return_array.Add(name);
+            return_array.Add("Price: " + cost.ToString());
+            return_array.Add(" ");
+            string w_type = "Weapon type: ";
+            switch (weaponType)
+            {
+                case Type.Axe:
+                    w_type += "Axe";
+                    break;
+                case Type.Bow:
+                    w_type += "Bow";
+                    break;
+                case Type.Crossbow:
+                    w_type += "Crossbow";
+                    break;
+                case Type.Lance:
+                    w_type += "Lance";
+                    break;
+                case Type.Mace:
+                    w_type += "Mace";
+                    break;
+                case Type.Spear:
+                    w_type += "Spear";
+                    break;
+                case Type.Sword:
+                    w_type += "Sword";
+                    break;
+            }
+            return_array.Add(w_type);
+            string d_type = "Damage Type: ";
+            switch (damageType)
+            {
+                case Attack.Damage.Crushing:
+                    d_type += "Crushing";
+                    break;
+                case Attack.Damage.Piercing:
+                    d_type += "Piercing";
+                    break;
+                case Attack.Damage.Slashing:
+                    d_type += "Slashing";
+                    break;
+            }
+            return_array.Add(d_type);
+            return_array.Add(" ");
+            return_array.Add("Minimum Damage: " + min_damage);
+            return_array.Add("Maximum Damage: " + max_damage);
+            return_array.Add("Range: " + weapon_range);
+
+            return return_array;
+        }
+
         public int damage(ref Random rGen)
         {
             return rGen.Next(min_damage, max_damage + 1);

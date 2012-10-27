@@ -7,7 +7,7 @@ namespace Cronkpit_1._2
 {
     public class wound
     {
-        public enum Wound_Type { Open, Impact };
+        public enum Wound_Type { Open, Impact, Burn };
         public Wound_Type type;
         public int severity;
 
@@ -32,6 +32,7 @@ namespace Cronkpit_1._2
 
         String[] open_wounds = { "minor cut", "cut", "slash", "heavy slash", "gaping wound" };
         String[] impact_wounds = { "bruise", "large bruise", "bruised bone", "fracture", "broken bone" };
+        String[] burn_wounds = { "blister", "minor burn", "burn", "severe burn", "horrific burn" };
 
         public Limb(bool head, ref Random r_gen)
         {

@@ -12,6 +12,7 @@ namespace Cronkpit_1._2
     class Player
     {
         public enum Chara_Class { Warrior };
+        public enum Equip_Slot { Mainhand, Offhand, Overarmor, Underarmor };
         //Constructor stuff
         private Texture2D my_Texture;
         private Texture2D my_dead_texture;
@@ -106,9 +107,12 @@ namespace Cronkpit_1._2
                 numeric_direction = 7;
             //0 = up, 1 = down, 2 = left, 3 = right
             //4 = downright, 5 = downleft, 6 = upright, 7 = upleft
-            int MonsterID;
+            int MonsterID = -1;
             int my_smell = my_scent_value();
             int my_sound = my_sound_value();
+            //damage stuff
+            int damage_val = deal_damage();
+
             switch (numeric_direction)
             {
                 //up, y-
@@ -119,11 +123,7 @@ namespace Cronkpit_1._2
                         reset_my_drawing_position();
                     }
                     else if (is_monster_present(fl, out MonsterID))
-                    {
-                        int damage_val = unarmed_damage();
-                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name + 
-                                            ", dealing " + damage_val + " damage!");
-                        fl.damage_monster(damage_val, MonsterID);
+                    {                        
                         my_grid_coord.y++;
                     }
                     else
@@ -138,10 +138,6 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        int damage_val = unarmed_damage();
-                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
-                                            ", dealing " + damage_val + " damage!");
-                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.y--;
                     }
                     else
@@ -156,10 +152,6 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        int damage_val = unarmed_damage();
-                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
-                                            ", dealing " + damage_val + " damage!");
-                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.x++;
                     }
                     else
@@ -174,10 +166,6 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        int damage_val = unarmed_damage();
-                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
-                                            ", dealing " + damage_val + " damage!");
-                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.x--;
                     }
                     else
@@ -193,10 +181,6 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        int damage_val = unarmed_damage();
-                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
-                                            ", dealing " + damage_val + " damage!");
-                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.x--;
                         my_grid_coord.y--;
                     }
@@ -216,10 +200,6 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        int damage_val = unarmed_damage();
-                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
-                                            ", dealing " + damage_val + " damage!");
-                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.x++;
                         my_grid_coord.y--;
                     }    
@@ -239,10 +219,6 @@ namespace Cronkpit_1._2
                     }
                     else if (is_monster_present(fl, out MonsterID))
                     {
-                        int damage_val = unarmed_damage();
-                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
-                                            ", dealing " + damage_val + " damage!");
-                        fl.damage_monster(damage_val, MonsterID);
                         my_grid_coord.x--;
                         my_grid_coord.y++;
                     }
@@ -261,11 +237,7 @@ namespace Cronkpit_1._2
                         reset_my_drawing_position();
                     }
                     else if (is_monster_present(fl, out MonsterID))
-                    {
-                        int damage_val = unarmed_damage();
-                        message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
-                                            ", dealing " + damage_val + " damage!");
-                        fl.damage_monster(damage_val, MonsterID);
+                    {                       
                         my_grid_coord.x++;
                         my_grid_coord.y++;
                     }
@@ -277,6 +249,21 @@ namespace Cronkpit_1._2
                     break;
                 default:
                     break;
+            }
+
+            if (MonsterID != -1)
+            {
+                if (main_hand == null)
+                    message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
+                                                ", dealing " + damage_val + " damage!");
+                else
+                {
+                    message_buffer.Add("You attack the " + fl.specific_badguy(MonsterID).my_name +
+                                                " with your " + main_hand.get_my_name() + ", dealing " +
+                                                damage_val + " damage!");
+                }
+
+                fl.damage_monster(damage_val, MonsterID);
             }
             //after moving, loot and then add smell to current tile.
             loot(fl);
@@ -325,24 +312,68 @@ namespace Cronkpit_1._2
         }
 
         //Green text. Function here.
-        public void take_damage(wound dmg)
+        public void take_damage(Attack atk)
         {
             //OKAY THIS IS GONNA BE COMPLICATED.
             //First, figure out where the attack is gonna hit. The breakdown is as follows:
             //head, 5%, chest = 25%, arm = 17%, leg = 18%
             int hit_location = rGen.Next(100);
+
             if (hit_location < 5 && !Head.is_disabled())
+            {
+                wound dmg = new wound(atk.get_assoc_wound());
                 Head.add_injury(dmg);
+            }
             else if (hit_location >= 5 && hit_location < 22 && !R_Arm.is_disabled())
+            {
+                Armor.Attack_Zone atkzone = Armor.Attack_Zone.R_Arm;
+                if (over_armor != null)
+                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen);
+                if(under_armor != null)
+                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen);
+                wound dmg = new wound(atk.get_assoc_wound());
                 R_Arm.add_injury(dmg);
+            }
             else if (hit_location >= 22 && hit_location < 39 && !L_Arm.is_disabled())
+            {
+                Armor.Attack_Zone atkzone = Armor.Attack_Zone.L_Arm;
+                if(over_armor != null)
+                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen);
+                if(under_armor != null)
+                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen);
+                wound dmg = new wound(atk.get_assoc_wound());
                 L_Arm.add_injury(dmg);
+            }
             else if (hit_location >= 39 && hit_location < 57 && !R_Leg.is_disabled())
+            {
+                Armor.Attack_Zone atkzone = Armor.Attack_Zone.R_Leg;
+                if (over_armor != null)
+                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen);
+                if (under_armor != null)
+                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen);
+                wound dmg = new wound(atk.get_assoc_wound());
                 R_Leg.add_injury(dmg);
+            }
             else if (hit_location >= 57 && hit_location < 75 && !L_Leg.is_disabled())
+            {
+                Armor.Attack_Zone atkzone = Armor.Attack_Zone.L_Leg;
+                if (over_armor != null)
+                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen);
+                if (under_armor != null)
+                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen);
+                wound dmg = new wound(atk.get_assoc_wound());
                 L_Leg.add_injury(dmg);
+            }
             else
+            {
+                Armor.Attack_Zone atkzone = Armor.Attack_Zone.Chest;
+                if (over_armor != null)
+                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen);
+                if (under_armor != null)
+                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen);
+                wound dmg = new wound(atk.get_assoc_wound());
                 Torso.add_injury(dmg);
+            }
 
             if (!is_alive())
                 message_buffer.Add("Your wounds are too much for you. You collapse and your vision fades.");
@@ -414,9 +445,12 @@ namespace Cronkpit_1._2
 
         //Int returns - damage value + scent values are here.
         //Green text. Function here.
-        public int unarmed_damage()
+        public int deal_damage()
         {
-            return rGen.Next(1, 4);
+            if (main_hand == null)
+                return rGen.Next(1, 4);
+            else
+                return main_hand.damage(ref rGen);
         }
 
         public int get_my_gold()
@@ -479,6 +513,175 @@ namespace Cronkpit_1._2
             bodyPart.consolidate_injury_report(ref wReport);
             if(bodyPart.is_disabled())
                 wReport.Add("It is useless");
+        }
+
+        //Inventory stuff
+        public int calc_absorb_chance(int primary_resist, int secondary_resist)
+        {
+            return ((4 * primary_resist) + (2 * secondary_resist));
+        }
+
+        public List<string> detailed_equip_report()
+        {
+            List<string> eRep = new List<string>();
+
+            int oa_ab_val;
+            int oa_in_val;
+            int oa_pa_val;
+            int oa_ha_val;
+            int oa_rg_val;
+
+            int oa_chest_integ;
+            int oa_rarm_integ;
+            int oa_larm_integ;
+            int oa_rleg_integ;
+            int oa_lleg_integ;
+
+            if (over_armor != null)
+            {
+                oa_ab_val = over_armor.get_ab_val();
+                oa_in_val = over_armor.get_ins_val();
+                oa_pa_val = over_armor.get_pad_val();
+                oa_ha_val = over_armor.get_hard_val();
+                oa_rg_val = over_armor.get_rigid_val();
+
+                oa_chest_integ = over_armor.get_chest_integ();
+                oa_rarm_integ = over_armor.get_rarm_integ();
+                oa_larm_integ = over_armor.get_larm_integ();
+                oa_rleg_integ = over_armor.get_rleg_integ();
+                oa_lleg_integ = over_armor.get_lleg_integ();
+
+                eRep.Add("Over Armor: " + over_armor.get_my_name());
+                eRep.Add(" ");
+                eRep.Add("Protective values:");
+                eRep.Add("Ablative: " + oa_ab_val);
+                eRep.Add("Insulation: " + oa_in_val);
+                eRep.Add("Padding: " + oa_pa_val);
+                eRep.Add("Hardness: " + oa_ha_val);
+                eRep.Add("Rigidity: " + oa_rg_val);
+                eRep.Add(" ");
+                eRep.Add("Chance to absorb slashing attack: " + calc_absorb_chance(oa_ha_val, oa_rg_val) + "%");
+                eRep.Add("Chance to absorb crushing attack: " + calc_absorb_chance(oa_rg_val, oa_pa_val) + "%");
+                eRep.Add("Chance to absorb piercing attack: " + calc_absorb_chance(oa_ha_val, oa_pa_val) + "%");
+                eRep.Add(" ");
+                eRep.Add("Integrity:");
+                eRep.Add("Chest integrity: " + oa_chest_integ);
+                eRep.Add("L Arm integrity: " + oa_larm_integ + " / R Arm integrity: " + oa_rarm_integ);
+                eRep.Add("L Leg integrity: " + oa_lleg_integ + " / R Leg integrity: " + oa_rleg_integ);
+                eRep.Add(" ");
+            }
+
+            int ua_ab_val;
+            int ua_in_val;
+            int ua_pa_val;
+            int ua_ha_val;
+            int ua_rg_val;
+
+            int ua_chest_integ;
+            int ua_rarm_integ;
+            int ua_larm_integ;
+            int ua_rleg_integ;
+            int ua_lleg_integ;
+
+            if (under_armor != null)
+            {
+                ua_ab_val = under_armor.get_ab_val();
+                ua_in_val = under_armor.get_ins_val();
+                ua_pa_val = under_armor.get_pad_val();
+                ua_ha_val = under_armor.get_hard_val();
+                ua_rg_val = under_armor.get_rigid_val();
+
+                ua_chest_integ = under_armor.get_chest_integ();
+                ua_rarm_integ = under_armor.get_rarm_integ();
+                ua_larm_integ = under_armor.get_larm_integ();
+                ua_rleg_integ = under_armor.get_rleg_integ();
+                ua_lleg_integ = under_armor.get_lleg_integ();
+
+                eRep.Add("Under Armor: " + under_armor.get_my_name());
+                eRep.Add(" ");
+                eRep.Add("Protective values:");
+                eRep.Add("Ablative: " + ua_ab_val);
+                eRep.Add("Insulation: " + ua_in_val);
+                eRep.Add("Padding: " + ua_pa_val);
+                eRep.Add("Hardness: " + ua_ha_val);
+                eRep.Add("Rigidity: " + ua_rg_val);
+                eRep.Add(" ");
+                eRep.Add("Chance to absorb slashing attack: " + calc_absorb_chance(ua_ha_val, ua_rg_val) + "%");
+                eRep.Add("Chance to absorb crushing attack: " + calc_absorb_chance(ua_rg_val, ua_pa_val) + "%");
+                eRep.Add("Chance to absorb piercing attack: " + calc_absorb_chance(ua_ha_val, ua_pa_val) + "%");
+                eRep.Add(" ");
+                eRep.Add("Integrity:");
+                eRep.Add("Chest integrity: " + ua_chest_integ);
+                eRep.Add("L Arm integrity: " + ua_larm_integ + " / R Arm integrity: " + ua_rarm_integ);
+                eRep.Add("L Leg integrity: " + ua_lleg_integ + " / R Leg integrity: " + ua_rleg_integ);
+                eRep.Add(" ");
+            }
+
+            return eRep;
+        }
+
+        public List<Item> retrieve_inventory()
+        {
+            return inventory;
+        }
+
+        public void equip_main_hand(Weapon mh)
+        {
+            main_hand = mh;
+        }
+
+        public void equip_off_hand(Weapon oh)
+        {
+            off_hand = oh;
+        }
+
+        public void equip_over_armor(Armor oa)
+        {
+            over_armor = oa;
+        }
+
+        public void equip_under_armor(Armor ua)
+        {
+            under_armor = ua;
+        }
+
+        public Weapon show_main_hand()
+        {
+            return main_hand;
+        }
+
+        public Weapon show_off_hand()
+        {
+            return off_hand;
+        }
+
+        public Armor show_over_armor()
+        {
+            return over_armor;
+        }
+
+        public Armor show_under_armor()
+        {
+            return under_armor;
+        }
+
+        public void unequip(Equip_Slot slot)
+        {
+            switch (slot)
+            {
+                case Equip_Slot.Mainhand:
+                    main_hand = null;
+                    break;
+                case Equip_Slot.Offhand:
+                    off_hand = null;
+                    break;
+                case Equip_Slot.Underarmor:
+                    under_armor = null;
+                    break;
+                case Equip_Slot.Overarmor:
+                    over_armor = null;
+                    break;
+            }
         }
     }
 }

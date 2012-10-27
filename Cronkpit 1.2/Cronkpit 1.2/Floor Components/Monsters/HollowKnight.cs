@@ -20,7 +20,7 @@ namespace Cronkpit_1._2
             hitPoints = 12;
             min_damage = 1;
             max_damage = 3;
-            dmg_type = 0;
+            dmg_type = Attack.Damage.Piercing;
             wound_type = wound.Wound_Type.Open;
             can_melee_attack = true;
 
@@ -61,9 +61,9 @@ namespace Cronkpit_1._2
                 }
                 if (is_player_within(pl, 1) && !has_moved)
                 {
-                    wound dmg = dealDamage();
+                    Attack dmg = dealDamage();
                     pl.take_damage(dmg);
-                    fl.addmsg("The Hollow Knight savagely impales you! You take " + dmg.severity + " open wounds!");
+                    fl.addmsg("The Hollow Knight savagely impales you! You take " + dmg.get_assoc_wound().severity + " open wounds!");
                 }
             }
         }

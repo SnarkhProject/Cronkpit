@@ -15,6 +15,8 @@ namespace Cronkpit_1._2
         List<string> menuItems;
         string sub_menu_exit = "Back";
 
+        ContentManager cManager;
+
         int selectedIndex;
         int selected_item_index;
 
@@ -40,6 +42,7 @@ namespace Cronkpit_1._2
         string shopkeeper;
 
         Vector2 item_menu_position;
+        Vector2 item_info_position;
 
         //Position stuff
         Rectangle client;
@@ -48,6 +51,8 @@ namespace Cronkpit_1._2
         float width = 0;
         float i_menu_height = 0;
         float i_menu_width = 0;
+        float inf_menu_height = 0;
+        float inf_menu_width = 0;
 
         //Shopping stuff!
         public enum Shopping_Mode { Main, Armor, Weapons, Consumables, Talismans };
@@ -57,11 +62,14 @@ namespace Cronkpit_1._2
         MainItemList all_items;
         List<Armor> armors_in_stock;
         List<Weapon> weapons_in_stock;
+        List<string> current_item_info;
 
-        public ShopScreen(List<string> mItems, SpriteFont sf, SpriteFont tf, Rectangle cl)
+        public ShopScreen(List<string> mItems, SpriteFont sf, SpriteFont tf, Rectangle cl, ref ContentManager cm)
         {
             menuItems = new List<string>(mItems);
             all_items = new MainItemList();
+            current_item_info = new List<string>();
+            cManager = cm;
             sFont = sf;
             tFont = tf;
             client = cl;
@@ -94,6 +102,8 @@ namespace Cronkpit_1._2
         {
             i_menu_height = 0;
             i_menu_width = 0;
+            inf_menu_height = 0;
+            inf_menu_width = 0;
 
             if (target_menu == Shopping_Mode.Armor)
             {
@@ -117,13 +127,24 @@ namespace Cronkpit_1._2
                 }
             }
 
+            for (int i = 0; i < current_item_info.Count; i++)
+            {
+                Vector2 size = sFont.MeasureString(current_item_info[i]);
+                if (size.X > i_menu_width)
+                    inf_menu_width = size.X;
+                inf_menu_height += sFont.LineSpacing + 5;
+            }
+
             int client_5_zone_split = client.Width / 5;
             item_menu_position = new Vector2(((client.Width - (client_5_zone_split * 3)) - width) / 2,
-                                            blurb_height + ((client.Height - height - blurb_height) / 2)); 
+                                            blurb_height + ((client.Height - height - blurb_height) / 2));
+            item_info_position = new Vector2(((client.Width - inf_menu_width) / 2) + item_menu_position.X,
+                                            blurb_height + ((client.Height - inf_menu_height - blurb_height) / 2));
         }
 
         public void scroll_menu(int scroll)
         {
+            current_item_info.Clear();
             switch(im_shopping_for)
             {
                 case Shopping_Mode.Main:
@@ -141,6 +162,8 @@ namespace Cronkpit_1._2
                         selected_item_index = armors_in_stock.Count;
                     if (selected_item_index > armors_in_stock.Count)
                         selected_item_index = 0;
+                    if(selected_item_index < armors_in_stock.Count)
+                        current_item_info = armors_in_stock[selected_item_index].get_my_information();
                     break;
                 case Shopping_Mode.Weapons:
                     selectedIndex = 0;
@@ -149,6 +172,8 @@ namespace Cronkpit_1._2
                         selected_item_index = weapons_in_stock.Count;
                     if (selected_item_index > weapons_in_stock.Count)
                         selected_item_index = 0;
+                    if (selected_item_index < weapons_in_stock.Count)
+                        current_item_info = weapons_in_stock[selected_item_index].get_my_information();
                     break;
             }
         }
@@ -168,9 +193,11 @@ namespace Cronkpit_1._2
                     break;
                 case Shopping_Mode.Armor:
                     set_descriptive_armor_shopping(armor_shopping_used);
+                    scroll_menu(0);
                     break;
                 case Shopping_Mode.Weapons:
                     set_descriptive_weapon_shopping(weapon_shopping_used);
+                    scroll_menu(0);
                     break;
             }
         }
@@ -217,6 +244,7 @@ namespace Cronkpit_1._2
                     }
                     break;
             }
+            scroll_menu(0);
         }
 
         public void set_variables(Player pl)
@@ -230,16 +258,34 @@ namespace Cronkpit_1._2
 
             armors_in_stock = all_items.retrieve_random_shared_armors(2);
             weapons_in_stock = all_items.retrieve_random_shared_weapons(2);
+
+            init_necessary_textures(pl);
         }
 
-        public void set_appropriate_text(int choice)
+        public void init_necessary_textures(Player pl)
         {
-            switch (choice)
+            cManager.Unload();
+            
+            for (int i = 0; i < armors_in_stock.Count; i++)
             {
-                case 0:
-                    set_descriptive_intro(intro_used);
-                    break;
+                string texturename = armors_in_stock[i].get_my_texture_name();
+                armors_in_stock[i].set_texture(cManager.Load<Texture2D>("Icons/Armors/" + texturename));
             }
+
+            for (int i = 0; i < weapons_in_stock.Count; i++)
+            {
+                string texturename = weapons_in_stock[i].get_my_texture_name();
+                weapons_in_stock[i].set_texture(cManager.Load<Texture2D>("Icons/Weapons/" + texturename));
+            }
+
+            /* This isn't needed for the time being, and who knows! It may never be.
+            List<Item> player_inventory = pl.retrieve_inventory();
+
+            for (int i = 0; i < player_inventory.Count; i++)
+            {
+                //do nothing for now.
+            }
+             */
         }
 
         public void set_descriptive_intro(int choice)
@@ -257,7 +303,7 @@ namespace Cronkpit_1._2
                                         "scorpion tail. \"Don't get venom on my wares...\" he mumbles at you. \n" +
                                         "You shrug and begin to browse.";
                     shopkeeper = "hooded man";
-                    blurb_height = (9 * sFont.LineSpacing);
+                    blurb_height = ((9 + 3) * sFont.LineSpacing);
                     break;
                 default:
                     break;
@@ -287,7 +333,7 @@ namespace Cronkpit_1._2
                                         "always so difficult. There are just so many things to consider! You \n" +
                                         "hum to yourself as you lean over and pick up a suit of chainmail, \n" + 
                                         "holding it up to the admittedly poor light.";
-                    blurb_height = (7 * sFont.LineSpacing);
+                    blurb_height = ((7 + 3) * sFont.LineSpacing);
                     break;
             }
         }
@@ -379,6 +425,16 @@ namespace Cronkpit_1._2
                         exit_submenu_tint = normal;
                     sBatch.DrawString(sFont, sub_menu_exit, position2, exit_submenu_tint);
                     break;
+            }
+
+            if (im_shopping_for != Shopping_Mode.Main)
+            {
+                Vector2 item_info_position2 = new Vector2(item_info_position.X, item_info_position.Y);
+                for (int i = 0; i < current_item_info.Count; i++)
+                {
+                    sBatch.DrawString(sFont, current_item_info[i], item_info_position2, Color.White);
+                    item_info_position2.Y += sFont.LineSpacing;
+                }
             }
         }
     }

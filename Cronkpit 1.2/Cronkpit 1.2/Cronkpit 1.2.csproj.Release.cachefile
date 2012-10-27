@@ -48,6 +48,21 @@ Content\UI Elements\Inventory Screen\invbox_max_scrolldown.xnb
 Content\UI Elements\Inventory Screen\invbox_max_scrollup.xnb
 Content\UI Elements\Inventory Screen\invbox_one_scrolldown.xnb
 Content\UI Elements\Inventory Screen\invbox_one_scrollup.xnb
+Content\Icons\Weapons\axe_icon.xnb
+Content\Icons\Weapons\spear_icon.xnb
+Content\Icons\Weapons\sword_icon.xnb
+Content\Icons\Armors\chainmail_icon.xnb
+Content\Icons\Armors\platemail_icon.xnb
+Content\Icons\Armors\quiltedarmor_icon.xnb
+Content\Icons\Armors\rubberunderwear_icon.xnb
+Content\Enemies\skeleton.xnb
+Content\Enemies\skeleton_archer.xnb
+Content\Enemies\skeleton_axeman.xnb
+Content\Enemies\skeleton_mage.xnb
+Content\Enemies\skeleton_spearman.xnb
+Content\Enemies\skeleton_warrior.xnb
+Content\Projectiles\arrow.xnb
+Content\Projectiles\flamebolt.xnb
 Content\Fonts\sfont.xnb
 Content\Fonts\tfont.xnb
 Content\Fonts\smallfont.xnb

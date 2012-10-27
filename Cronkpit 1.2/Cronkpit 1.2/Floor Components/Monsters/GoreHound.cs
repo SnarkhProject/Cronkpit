@@ -18,7 +18,7 @@ namespace Cronkpit_1._2
             hitPoints = 6;
             min_damage = 1;
             max_damage = 2;
-            dmg_type = 0;
+            dmg_type = Attack.Damage.Slashing;
             wound_type = wound.Wound_Type.Open;
             can_melee_attack = true;
 
@@ -39,9 +39,9 @@ namespace Cronkpit_1._2
                 advance_towards_single_point(strongest_smell_coord, pl, fl);
                 if (is_player_within(pl, 1) && !has_moved)
                 {
-                    wound dmg = dealDamage();
+                    Attack dmg = dealDamage();
                     pl.take_damage(dmg);
-                    fl.addmsg("The Gorehound lands a vicious bite! You take " + dmg.severity + " open wounds!");
+                    fl.addmsg("The Gorehound lands a vicious bite! You take " + dmg.get_assoc_wound().severity + " open wounds!");
                 }
             }
             else

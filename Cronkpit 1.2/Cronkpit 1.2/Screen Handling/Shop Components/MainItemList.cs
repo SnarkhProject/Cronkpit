@@ -19,10 +19,10 @@ namespace Cronkpit_1._2
 
         public void add_all_shared_items()
         {
-            shared_items.Add(new Armor(1, 250, "Plate Mail", 1, 1, 1, 1, 1, 1, true));
-            shared_items.Add(new Armor(2, 250, "Chain Mail", 1, 1, 1, 1, 1, 1, true));
-            shared_items.Add(new Armor(3, 250, "Rubber Underwear", 1, 1, 1, 1, 1, 1, false));
-            shared_items.Add(new Armor(4, 250, "Quilted Armor", 1, 1, 1, 1, 1, 1, false));
+            shared_items.Add(new Armor(1, 250, "Plate Mail", 8, 0, 0, 10, 10, 8, true));
+            shared_items.Add(new Armor(2, 250, "Chain Mail", 8, 0, 2, 0, 10, 5, true));
+            shared_items.Add(new Armor(3, 250, "Rubber Underwear", 3, 10, 3, 0, 0, 3, false));
+            shared_items.Add(new Armor(4, 250, "Quilted Armor", 0, 4, 10, 0, 0, 3, false));
             shared_items.Add(new Weapon(5, 250, "Axe", Weapon.Type.Axe, 1, 3, 6, 1));
             shared_items.Add(new Weapon(6, 200, "Sword", Weapon.Type.Sword, 1, 3, 6, 1));
             shared_items.Add(new Weapon(7, 250, "Spear", Weapon.Type.Spear, 2, 3, 6, 3));

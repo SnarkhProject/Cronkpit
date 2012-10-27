@@ -11,10 +11,10 @@ namespace Cronkpit_1._2
 {
     class Item
     {
-        int identification;
-        Texture2D my_texture;
-        int cost;
-        string name;
+        protected int identification;
+        protected Texture2D my_texture;
+        protected int cost;
+        protected string name;
 
         public Item(int IDno, int goldVal, string my_name)
         {
@@ -36,6 +36,27 @@ namespace Cronkpit_1._2
         public void set_texture(Texture2D target_tex)
         {
             my_texture = target_tex;
+        }
+
+        public string get_my_texture_name()
+        {
+            string tex_name = name.ToLower();
+            return tex_name.Replace(" ", String.Empty) + "_icon";
+        }
+
+        public Texture2D get_my_texture()
+        {
+            return my_texture;
+        }
+
+        public virtual List<string> get_my_information()
+        {
+            List<string> return_array = new List<string>();
+
+            return_array.Add(name);
+            return_array.Add(cost.ToString());
+
+            return return_array;
         }
 
         public void draw_me(Rectangle location, ref SpriteBatch sBatch)

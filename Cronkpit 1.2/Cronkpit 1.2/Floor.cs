@@ -19,12 +19,16 @@ namespace Cronkpit_1._2
         List<Hall> hallLayout;
         List<Monster> badGuys;
         List<Goldpile> Money;
+        List<Projectile> Pew_Pews;
 
         List<string> message_buffer;
         //Sensory lists
         List<SightPulse> Vision;
         List<ScentPulse> Sniffs;
         List<SoundPulse> Noises;
+        List<VisionRay> Vision_Rc;
+        List<VisionRay> Vision_Log;
+
         //Other stuff needed for the thing to function
         ContentManager cManager;
         Random randGen;
@@ -39,8 +43,11 @@ namespace Cronkpit_1._2
             badGuys = new List<Monster>();
             Money = new List<Goldpile>();
             Vision = new List<SightPulse>();
+            Vision_Rc = new List<VisionRay>();
+            Vision_Log = new List<VisionRay>();
             Sniffs = new List<ScentPulse>();
             Noises = new List<SoundPulse>();
+            Pew_Pews = new List<Projectile>();
 
             message_buffer = msgBuffer;
 
@@ -225,10 +232,35 @@ namespace Cronkpit_1._2
             for (int i = 0; i < number_of_monsters; i++)
             {
                 int monsterType = randGen.Next(100);
-                if(monsterType < 10)
+                if(monsterType <= 10)
                     badGuys.Add(new HollowKnight(valid_hollowKnight_spawn(), cManager, i));
-                else if(monsterType > 10 && monsterType < 30)
+                else if(monsterType > 10 && monsterType <= 30)
                     badGuys.Add(new GoreHound(random_valid_position(), cManager, i));
+                else if (monsterType > 30 && monsterType <= 50)
+                {
+                    int skelwpn = randGen.Next(6);
+                    switch (skelwpn)
+                    {
+                        case 0:
+                            badGuys.Add(new Skeleton(random_valid_position(), cManager, i, Skeleton.Skeleton_Weapon_Type.Fist));
+                            break;
+                        case 1:
+                            badGuys.Add(new Skeleton(random_valid_position(), cManager, i, Skeleton.Skeleton_Weapon_Type.Axe));
+                            break;
+                        case 2:
+                            badGuys.Add(new Skeleton(random_valid_position(), cManager, i, Skeleton.Skeleton_Weapon_Type.Bow));
+                            break;
+                        case 3:
+                            badGuys.Add(new Skeleton(random_valid_position(), cManager, i, Skeleton.Skeleton_Weapon_Type.Sword));
+                            break;
+                        case 4:
+                            badGuys.Add(new Skeleton(random_valid_position(), cManager, i, Skeleton.Skeleton_Weapon_Type.Spear));
+                            break;
+                        case 5:
+                            badGuys.Add(new Skeleton(random_valid_position(), cManager, i, Skeleton.Skeleton_Weapon_Type.Flamebolt));
+                            break;
+                    }
+                }
                 else
                     badGuys.Add(new Zombie(random_valid_position(), cManager, i));
             }
@@ -397,6 +429,37 @@ namespace Cronkpit_1._2
 
         #endregion
 
+        #region projectile management
+
+        public void update_all_projectiles(Player pl, float delta_time)
+        {
+            for (int i = 0; i < Pew_Pews.Count; i++)
+            {
+                Pew_Pews[i].update(delta_time);
+
+                if(check_overlap(Pew_Pews[i].my_rect(), new Rectangle((int)pl.get_my_Position().X, (int)pl.get_my_Position().Y, 32, 32)))
+                    Pew_Pews.RemoveAt(i);
+            }
+        }
+
+        public void create_new_projectile(Projectile proj)
+        {
+            Pew_Pews.Add(proj);
+        }
+
+        public bool check_overlap(Rectangle rect_A, Rectangle rect_B)
+        {
+            return rect_A.Left < rect_B.Right && rect_A.Right > rect_B.Left &&
+                rect_A.Top < rect_B.Bottom && rect_A.Bottom > rect_B.Top;
+        }
+
+        public bool projectiles_remaining_to_update()
+        {
+            return Pew_Pews.Count > 0;
+        }
+
+        #endregion
+
         #region all sensory stuff
 
         #region smell stuff
@@ -543,17 +606,18 @@ namespace Cronkpit_1._2
         }
 
         //Green text.
+        //Sight_pulse is deprecated! We now use sight_pulse_raycast
         public void sight_pulse(gridCoordinate origin,  Player pl, int monsterID, int sightRange)
         {
             //Do this 8 times, once for each direction.
-            Vision.Add(new SightPulse(new gridCoordinate(origin.x, origin.y - 1), 0, monsterID, sightRange));
-            Vision.Add(new SightPulse(new gridCoordinate(origin.x, origin.y + 1), 1, monsterID, sightRange));
-            Vision.Add(new SightPulse(new gridCoordinate(origin.x - 1, origin.y), 2, monsterID, sightRange));
-            Vision.Add(new SightPulse(new gridCoordinate(origin.x + 1, origin.y), 3, monsterID, sightRange));
-            Vision.Add(new SightPulse(new gridCoordinate(origin.x + 1, origin.y + 1), 4, monsterID, sightRange));
-            Vision.Add(new SightPulse(new gridCoordinate(origin.x - 1, origin.y + 1), 5, monsterID, sightRange));
-            Vision.Add(new SightPulse(new gridCoordinate(origin.x + 1, origin.y - 1), 6, monsterID, sightRange));
-            Vision.Add(new SightPulse(new gridCoordinate(origin.x - 1, origin.y - 1), 7, monsterID, sightRange));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x, origin.y - 1), 0, monsterID, sightRange, true));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x, origin.y + 1), 1, monsterID, sightRange, true));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x - 1, origin.y), 2, monsterID, sightRange, true));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x + 1, origin.y), 3, monsterID, sightRange, true));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x + 1, origin.y + 1), 4, monsterID, sightRange, true));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x - 1, origin.y + 1), 5, monsterID, sightRange, true));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x + 1, origin.y - 1), 6, monsterID, sightRange, true));
+            Vision.Add(new SightPulse(new gridCoordinate(origin.x - 1, origin.y - 1), 7, monsterID, sightRange, true));
             while (Vision.Count > 0)
             {
                 for (int i = 0; i < Vision.Count; i++)
@@ -572,6 +636,60 @@ namespace Cronkpit_1._2
                         Vision[i].update(this);
                     else
                         Vision.RemoveAt(i);
+                }
+            }
+        }
+
+        public void sight_pulse_raycast(gridCoordinate origin, Player pl, int monsterID, int sightRange)
+        {
+            int origin_x = origin.x;
+            int origin_y = origin.y;
+            Vision_Log.Clear();
+            //Add endpoints at max y- from x- to x+
+            for (int i = -sightRange; i <= sightRange; i++)
+            {
+                gridCoordinate ray_end_point = new gridCoordinate(origin.x + i, origin.y - sightRange);
+                Vision_Rc.Add(new VisionRay(origin, ray_end_point));
+                Vision_Log.Add(new VisionRay(origin, ray_end_point));
+            }
+            //Add endpoints at max y+ from x- to x+
+            for (int i = -sightRange; i <= sightRange; i++)
+            {
+                gridCoordinate ray_end_point = new gridCoordinate(origin.x + i, origin.y + sightRange);
+                Vision_Rc.Add(new VisionRay(origin, ray_end_point));
+                Vision_Log.Add(new VisionRay(origin, ray_end_point));
+            }
+            //Add endpoints at max x- from y- to y+
+            for (int i = -sightRange+1; i < sightRange; i++)
+            {
+                gridCoordinate ray_end_point = new gridCoordinate(origin.x - sightRange, origin.y + i);
+                Vision_Rc.Add(new VisionRay(origin, ray_end_point));
+                Vision_Log.Add(new VisionRay(origin, ray_end_point));
+            }
+            //Add endpoints at max x+ from y- to y+
+            for (int i = -sightRange+1; i < sightRange; i++)
+            {
+                gridCoordinate ray_end_point = new gridCoordinate(origin.x + sightRange, origin.y + i);
+                Vision_Rc.Add(new VisionRay(origin, ray_end_point));
+                Vision_Log.Add(new VisionRay(origin, ray_end_point));
+            }
+            while (Vision_Rc.Count > 0)
+            {
+                for (int i = 0; i < Vision_Rc.Count; i++)
+                {
+                    int my_grid_x_position = (int)(Vision_Rc[i].my_current_position.X / 32);
+                    int my_grid_y_position = (int)(Vision_Rc[i].my_current_position.Y / 32);
+                    if(pl.get_my_grid_C().x == my_grid_x_position && pl.get_my_grid_C().y == my_grid_y_position)
+                        for (int j = 0; j < badGuys.Count; j++)
+                        {
+                            if (badGuys[j].my_Index == monsterID)
+                                badGuys[j].can_see_player = true;
+                        }
+
+                    if (Vision_Rc[i].is_at_end() || floorTiles[my_grid_x_position][my_grid_y_position].isOpaque())
+                        Vision_Rc.RemoveAt(i);
+                    else
+                        Vision_Rc[i].update();
                 }
             }
         }
@@ -599,6 +717,14 @@ namespace Cronkpit_1._2
             }
         }
 
+        public void drawProjectile(ref SpriteBatch sBatch)
+        {
+            for (int x = 0; x < Pew_Pews.Count; x++)
+            {
+                Pew_Pews[x].drawMe(ref sBatch);
+            }
+        }
+
         //Green text. Function here.
         public void drawEntities(ref SpriteBatch sBatch)
         {
@@ -606,6 +732,22 @@ namespace Cronkpit_1._2
                 Money[i].drawMe(ref sBatch);
         }
 
+        public void draw_vision_log(ref SpriteBatch sBatch, Texture2D blank_tex)
+        {
+            for (int i = 0; i < Vision_Log.Count; i++)
+            {
+                Vector2 point2 = new Vector2(Vision_Log[i].my_end_position.X, Vision_Log[i].my_end_position.Y);
+                Vector2 point1 = new Vector2(Vision_Log[i].my_current_position.X, Vision_Log[i].my_current_position.Y);
+                float angle = (float)Math.Atan2(point2.Y - point1.Y, point2.X - point1.X);
+                float length = Vector2.Distance(point1, point2);
+
+                sBatch.Draw(blank_tex, point1, null, Color.White,
+                            angle, Vector2.Zero, new Vector2(length, 1),
+                            SpriteEffects.None, 0);
+            }
+        }
+
+        //Green text.
         public void drawEnemies(ref SpriteBatch sBatch)
         {
             for (int i = 0; i < badGuys.Count; i++)

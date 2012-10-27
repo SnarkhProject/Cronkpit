@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cronkpit 1.2", "Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2.csproj", "{9777C32B-B4F1-426D-AD71-BB350470B5CA}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Cronkpit 1.2Content", "Cronkpit 1.2\Cronkpit 1.2Content\Cronkpit 1.2Content.contentproj", "{2E95B1D3-C6AC-490F-81BC-17D28BD5446C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cronkpit 1.2Content", "Cronkpit 1.2\Cronkpit 1.2Content\Cronkpit 1.2Content.contentproj", "{2E95B1D3-C6AC-490F-81BC-17D28BD5446C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -18,7 +18,7 @@ namespace Cronkpit_1._2
             hitPoints = 10;
             min_damage = 1;
             max_damage = 1;
-            dmg_type = 0;
+            dmg_type = Attack.Damage.Crushing;
             wound_type = wound.Wound_Type.Impact;
             can_melee_attack = true;
 
@@ -34,12 +34,14 @@ namespace Cronkpit_1._2
             //ZOMBIE AGGRO RULES:
             //When not aggroed, there is a 25% chance that a zombie will wander in a random direction.
             //If it cannot wander in the first direction, it will try up to 5 times for another one.
-            //Aggroed when the player comes within 7 blocks of it. Then it will move towards the player.
+            //Aggroed when the player comes within 3 blocks of it. Then it will move towards the player.
             can_see_player = false;
-            look_for_player(fl, pl, sight_range);
+            if(is_player_within(pl, 10))
+                look_for_player(fl, pl, sight_range);
+
             if (!can_see_player)
             {
-                int should_i_wander = rGen.Next(4);
+                int should_i_wander = rGen.Next(5);
                 if (should_i_wander == 1)
                 {
                     wander(pl, fl);
@@ -51,9 +53,9 @@ namespace Cronkpit_1._2
                 advance_towards_single_point(pl.get_my_grid_C(), pl, fl);
                 if (is_player_within(pl, 1) && !has_moved)
                 {
-                    wound dmg = dealDamage();
+                    Attack dmg = dealDamage();
                     pl.take_damage(dmg);
-                    fl.addmsg("The Zombie swings at you! You take " + dmg.severity + " impact wounds!");
+                    fl.addmsg("The Zombie swings at you! You take " + dmg.get_assoc_wound().severity + " impact wounds!");
                 }
             }
         }

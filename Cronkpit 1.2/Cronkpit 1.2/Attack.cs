@@ -7,7 +7,7 @@ namespace Cronkpit_1._2
 {
     class Attack
     {
-        public enum Damage { Slashing, Piercing, Crushing };
+        public enum Damage { Slashing, Piercing, Crushing, Fire };
         wound assoc_wound;
         Damage damage_type;
 
@@ -15,6 +15,16 @@ namespace Cronkpit_1._2
         {
             damage_type = dmg_type;
             assoc_wound = new wound(harm);
+        }
+
+        public Damage get_dmg_type()
+        {
+            return damage_type;
+        }
+
+        public wound get_assoc_wound()
+        {
+            return assoc_wound;
         }
     }
 }
