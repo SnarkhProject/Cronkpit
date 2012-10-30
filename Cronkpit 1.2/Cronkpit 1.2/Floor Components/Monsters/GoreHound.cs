@@ -36,12 +36,12 @@ namespace Cronkpit_1._2
             sniff_for_trail(fl, 0, smell_range, smell_threshold);
             if (has_scent)
             {
-                advance_towards_single_point(strongest_smell_coord, pl, fl);
+                advance_towards_single_point(strongest_smell_coord, pl, fl, 1);
                 if (is_player_within(pl, 1) && !has_moved)
                 {
+                    fl.addmsg("The Gorehound lands a vicious bite!");
                     Attack dmg = dealDamage();
                     pl.take_damage(dmg);
-                    fl.addmsg("The Gorehound lands a vicious bite! You take " + dmg.get_assoc_wound().severity + " open wounds!");
                 }
             }
             else

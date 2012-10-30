@@ -76,11 +76,12 @@ namespace Cronkpit_1._2
             return overArmor;
         }
 
-        public Attack absorb_damage (Attack atk, Attack_Zone area, ref Random rgen)
+        public Attack absorb_damage (Attack atk, Attack_Zone area, ref Random rgen, ref List<string> msgBuf)
         {
             //First get the type of the attack.
             Attack.Damage atkdmg = atk.get_dmg_type();
             int absorb_threshold = 0;
+            int attacks_absorbed = 0;
             switch (atkdmg)
             {
                 case Attack.Damage.Slashing:
@@ -91,6 +92,9 @@ namespace Cronkpit_1._2
                     break;
                 case Attack.Damage.Crushing:
                     absorb_threshold = (rigidness_value * 4) + (padding_value * 2);
+                    break;
+                case Attack.Damage.Fire:
+                    absorb_threshold = (ablative_value * 4) + (rigidness_value * 2);
                     break;
             }
 
@@ -107,6 +111,7 @@ namespace Cronkpit_1._2
                             {
                                 c_chest_integ--;
                                 atk_wound.severity--;
+                                attacks_absorbed++;
                             }
                             break;
                         case Attack_Zone.R_Arm:
@@ -114,6 +119,7 @@ namespace Cronkpit_1._2
                             {
                                 c_rarm_integ--;
                                 atk_wound.severity--;
+                                attacks_absorbed++;
                             }
                             break;
                         case Attack_Zone.L_Arm:
@@ -121,6 +127,7 @@ namespace Cronkpit_1._2
                             {
                                 c_larm_integ--;
                                 atk_wound.severity--;
+                                attacks_absorbed++;
                             }
                             break;
                         case Attack_Zone.L_Leg:
@@ -128,6 +135,7 @@ namespace Cronkpit_1._2
                             {
                                 c_lleg_integ--;
                                 atk_wound.severity--;
+                                attacks_absorbed++;
                             }
                             break;
                         case Attack_Zone.R_Leg:
@@ -135,11 +143,43 @@ namespace Cronkpit_1._2
                             {
                                 c_rleg_integ--;
                                 atk_wound.severity--;
+                                attacks_absorbed++;
                             }
                             break;
                     }
                 }
             }
+
+            if(attacks_absorbed > 0)
+            {
+                string msg_buf_msg = "Your armor's ";
+                switch (area)
+                {
+                    case Attack_Zone.Chest:
+                        msg_buf_msg += "chest ";
+                        break;
+                    case Attack_Zone.L_Arm:
+                        msg_buf_msg += "left arm ";
+                        break;
+                    case Attack_Zone.R_Arm:
+                        msg_buf_msg += "right arm ";
+                        break;
+                    case Attack_Zone.L_Leg:
+                        msg_buf_msg += "left leg ";
+                        break;
+                    case Attack_Zone.R_Leg:
+                        msg_buf_msg += "right leg ";
+                        break;
+                }
+                msg_buf_msg += "absorbs " + attacks_absorbed + " wound";
+                if (attacks_absorbed > 1)
+                    msg_buf_msg += "!";
+                else
+                    msg_buf_msg += "s!";
+
+                msgBuf.Add(msg_buf_msg);
+            }
+
             return new Attack(atk.get_dmg_type(), new wound(atk_wound));
         }
 

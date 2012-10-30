@@ -122,17 +122,17 @@ namespace Cronkpit_1._2
         }
 
         //All positioning stuff.
-        public bool am_i_on_player(Player pl)
+        public bool am_i_on_player(gridCoordinate targetpoint, Player pl)
         {
-            return (my_grid_coord.x == pl.get_my_grid_C().x &&
-                    my_grid_coord.y == pl.get_my_grid_C().y);
+            return (targetpoint.x == pl.get_my_grid_C().x &&
+                    targetpoint.y == pl.get_my_grid_C().y);
         }
 
-        public bool is_spot_free(Floor fl, Player pl)
+        public bool is_spot_free(gridCoordinate targetpoint, Floor fl, Player pl)
         {
-            return (am_i_on_player(pl) == false && 
-                    fl.isWalkable(my_grid_coord) &&
-                    fl.am_i_on_other_monster(my_grid_coord, my_Index) == false);
+            return (am_i_on_player(targetpoint, pl) == false && 
+                    fl.isWalkable(targetpoint) &&
+                    fl.am_i_on_other_monster(targetpoint, my_Index) == false);
         }
 
         //pick a random direction and walk 1 square in it.
@@ -149,7 +149,7 @@ namespace Cronkpit_1._2
                     //up, y-
                     case 0:
                         my_grid_coord.y--;
-                        if (is_spot_free(fl, pl))
+                        if (is_spot_free(my_grid_coord, fl, pl))
                         {
                             reset_my_drawing_position();
                             walked = true;
@@ -163,7 +163,7 @@ namespace Cronkpit_1._2
                     //down, y+
                     case 1:
                         my_grid_coord.y++;
-                        if (is_spot_free(fl, pl))
+                        if (is_spot_free(my_grid_coord, fl, pl))
                         {
                             reset_my_drawing_position();
                             walked = true;
@@ -177,7 +177,7 @@ namespace Cronkpit_1._2
                     //left, x-
                     case 2:
                         my_grid_coord.x--;
-                        if (is_spot_free(fl, pl))
+                        if (is_spot_free(my_grid_coord, fl, pl))
                         {
                             reset_my_drawing_position();
                             walked = true;
@@ -191,7 +191,7 @@ namespace Cronkpit_1._2
                     //right, x+
                     case 3:
                         my_grid_coord.x++;
-                        if (is_spot_free(fl, pl))
+                        if (is_spot_free(my_grid_coord, fl, pl))
                         {
                             reset_my_drawing_position();
                             walked = true;
@@ -206,7 +206,7 @@ namespace Cronkpit_1._2
                     case 4:
                         my_grid_coord.x++;
                         my_grid_coord.y++;
-                        if (is_spot_free(fl, pl))
+                        if (is_spot_free(my_grid_coord, fl, pl))
                         {
                             reset_my_drawing_position();
                             walked = true;
@@ -222,7 +222,7 @@ namespace Cronkpit_1._2
                     case 5:
                         my_grid_coord.x--;
                         my_grid_coord.y++;
-                        if (is_spot_free(fl, pl))
+                        if (is_spot_free(my_grid_coord, fl, pl))
                         {
                             reset_my_drawing_position();
                             walked = true;
@@ -238,7 +238,7 @@ namespace Cronkpit_1._2
                     case 6:
                         my_grid_coord.x++;
                         my_grid_coord.y--;
-                        if (is_spot_free(fl, pl))
+                        if (is_spot_free(my_grid_coord, fl, pl))
                         {
                             reset_my_drawing_position();
                             walked = true;
@@ -254,7 +254,7 @@ namespace Cronkpit_1._2
                     case 7:
                         my_grid_coord.x--;
                         my_grid_coord.y--;
-                        if (is_spot_free(fl, pl))
+                        if (is_spot_free(my_grid_coord, fl, pl))
                         {
                             reset_my_drawing_position();
                             walked = true;
@@ -274,35 +274,22 @@ namespace Cronkpit_1._2
 
         //advance towards the target point - usually the player.
         //If the monster collides with the player, it attacks them in melee if it can.
-        public void advance_towards_single_point(gridCoordinate target_point, Player pl, Floor fl)
+        public void advance_towards_single_point(gridCoordinate target_point, Player pl, Floor fl, int mode)
         {
+            //mode 0 = precise, mode 1 = nonprecise
             has_moved = false;
-            gridCoordinate oldCoord = new gridCoordinate(my_grid_coord);
 
-            if (my_grid_coord.x != target_point.x)
-            {
-                if (my_grid_coord.x < target_point.x)
-                    my_grid_coord.x++;
-                else if (my_grid_coord.x > target_point.x)
-                    my_grid_coord.x--;
-            }
+            if(mode == 0)
+                if ((my_grid_coord.x != target_point.x) || (my_grid_coord.y != target_point.y))
+                    advance_xy_position(target_point, pl, fl);
+            
+            if(mode == 1)
+                if((my_grid_coord.x < target_point.x-1 || my_grid_coord.x > target_point.x+1) ||
+                (my_grid_coord.y < target_point.y-1 || my_grid_coord.y > target_point.y+1))
+                    advance_xy_position(target_point, pl, fl);
 
-            if (my_grid_coord.y != target_point.y)
-            {
-                if (my_grid_coord.y < target_point.y)
-                    my_grid_coord.y++;
-                else if (my_grid_coord.y > target_point.y)
-                    my_grid_coord.y--;
-            }
 
-            if (is_spot_free(fl, pl))
-            {
-                reset_my_drawing_position();
-                has_moved = true;
-            }
-            else
-                my_grid_coord = oldCoord;
-
+            #region large comment
             /*
             #region directions 5, 1, 6
 
@@ -416,8 +403,78 @@ namespace Cronkpit_1._2
 
             #endregion
              */
+            #endregion
         }
 
+        public void advance_xy_position(gridCoordinate target_point, Player pl, Floor fl)
+        {
+            int x_move = 0;
+            int y_move = 0;
+            if (my_grid_coord.x < target_point.x)
+                x_move = 1;
+            else if (my_grid_coord.x > target_point.x)
+                x_move = -1;
+
+            if (my_grid_coord.y < target_point.y)
+                y_move = 1;
+            else if (my_grid_coord.y > target_point.y)
+                y_move = -1;
+
+            gridCoordinate test_grid_coord = new gridCoordinate(my_grid_coord);
+            test_grid_coord.x += x_move;
+            test_grid_coord.y += y_move;
+
+            if (is_spot_free(test_grid_coord, fl, pl))
+            {
+                my_grid_coord = test_grid_coord;
+                reset_my_drawing_position();
+                has_moved = true;
+            }
+            else
+            {
+                gridCoordinate test_grid_coord_xaxis = new gridCoordinate(my_grid_coord);
+                gridCoordinate test_grid_coord_yaxis = new gridCoordinate(my_grid_coord);
+                test_grid_coord_xaxis.x += x_move;
+                test_grid_coord_yaxis.y += y_move;
+
+                bool xaxis_free = false;
+                bool yaxis_free = false;
+                if (is_spot_free(test_grid_coord_xaxis, fl, pl))
+                    xaxis_free = true;
+                if (is_spot_free(test_grid_coord_yaxis, fl, pl))
+                    yaxis_free = true;
+
+                if (xaxis_free && !yaxis_free)
+                {
+                    my_grid_coord = test_grid_coord_xaxis;
+                    reset_my_drawing_position();
+                    has_moved = true;
+                }
+                else if (!xaxis_free && yaxis_free)
+                {
+                    my_grid_coord = test_grid_coord_yaxis;
+                    reset_my_drawing_position();
+                    has_moved = true;
+                }
+                else if (xaxis_free && yaxis_free)
+                {
+                    int directionpick = rGen.Next(2);
+                    if (directionpick == 0)
+                    {
+                        my_grid_coord = test_grid_coord_xaxis;
+                        reset_my_drawing_position();
+                        has_moved = true;
+                    }
+
+                    if (directionpick == 1)
+                    {
+                        my_grid_coord = test_grid_coord_yaxis;
+                        reset_my_drawing_position();
+                        has_moved = true;
+                    }
+                }
+            }
+        }
         //damage stuff
         public void takeDamage(int dmg)
         {
@@ -497,7 +554,7 @@ namespace Cronkpit_1._2
              
             if (path_length >= 0)
             {
-                advance_towards_single_point(last_path_to_sound[path_length], pl, fl);
+                advance_towards_single_point(last_path_to_sound[path_length], pl, fl, 0);
                 if (my_grid_coord.x == last_path_to_sound[path_length].x &&
                     my_grid_coord.y == last_path_to_sound[path_length].y)
                 {

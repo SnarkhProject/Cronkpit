@@ -323,56 +323,62 @@ namespace Cronkpit_1._2
             {
                 wound dmg = new wound(atk.get_assoc_wound());
                 Head.add_injury(dmg);
+                message_buffer.Add("Your head takes " + dmg.severity + " wounds!");
             }
             else if (hit_location >= 5 && hit_location < 22 && !R_Arm.is_disabled())
             {
                 Armor.Attack_Zone atkzone = Armor.Attack_Zone.R_Arm;
                 if (over_armor != null)
-                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen);
+                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
                 if(under_armor != null)
-                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen);
+                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
                 wound dmg = new wound(atk.get_assoc_wound());
                 R_Arm.add_injury(dmg);
+                message_buffer.Add("Your right arm takes " + dmg.severity + " wounds!");
             }
             else if (hit_location >= 22 && hit_location < 39 && !L_Arm.is_disabled())
             {
                 Armor.Attack_Zone atkzone = Armor.Attack_Zone.L_Arm;
                 if(over_armor != null)
-                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen);
+                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
                 if(under_armor != null)
-                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen);
+                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
                 wound dmg = new wound(atk.get_assoc_wound());
                 L_Arm.add_injury(dmg);
+                message_buffer.Add("Your left arm takes " + dmg.severity + " wounds!");
             }
             else if (hit_location >= 39 && hit_location < 57 && !R_Leg.is_disabled())
             {
                 Armor.Attack_Zone atkzone = Armor.Attack_Zone.R_Leg;
                 if (over_armor != null)
-                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen);
+                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
                 if (under_armor != null)
-                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen);
+                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
                 wound dmg = new wound(atk.get_assoc_wound());
                 R_Leg.add_injury(dmg);
+                message_buffer.Add("Your right leg takes " + dmg.severity + " wounds!");
             }
             else if (hit_location >= 57 && hit_location < 75 && !L_Leg.is_disabled())
             {
                 Armor.Attack_Zone atkzone = Armor.Attack_Zone.L_Leg;
                 if (over_armor != null)
-                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen);
+                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
                 if (under_armor != null)
-                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen);
+                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
                 wound dmg = new wound(atk.get_assoc_wound());
                 L_Leg.add_injury(dmg);
+                message_buffer.Add("Your left leg takes " + dmg.severity + " wounds!");
             }
             else
             {
                 Armor.Attack_Zone atkzone = Armor.Attack_Zone.Chest;
                 if (over_armor != null)
-                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen);
+                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
                 if (under_armor != null)
-                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen);
+                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
                 wound dmg = new wound(atk.get_assoc_wound());
                 Torso.add_injury(dmg);
+                message_buffer.Add("Your chest takes " + dmg.severity + " wounds!");
             }
 
             if (!is_alive())
@@ -447,10 +453,17 @@ namespace Cronkpit_1._2
         //Green text. Function here.
         public int deal_damage()
         {
-            if (main_hand == null)
-                return rGen.Next(1, 4);
-            else
+            //If there's a mainhand and an offhand
+            if (main_hand != null && off_hand != null)
+                return main_hand.damage(ref rGen) + off_hand.damage(ref rGen);
+            //If there's a mainhand and no offhand
+            else if (main_hand != null && off_hand == null)
                 return main_hand.damage(ref rGen);
+            //If there's an offhand and no mainhand
+            else if(main_hand == null && off_hand != null)
+                return off_hand.damage(ref rGen);
+            else
+                return rGen.Next(1, 4);               
         }
 
         public int get_my_gold()
@@ -563,6 +576,7 @@ namespace Cronkpit_1._2
                 eRep.Add("Chance to absorb slashing attack: " + calc_absorb_chance(oa_ha_val, oa_rg_val) + "%");
                 eRep.Add("Chance to absorb crushing attack: " + calc_absorb_chance(oa_rg_val, oa_pa_val) + "%");
                 eRep.Add("Chance to absorb piercing attack: " + calc_absorb_chance(oa_ha_val, oa_pa_val) + "%");
+                eRep.Add("Chance to absorb fire attack: " + calc_absorb_chance(oa_ab_val, oa_rg_val) + "%");
                 eRep.Add(" ");
                 eRep.Add("Integrity:");
                 eRep.Add("Chest integrity: " + oa_chest_integ);
@@ -609,6 +623,7 @@ namespace Cronkpit_1._2
                 eRep.Add("Chance to absorb slashing attack: " + calc_absorb_chance(ua_ha_val, ua_rg_val) + "%");
                 eRep.Add("Chance to absorb crushing attack: " + calc_absorb_chance(ua_rg_val, ua_pa_val) + "%");
                 eRep.Add("Chance to absorb piercing attack: " + calc_absorb_chance(ua_ha_val, ua_pa_val) + "%");
+                eRep.Add("Chance to absorb fire attack: " + calc_absorb_chance(ua_ab_val, ua_rg_val) + "%");
                 eRep.Add(" ");
                 eRep.Add("Integrity:");
                 eRep.Add("Chest integrity: " + ua_chest_integ);
@@ -628,11 +643,15 @@ namespace Cronkpit_1._2
         public void equip_main_hand(Weapon mh)
         {
             main_hand = mh;
+            if (main_hand.get_hand_count() == 2)
+                off_hand = mh;
         }
 
         public void equip_off_hand(Weapon oh)
         {
             off_hand = oh;
+            if (off_hand.get_hand_count() == 2)
+                main_hand = oh;
         }
 
         public void equip_over_armor(Armor oa)
@@ -667,13 +686,23 @@ namespace Cronkpit_1._2
 
         public void unequip(Equip_Slot slot)
         {
+            int mh_handcount = 0;
+            if (main_hand != null)
+                mh_handcount = main_hand.get_hand_count();
+            int oh_handcount = 0;
+            if(off_hand != null)
+                oh_handcount = off_hand.get_hand_count();
             switch (slot)
             {
                 case Equip_Slot.Mainhand:
                     main_hand = null;
+                    if (mh_handcount == 2)
+                        off_hand = null;
                     break;
                 case Equip_Slot.Offhand:
                     off_hand = null;
+                    if (mh_handcount == 2)
+                        main_hand = null;
                     break;
                 case Equip_Slot.Underarmor:
                     under_armor = null;

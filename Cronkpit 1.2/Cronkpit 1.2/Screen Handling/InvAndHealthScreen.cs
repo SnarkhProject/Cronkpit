@@ -256,14 +256,17 @@ namespace Cronkpit_1._2
 
             for (int i = 0; i < player_inv.Count; i++)
             {
-                string texturename = player_inv[i].get_my_texture_name();
-                if (player_inv[i] is Armor)
+                if (player_inv[i] != null)
                 {
-                    player_inv[i].set_texture(cManager.Load<Texture2D>("Icons/Armors/" + texturename));
-                }
-                if (player_inv[i] is Weapon)
-                {
-                    player_inv[i].set_texture(cManager.Load<Texture2D>("Icons/Weapons/" + texturename));
+                    string texturename = player_inv[i].get_my_texture_name();
+                    if (player_inv[i] is Armor)
+                    {
+                        player_inv[i].set_texture(cManager.Load<Texture2D>("Icons/Armors/" + texturename));
+                    }
+                    if (player_inv[i] is Weapon)
+                    {
+                        player_inv[i].set_texture(cManager.Load<Texture2D>("Icons/Weapons/" + texturename));
+                    }
                 }
             }
 

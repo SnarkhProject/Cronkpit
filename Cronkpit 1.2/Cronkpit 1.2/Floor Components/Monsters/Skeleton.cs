@@ -13,7 +13,7 @@ namespace Cronkpit_1._2
     {
         public enum Skeleton_Weapon_Type { Fist, Sword, Spear, Bow, Flamebolt, Axe };
         Skeleton_Weapon_Type my_weapon_type;
-        gridCoordinate last_seen_player_at;
+        public gridCoordinate last_seen_player_at;
         bool have_i_seen_player;
 
         public Skeleton(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, Skeleton_Weapon_Type wType)
@@ -53,7 +53,7 @@ namespace Cronkpit_1._2
                 case Skeleton_Weapon_Type.Flamebolt:
                     my_Texture = cont.Load<Texture2D>("Enemies/skeleton_mage");
                     min_damage = 1;
-                    max_damage = 3;
+                    max_damage = 5;
                     dmg_type = Attack.Damage.Fire;
                     wound_type = wound.Wound_Type.Burn;
                     break;
@@ -98,7 +98,7 @@ namespace Cronkpit_1._2
 
             has_moved = false;
             can_see_player = false;
-            if(is_player_within(pl, 10))
+            if(is_player_within(pl, sight_range+1))
                 look_for_player(fl, pl, sight_range);
 
             if (my_weapon_type == Skeleton_Weapon_Type.Bow || my_weapon_type == Skeleton_Weapon_Type.Flamebolt)
@@ -106,7 +106,7 @@ namespace Cronkpit_1._2
                 if (can_see_player)
                 {
                     if(!is_player_within_diamond(pl, 4))
-                        advance_towards_single_point(pl.get_my_grid_C(), pl, fl);
+                        advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1);
                     else
                     {
                         if(!has_moved)
@@ -116,9 +116,9 @@ namespace Cronkpit_1._2
                             else if (my_weapon_type == Skeleton_Weapon_Type.Flamebolt)
                                 fl.create_new_projectile(new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.Flamebolt, ref cont));
 
+                            fl.addmsg("The Skeleton attacks you!");
                             Attack dmg = dealDamage();
                             pl.take_damage(dmg);
-                            fl.addmsg("The Skeleton attacks you! You take " + dmg.get_assoc_wound().severity + " " + w_type + " wounds!");
                         }
                     }
                 }
@@ -127,13 +127,13 @@ namespace Cronkpit_1._2
             {
                 if(can_see_player)
                     if(!is_player_within(pl, 1))
-                        advance_towards_single_point(pl.get_my_grid_C(), pl, fl);
+                        advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1);
                     else
                         if(!has_moved)
                         {
+                            fl.addmsg("The Skeleton attacks you!");
                             Attack dmg = dealDamage();
                             pl.take_damage(dmg);
-                            fl.addmsg("The Skeleton attacks you! You take " + dmg.get_assoc_wound().severity + " " + w_type + " wounds!");
                         }
             }
 
@@ -145,7 +145,7 @@ namespace Cronkpit_1._2
             
             if (!can_see_player && have_i_seen_player && !has_moved)
             {
-                advance_towards_single_point(last_seen_player_at, pl, fl);
+                advance_towards_single_point(last_seen_player_at, pl, fl, 0);
                 if (last_seen_player_at.x == my_grid_coord.x && last_seen_player_at.y == my_grid_coord.y)
                     have_i_seen_player = false;
             }

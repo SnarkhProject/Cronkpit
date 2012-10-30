@@ -569,6 +569,15 @@
       <Time>2012-10-21T02:14:50.7118562-04:00</Time>
     </Item>
     <Item>
+      <Source>sound shit.png</Source>
+      <Name>sound shit</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\sound shit.xnb</Output>
+      <Time>2012-10-25T03:23:52.1669232-04:00</Time>
+    </Item>
+    <Item>
       <Source>Projectiles\arrow.png</Source>
       <Name>Projectiles\arrow</Name>
       <Importer>TextureImporter</Importer>

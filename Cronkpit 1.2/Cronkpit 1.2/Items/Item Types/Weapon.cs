@@ -101,8 +101,8 @@ namespace Cronkpit_1._2
             }
             return_array.Add(d_type);
             return_array.Add(" ");
-            return_array.Add("Minimum Damage: " + min_damage);
-            return_array.Add("Maximum Damage: " + max_damage);
+            return_array.Add("Minimum Damage: " + min_damage*hands);
+            return_array.Add("Maximum Damage: " + max_damage*hands);
             return_array.Add("Range: " + weapon_range);
 
             return return_array;
@@ -111,6 +111,11 @@ namespace Cronkpit_1._2
         public int damage(ref Random rGen)
         {
             return rGen.Next(min_damage, max_damage + 1);
+        }
+
+        public int get_hand_count()
+        {
+            return hands;
         }
     }
 }

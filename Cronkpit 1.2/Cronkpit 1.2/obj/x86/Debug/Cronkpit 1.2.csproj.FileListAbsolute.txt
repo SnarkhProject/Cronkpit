@@ -119,3 +119,4 @@ C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Debug\Cronkpit 1.2.exe
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Debug\Cronkpit 1.2.pdb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Icons\Weapons\katana_icon.xnb

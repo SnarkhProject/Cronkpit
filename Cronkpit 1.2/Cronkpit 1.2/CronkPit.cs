@@ -539,11 +539,13 @@ namespace Cronkpit_1._2
             f1.drawProjectile(ref spriteBatch);
             spriteBatch.End();
 
+            /*
             Texture2D blank_texture = new Texture2D(GraphicsDevice, 1, 1);
             blank_texture.SetData(new[] { Color.White });
             spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
             f1.draw_vision_log(ref spriteBatch, blank_texture);
             spriteBatch.End();
+             */
 
             if (msgBufBox.is_visible())
                 msgBufBox.draw_me(ref spriteBatch);

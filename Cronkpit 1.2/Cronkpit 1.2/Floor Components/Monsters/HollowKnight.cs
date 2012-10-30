@@ -61,9 +61,9 @@ namespace Cronkpit_1._2
                 }
                 if (is_player_within(pl, 1) && !has_moved)
                 {
+                    fl.addmsg("The Hollow Knight savagely impales you!");
                     Attack dmg = dealDamage();
                     pl.take_damage(dmg);
-                    fl.addmsg("The Hollow Knight savagely impales you! You take " + dmg.get_assoc_wound().severity + " open wounds!");
                 }
             }
         }

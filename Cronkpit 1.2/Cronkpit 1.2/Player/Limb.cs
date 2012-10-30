@@ -151,6 +151,8 @@ namespace Cronkpit_1._2
                     wReport.Add(" - A " + open_wounds[injuries[i].severity - 1]);
                 if (injuries[i].type == wound.Wound_Type.Impact)
                     wReport.Add(" - A " + impact_wounds[injuries[i].severity - 1]);
+                if(injuries[i].type == wound.Wound_Type.Burn)
+                    wReport.Add(" - A " + burn_wounds[injuries[i].severity - 1]);
             }
         }
 

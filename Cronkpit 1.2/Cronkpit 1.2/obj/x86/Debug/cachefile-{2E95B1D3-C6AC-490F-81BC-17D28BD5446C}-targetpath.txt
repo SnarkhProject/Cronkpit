@@ -67,6 +67,7 @@ Content\Fonts\sfont.xnb
 Content\Fonts\tfont.xnb
 Content\Fonts\smallfont.xnb
 Content\sound shit.xnb
+Content\Icons\Weapons\katana_icon.xnb
 Content\Entities\alilmoreGold.png
 Content\Entities\lowGold.png
 Content\Entities\someGold.png

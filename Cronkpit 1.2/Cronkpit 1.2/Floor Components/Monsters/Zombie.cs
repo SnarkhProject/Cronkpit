@@ -36,7 +36,7 @@ namespace Cronkpit_1._2
             //If it cannot wander in the first direction, it will try up to 5 times for another one.
             //Aggroed when the player comes within 3 blocks of it. Then it will move towards the player.
             can_see_player = false;
-            if(is_player_within(pl, 10))
+            if(is_player_within(pl, sight_range+1))
                 look_for_player(fl, pl, sight_range);
 
             if (!can_see_player)
@@ -50,12 +50,12 @@ namespace Cronkpit_1._2
             else
             {
                 //the monster is aggroed!
-                advance_towards_single_point(pl.get_my_grid_C(), pl, fl);
+                advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1);
                 if (is_player_within(pl, 1) && !has_moved)
                 {
+                    fl.addmsg("The Zombie swings at you!");
                     Attack dmg = dealDamage();
-                    pl.take_damage(dmg);
-                    fl.addmsg("The Zombie swings at you! You take " + dmg.get_assoc_wound().severity + " impact wounds!");
+                    pl.take_damage(dmg);  
                 }
             }
         }

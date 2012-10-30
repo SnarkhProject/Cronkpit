@@ -622,6 +622,15 @@
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\sound shit.xnb</Output>
       <Time>2012-10-25T03:23:52.1669232-04:00</Time>
     </Item>
+    <Item>
+      <Source>Icons\Weapons\katana_icon.png</Source>
+      <Name>Icons\Weapons\katana_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Icons\Weapons\katana_icon.xnb</Output>
+      <Time>2012-10-28T21:09:14.1946491-04:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

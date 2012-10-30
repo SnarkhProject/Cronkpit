@@ -27,7 +27,7 @@ namespace Cronkpit_1._2
         List<ScentPulse> Sniffs;
         List<SoundPulse> Noises;
         List<VisionRay> Vision_Rc;
-        List<VisionRay> Vision_Log;
+        //List<VisionRay> Vision_Log;
 
         //Other stuff needed for the thing to function
         ContentManager cManager;
@@ -44,7 +44,7 @@ namespace Cronkpit_1._2
             Money = new List<Goldpile>();
             Vision = new List<SightPulse>();
             Vision_Rc = new List<VisionRay>();
-            Vision_Log = new List<VisionRay>();
+            //Vision_Log = new List<VisionRay>();
             Sniffs = new List<ScentPulse>();
             Noises = new List<SoundPulse>();
             Pew_Pews = new List<Projectile>();
@@ -223,9 +223,26 @@ namespace Cronkpit_1._2
                         replace_surrounding_void(floorTiles[x][y].get_grid_c(), 2);
 
             //Add gold piles
-            int number_of_goldpiles = 7 + randGen.Next(8);
+            int gold_per_floor = 500;
+            int low_val_piles = gold_per_floor / 10;
+            int high_val_piles = gold_per_floor / 50;
+            if (gold_per_floor % 50 != 0)
+                high_val_piles++;
+            int number_of_goldpiles = randGen.Next(high_val_piles, low_val_piles + 1);
+            gold_per_floor -= (number_of_goldpiles * 10);
             for (int i = 0; i < number_of_goldpiles; i++)
-                Money.Add(new Goldpile(random_valid_position(), cManager, 10 + randGen.Next(41)));
+                Money.Add(new Goldpile(random_valid_position(), cManager, 10));
+            while (gold_per_floor > 0)
+            {
+                for (int i = 0; i < number_of_goldpiles; i++)
+                {
+                    int amt_to_subtract = Math.Min(randGen.Next(0, (50-Money[i].my_quantity)+1), gold_per_floor);
+                    gold_per_floor -= amt_to_subtract;
+                    Money[i].my_quantity += amt_to_subtract;
+                }
+            }
+            for (int i = 0; i < number_of_goldpiles; i++)
+                Money[i].init_my_texture();
 
             //Add monsters.
             int number_of_monsters = 7 + randGen.Next(4, 8);
@@ -605,7 +622,6 @@ namespace Cronkpit_1._2
             return floorTiles[grid_position.x][grid_position.y].isOpaque();
         }
 
-        //Green text.
         //Sight_pulse is deprecated! We now use sight_pulse_raycast
         public void sight_pulse(gridCoordinate origin,  Player pl, int monsterID, int sightRange)
         {
@@ -644,37 +660,38 @@ namespace Cronkpit_1._2
         {
             int origin_x = origin.x;
             int origin_y = origin.y;
-            Vision_Log.Clear();
+            //Vision_Log.Clear();
             //Add endpoints at max y- from x- to x+
             for (int i = -sightRange; i <= sightRange; i++)
             {
                 gridCoordinate ray_end_point = new gridCoordinate(origin.x + i, origin.y - sightRange);
                 Vision_Rc.Add(new VisionRay(origin, ray_end_point));
-                Vision_Log.Add(new VisionRay(origin, ray_end_point));
+                //Vision_Log.Add(new VisionRay(origin, ray_end_point));
             }
             //Add endpoints at max y+ from x- to x+
             for (int i = -sightRange; i <= sightRange; i++)
             {
                 gridCoordinate ray_end_point = new gridCoordinate(origin.x + i, origin.y + sightRange);
                 Vision_Rc.Add(new VisionRay(origin, ray_end_point));
-                Vision_Log.Add(new VisionRay(origin, ray_end_point));
+                //Vision_Log.Add(new VisionRay(origin, ray_end_point));
             }
             //Add endpoints at max x- from y- to y+
             for (int i = -sightRange+1; i < sightRange; i++)
             {
                 gridCoordinate ray_end_point = new gridCoordinate(origin.x - sightRange, origin.y + i);
                 Vision_Rc.Add(new VisionRay(origin, ray_end_point));
-                Vision_Log.Add(new VisionRay(origin, ray_end_point));
+                //Vision_Log.Add(new VisionRay(origin, ray_end_point));
             }
             //Add endpoints at max x+ from y- to y+
             for (int i = -sightRange+1; i < sightRange; i++)
             {
                 gridCoordinate ray_end_point = new gridCoordinate(origin.x + sightRange, origin.y + i);
                 Vision_Rc.Add(new VisionRay(origin, ray_end_point));
-                Vision_Log.Add(new VisionRay(origin, ray_end_point));
+                //Vision_Log.Add(new VisionRay(origin, ray_end_point));
             }
             while (Vision_Rc.Count > 0)
             {
+                bool has_seen_player = false;
                 for (int i = 0; i < Vision_Rc.Count; i++)
                 {
                     int my_grid_x_position = (int)(Vision_Rc[i].my_current_position.X / 32);
@@ -683,13 +700,19 @@ namespace Cronkpit_1._2
                         for (int j = 0; j < badGuys.Count; j++)
                         {
                             if (badGuys[j].my_Index == monsterID)
+                            {
                                 badGuys[j].can_see_player = true;
+                                has_seen_player = true;
+                            }
                         }
 
                     if (Vision_Rc[i].is_at_end() || floorTiles[my_grid_x_position][my_grid_y_position].isOpaque())
                         Vision_Rc.RemoveAt(i);
                     else
                         Vision_Rc[i].update();
+
+                    if (has_seen_player)
+                        Vision_Rc.Clear();
                 }
             }
         }
@@ -731,7 +754,7 @@ namespace Cronkpit_1._2
             for (int i = 0; i < Money.Count; i++)
                 Money[i].drawMe(ref sBatch);
         }
-
+        /*
         public void draw_vision_log(ref SpriteBatch sBatch, Texture2D blank_tex)
         {
             for (int i = 0; i < Vision_Log.Count; i++)
@@ -746,12 +769,23 @@ namespace Cronkpit_1._2
                             SpriteEffects.None, 0);
             }
         }
+         */
 
         //Green text.
         public void drawEnemies(ref SpriteBatch sBatch)
         {
+            Texture2D sound_shit = cManager.Load<Texture2D>("sound shit");
             for (int i = 0; i < badGuys.Count; i++)
+            {
                 badGuys[i].drawMe(ref sBatch);
+                /*
+                if(badGuys[i] is Skeleton)
+                {
+                    Skeleton skelskel = (Skeleton)badGuys[i];
+                    sBatch.Draw(sound_shit, new Vector2(skelskel.last_seen_player_at.x * 32, skelskel.last_seen_player_at.y * 32), Color.White);
+                }
+                */
+            }
         }
 
         #endregion
