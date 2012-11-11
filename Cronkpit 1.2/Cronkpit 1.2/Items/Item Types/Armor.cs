@@ -76,7 +76,7 @@ namespace Cronkpit_1._2
             return overArmor;
         }
 
-        public Attack absorb_damage (Attack atk, Attack_Zone area, ref Random rgen, ref List<string> msgBuf)
+        public Attack absorb_damage (Attack atk, Attack_Zone area, gridCoordinate atk_origin, ref Random rgen, ref List<string> msgBuf, ref Floor fl)
         {
             //First get the type of the attack.
             Attack.Damage atkdmg = atk.get_dmg_type();
@@ -99,7 +99,8 @@ namespace Cronkpit_1._2
             }
 
             wound atk_wound = atk.get_assoc_wound();
-            for (int i = 0; i < atk_wound.severity; i++)
+            int total_wounds = atk_wound.severity;
+            for (int i = 0; i < total_wounds; i++)
             {
                 int r_chance = rgen.Next(1, 101);
                 if (r_chance < absorb_threshold)
@@ -153,22 +154,28 @@ namespace Cronkpit_1._2
             if(attacks_absorbed > 0)
             {
                 string msg_buf_msg = "Your armor's ";
+                string fl_popup_msg = "";
                 switch (area)
                 {
                     case Attack_Zone.Chest:
                         msg_buf_msg += "chest ";
+                        fl_popup_msg = "Chest";
                         break;
                     case Attack_Zone.L_Arm:
                         msg_buf_msg += "left arm ";
+                        fl_popup_msg = "L Arm";
                         break;
                     case Attack_Zone.R_Arm:
                         msg_buf_msg += "right arm ";
+                        fl_popup_msg = "R Arm";
                         break;
                     case Attack_Zone.L_Leg:
                         msg_buf_msg += "left leg ";
+                        fl_popup_msg = "L Leg";
                         break;
                     case Attack_Zone.R_Leg:
                         msg_buf_msg += "right leg ";
+                        fl_popup_msg = "R Leg";
                         break;
                 }
                 msg_buf_msg += "absorbs " + attacks_absorbed + " wound";
@@ -178,6 +185,8 @@ namespace Cronkpit_1._2
                     msg_buf_msg += "s!";
 
                 msgBuf.Add(msg_buf_msg);
+                fl.add_new_popup("- " + attacks_absorbed + " " + fl_popup_msg,
+                                Popup.popup_msg_color.Blue, atk_origin);
             }
 
             return new Attack(atk.get_dmg_type(), new wound(atk_wound));

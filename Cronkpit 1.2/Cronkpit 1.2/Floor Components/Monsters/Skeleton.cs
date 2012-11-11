@@ -79,23 +79,6 @@ namespace Cronkpit_1._2
 
         public override void Update_Monster(Player pl, Floor fl)
         {
-            string w_type = "";
-            switch (dmg_type)
-            {
-                case Attack.Damage.Crushing:
-                    w_type = "impact";
-                    break;
-                case Attack.Damage.Piercing:
-                    w_type = "open";
-                    break;
-                case Attack.Damage.Slashing:
-                    w_type = "open";
-                    break;
-                case Attack.Damage.Fire:
-                    w_type = "burn";
-                    break;
-            }
-
             has_moved = false;
             can_see_player = false;
             if(is_player_within(pl, sight_range+1))
@@ -117,8 +100,9 @@ namespace Cronkpit_1._2
                                 fl.create_new_projectile(new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.Flamebolt, ref cont));
 
                             fl.addmsg("The Skeleton attacks you!");
+                            fl.add_effect(dmg_type, pl.get_my_grid_C());
                             Attack dmg = dealDamage();
-                            pl.take_damage(dmg);
+                            pl.take_damage(dmg, ref fl);
                         }
                     }
                 }
@@ -132,8 +116,9 @@ namespace Cronkpit_1._2
                         if(!has_moved)
                         {
                             fl.addmsg("The Skeleton attacks you!");
+                            fl.add_effect(dmg_type, pl.get_my_grid_C());
                             Attack dmg = dealDamage();
-                            pl.take_damage(dmg);
+                            pl.take_damage(dmg, ref fl);
                         }
             }
 

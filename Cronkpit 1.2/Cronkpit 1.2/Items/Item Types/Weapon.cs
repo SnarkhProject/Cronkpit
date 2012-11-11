@@ -51,6 +51,9 @@ namespace Cronkpit_1._2
                     damageType = Attack.Damage.Piercing;
                     break;
             }
+
+            if (IDno == 10)
+                damageType = Attack.Damage.Fire;
         }
 
         public override List<string> get_my_information()
@@ -116,6 +119,21 @@ namespace Cronkpit_1._2
         public int get_hand_count()
         {
             return hands;
+        }
+
+        public Attack.Damage get_my_damage_type()
+        {
+            return damageType;
+        }
+
+        public Type get_my_weapon_type()
+        {
+            return weaponType;
+        }
+
+        public int get_my_range()
+        {
+            return weapon_range;
         }
     }
 }

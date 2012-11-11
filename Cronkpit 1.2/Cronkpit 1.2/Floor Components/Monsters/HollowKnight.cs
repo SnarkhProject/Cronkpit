@@ -47,6 +47,7 @@ namespace Cronkpit_1._2
                 fl.addmsg("The Hollow Knight awakens with a lurch and a strange creak!");
             }
 
+            has_moved = false;
             if (active)
             {
                 if (speed_numerator < speed_denominator)
@@ -55,15 +56,14 @@ namespace Cronkpit_1._2
                     speed_numerator++;
                 }
                 else
-                {
-                    has_moved = false;
                     speed_numerator = 0;
-                }
+
                 if (is_player_within(pl, 1) && !has_moved)
                 {
                     fl.addmsg("The Hollow Knight savagely impales you!");
+                    fl.add_effect(dmg_type, pl.get_my_grid_C());
                     Attack dmg = dealDamage();
-                    pl.take_damage(dmg);
+                    pl.take_damage(dmg, ref fl);
                 }
             }
         }

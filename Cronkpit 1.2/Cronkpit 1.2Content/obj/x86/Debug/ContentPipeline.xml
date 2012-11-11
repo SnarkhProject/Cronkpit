@@ -631,6 +631,96 @@
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Icons\Weapons\katana_icon.xnb</Output>
       <Time>2012-10-28T21:09:14.1946491-04:00</Time>
     </Item>
+    <Item>
+      <Source>Icons\Weapons\knife_icon.png</Source>
+      <Name>Icons\Weapons\knife_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Icons\Weapons\knife_icon.xnb</Output>
+      <Time>2012-10-30T04:34:43.4232708-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Armors\linenrags_icon.png</Source>
+      <Name>Icons\Armors\linenrags_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Icons\Armors\linenrags_icon.xnb</Output>
+      <Time>2012-10-30T04:35:16.0661379-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Armors\shoddyleather_icon.png</Source>
+      <Name>Icons\Armors\shoddyleather_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Icons\Armors\shoddyleather_icon.xnb</Output>
+      <Time>2012-10-30T04:35:16.1351418-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Armors\enchantedrags_icon.png</Source>
+      <Name>Icons\Armors\enchantedrags_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Icons\Armors\enchantedrags_icon.xnb</Output>
+      <Time>2012-10-30T04:44:53.7421791-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\slashing_spritesheet.png</Source>
+      <Name>Projectiles\slashing_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Projectiles\slashing_spritesheet.xnb</Output>
+      <Time>2012-11-03T03:39:52.0042017-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\piercing_spritesheet.png</Source>
+      <Name>Projectiles\piercing_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Projectiles\piercing_spritesheet.xnb</Output>
+      <Time>2012-11-03T03:39:52.0022016-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\impact_spritesheet.png</Source>
+      <Name>Projectiles\impact_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Projectiles\impact_spritesheet.xnb</Output>
+      <Time>2012-11-03T03:39:49.70107-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\popup_msg.spritefont</Source>
+      <Name>Fonts\popup_msg</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Fonts\popup_msg.xnb</Output>
+      <Time>2012-11-04T03:30:46.7837225-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\goldenMimic.png</Source>
+      <Name>Enemies\goldenMimic</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Enemies\goldenMimic.xnb</Output>
+      <Time>2012-11-04T17:59:10.7989017-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\fire_spritesheet.png</Source>
+      <Name>Projectiles\fire_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Projectiles\fire_spritesheet.xnb</Output>
+      <Time>2012-11-04T20:36:46.9847646-05:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

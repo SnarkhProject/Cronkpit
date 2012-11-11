@@ -208,16 +208,19 @@ namespace Cronkpit_1._2
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            if(!f1.projectiles_remaining_to_update())
+            if(!f1.projectiles_remaining_to_update() && !f1.popups_remaining_to_update())
                 updateInput();
 
             f1.update_all_projectiles(p1, elapsedTime);
+            f1.update_all_effects(elapsedTime);
+            f1.update_all_popups(elapsedTime);
 
             if (p1.is_spot_exit(f1))
             {
                 shopScr.set_variables(p1);
                 shopScr.switch_shopping_mode(ShopScreen.Shopping_Mode.Main);
                 p1.heal_naturally();
+                p1.repair_all_armor();
                 new_floor();
                 gameState = 3;
             }
@@ -537,6 +540,14 @@ namespace Cronkpit_1._2
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
             f1.drawProjectile(ref spriteBatch);
+            spriteBatch.End();
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+            f1.drawEffect(ref spriteBatch);
+            spriteBatch.End();
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+            f1.drawPopup(ref spriteBatch);
             spriteBatch.End();
 
             /*

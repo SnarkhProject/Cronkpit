@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Attack.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Effect.cs" />
     <Compile Include="Floor Components\Goldpile.cs" />
     <Compile Include="Floor Components\Hall.cs" />
     <Compile Include="Floor Components\Monster Senses\Scent.cs" />
@@ -117,10 +118,12 @@
     <Compile Include="Floor Components\Monster Senses\SoundPulse.cs" />
     <Compile Include="Floor Components\Monster Senses\VisionRay.cs" />
     <Compile Include="Floor Components\Monster.cs" />
+    <Compile Include="Floor Components\Monsters\GoldMimic.cs" />
     <Compile Include="Floor Components\Monsters\GoreHound.cs" />
     <Compile Include="Floor Components\Monsters\HollowKnight.cs" />
     <Compile Include="Floor Components\Monsters\Skeleton.cs" />
     <Compile Include="Floor Components\Monsters\Zombie.cs" />
+    <Compile Include="Floor Components\Popup.cs" />
     <Compile Include="Floor Components\Projectile.cs" />
     <Compile Include="Floor Components\Room.cs" />
     <Compile Include="Floor Components\Tile.cs" />

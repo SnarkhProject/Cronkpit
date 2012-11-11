@@ -227,7 +227,7 @@ namespace Cronkpit_1._2
             {
                 case Shopping_Mode.Armor:
                     item_gold_value = armors_in_stock[selected_item_index].get_my_gold_value();
-                    if (pl.get_my_gold() > item_gold_value)
+                    if (pl.get_my_gold() >= item_gold_value)
                     {
                         pl.pay_gold(item_gold_value);
                         pl.acquire_item((Item)armors_in_stock[selected_item_index]);
@@ -236,7 +236,7 @@ namespace Cronkpit_1._2
                     break;
                 case Shopping_Mode.Weapons:
                     item_gold_value = weapons_in_stock[selected_item_index].get_my_gold_value();
-                    if (pl.get_my_gold() > item_gold_value)
+                    if (pl.get_my_gold() >= item_gold_value)
                     {
                         pl.pay_gold(item_gold_value);
                         pl.acquire_item((Item)weapons_in_stock[selected_item_index]);

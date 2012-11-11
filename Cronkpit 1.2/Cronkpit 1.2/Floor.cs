@@ -20,8 +20,12 @@ namespace Cronkpit_1._2
         List<Monster> badGuys;
         List<Goldpile> Money;
         List<Projectile> Pew_Pews;
+        List<Effect> eff_ex;
+        List<Popup> popup_alerts;
 
         List<string> message_buffer;
+
+        SpriteFont popup_msg_font;
         //Sensory lists
         List<SightPulse> Vision;
         List<ScentPulse> Sniffs;
@@ -48,12 +52,15 @@ namespace Cronkpit_1._2
             Sniffs = new List<ScentPulse>();
             Noises = new List<SoundPulse>();
             Pew_Pews = new List<Projectile>();
+            eff_ex = new List<Effect>();
+            popup_alerts = new List<Popup>();
 
             message_buffer = msgBuffer;
 
             //Next init other stuff
             cManager = sCont;
             randGen = new Random();
+            popup_msg_font = sCont.Load<SpriteFont>("Fonts/popup_msg");
         
             //Then do stuff for real
             buildFloor();
@@ -249,9 +256,9 @@ namespace Cronkpit_1._2
             for (int i = 0; i < number_of_monsters; i++)
             {
                 int monsterType = randGen.Next(100);
-                if(monsterType <= 10)
+                if (monsterType <= 10)
                     badGuys.Add(new HollowKnight(valid_hollowKnight_spawn(), cManager, i));
-                else if(monsterType > 10 && monsterType <= 30)
+                else if (monsterType > 10 && monsterType <= 30)
                     badGuys.Add(new GoreHound(random_valid_position(), cManager, i));
                 else if (monsterType > 30 && monsterType <= 50)
                 {
@@ -278,6 +285,8 @@ namespace Cronkpit_1._2
                             break;
                     }
                 }
+                else if (monsterType > 50 && monsterType <= 60)
+                    badGuys.Add(new GoldMimic(random_valid_position(), cManager, i));
                 else
                     badGuys.Add(new Zombie(random_valid_position(), cManager, i));
             }
@@ -444,6 +453,20 @@ namespace Cronkpit_1._2
             return false;
         }
 
+        public bool is_monster_here(gridCoordinate gc, out int monsterID)
+        {
+            monsterID = -1;
+            for (int i = 0; i < badGuys.Count; i++)
+            {
+                if (badGuys[i].my_grid_coord.x == gc.x && badGuys[i].my_grid_coord.y == gc.y)
+                {
+                    monsterID = badGuys[i].my_Index;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         #endregion
 
         #region projectile management
@@ -473,6 +496,80 @@ namespace Cronkpit_1._2
         public bool projectiles_remaining_to_update()
         {
             return Pew_Pews.Count > 0;
+        }
+
+        #endregion
+
+        #region effect management
+
+        public void add_effect(Attack.Damage effect_type, gridCoordinate fx_coord)
+        {
+            switch (effect_type)
+            {
+                case Attack.Damage.Slashing:
+                    eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/slashing_spritesheet"), 5, fx_coord));
+                    break;
+                case Attack.Damage.Piercing:
+                    eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/piercing_spritesheet"), 8, fx_coord));
+                    break;
+                case Attack.Damage.Crushing:
+                    eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/impact_spritesheet"), 6, fx_coord));
+                    break;
+                case Attack.Damage.Fire:
+                    eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/fire_spritesheet"), 7, fx_coord));
+                    break;
+            }
+        }
+
+        public void update_all_effects(float delta_time)
+        {
+            for (int i = 0; i < eff_ex.Count; i++)
+            {
+                if(i == 0)
+                    eff_ex[i].update(delta_time);
+                else if (i > 0)
+                {
+                    if (eff_ex[i - 1].get_my_position() != eff_ex[i].get_my_position())
+                        eff_ex[i].update(delta_time);
+                }
+
+                if (eff_ex[i].slated_for_removal())
+                    eff_ex.RemoveAt(i);
+            }
+        }
+
+        #endregion
+
+        #region popup management
+
+        public void update_all_popups(float delta_time)
+        {
+            for (int i = 0; i < popup_alerts.Count; i++)
+            {
+                if(i == 0)
+                    popup_alerts[i].update(delta_time);
+                else if (i > 0)
+                {
+                    float y_difference = popup_alerts[i].my_position.Y - popup_alerts[i - 1].my_position.Y;
+                    float desired_y_difference = popup_msg_font.LineSpacing;
+                    bool is_in_same_gc = (popup_alerts[i - 1].gc_origin.x == popup_alerts[i].gc_origin.x) &&
+                                        (popup_alerts[i - 1].gc_origin.y == popup_alerts[i].gc_origin.y);
+                    if (!is_in_same_gc || y_difference > desired_y_difference)
+                        popup_alerts[i].update(delta_time);
+                }
+                if (popup_alerts[i].time_until_vanish <= 0)
+                    popup_alerts.RemoveAt(i);
+            }
+        }
+
+        public void add_new_popup(string txt, Popup.popup_msg_color msg_color, gridCoordinate gc)
+        {
+            popup_alerts.Add(new Popup(txt, msg_color, popup_msg_font, gc));
+        }
+
+        public bool popups_remaining_to_update()
+        {
+            return popup_alerts.Count > 0;
         }
 
         #endregion
@@ -748,6 +845,38 @@ namespace Cronkpit_1._2
             }
         }
 
+        public void drawEffect(ref SpriteBatch sBatch)
+        {
+            for (int i = 0; i < eff_ex.Count; i++)
+            {
+                if (i == 0)
+                    eff_ex[i].draw_me(ref sBatch);
+                else if (i > 0)
+                {
+                    if (eff_ex[i - 1].get_my_position() != eff_ex[i].get_my_position())
+                        eff_ex[i].draw_me(ref sBatch);
+                }
+            }
+        }
+
+        public void drawPopup(ref SpriteBatch sBatch)
+        {
+            for (int i = 0; i < popup_alerts.Count; i++)
+            {
+                if (i == 0)
+                    popup_alerts[i].draw_me(ref sBatch);
+                else if (i > 0)
+                {
+                    float y_difference = popup_alerts[i].my_position.Y - popup_alerts[i - 1].my_position.Y;
+                    float desired_y_difference = popup_msg_font.LineSpacing;
+                    bool is_in_same_gc = (popup_alerts[i - 1].gc_origin.x == popup_alerts[i].gc_origin.x) &&
+                                        (popup_alerts[i - 1].gc_origin.y == popup_alerts[i].gc_origin.y);
+                    if (!is_in_same_gc || y_difference > desired_y_difference)
+                        popup_alerts[i].draw_me(ref sBatch);
+                }
+            }
+        }
+
         //Green text. Function here.
         public void drawEntities(ref SpriteBatch sBatch)
         {
@@ -797,9 +926,13 @@ namespace Cronkpit_1._2
             return badGuys;
         }
 
-        public Monster specific_badguy(int index)
+        public Monster badguy_by_monster_id(int index)
         {
-            return badGuys[index];
+            for (int i = 0; i < badGuys.Count; i++)
+                if (badGuys[i].my_Index == index)
+                    return badGuys[i];
+
+            return null;
         }
 
         public List<Goldpile> show_me_the_money()
@@ -809,9 +942,15 @@ namespace Cronkpit_1._2
 
         public void damage_monster(int dmg, int monsterID)
         {
-            badGuys[monsterID].takeDamage(dmg);
-            if (badGuys[monsterID].hitPoints <= 0)
-                badGuys.RemoveAt(monsterID);
+            for (int i = 0; i < badGuys.Count; i++)
+            {
+                if (badGuys[i].my_Index == monsterID)
+                {
+                    badGuys[i].takeDamage(dmg);
+                    if (badGuys[i].hitPoints <= 0)
+                        badGuys.RemoveAt(i);
+                }
+            }
         }
 
         #endregion

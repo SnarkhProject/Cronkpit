@@ -387,11 +387,6 @@ namespace Cronkpit_1._2
                     if (check_overlap(main_hand_equip_slot, draggable_item_rect))
                         if (player_inv[index_of_mouse_selected_item] is Weapon)
                         {
-                            if (pl.show_main_hand() != null)
-                            {
-                                player_inv.Add(pl.show_main_hand());
-                                pl.unequip(Player.Equip_Slot.Mainhand);
-                            }
                             pl.equip_main_hand((Weapon)player_inv[index_of_mouse_selected_item]);
                             player_inv.RemoveAt(index_of_mouse_selected_item);
                             equipped_new_item = true;
@@ -400,11 +395,6 @@ namespace Cronkpit_1._2
                     if (check_overlap(off_hand_equip_slot, draggable_item_rect))
                         if (player_inv[index_of_mouse_selected_item] is Weapon)
                         {
-                            if (pl.show_off_hand() != null)
-                            {
-                                player_inv.Add(pl.show_off_hand());
-                                pl.unequip(Player.Equip_Slot.Offhand);
-                            }
                             pl.equip_off_hand((Weapon)player_inv[index_of_mouse_selected_item]);
                             player_inv.RemoveAt(index_of_mouse_selected_item);
                             equipped_new_item = true;
@@ -413,11 +403,6 @@ namespace Cronkpit_1._2
                     if (check_overlap(over_armor_equip_slot, draggable_item_rect))
                         if (player_inv[index_of_mouse_selected_item] is Armor)
                         {
-                            if (pl.show_over_armor() != null)
-                            {
-                                player_inv.Add(pl.show_over_armor());
-                                pl.unequip(Player.Equip_Slot.Overarmor);
-                            }
                             Armor nextArmor = (Armor)player_inv[index_of_mouse_selected_item];
                             if (nextArmor.is_over_armor())
                             {
@@ -430,11 +415,6 @@ namespace Cronkpit_1._2
                     if (check_overlap(under_armor_equip_slot, draggable_item_rect))
                         if (player_inv[index_of_mouse_selected_item] is Armor)
                         {
-                            if (pl.show_under_armor() != null)
-                            {
-                                player_inv.Add(pl.show_under_armor());
-                                pl.unequip(Player.Equip_Slot.Underarmor);
-                            }
                             Armor nextArmor = (Armor)player_inv[index_of_mouse_selected_item];
                             if (!nextArmor.is_over_armor())
                             {

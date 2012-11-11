@@ -68,6 +68,16 @@ Content\Fonts\tfont.xnb
 Content\Fonts\smallfont.xnb
 Content\sound shit.xnb
 Content\Icons\Weapons\katana_icon.xnb
+Content\Icons\Weapons\knife_icon.xnb
+Content\Icons\Armors\linenrags_icon.xnb
+Content\Icons\Armors\shoddyleather_icon.xnb
+Content\Icons\Armors\enchantedrags_icon.xnb
+Content\Projectiles\slashing_spritesheet.xnb
+Content\Projectiles\piercing_spritesheet.xnb
+Content\Projectiles\impact_spritesheet.xnb
+Content\Fonts\popup_msg.xnb
+Content\Enemies\goldenMimic.xnb
+Content\Projectiles\fire_spritesheet.xnb
 Content\Entities\alilmoreGold.png
 Content\Entities\lowGold.png
 Content\Entities\someGold.png

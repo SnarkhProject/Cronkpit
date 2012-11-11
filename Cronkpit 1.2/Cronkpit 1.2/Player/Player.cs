@@ -55,7 +55,7 @@ namespace Cronkpit_1._2
             rGen = new Random();
             message_buffer = msgBuffer;
             //!Constructor stuff
-            my_gold = 0;
+            my_gold = 9000;
             base_smell_value = 10;
             base_sound_value = 10;
             //Player stuff
@@ -68,10 +68,10 @@ namespace Cronkpit_1._2
             R_Leg = new Limb(false, ref rGen);
             L_Leg = new Limb(false, ref rGen);
             //Inventory stuff
-            main_hand = null;
+            main_hand = new Weapon(0, 100, "Knife", Weapon.Type.Sword, 1, 2, 4, 1);
             off_hand = null;
-            over_armor = null;
-            under_armor = null;
+            over_armor = new Armor(0, 100, "Shoddy Leather", 0, 1, 2, 1, 1, 3, true);
+            under_armor = new Armor(0, 100, "Linen Rags", 0, 2, 2, 0, 0, 2, false);
             inventory = new List<Item>();
         }
 
@@ -253,23 +253,240 @@ namespace Cronkpit_1._2
 
             if (MonsterID != -1)
             {
-                if (main_hand == null)
-                    message_buffer.Add("You punch the " + fl.specific_badguy(MonsterID).my_name +
-                                                ", dealing " + damage_val + " damage!");
-                else
-                {
-                    message_buffer.Add("You attack the " + fl.specific_badguy(MonsterID).my_name +
-                                                " with your " + main_hand.get_my_name() + ", dealing " +
-                                                damage_val + " damage!");
-                }
-
-                fl.damage_monster(damage_val, MonsterID);
+                attack(fl, my_grid_coord, fl.badguy_by_monster_id(MonsterID).my_grid_coord);
             }
             //after moving, loot and then add smell to current tile.
             loot(fl);
             fl.add_smell_to_tile(my_grid_coord, 0, my_scent_value());
             fl.sound_pulse(my_grid_coord, my_sound, 0);
         }
+
+        #region attack and related functions
+
+        public void attack(Floor fl, gridCoordinate pl_gc, gridCoordinate monster_gc)
+        {
+            List<gridCoordinate> squares_to_attack_mh = new List<gridCoordinate>();
+            List<gridCoordinate> squares_to_attack_oh = new List<gridCoordinate>();
+            List<gridCoordinate> squares_to_attack_both = new List<gridCoordinate>();
+
+            //Monster GC is the origin - set up all patterns from there.
+            if (main_hand != null)
+            {
+                switch (main_hand.get_my_weapon_type())
+                {
+                    case Weapon.Type.Sword:
+                        squares_to_attack_mh.Add(new gridCoordinate(monster_gc));
+                        break;
+                    case Weapon.Type.Spear:
+                        squares_to_attack_mh = return_spear_patterns(pl_gc, monster_gc, squares_to_attack_mh, fl, true);
+                        break;
+                    //Axe!
+                    case Weapon.Type.Axe:
+                        squares_to_attack_mh = return_axe_patterns(pl_gc, monster_gc, squares_to_attack_mh);
+                        break;
+                }
+            }
+
+            if (off_hand != null)
+            {
+                switch (off_hand.get_my_weapon_type())
+                {
+                    case Weapon.Type.Sword:
+                        squares_to_attack_oh.Add(new gridCoordinate(monster_gc));
+                        break;
+                    case Weapon.Type.Spear:
+                        squares_to_attack_oh = return_spear_patterns(pl_gc, monster_gc, squares_to_attack_oh, fl, false);
+                        break;
+                    case Weapon.Type.Axe:
+                        squares_to_attack_oh = return_axe_patterns(pl_gc, monster_gc, squares_to_attack_oh);
+                        break;
+                }
+            }
+
+            //then get rid of common elements from both lists and put them into the new list.
+            for (int i = 0; i < squares_to_attack_mh.Count; i++)
+                for (int j = 0; j < squares_to_attack_oh.Count; j++) 
+                    if (squares_to_attack_mh[i].x == squares_to_attack_oh[j].x &&
+                        squares_to_attack_mh[i].y == squares_to_attack_oh[j].y)
+                        squares_to_attack_both.Add(new gridCoordinate(squares_to_attack_mh[i]));
+
+            //Then we trim these elements out of the old lists.
+            remove_duplicate_elements(ref squares_to_attack_both, ref squares_to_attack_mh);
+            remove_duplicate_elements(ref squares_to_attack_both, ref squares_to_attack_oh);
+
+            //if both weapons are null...
+            if (main_hand == null && off_hand == null)
+            {
+                squares_to_attack_mh.Add(new gridCoordinate(monster_gc));
+            }
+
+            //then we go through all 3 lists.
+            for (int i = 0; i < squares_to_attack_mh.Count; i++)
+            {
+                int c_monsterID;
+                if (fl.is_monster_here(squares_to_attack_mh[i], out c_monsterID))
+                {
+                    string w_name = "";
+                    int dmg_val = 0;
+
+                    if (main_hand != null)
+                    {
+                        dmg_val = main_hand.damage(ref rGen);
+                        w_name = main_hand.get_my_name();
+                    }
+                    else
+                    {
+                        dmg_val = deal_damage();
+                        w_name = "fists";
+                    }
+
+                    attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_mh[i], w_name);
+                }
+                if (main_hand != null)
+                    fl.add_effect(main_hand.get_my_damage_type(), squares_to_attack_mh[i]);
+                else
+                    fl.add_effect(Attack.Damage.Crushing, squares_to_attack_mh[i]);
+            }
+
+            for (int i = 0; i < squares_to_attack_oh.Count; i++)
+            {
+                int c_monsterID;
+                if (fl.is_monster_here(squares_to_attack_oh[i], out c_monsterID))
+                {
+                    string w_name = off_hand.get_my_name();
+                    int dmg_val = off_hand.damage(ref rGen);
+
+                    attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_oh[i], w_name);
+                }
+                fl.add_effect(off_hand.get_my_damage_type(), squares_to_attack_oh[i]);
+            }
+
+            for (int i = 0; i < squares_to_attack_both.Count; i++)
+            {
+                int c_monsterID;
+                if (fl.is_monster_here(squares_to_attack_both[i], out c_monsterID))
+                {
+                    string w_name = "";
+                    if (off_hand == main_hand)
+                        w_name = main_hand.get_my_name();
+                    else
+                        w_name = main_hand.get_my_name() + " and your " + off_hand.get_my_name();
+                    int dmg_val = main_hand.damage(ref rGen) + off_hand.damage(ref rGen);
+                    attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_both[i], w_name);
+                }
+                if (off_hand == main_hand)
+                    fl.add_effect(main_hand.get_my_damage_type(), squares_to_attack_both[i]);
+                else
+                {
+                    fl.add_effect(main_hand.get_my_damage_type(), squares_to_attack_both[i]);
+                    fl.add_effect(off_hand.get_my_damage_type(), squares_to_attack_both[i]);
+                }
+            }
+        }
+
+        public List<gridCoordinate> return_axe_patterns(gridCoordinate pl_gc, gridCoordinate monster_gc, List<gridCoordinate> coord_list)
+        {
+            int x_difference = monster_gc.x - pl_gc.x;
+            int y_difference = monster_gc.y - pl_gc.y;
+
+            if (x_difference == -1)
+            {
+                if (y_difference == -1)
+                {
+                    coord_list.Add(new gridCoordinate(monster_gc.x + 1, monster_gc.y));
+                    coord_list.Add(new gridCoordinate(monster_gc.x, monster_gc.y + 1));
+                }
+                else if (y_difference == 0)
+                {
+                    coord_list.Add(new gridCoordinate(monster_gc.x, monster_gc.y - 1));
+                    coord_list.Add(new gridCoordinate(monster_gc.x, monster_gc.y + 1));
+                }
+                else if (y_difference == 1)
+                {
+                    coord_list.Add(new gridCoordinate(monster_gc.x + 1, monster_gc.y));
+                    coord_list.Add(new gridCoordinate(monster_gc.x, monster_gc.y - 1));
+                }
+            }
+            else if (x_difference == 1)
+            {
+                if (y_difference == 1)
+                {
+                    coord_list.Add(new gridCoordinate(monster_gc.x - 1, monster_gc.y));
+                    coord_list.Add(new gridCoordinate(monster_gc.x, monster_gc.y - 1));
+                }
+                else if (y_difference == 0)
+                {
+                    coord_list.Add(new gridCoordinate(monster_gc.x, monster_gc.y - 1));
+                    coord_list.Add(new gridCoordinate(monster_gc.x, monster_gc.y + 1));
+                }
+                if (y_difference == -1)
+                {
+                    coord_list.Add(new gridCoordinate(monster_gc.x - 1, monster_gc.y));
+                    coord_list.Add(new gridCoordinate(monster_gc.x, monster_gc.y + 1));
+                }
+            }
+            else if (x_difference == 0)
+            {
+                coord_list.Add(new gridCoordinate(monster_gc.x - 1, monster_gc.y));
+                coord_list.Add(new gridCoordinate(monster_gc.x + 1, monster_gc.y));
+            }
+
+            coord_list.Add(new gridCoordinate(monster_gc));
+            return coord_list;
+        }
+
+        public List<gridCoordinate> return_spear_patterns(gridCoordinate pl_gc, gridCoordinate monster_gc, List<gridCoordinate> coord_list, Floor fl, bool mainHand)
+        {
+            int x_difference = monster_gc.x - pl_gc.x;
+            int y_difference = monster_gc.y - pl_gc.y;
+
+            int spear_range;
+            if (mainHand)
+            {
+                if (x_difference == 0 || y_difference == 0)
+                    spear_range = main_hand.get_my_range();
+                else
+                    spear_range = Math.Max(1, (main_hand.get_my_range()-1));
+            }
+            else
+            {
+                if (x_difference == 0 || y_difference == 0)
+                    spear_range = off_hand.get_my_range();
+                else
+                    spear_range = Math.Max(1, (off_hand.get_my_range()-1));
+            }
+
+            bool blocked = false;
+            for (int i = 0; i < spear_range; i++)
+            {
+                gridCoordinate square_to_attack = new gridCoordinate(pl_gc.x + (x_difference*(i+1)), pl_gc.y + (y_difference*(i+1)));
+                if(fl.isWalkable(square_to_attack) && !blocked)
+                    coord_list.Add(square_to_attack);
+                else
+                    blocked = true;
+            }
+            
+            return coord_list;
+        }
+
+        public void remove_duplicate_elements(ref List<gridCoordinate> L1, ref List<gridCoordinate> L2)
+        {
+            for (int i = 0; i < L1.Count; i++)
+                for (int j = 0; j < L2.Count; j++)
+                    if (L1[i].x == L2[j].x && L1[i].y == L2[j].y)
+                        L2.RemoveAt(j);
+        }
+
+        public void attack_monster_in_grid(Floor fl, int dmg_val, int c_monsterID, gridCoordinate current_gc, string weapon_name)
+        {
+            string attack_msg = "You attack the " + fl.badguy_by_monster_id(c_monsterID).my_name + " with your " + weapon_name;
+            attack_msg += ", doing " + dmg_val + " damage!";
+            message_buffer.Add(attack_msg);
+            fl.add_new_popup("-" + dmg_val, Popup.popup_msg_color.Red, current_gc);
+            fl.damage_monster(dmg_val, c_monsterID);
+        }
+
+        #endregion
 
         //Green text. Function here.
         public void reset_my_drawing_position()
@@ -289,6 +506,7 @@ namespace Cronkpit_1._2
                     int gold_val = fl.show_me_the_money()[i].my_quantity;
                     add_gold(gold_val);
                     message_buffer.Add("You loot " + gold_val + " gold!");
+                    fl.add_new_popup("+ " + gold_val + " gold!", Popup.popup_msg_color.Yellow, my_grid_coord);
                     fl.show_me_the_money().RemoveAt(i);
                     break;
                 }
@@ -312,73 +530,99 @@ namespace Cronkpit_1._2
         }
 
         //Green text. Function here.
-        public void take_damage(Attack atk)
+        public void take_damage(Attack atk, ref Floor fl)
         {
             //OKAY THIS IS GONNA BE COMPLICATED.
             //First, figure out where the attack is gonna hit. The breakdown is as follows:
             //head, 5%, chest = 25%, arm = 17%, leg = 18%
             int hit_location = rGen.Next(100);
 
+            string w_type = "";
+            switch (atk.get_assoc_wound().type)
+            {
+                case wound.Wound_Type.Burn:
+                    w_type = "burn";
+                    break;
+                case wound.Wound_Type.Impact:
+                    w_type = "impact";
+                    break;
+                case wound.Wound_Type.Open:
+                    w_type = "open";
+                    break;
+            }
+
             if (hit_location < 5 && !Head.is_disabled())
             {
                 wound dmg = new wound(atk.get_assoc_wound());
                 Head.add_injury(dmg);
-                message_buffer.Add("Your head takes " + dmg.severity + " wounds!");
+                if (dmg.severity > 0)
+                    fl.add_new_popup("-" + dmg.severity + " Head", Popup.popup_msg_color.Red, my_grid_coord);
+                message_buffer.Add("Your head takes " + dmg.severity + " " + w_type + " wounds!");
             }
             else if (hit_location >= 5 && hit_location < 22 && !R_Arm.is_disabled())
             {
                 Armor.Attack_Zone atkzone = Armor.Attack_Zone.R_Arm;
                 if (over_armor != null)
-                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
+                    atk = over_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
                 if(under_armor != null)
-                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
+                    atk = under_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
                 wound dmg = new wound(atk.get_assoc_wound());
                 R_Arm.add_injury(dmg);
-                message_buffer.Add("Your right arm takes " + dmg.severity + " wounds!");
+                if (dmg.severity > 0)
+                    fl.add_new_popup("-" + dmg.severity + " R Arm", Popup.popup_msg_color.Red, my_grid_coord);
+                message_buffer.Add("Your right arm takes " + dmg.severity + " " + w_type + " wounds!");
             }
             else if (hit_location >= 22 && hit_location < 39 && !L_Arm.is_disabled())
             {
                 Armor.Attack_Zone atkzone = Armor.Attack_Zone.L_Arm;
                 if(over_armor != null)
-                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
+                    atk = over_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
                 if(under_armor != null)
-                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
+                    atk = under_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
                 wound dmg = new wound(atk.get_assoc_wound());
                 L_Arm.add_injury(dmg);
-                message_buffer.Add("Your left arm takes " + dmg.severity + " wounds!");
+                if (dmg.severity > 0)
+                    fl.add_new_popup("-" + dmg.severity + " L Arm", Popup.popup_msg_color.Red, my_grid_coord);
+                message_buffer.Add("Your left arm takes " + dmg.severity + " " + w_type + " wounds!");
             }
             else if (hit_location >= 39 && hit_location < 57 && !R_Leg.is_disabled())
             {
                 Armor.Attack_Zone atkzone = Armor.Attack_Zone.R_Leg;
                 if (over_armor != null)
-                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
+                    atk = over_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
                 if (under_armor != null)
-                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
+                    atk = under_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
                 wound dmg = new wound(atk.get_assoc_wound());
                 R_Leg.add_injury(dmg);
-                message_buffer.Add("Your right leg takes " + dmg.severity + " wounds!");
+                if (dmg.severity > 0)
+                    fl.add_new_popup("-" + dmg.severity + " R Leg", Popup.popup_msg_color.Red, my_grid_coord);
+                message_buffer.Add("Your right leg takes " + dmg.severity + " " + w_type + " wounds!");
             }
             else if (hit_location >= 57 && hit_location < 75 && !L_Leg.is_disabled())
             {
                 Armor.Attack_Zone atkzone = Armor.Attack_Zone.L_Leg;
                 if (over_armor != null)
-                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
+                    atk = over_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
                 if (under_armor != null)
-                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
+                    atk = under_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
                 wound dmg = new wound(atk.get_assoc_wound());
                 L_Leg.add_injury(dmg);
-                message_buffer.Add("Your left leg takes " + dmg.severity + " wounds!");
+                if (dmg.severity > 0)
+                    fl.add_new_popup("-" + dmg.severity + " L Leg", Popup.popup_msg_color.Red, my_grid_coord);
+                message_buffer.Add("Your left leg takes " + dmg.severity + " " + w_type + " wounds!");
             }
             else
             {
                 Armor.Attack_Zone atkzone = Armor.Attack_Zone.Chest;
                 if (over_armor != null)
-                    atk = over_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
+                    atk = over_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
                 if (under_armor != null)
-                    atk = under_armor.absorb_damage(atk, atkzone, ref rGen, ref message_buffer);
+                    atk = under_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
                 wound dmg = new wound(atk.get_assoc_wound());
                 Torso.add_injury(dmg);
-                message_buffer.Add("Your chest takes " + dmg.severity + " wounds!");
+                if (dmg.severity > 0)
+                    fl.add_new_popup("-" + dmg.severity + " Chest", Popup.popup_msg_color.Red, my_grid_coord);
+                message_buffer.Add("Your chest takes " + dmg.severity + " " + w_type + " wounds!");
             }
 
             if (!is_alive())
@@ -399,6 +643,14 @@ namespace Cronkpit_1._2
             R_Arm.heal_random_wound();
             R_Leg.heal_random_wound();
             Torso.heal_random_wound();
+        }
+
+        public void repair_all_armor()
+        {
+            if (over_armor != null)
+                over_armor.full_repair();
+            if (under_armor != null)
+                under_armor.full_repair();
         }
 
         //Some other stuff - grid coordinates and vectors.
@@ -424,7 +676,7 @@ namespace Cronkpit_1._2
                 if (my_grid_coord.x == fl.see_badGuys()[i].my_grid_coord.x &&
                    my_grid_coord.y == fl.see_badGuys()[i].my_grid_coord.y)
                 {
-                    bad_guy_ID = i;
+                    bad_guy_ID = fl.see_badGuys()[i].my_Index;
                     return true;
                 }
             return false;
@@ -642,25 +894,55 @@ namespace Cronkpit_1._2
 
         public void equip_main_hand(Weapon mh)
         {
+            if(main_hand != null)
+                inventory.Add(main_hand);
+            if (mh.get_hand_count() == 2)
+                if (off_hand != null)
+                    inventory.Add(off_hand);
+            //Okay, we've un-equipped both weapons.
+            
+            //Now, check how many hands our current weapon has.
+            int hnd_cnt = 0;
+            if(main_hand != null)
+                hnd_cnt = main_hand.get_hand_count();
             main_hand = mh;
+            if (main_hand.get_hand_count() == 1 && hnd_cnt == 2)
+                off_hand = null;
             if (main_hand.get_hand_count() == 2)
                 off_hand = mh;
         }
 
         public void equip_off_hand(Weapon oh)
         {
+            if (off_hand != null)
+                inventory.Add(off_hand);
+            if (oh.get_hand_count() == 2)
+                if (main_hand != null)
+                    inventory.Add(main_hand);
+
+            int hnd_cnt = 0;
+            if(off_hand != null)
+                hnd_cnt = off_hand.get_hand_count();
             off_hand = oh;
+            if (off_hand.get_hand_count() == 1 && hnd_cnt == 2)
+                main_hand = null;
             if (off_hand.get_hand_count() == 2)
                 main_hand = oh;
         }
 
         public void equip_over_armor(Armor oa)
         {
+            if (over_armor != null)
+                inventory.Add(over_armor);
+
             over_armor = oa;
         }
 
         public void equip_under_armor(Armor ua)
         {
+            if (under_armor != null)
+                inventory.Add(under_armor);
+
             under_armor = ua;
         }
 

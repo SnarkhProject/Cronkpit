@@ -120,3 +120,13 @@ C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Debug\Cronkpit 1.2.exe
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\obj\x86\Debug\Cronkpit 1.2.pdb
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Icons\Weapons\katana_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Icons\Weapons\knife_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Icons\Armors\linenrags_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Icons\Armors\shoddyleather_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Icons\Armors\enchantedrags_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Projectiles\slashing_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Projectiles\piercing_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Projectiles\impact_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Fonts\popup_msg.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Enemies\goldenMimic.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Debug\Content\Projectiles\fire_spritesheet.xnb

@@ -26,7 +26,9 @@ namespace Cronkpit_1._2
             shared_items.Add(new Weapon(5, 250, "Axe", Weapon.Type.Axe, 1, 3, 6, 1));
             shared_items.Add(new Weapon(6, 200, "Sword", Weapon.Type.Sword, 1, 3, 6, 1));
             shared_items.Add(new Weapon(7, 250, "Spear", Weapon.Type.Spear, 2, 2, 3, 3));
-            shared_items.Add(new Weapon(8, 2000, "Katana", Weapon.Type.Sword, 2, 5, 12, 1));
+            shared_items.Add(new Weapon(8, 3000, "Katana", Weapon.Type.Sword, 2, 5, 12, 1));
+            shared_items.Add(new Armor(9, 3000, "Enchanted Rags", 20, 15, 20, 5, 5, 10, true));
+            shared_items.Add(new Weapon(10, 3750, "Hyperion", Weapon.Type.Spear, 2, 5, 12, 4));
         }
 
         public List<Armor> retrieve_random_shared_armors(int number)
