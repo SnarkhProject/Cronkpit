@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cronkpit", "Cronkpit 1.2\Cronkpit 1.2\Cronkpit.csproj", "{9777C32B-B4F1-426D-AD71-BB350470B5CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cronkpit", "Cronkpit\Cronkpit\Cronkpit.csproj", "{9777C32B-B4F1-426D-AD71-BB350470B5CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cronkpit Content", "Cronkpit 1.2\Cronkpit 1.2Content\Cronkpit Content.contentproj", "{2E95B1D3-C6AC-490F-81BC-17D28BD5446C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cronkpit Content", "Cronkpit\Cronkpit Content\Cronkpit Content.contentproj", "{2E95B1D3-C6AC-490F-81BC-17D28BD5446C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
