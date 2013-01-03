@@ -29,7 +29,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -123,6 +123,7 @@
     <Compile Include="Attack.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Effect.cs" />
+    <Compile Include="Floor Components\Doodad.cs" />
     <Compile Include="Floor Components\Goldpile.cs" />
     <Compile Include="Floor Components\Hall.cs" />
     <Compile Include="Floor Components\Monster Senses\Scent.cs" />

@@ -34,7 +34,7 @@ namespace Cronkpit
         {
             main_menu, select_character, mini_main_menu, normal,
             shop_screen, inv_screen, drinking_potion, ranged_attack,
-            charging_attack, msg_log
+            charging_attack, msg_log, bashing_attack
         };
         Game_State current_state;
         //int gameState;
@@ -59,6 +59,7 @@ namespace Cronkpit
 
         //Some other misc stuff
         int selected_lance;
+        int selected_mace;
 
         //message buffer things
         List<string> msgBuf;
@@ -89,7 +90,8 @@ namespace Cronkpit
             Texture2D blank_texture = new Texture2D(GraphicsDevice, 1, 1);
             msgBuf = new List<string>();
             ra1 = new RACursor(Content.Load<Texture2D>("Player/ranged attack cursor"),
-                                Content.Load<Texture2D>("Player/charge attack cursor"), new gridCoordinate(-1, -1));
+                                Content.Load<Texture2D>("Player/charge attack cursor"), 
+                                Content.Load<Texture2D>("Player/bash attack cursor"), new gridCoordinate(-1, -1));
             cam = new Camera(GraphicsDevice.Viewport.Bounds);
             //stuff without constructors
             bad_turn = false;
@@ -100,6 +102,7 @@ namespace Cronkpit
             //Some base components for stuff with big constructors
             SpriteFont big_font = Content.Load<SpriteFont>("Fonts/tfont");
             SpriteFont normal_font = Content.Load<SpriteFont>("Fonts/sfont");
+            SpriteFont smaller_font = Content.Load <SpriteFont>("Fonts/smaller_sfont");
             SpriteFont tiny_font = Content.Load<SpriteFont>("Fonts/smallfont");
             SpriteFont tiny_bold_font = Content.Load<SpriteFont>("Fonts/smallfont_bold");
             SpriteFont pname_font = Content.Load<SpriteFont>("Fonts/mfont");
@@ -112,6 +115,8 @@ namespace Cronkpit
             shopMenuItems.Add("Shop Scrolls");
             shopMenuItems.Add("Shop Consumables");
             shopMenuItems.Add("Shop Talismans");
+            shopMenuItems.Add("Sell");
+            shopMenuItems.Add("Buyback");
             shopMenuItems.Add("Exit to next floor");
             List<string> miniMenuItems = new List<string>();
             miniMenuItems.Add("New Game");
@@ -123,9 +128,9 @@ namespace Cronkpit
             //stuff with big constructors
             sMenu = new MenuScreen(menuItems, "CronkPit", normal_font, big_font, client_rect());
             msgBufBox = new MessageBufferBox(client_rect(), tiny_font, blank_texture, ref msgBuf);
-            icoBar = new IconBar(blank_texture, tiny_font, client_rect());
+            icoBar = new IconBar(blank_texture, tiny_font, normal_font, client_rect());
             invScr = new InvAndHealthBox(blank_texture, tiny_font, big_font, pname_font, ref Secondary_cManager, ref icoBar);
-            shopScr = new ShopScreen(shopMenuItems, normal_font, big_font, client_rect(), ref Secondary_cManager);
+            shopScr = new ShopScreen(shopMenuItems, normal_font, smaller_font, client_rect(), ref Secondary_cManager);
             potiPrompt = new PotionPrompt(blank_texture, tiny_font, tiny_bold_font);
             miniMain = new MiniMainMenu(miniMenuItems, client_rect(), blank_texture, big_font);
             pDoll = new PaperDoll(client_rect());
@@ -294,6 +299,9 @@ namespace Cronkpit
                     p1.reset_sound_and_scent();
                     f1.update_dungeon_floor(p1);
                     bad_turn = false;
+                    p1.deincrement_cooldowns();
+                    icoBar.update_cooldown_and_quant(p1);
+
                 }
 
                 cam.Pos = p1.get_my_Position();
@@ -584,8 +592,17 @@ namespace Cronkpit
                                 shopScr.switch_shopping_mode(ShopScreen.Shopping_Mode.Consumables);
                                 break;
                             case 4:
+                                //Talismans
                                 break;
                             case 5:
+                                //Sell
+                                shopScr.switch_shopping_mode(ShopScreen.Shopping_Mode.Sell);
+                                break;
+                            case 6:
+                                //buy back
+                                shopScr.switch_shopping_mode(ShopScreen.Shopping_Mode.Buyback);
+                                break;
+                            case 7:
                                 invScr.init_necessary_textures(p1);
                                 current_state = Game_State.normal;
                                 break;
@@ -653,9 +670,10 @@ namespace Cronkpit
             }
             #endregion
 
-            #region keypresses for shooting or charging (GS = 5 || 6)
+            #region keypresses for shooting or charging or bashing (GS = 5 || 6)
             //gameState == 5 || gameState == 6
-            if (current_state == Game_State.ranged_attack || current_state == Game_State.charging_attack)
+            if (current_state == Game_State.ranged_attack || current_state == Game_State.charging_attack ||
+                current_state == Game_State.bashing_attack)
             {
                 if (check_key_press(Keys.NumPad1))
                 {
@@ -799,6 +817,41 @@ namespace Cronkpit
                 }
 
                 #endregion
+
+                #region only while bashing
+                if (current_state == Game_State.bashing_attack)
+                {
+                    if (check_key_press(Keys.F2))
+                        use_slot_on_icoBar_BA_Only(0, just_changed_states);
+
+                    if (check_key_press(Keys.F3))
+                        use_slot_on_icoBar_BA_Only(1, just_changed_states);
+
+                    if (check_key_press(Keys.F4))
+                        use_slot_on_icoBar_BA_Only(2, just_changed_states);
+
+                    if (check_key_press(Keys.F5))
+                        use_slot_on_icoBar_BA_Only(3, just_changed_states);
+
+                    if (check_key_press(Keys.F6))
+                        use_slot_on_icoBar_BA_Only(4, just_changed_states);
+
+                    if (check_key_press(Keys.F7))
+                        use_slot_on_icoBar_BA_Only(5, just_changed_states);
+
+                    if (check_key_press(Keys.F8))
+                        use_slot_on_icoBar_BA_Only(6, just_changed_states);
+
+                    if (check_key_press(Keys.F9))
+                        use_slot_on_icoBar_BA_Only(7, just_changed_states);
+
+                    if (check_key_press(Keys.Enter))
+                    {
+                        Weapon mace = p1.get_weapon_by_ID(selected_mace);
+                        bashing_attack_via_cursor(mace);
+                    }
+                }
+                #endregion
             }
             #endregion
 
@@ -841,6 +894,7 @@ namespace Cronkpit
                         {
                             p1.ingest_potion(potiPrompt.fetch_current_potion(), f1, potiPrompt.get_repair_armor());
                             ingested_potion = true;
+                            bad_turn = true;
                         }
                         else if (potiPrompt.clicked_head_zone(mousePosition))
                             healing_zone = "Head";
@@ -856,7 +910,10 @@ namespace Cronkpit
                             healing_zone = "RLeg";
 
                         if (!ingested_potion && !potiPrompt.clicked_cancel_zone(mousePosition))
+                        {
                             p1.heal_via_potion(potiPrompt.fetch_current_potion(), healing_zone, potiPrompt.get_repair_armor(), f1);
+                            bad_turn = true;
+                        }
 
                         //gameState = 1;
                         current_state = Game_State.normal;
@@ -952,6 +1009,31 @@ namespace Cronkpit
             f1.scrub_all_auras();
             ra1.am_i_visible = false;
         }
+
+        private void start_bash_attack()
+        {
+            ra1.shift_modes(RACursor.Mode.Bash);
+            current_state = Game_State.bashing_attack;
+            p1.set_bash_attack_aura(f1);
+            ra1.am_i_visible = true;
+            ra1.my_grid_coord = new gridCoordinate(p1.get_my_grid_C().x, p1.get_my_grid_C().y - 1);
+            ra1.reset_drawing_position();
+        }
+
+        private void bashing_attack_via_cursor(Weapon w)
+        {
+            gridCoordinate cursor_location = new gridCoordinate(ra1.my_grid_coord);
+            int monster_no;
+            if (f1.is_monster_here(cursor_location, out monster_no) && f1.aura_of_specific_tile(cursor_location) == Tile.Aura.Attack)
+            {
+                p1.bash_attack(f1, f1.badguy_by_monster_id(monster_no), w);
+                bad_turn = true;
+            }
+
+            current_state = Game_State.normal;
+            f1.scrub_all_auras();
+            ra1.am_i_visible = false;
+        }
         #endregion
 
         private void use_slot_on_icoBar_full(int slot, out bool changed_states)
@@ -981,7 +1063,7 @@ namespace Cronkpit
                                     p1.equip_main_hand(c_weapon);
                             }
                         }
-                        else
+                        else if (c_weapon.get_my_weapon_type() == Weapon.Type.Lance)
                         {
                             start_charge_attack(item_ID);
                             selected_lance = item_ID;
@@ -1022,6 +1104,25 @@ namespace Cronkpit
                         {
                             start_ranged_attack();
                             changed_states = true;
+                        }
+
+                        if (c_weapon.get_my_weapon_type() == Weapon.Type.Sword)
+                        {
+                            if (c_weapon.get_current_cooldown() == 0)
+                            {
+                                p1.whirlwind_attack(f1, c_weapon);
+                                bad_turn = true;
+                            }
+                        }
+                        
+                        if (c_weapon.get_my_weapon_type() == Weapon.Type.Mace)
+                        {
+                            if (c_weapon.get_current_cooldown() == 0)
+                            {
+                                selected_mace = c_weapon.get_my_IDno();
+                                start_bash_attack();
+                                changed_states = true;
+                            }
                         }
                     }
                 }
@@ -1094,6 +1195,25 @@ namespace Cronkpit
             }
         }
 
+        private void use_slot_on_icoBar_BA_Only(int slot, bool changed_states)
+        {
+            int item_ID = icoBar.get_item_IDs_by_slot(slot);
+            if (item_ID > -1)
+            {
+                string item_type = p1.get_item_type_by_ID(item_ID);
+                bool is_equipped = p1.is_item_equipped(item_ID);
+                if (is_equipped)
+                {
+                    if (String.Compare(item_type, "Weapon") == 0)
+                    {
+                        Weapon c_weapon = p1.get_weapon_by_ID(item_ID);
+                        if (c_weapon.get_my_weapon_type() == Weapon.Type.Mace && !changed_states)
+                            bashing_attack_via_cursor(c_weapon);
+                    }
+                }
+            }
+        }
+
         private bool check_key_press(Keys theKey)
         {
             return newState.IsKeyDown(theKey) && !oldState.IsKeyDown(theKey);
@@ -1121,6 +1241,8 @@ namespace Cronkpit
             p1 = new Player(Content, new gridCoordinate(-1, -1), ref msgBuf, Player.Chara_Class.Warrior, 
                             Player.Character.Falsael, ref pDoll);
             initalize_menu_wireframes();
+            p1.update_pdoll();
+            icoBar.wipe();
             new_floor();
         }
 

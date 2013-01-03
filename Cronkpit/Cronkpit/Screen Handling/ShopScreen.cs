@@ -24,7 +24,7 @@ namespace Cronkpit
         Color highlighted = Color.Red;
 
         SpriteFont sFont;
-        SpriteFont tFont;
+        SpriteFont smaller_Font;
 
         Random rGen;
 
@@ -38,6 +38,8 @@ namespace Cronkpit
         int armor_shopping_used;
         int consumable_shopping_used;
         int talisman_shopping_used;
+        int sell_shopping_used;
+        int buyback_shopping_used;
         int exit_used;
         string shopkeeper;
 
@@ -55,7 +57,7 @@ namespace Cronkpit
         float inf_menu_width = 0;
 
         //Shopping stuff!
-        public enum Shopping_Mode { Main, Armor, Weapons, Consumables, Talismans, Scrolls };
+        public enum Shopping_Mode { Main, Armor, Weapons, Consumables, Talismans, Scrolls, Sell, Buyback };
         Shopping_Mode im_shopping_for;
 
         //Item stuff
@@ -63,17 +65,19 @@ namespace Cronkpit
         List<Armor> armors_in_stock;
         List<Weapon> weapons_in_stock;
         List<Item> consumables_in_stock;
+        List<Item> items_to_sell;
+        List<Item> sold_items;
         List<string> current_item_info;
         int player_gold;
 
-        public ShopScreen(List<string> mItems, SpriteFont sf, SpriteFont tf, Rectangle cl, ref ContentManager cm)
+        public ShopScreen(List<string> mItems, SpriteFont sf, SpriteFont small_f, Rectangle cl, ref ContentManager cm)
         {
             menuItems = new List<string>(mItems);
             all_items = new MainItemList();
             current_item_info = new List<string>();
             cManager = cm;
             sFont = sf;
-            tFont = tf;
+            smaller_Font = small_f;
             client = cl;
             selectedIndex = 0;
             im_shopping_for = Shopping_Mode.Main;
@@ -123,6 +127,28 @@ namespace Cronkpit
                 for (int i = 0; i < weapons_in_stock.Count; i++)
                 {
                     Vector2 size = sFont.MeasureString(weapons_in_stock[i].get_my_name());
+                    if (size.X > i_menu_width)
+                        i_menu_width = size.X;
+                    i_menu_height += sFont.LineSpacing + 5;
+                }
+            }
+
+            if (target_menu == Shopping_Mode.Sell)
+            {
+                for (int i = 0; i < items_to_sell.Count; i++)
+                {
+                    Vector2 size = sFont.MeasureString(items_to_sell[i].get_my_name());
+                    if (size.X > i_menu_width)
+                        i_menu_width = size.X;
+                    i_menu_height += sFont.LineSpacing + 5;
+                }
+            }
+
+            if (target_menu == Shopping_Mode.Buyback)
+            {
+                for (int i = 0; i < sold_items.Count; i++)
+                {
+                    Vector2 size = sFont.MeasureString(sold_items[i].get_my_name());
                     if (size.X > i_menu_width)
                         i_menu_width = size.X;
                     i_menu_height += sFont.LineSpacing + 5;
@@ -187,6 +213,26 @@ namespace Cronkpit
                     if (selected_item_index < consumables_in_stock.Count)
                         current_item_info = consumables_in_stock[selected_item_index].get_my_information();
                     break;
+                case Shopping_Mode.Sell:
+                    selectedIndex = 0;
+                    selected_item_index += scroll;
+                    if (selected_item_index < 0)
+                        selected_item_index = items_to_sell.Count;
+                    if (selected_item_index > items_to_sell.Count)
+                        selected_item_index = 0;
+                    if (selected_item_index < items_to_sell.Count)
+                        current_item_info = items_to_sell[selected_item_index].get_my_information();
+                    break;
+                case Shopping_Mode.Buyback:
+                    selectedIndex = 0;
+                    selected_item_index += scroll;
+                    if (selected_item_index < 0)
+                        selected_item_index = sold_items.Count;
+                    if (selected_item_index > sold_items.Count)
+                        selected_item_index = 0;
+                    if (selected_item_index < sold_items.Count)
+                        current_item_info = sold_items[selected_item_index].get_my_information();
+                    break;
             }
         }
 
@@ -215,6 +261,14 @@ namespace Cronkpit
                     set_descriptive_consumable_shopping(consumable_shopping_used);
                     scroll_menu(0);
                     break;
+                case Shopping_Mode.Sell:
+                    set_descriptive_selling(sell_shopping_used);
+                    scroll_menu(0);
+                    break;
+                case Shopping_Mode.Buyback:
+                    set_descriptive_buyback(buyback_shopping_used);
+                    scroll_menu(0);
+                    break;
             }
         }
 
@@ -233,6 +287,10 @@ namespace Cronkpit
                     return selected_item_index == weapons_in_stock.Count;
                 case Shopping_Mode.Consumables:
                     return selected_item_index == consumables_in_stock.Count;
+                case Shopping_Mode.Sell:
+                    return selected_item_index == items_to_sell.Count;
+                case Shopping_Mode.Buyback:
+                    return selected_item_index == sold_items.Count;
                 default:
                     return false;
             }
@@ -278,9 +336,74 @@ namespace Cronkpit
                         consumables_in_stock.RemoveAt(selected_item_index);
                     }
                     break;
+                case Shopping_Mode.Sell:
+                    sell_item(pl);
+                    break;
+                case Shopping_Mode.Buyback:
+                    item_gold_value = sold_items[selected_item_index].get_my_gold_value();
+                    int buyback_value = (int)Math.Max(item_gold_value * .93, item_gold_value - 500);
+                    if (pl.get_my_gold() >= buyback_value)
+                    {
+                        pl.pay_gold(buyback_value);
+                        if (sold_items[selected_item_index] is Potion)
+                        {
+                            Potion p = (Potion)sold_items[selected_item_index];
+                            p.adjust_quantity(-1);
+                            Potion p2 = new Potion(p.get_my_IDno(), p.get_my_gold_value(), p.get_my_name(), p);
+                            p2.set_quantity(1);
+                            pl.acquire_potion(p2);
+
+                            if (p.get_my_quantity() == 0)
+                                sold_items.RemoveAt(selected_item_index);
+                        }
+                        else
+                        {
+                            pl.acquire_item(sold_items[selected_item_index]);
+                            sold_items.RemoveAt(selected_item_index);
+                        }
+                    }
+                    break;
             }
             player_gold = pl.get_my_gold();
             scroll_menu(0);
+        }
+
+        public void sell_item(Player pl)
+        {
+            int item_gold_value = items_to_sell[selected_item_index].get_my_gold_value();
+            int sale_value = (int)Math.Max(item_gold_value * .93, item_gold_value - 500);
+            if (items_to_sell[selected_item_index] is Potion)
+            {
+                Potion p = (Potion)items_to_sell[selected_item_index];
+                Potion p2 = new Potion(p.get_my_IDno(), p.get_my_gold_value(), p.get_my_name(), p);
+                p2.set_quantity(1);
+                p.adjust_quantity(-1);
+                if (p.get_my_quantity() == 0)
+                    items_to_sell.RemoveAt(selected_item_index);
+
+                bool stacked = false;
+                for (int i = 0; i < sold_items.Count; i++)
+                {
+                    if (sold_items[i] is Potion)
+                    {
+                        Potion p3 = (Potion)sold_items[i];
+                        if (p3.get_my_IDno() == p2.get_my_IDno())
+                        {
+                            stacked = true;
+                            p3.adjust_quantity(1);
+                        }
+                    }
+                }
+                
+                if(!stacked)
+                    sold_items.Add(p2);
+            }
+            else
+            {
+                sold_items.Add(items_to_sell[selected_item_index]);
+                items_to_sell.RemoveAt(selected_item_index);
+            }
+            pl.add_gold(sale_value);
         }
 
         public void set_variables(Player pl)
@@ -291,11 +414,15 @@ namespace Cronkpit
             armor_shopping_used = rGen.Next(1);
             consumable_shopping_used = rGen.Next(1);
             talisman_shopping_used = rGen.Next(1);
+            sell_shopping_used = rGen.Next(1);
+            buyback_shopping_used = rGen.Next(1);
             exit_used = rGen.Next(1);
 
             armors_in_stock = all_items.retrieve_random_shared_armors(4);
             weapons_in_stock = all_items.retrieve_random_shared_weapons(4);
             consumables_in_stock = all_items.retrieve_random_shared_consumables(2);
+            items_to_sell = pl.retrieve_inventory();
+            sold_items = new List<Item>();
 
             init_necessary_textures(pl);
         }
@@ -408,6 +535,44 @@ namespace Cronkpit
             }
         }
 
+        public void set_descriptive_selling(int choice)
+        {
+            switch (choice)
+            {
+                case 0:
+                    descriptive_text = "\"I want to get rid of some of this shit. What's the going price around \n" +
+                                       "here?\" You ask the shopkeeper, narrowing your eyes slightly at him. \n" +
+                                       "The " + shopkeeper + " thinks for a moment, then replies \"All items will be \n" +
+                                       "sold at half their market value.\" He barely has a moment to let out a \n" +
+                                       "strangled gasp as you lunge at him, picking him up by the collar and \n" +
+                                       "holding him in the air, your tail pressed to his throat. A single  \n" +
+                                       "trickle of venom rolls down his neck as he makes small whimpering \n" +
+                                       "noises. \"None of that shit.\" you hiss at him. \"You WILL give me a \n" +
+                                       "fair price. Or I will kill you.\" \"F-f-fine!\" he stammers, \"7% less \n" +
+                                       "than the original value or less 500 gold, whichever is less! Oh \n" +
+                                       "gods please don't kill me.\" You put him down and hold up your items.";
+                    blurb_height = ((11 + 3) * sFont.LineSpacing);
+                    break;
+            }
+        }
+
+        public void set_descriptive_buyback(int choice)
+        {
+            switch (choice)
+            {
+                case 0:
+                    descriptive_text = "\"Hey, I want some of that back.\" You point to your items behind the \n" +
+                                       "counter, then wave your hand impatiently. The " + shopkeeper + " grumbles \n" +
+                                       "but dutifully complies, grabbing a few of your items and putting them \n" +
+                                       "back on the counter. \"And you'd better not even fuucking think of \n" +
+                                       "trying to sell them back to me for the full value, do you understand?\" \n" +
+                                       "For emphasis, you bury the tip of your tail in the counter. He gulps, \n" +
+                                       "but gives you a quick nod.";
+                    blurb_height = ((7 + 3) * sFont.LineSpacing);
+                    break;
+            }
+        }
+
         public void set_descriptive_exit(int choice)
         {
             switch (choice)
@@ -422,6 +587,10 @@ namespace Cronkpit
             take_measurements();
 
             sBatch.DrawString(sFont, descriptive_text, blurb_position, Color.White);
+
+            SpriteFont item_info_font = sFont;
+            if (blurb_height > (sFont.LineSpacing * 10))
+                item_info_font = smaller_Font;
 
             Vector2 position2;
             Color tint;
@@ -497,17 +666,49 @@ namespace Cronkpit
                         exit_submenu_tint = normal;
                     sBatch.DrawString(sFont, sub_menu_exit, position2, exit_submenu_tint);
                     break;
+                case Shopping_Mode.Sell:
+                    draw_item_type_menu(items_to_sell, ref sBatch);
+                    break;
+                case Shopping_Mode.Buyback:
+                    draw_item_type_menu(sold_items, ref sBatch);
+                    break;
             }
 
             if (im_shopping_for != Shopping_Mode.Main)
             {
                 Vector2 item_info_position2 = new Vector2(item_info_position.X, item_info_position.Y);
+                if (blurb_height > sFont.LineSpacing*10 && current_item_info.Count > 10)
+                    item_info_position2.Y += 20;
+
                 for (int i = 0; i < current_item_info.Count; i++)
                 {
-                    sBatch.DrawString(sFont, current_item_info[i], item_info_position2, Color.White);
-                    item_info_position2.Y += sFont.LineSpacing;
+                    sBatch.DrawString(item_info_font, current_item_info[i], item_info_position2, Color.White);
+                    item_info_position2.Y += item_info_font.LineSpacing;
                 }
             }
+        }
+
+        public void draw_item_type_menu(List<Item> target_menu, ref SpriteBatch sBatch)
+        {
+            take_item_menu_measurements(im_shopping_for);
+            Vector2 position2 = new Vector2(item_menu_position.X, item_menu_position.Y);
+            Color tint;
+            Color exit_submenu_tint;
+
+            for (int i = 0; i < target_menu.Count; i++)
+            {
+                if (i == selected_item_index)
+                    tint = highlighted;
+                else
+                    tint = normal;
+                sBatch.DrawString(sFont, target_menu[i].get_my_name(), position2, tint);
+                position2.Y += sFont.LineSpacing;
+            }
+            if (selected_item_index == target_menu.Count)
+                exit_submenu_tint = highlighted;
+            else
+                exit_submenu_tint = normal;
+            sBatch.DrawString(sFont, sub_menu_exit, position2, exit_submenu_tint);
         }
     }
 }

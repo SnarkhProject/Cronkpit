@@ -422,7 +422,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\axe_icon.xnb</Output>
-      <Time>2012-12-30T00:50:51.8460923-05:00</Time>
+      <Time>2012-12-30T06:21:53.1820957-05:00</Time>
     </Item>
     <Item>
       <Source>Icons\Weapons\spear_icon.png</Source>
@@ -431,7 +431,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\spear_icon.xnb</Output>
-      <Time>2012-10-13T03:18:54.3268724-04:00</Time>
+      <Time>2012-12-30T18:15:37.8795283-05:00</Time>
     </Item>
     <Item>
       <Source>Icons\Weapons\sword_icon.png</Source>
@@ -485,7 +485,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\skeleton.xnb</Output>
-      <Time>2012-10-21T02:14:50.6758542-04:00</Time>
+      <Time>2013-01-03T01:35:49.8055961-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\skeleton_archer.png</Source>
@@ -494,7 +494,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\skeleton_archer.xnb</Output>
-      <Time>2012-10-21T02:14:50.6998556-04:00</Time>
+      <Time>2013-01-03T01:35:49.891601-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\skeleton_axeman.png</Source>
@@ -503,7 +503,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\skeleton_axeman.xnb</Output>
-      <Time>2012-10-21T02:14:50.707856-04:00</Time>
+      <Time>2013-01-03T01:35:49.9376036-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\skeleton_mage.png</Source>
@@ -512,7 +512,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\skeleton_mage.xnb</Output>
-      <Time>2012-10-21T02:14:50.7088561-04:00</Time>
+      <Time>2013-01-03T01:35:50.0886122-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\skeleton_spearman.png</Source>
@@ -521,7 +521,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\skeleton_spearman.xnb</Output>
-      <Time>2012-10-21T02:14:50.7108562-04:00</Time>
+      <Time>2013-01-03T01:35:50.2026188-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\skeleton_warrior.png</Source>
@@ -530,7 +530,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\skeleton_warrior.xnb</Output>
-      <Time>2012-10-21T02:14:50.7118562-04:00</Time>
+      <Time>2013-01-03T01:35:50.207619-05:00</Time>
     </Item>
     <Item>
       <Source>sound shit.png</Source>
@@ -566,7 +566,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\katana_icon.xnb</Output>
-      <Time>2012-10-28T21:09:14.1946491-04:00</Time>
+      <Time>2012-12-30T18:15:37.3895003-05:00</Time>
     </Item>
     <Item>
       <Source>Icons\Weapons\knife_icon.png</Source>
@@ -575,7 +575,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\knife_icon.xnb</Output>
-      <Time>2012-10-30T04:34:43.4232708-04:00</Time>
+      <Time>2012-12-30T18:15:37.7295197-05:00</Time>
     </Item>
     <Item>
       <Source>Icons\Armors\linenrags_icon.png</Source>
@@ -638,7 +638,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\goldenMimic.xnb</Output>
-      <Time>2012-11-04T17:59:10.7989017-05:00</Time>
+      <Time>2012-12-30T13:18:37.7432748-05:00</Time>
     </Item>
     <Item>
       <Source>Projectiles\fire_spritesheet.png</Source>
@@ -674,7 +674,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\shortbow_icon.xnb</Output>
-      <Time>2012-11-11T17:25:40.5585191-05:00</Time>
+      <Time>2012-12-30T18:17:40.835561-05:00</Time>
     </Item>
     <Item>
       <Source>Player\ranged attack cursor.png</Source>
@@ -719,7 +719,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\Grendel.xnb</Output>
-      <Time>2012-11-21T02:55:42.021186-05:00</Time>
+      <Time>2013-01-02T12:04:09.8131158-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\Grendel_frostmage.png</Source>
@@ -728,7 +728,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\Grendel_frostmage.xnb</Output>
-      <Time>2012-11-21T02:55:42.0451873-05:00</Time>
+      <Time>2013-01-03T01:35:49.4065732-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\redKnight.png</Source>
@@ -791,7 +791,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\dirtfloor.xnb</Output>
-      <Time>2012-11-28T02:36:36.6092534-05:00</Time>
+      <Time>2012-12-30T13:18:29.9078266-05:00</Time>
     </Item>
     <Item>
       <Source>Background\dirtwall.png</Source>
@@ -1061,7 +1061,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_dirtfloor.xnb</Output>
-      <Time>2012-12-07T01:50:33.5596578-05:00</Time>
+      <Time>2012-12-30T13:18:24.5755217-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Moss Tiles\mossy_dirtwall.png</Source>
@@ -1097,7 +1097,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_stonefloorwcrack.xnb</Output>
-      <Time>2012-12-07T01:50:33.5646581-05:00</Time>
+      <Time>2013-01-02T12:02:46.0963275-05:00</Time>
     </Item>
     <Item>
       <Source>Player\Portraits\falsael_fine.png</Source>
@@ -1181,6 +1181,87 @@
       <Time>2012-12-08T03:37:22.7900421-05:00</Time>
     </Item>
     <Item>
+      <Source>Icons\Weapons\ballista_icon.png</Source>
+      <Name>Icons\Weapons\ballista_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\ballista_icon.xnb</Output>
+      <Time>2012-12-26T01:22:26.9742981-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\broadsword_icon.png</Source>
+      <Name>Icons\Weapons\broadsword_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\broadsword_icon.xnb</Output>
+      <Time>2012-12-26T01:22:26.9762982-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\heavycrossbow_icon.png</Source>
+      <Name>Icons\Weapons\heavycrossbow_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\heavycrossbow_icon.xnb</Output>
+      <Time>2012-12-26T01:22:27.0073-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\lightcrossbow_icon.png</Source>
+      <Name>Icons\Weapons\lightcrossbow_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\lightcrossbow_icon.xnb</Output>
+      <Time>2012-12-26T01:22:27.0093001-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\Necromancer.png</Source>
+      <Name>Enemies\Necromancer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\Necromancer.xnb</Output>
+      <Time>2012-12-26T01:24:37.7057755-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\reaver_icon.png</Source>
+      <Name>Icons\Weapons\reaver_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\reaver_icon.xnb</Output>
+      <Time>2012-12-30T00:43:43.3275824-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\flangedmace_icon.png</Source>
+      <Name>Icons\Weapons\flangedmace_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\flangedmace_icon.xnb</Output>
+      <Time>2012-12-30T18:35:33.7619289-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\pitsteelwarhammer_icon.png</Source>
+      <Name>Icons\Weapons\pitsteelwarhammer_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\pitsteelwarhammer_icon.xnb</Output>
+      <Time>2012-12-30T18:35:33.763929-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Player\bash attack cursor.png</Source>
+      <Name>Player\bash attack cursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Player\bash attack cursor.xnb</Output>
+      <Time>2012-12-31T00:14:54.9105199-05:00</Time>
+    </Item>
+    <Item>
       <Source>Fonts\sfont.spritefont</Source>
       <Name>Fonts\sfont</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -1226,51 +1307,6 @@
       <Time>2012-12-07T04:13:08.3029611-05:00</Time>
     </Item>
     <Item>
-      <Source>Icons\Weapons\ballista_icon.png</Source>
-      <Name>Icons\Weapons\ballista_icon</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\ballista_icon.xnb</Output>
-      <Time>2012-12-26T01:22:26.9742981-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Icons\Weapons\broadsword_icon.png</Source>
-      <Name>Icons\Weapons\broadsword_icon</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\broadsword_icon.xnb</Output>
-      <Time>2012-12-26T01:22:26.9762982-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Icons\Weapons\heavycrossbow_icon.png</Source>
-      <Name>Icons\Weapons\heavycrossbow_icon</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\heavycrossbow_icon.xnb</Output>
-      <Time>2012-12-26T01:22:27.0073-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Icons\Weapons\lightcrossbow_icon.png</Source>
-      <Name>Icons\Weapons\lightcrossbow_icon</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\lightcrossbow_icon.xnb</Output>
-      <Time>2012-12-26T01:22:27.0093001-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Enemies\necromancer.png</Source>
-      <Name>Enemies\necromancer</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\necromancer.xnb</Output>
-      <Time>2012-12-26T01:24:37.7057755-05:00</Time>
-    </Item>
-    <Item>
       <Source>Fonts\smallfont_bold.spritefont</Source>
       <Name>Fonts\smallfont_bold</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -1280,13 +1316,13 @@
       <Time>2012-12-27T03:07:01.5429802-05:00</Time>
     </Item>
     <Item>
-      <Source>Icons\Weapons\reaver_icon.png</Source>
-      <Name>Icons\Weapons\reaver_icon</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
+      <Source>Fonts\smaller_sfont.spritefont</Source>
+      <Name>Fonts\smaller_sfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\reaver_icon.xnb</Output>
-      <Time>2012-12-30T00:43:43.3275824-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smaller_sfont.xnb</Output>
+      <Time>2012-12-30T14:53:01.8632439-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

@@ -853,11 +853,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Background\Moss Tiles\mossy_stonefloorwcrack.png">
-      <Name>mossy_stonefloorwcrack</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Player\Portraits\falsael_fine.png">
@@ -978,6 +973,39 @@
   <ItemGroup>
     <Compile Include="Icons\Weapons\reaver_icon.png">
       <Name>reaver_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Fonts\smaller_sfont.spritefont">
+      <Name>smaller_sfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Icons\Weapons\flangedmace_icon.png">
+      <Name>flangedmace_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Weapons\pitsteelwarhammer_icon.png">
+      <Name>pitsteelwarhammer_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Player\bash attack cursor.png">
+      <Name>bash attack cursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Background\Moss Tiles\mossy_stonefloorwcrack.png">
+      <Name>mossy_stonefloorwcrack</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

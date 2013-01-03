@@ -1,0 +1,232 @@
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\alilmoreGold.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\lowGold.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\someGold.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\time2getpaid.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\tonsoGold.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\goreHound.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\hollowKnight.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\hollowKnight_idle.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\lolzombie.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\zombieCommander.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\badvoidtile.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\exit.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\stonebrick.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\stonebrickwtorch.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\stonefloor.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\stonefloorwcrack.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\lmfaoplayer.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\playercorpse.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\MouseTexture.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\wireframe.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_blue.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_green.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_red.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_yellow.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_blue.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_green.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_red.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_yellow.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_blue.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_green.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_red.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_yellow.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_blue.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_green.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_red.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_yellow.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_blue.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_green.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_red.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_yellow.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\head_blue.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\head_red.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_max_scrolldown.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_max_scrollup.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_one_scrolldown.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_one_scrollup.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\axe_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\spear_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\sword_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\chainmail_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\platemail_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\quiltedarmor_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\rubberunderwear_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_archer.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_axeman.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_mage.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_spearman.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_warrior.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\sound shit.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\arrow.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\flamebolt.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\katana_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\knife_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\linenrags_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\shoddyleather_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\enchantedrags_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\slashing_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\piercing_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\impact_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\goldenMimic.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\fire_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\hyperion_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\heavysiegebow_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\shortbow_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\ranged attack cursor.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\templarlance_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\traininglance_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\charge attack cursor.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\Grendel.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\Grendel_frostmage.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\redKnight.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\redKnightIdle.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\frostbolt.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\frost_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\paddeddragonscale_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\javelin.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\dirtfloor.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\dirtwall.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\dirtwallwtorch.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\powerstrike_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\cleave_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\obsidianplate_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\falsael_sprite.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_chest_blue.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_chest_green.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_chest_red.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_chest_yellow.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_head_blue.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_head_red.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_larm_blue.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_larm_green.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_larm_red.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_larm_yellow.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_lleg_blue.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_lleg_green.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_lleg_red.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_lleg_yellow.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rarm_blue.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rarm_green.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rarm_red.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rarm_yellow.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rleg_blue.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rleg_green.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rleg_red.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rleg_yellow.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_wireframe.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\Moss Tiles\mossy_dirtfloor.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\Moss Tiles\mossy_dirtwall.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\Moss Tiles\mossy_stonebrick.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\Moss Tiles\mossy_stonefloor.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\Moss Tiles\mossy_stonefloorwcrack.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\Portraits\falsael_fine.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\majorhealthpotion_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\majorrepairpotion_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\minorhealthpotion_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\minorrepairpotion_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\emptymajorhealthpotion_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\emptymajorrepairpotion_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\emptyminorhealthpotion_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\emptyminorrepairpotion_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\ballista_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\broadsword_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\heavycrossbow_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\lightcrossbow_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\Necromancer.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\reaver_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\flangedmace_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\pitsteelwarhammer_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\bash attack cursor.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\sfont.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\tfont.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\smallfont.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\popup_msg.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\mfont.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\smallfont_bold.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\smaller_sfont.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\alilmoreGold.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\lowGold.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\someGold.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\time2getpaid.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\tonsoGold.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\zombieCommander.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\badvoidtile.bmp
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\exit.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\lmfaoplayer.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\playercorpse.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\MouseTexture.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\wireframe.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_blue.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_green.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_red.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_yellow.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_blue.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_green.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_red.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_yellow.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_blue.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_green.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_red.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_yellow.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_blue.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_green.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_red.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_yellow.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_blue.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_green.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_red.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_yellow.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\head_blue.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\head_red.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_max_scrolldown.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_max_scrollup.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_one_scrolldown.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_one_scrollup.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\chainmail_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\platemail_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\quiltedarmor_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\rubberunderwear_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_archer.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_axeman.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_mage.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_spearman.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_warrior.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\sound shit.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\arrow.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\flamebolt.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\linenrags_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\shoddyleather_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\enchantedrags_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\slashing_spritesheet.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\piercing_spritesheet.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\impact_spritesheet.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\fire_spritesheet.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\hyperion_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\heavysiegebow_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\goreHound.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\hollowKnight.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\hollowKnight_idle.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\lolzombie.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\stonebrick.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\stonebrickwtorch.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\stonefloor.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\stonefloorwcrack.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\axe_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\spear_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\sword_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\katana_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\knife_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\goldenMimic.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\shortbow_icon.png
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Cronkpit.exe.manifest
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Cronkpit.application
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Cronkpit.exe
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Cronkpit.pdb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\obj\x86\Release\Cronkpit.exe.manifest
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\obj\x86\Release\Cronkpit.application
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\obj\x86\Release\Cronkpit.exe
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\obj\x86\Release\Cronkpit.pdb

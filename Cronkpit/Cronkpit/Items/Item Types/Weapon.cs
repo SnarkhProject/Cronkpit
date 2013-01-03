@@ -17,6 +17,8 @@ namespace Cronkpit
 
         int weapon_range;
 
+        int cooldown;
+
         public Weapon(int IDno, int goldVal, string myName,
                     Type typ, int hnd, int min_dmg, int max_dmg, int wpn_range)
             : base(IDno, goldVal, myName)
@@ -26,6 +28,7 @@ namespace Cronkpit
             min_damage = min_dmg;
             max_damage = max_dmg;
             weapon_range = wpn_range;
+            cooldown = 0;
 
             switch (weaponType)
             {
@@ -64,6 +67,7 @@ namespace Cronkpit
             min_damage = w.specific_damage_val(false);
             max_damage = w.specific_damage_val(true);
             weapon_range = w.get_my_range();
+            cooldown = 0;
 
             switch (weaponType)
             {
@@ -196,6 +200,16 @@ namespace Cronkpit
         public int get_my_range()
         {
             return weapon_range;
+        }
+
+        public int get_current_cooldown()
+        {
+            return cooldown;
+        }
+
+        public void set_cooldown(int cdown)
+        {
+            cooldown += cdown;
         }
     }
 }

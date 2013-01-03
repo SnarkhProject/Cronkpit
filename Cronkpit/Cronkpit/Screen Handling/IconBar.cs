@@ -11,6 +11,7 @@ namespace Cronkpit
 {
     class IconBar
     {
+        public enum Type_Tracker { None, Weapon, Armor, Potion };
         int number_of_icons;
         int mode;
         bool visible;
@@ -19,8 +20,12 @@ namespace Cronkpit
         List<Rectangle> icon_rects;
         List<int> icon_item_IDs;
         List<string> icon_shortcut_keys;
+        List<int> icon_quantities;
+        List<int> icon_cooldowns;
+        List<Type_Tracker> icon_item_types;
         Texture2D default_texture;
         SpriteFont sFont;
+        SpriteFont bFont;
         Rectangle client;
         Rectangle my_size;
 
@@ -32,7 +37,7 @@ namespace Cronkpit
         int my_xPosition;
         int my_yPosition;
 
-        public IconBar(Texture2D d_texture, SpriteFont default_font, Rectangle cl)
+        public IconBar(Texture2D d_texture, SpriteFont default_font, SpriteFont big_font, Rectangle cl)
         {
             number_of_icons = 8;
             visible = true;
@@ -42,10 +47,14 @@ namespace Cronkpit
             default_texture.SetData(new[] { Color.White });
             icon_rects = new List<Rectangle>();
             icon_item_IDs = new List<int>();
+            icon_item_types = new List<Type_Tracker>();
+            icon_quantities = new List<int>();
+            icon_cooldowns = new List<int>();
             client = cl;
             icon_shortcut_keys = new List<string>();
 
             sFont = default_font;
+            bFont = big_font;
 
             my_alpha_value = 255;
             my_dark_color = new Color(0, 0, 0, my_alpha_value);
@@ -66,6 +75,9 @@ namespace Cronkpit
             {
                 icon_textures.Add(default_texture);
                 icon_item_IDs.Add(-1);
+                icon_item_types.Add(Type_Tracker.None);
+                icon_quantities.Add(-1);
+                icon_cooldowns.Add(-1);
             }
 
             int functionKey = 2;
@@ -155,6 +167,30 @@ namespace Cronkpit
             icon_item_IDs[slot] = idNO;
         }
 
+        public void assign_type_to_slot(Type_Tracker tp, int slot)
+        {
+            icon_item_types[slot] = tp;
+        }
+
+        public void update_cooldown_and_quant(Player pl)
+        {
+            for (int i = 0; i < number_of_icons; i++)
+            {
+                if (icon_item_IDs[i] != -1)
+                {
+                    if (icon_item_types[i] == Type_Tracker.Weapon)
+                    {
+                        Weapon w = pl.get_weapon_by_ID(icon_item_IDs[i]);
+                        icon_cooldowns[i] = w.get_current_cooldown();
+                    }
+                    else if (icon_item_types[i] == Type_Tracker.Potion)
+                    {
+                        icon_quantities[i] = pl.count_full_potions_by_ID(icon_item_IDs[i]);
+                    }
+                }
+            }
+        }
+
         public bool item_is_on_bar(int itemID)
         {
             for (int i = 0; i < number_of_icons; i++)
@@ -166,8 +202,21 @@ namespace Cronkpit
             return false;
         }
 
+        public void wipe()
+        {
+            for (int i = 0; i < number_of_icons; i++)
+            {
+                icon_textures[i] = default_texture;
+                icon_item_IDs[i] = -1;
+                icon_item_types[i] = Type_Tracker.None;
+                icon_quantities[i] = -1;
+                icon_cooldowns[i] = -1;
+            }
+        }
+
         #region drawing stuff
 
+        //Kept for posterity - not used anymore because ha ha screen coordinates.
         public void offset_drawing(Matrix offsetMatrix)
         {
             my_xPosition = 0;
@@ -209,9 +258,9 @@ namespace Cronkpit
             {
                 int next_my_X = my_xPosition + i * (20 + 48);
                 Rectangle a_rect = new Rectangle(next_my_X, my_yPosition, 48, 48);
-                sBatch.Draw(default_texture, new Rectangle(a_rect.Left, a_rect.Top, border_width, a_rect.Height), my_red_color);
+                sBatch.Draw(default_texture, new Rectangle(a_rect.Left-border_width, a_rect.Top-border_width, border_width, a_rect.Height+(border_width*2)), my_red_color);
                 sBatch.Draw(default_texture, new Rectangle(a_rect.Right, a_rect.Top, border_width, a_rect.Height + border_width), my_red_color);
-                sBatch.Draw(default_texture, new Rectangle(a_rect.Left, a_rect.Top, a_rect.Width, border_width), my_red_color);
+                sBatch.Draw(default_texture, new Rectangle(a_rect.Left-border_width, a_rect.Top-border_width, a_rect.Width+(border_width*2), border_width), my_red_color);
                 sBatch.Draw(default_texture, new Rectangle(a_rect.Left, a_rect.Bottom, a_rect.Width, border_width), my_red_color);
             }
         }
@@ -225,6 +274,15 @@ namespace Cronkpit
             }
         }
 
+        public void draw_my_cooldown_overlay(ref SpriteBatch sBatch)
+        {
+            for (int i = 0; i < number_of_icons; i++)
+            {
+                if(icon_cooldowns[i] > 0)
+                    sBatch.Draw(default_texture, icon_rects[i], new Color(0, 0,0, 150));
+            }
+        }
+
         public void draw_my_shortcuts(ref SpriteBatch sBatch)
         {
             //Draws the shortcut text. Need to figure out the pattern for this in a bit.
@@ -234,6 +292,23 @@ namespace Cronkpit
                 float yPosition = icon_rects[i].Y + icon_rects[i].Height - sFont.LineSpacing - 5;
                 Vector2 position = new Vector2(xPosition, yPosition);
                 sBatch.DrawString(sFont, icon_shortcut_keys[i], position, Color.White);
+
+                if (icon_quantities[i] > 0)
+                {
+                    float q_xPosition = icon_rects[i].X + 5;
+                    float q_yPosition = icon_rects[i].Y + icon_rects[i].Height - sFont.LineSpacing - 5;
+                    Vector2 q_position = new Vector2(q_xPosition, q_yPosition);
+                    sBatch.DrawString(bFont, icon_quantities[i].ToString(), q_position, Color.Orange);
+                }
+
+                if (icon_cooldowns[i] > 0)
+                {
+                    string cd_number = icon_cooldowns[i].ToString();
+                    float cd_xPosition = icon_rects[i].X + ((icon_rects[i].Width - bFont.MeasureString(cd_number).X) / 2);
+                    float cd_yPosition = icon_rects[i].Y + ((icon_rects[i].Height - bFont.LineSpacing) / 2);
+                    Vector2 cd_position = new Vector2(cd_xPosition, cd_yPosition);
+                    sBatch.DrawString(bFont, cd_number, cd_position, Color.Red);
+                }
             }
         }
 
@@ -249,6 +324,10 @@ namespace Cronkpit
 
             sBatch.Begin(SpriteSortMode.BackToFront, null);
             draw_my_icons(ref sBatch);
+            sBatch.End();
+
+            sBatch.Begin(SpriteSortMode.BackToFront, null);
+            draw_my_cooldown_overlay(ref sBatch);
             sBatch.End();
 
             sBatch.Begin(SpriteSortMode.BackToFront, null);

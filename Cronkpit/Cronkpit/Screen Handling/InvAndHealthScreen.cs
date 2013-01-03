@@ -496,6 +496,13 @@ namespace Cronkpit
                         {
                             the_icoBar.assign_id_number_to_slot(player_inv[index_of_mouse_selected_item].get_my_IDno(), i);
                             the_icoBar.assign_icon_to_slot(player_inv[index_of_mouse_selected_item].get_my_texture(), i);
+                            if (player_inv[index_of_mouse_selected_item] is Potion)
+                                the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Potion, i);
+                            else if(player_inv[index_of_mouse_selected_item] is Armor)
+                                the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Armor, i);
+                            else if(player_inv[index_of_mouse_selected_item] is Weapon)
+                                the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Weapon, i);
+                            the_icoBar.update_cooldown_and_quant(pl);
                             done = true;
                         }
                     }
@@ -541,25 +548,30 @@ namespace Cronkpit
                                 case 1:
                                     the_icoBar.assign_id_number_to_slot(pl.show_main_hand().get_my_IDno(), i);
                                     the_icoBar.assign_icon_to_slot(pl.show_main_hand().get_my_texture(), i);
+                                    the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Weapon, i);
                                     done = true;
                                     break;
                                 case 2:
                                     the_icoBar.assign_id_number_to_slot(pl.show_off_hand().get_my_IDno(), i);
                                     the_icoBar.assign_icon_to_slot(pl.show_off_hand().get_my_texture(), i);
+                                    the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Weapon, i);
                                     done = true;
                                     break;
                                 case 3:
                                     the_icoBar.assign_id_number_to_slot(pl.show_over_armor().get_my_IDno(), i);
                                     the_icoBar.assign_icon_to_slot(pl.show_over_armor().get_my_texture(), i);
+                                    the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Armor, i);
                                     done = true;
                                     break;
                                 case 4:
                                     the_icoBar.assign_id_number_to_slot(pl.show_under_armor().get_my_IDno(), i);
                                     the_icoBar.assign_icon_to_slot(pl.show_under_armor().get_my_texture(), i);
+                                    the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Armor, i);
                                     done = true;
                                     break;
                             }
-                            
+
+                            the_icoBar.update_cooldown_and_quant(pl);
                         }
                     }
                 }

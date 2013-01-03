@@ -49,6 +49,8 @@ namespace Cronkpit
         public int total_sound;
         public int total_scent;
 
+        int standard_wpn_cooldown = 6;
+
         //Green text. Function here.
         public Player(ContentManager sCont, gridCoordinate sGridCoord, ref List<string> msgBuffer, 
                       Chara_Class myClass, Character myChara, ref PaperDoll pd)
@@ -307,6 +309,7 @@ namespace Cronkpit
                 switch (main_hand.get_my_weapon_type())
                 {
                     case Weapon.Type.Sword:
+                    case Weapon.Type.Mace:
                         squares_to_attack_mh.Add(new gridCoordinate(monster_gc));
                         break;
                     case Weapon.Type.Spear:
@@ -327,6 +330,7 @@ namespace Cronkpit
                 switch (off_hand.get_my_weapon_type())
                 {
                     case Weapon.Type.Sword:
+                    case Weapon.Type.Mace:
                         squares_to_attack_oh.Add(new gridCoordinate(monster_gc));
                         break;
                     case Weapon.Type.Spear:
@@ -379,7 +383,7 @@ namespace Cronkpit
                     }
 
                     //Damage penalty of 50% for lances.
-                    if (main_hand.get_my_weapon_type() == Weapon.Type.Lance)
+                    if (main_hand != null && main_hand.get_my_weapon_type() == Weapon.Type.Lance)
                         dmg_val /= 4;
 
                     attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_mh[i], w_name, true);
@@ -594,8 +598,8 @@ namespace Cronkpit
                     if(!fl.isWalkable(current_ray_position))
                         remove = true;
 
-                    if (main_hand.get_my_weapon_type() == Weapon.Type.Crossbow ||
-                        off_hand.get_my_weapon_type() == Weapon.Type.Crossbow)
+                    if ((main_hand != null && main_hand.get_my_weapon_type() == Weapon.Type.Crossbow) ||
+                        (off_hand != null && off_hand.get_my_weapon_type() == Weapon.Type.Crossbow))
                         if (fl.is_monster_here(current_ray_position, out monsterID))
                             remove = true;
 
@@ -640,7 +644,7 @@ namespace Cronkpit
 
             fl.create_new_projectile(new Projectile(get_my_grid_C(), monster_coord, Projectile.projectile_type.Arrow, ref Secondary_cManager));
             fl.add_effect(Attack.Damage.Piercing, monster_coord);
-            if (is_cbow_equipped())
+            if (is_cbow_equipped() && fl.isWalkable(splash_coord))
                 fl.add_effect(Attack.Damage.Piercing, splash_coord);
 
             attack_monster_in_grid(fl, dmg_to_monster, monsterID, monster_coord, wName, false);
@@ -796,6 +800,73 @@ namespace Cronkpit
             loot(fl);
             total_sound += my_sound_value() + (my_sound_value() / 2);
             total_scent += my_scent_value();
+        }
+
+        public void set_bash_attack_aura(Floor fl)
+        {
+            for (int x = my_grid_coord.x - 1; x <= my_grid_coord.x + 1; x++)
+                for (int y = my_grid_coord.y - 1; y <= my_grid_coord.y + 1; y++)
+                {
+                    gridCoordinate target_coord = new gridCoordinate(x, y);
+                    if (!(x == my_grid_coord.x && y == my_grid_coord.y) && fl.isWalkable(target_coord))
+                        fl.set_tile_aura(target_coord, Tile.Aura.Attack);
+                }
+        }
+
+        public void bash_attack(Floor fl, Monster m, Weapon wp)
+        {
+            int xdif = m.my_grid_coord.x - my_grid_coord.x;
+            int ydif = m.my_grid_coord.y - my_grid_coord.y;
+
+            int damage_value = (int)(wp.damage(ref rGen) * 1.4);
+            if (wp.get_hand_count() == 2)
+                damage_value = (int)((wp.damage(ref rGen)*2) * 1.6);
+
+            int m_hp = m.hitPoints;
+            fl.add_effect(wp.get_my_damage_type(), m.my_grid_coord);
+            attack_monster_in_grid(fl, damage_value, m.my_Index, m.my_grid_coord, wp.get_my_name(), true);
+            if (m.hitPoints > 0 && m_hp > m.hitPoints)
+            {
+                int whocares = -1;
+                gridCoordinate next_m_coord = new gridCoordinate(m.my_grid_coord.x + xdif, m.my_grid_coord.y + ydif);
+                if (fl.isWalkable(next_m_coord) && !fl.is_monster_here(next_m_coord, out whocares))
+                {
+                    m.my_grid_coord = next_m_coord;
+                    m.reset_my_drawing_position();
+                }
+                else
+                {
+                    int secondary_damage_value = wp.damage(ref rGen) / 2;
+                    fl.add_effect(wp.get_my_damage_type(), m.my_grid_coord);
+                    attack_monster_in_grid(fl, damage_value, m.my_Index, m.my_grid_coord, wp.get_my_name(), true);
+                }
+            }
+            wp.set_cooldown(standard_wpn_cooldown);
+        }
+
+        public void whirlwind_attack(Floor fl, Weapon target_weapon)
+        {
+            List<gridCoordinate> target_coordinates = new List<gridCoordinate>();
+            for (int x = my_grid_coord.x - 1; x <= my_grid_coord.x + 1; x++)
+                for (int y = my_grid_coord.y - 1; y <= my_grid_coord.y + 1; y++)
+                    if(!(x== my_grid_coord.x && y== my_grid_coord.y))
+                        target_coordinates.Add(new gridCoordinate(x, y));
+
+            int monster_ID = -1;
+            for (int i = 0; i < target_coordinates.Count; i++)
+            {
+                if (fl.is_monster_here(target_coordinates[i], out monster_ID))
+                {
+                    int attack_dmg = (int)(target_weapon.damage(ref rGen) * .8);
+                    if (target_weapon.get_hand_count() == 2)
+                        attack_dmg = (int)((target_weapon.damage(ref rGen)*2) * .9);
+                    attack_monster_in_grid(fl, attack_dmg, monster_ID, target_coordinates[i],
+                                            target_weapon.get_my_name(), true);
+                }
+                if (fl.isWalkable(target_coordinates[i]))
+                    fl.add_effect(target_weapon.get_my_damage_type(), target_coordinates[i]);
+            }
+            target_weapon.set_cooldown(standard_wpn_cooldown);
         }
 
         private int positive_difference(int i1, int i2)
@@ -1016,13 +1087,14 @@ namespace Cronkpit
                     message_buffer.Add("Your chest takes " + dmg.severity + " " + w_type + " wounds!");
                 }
                 calculate_dodge_chance();
-                pDoll.update_wound_report(Head.count_debilitating_injuries(),
-                                          Torso.count_debilitating_injuries(),
-                                          L_Arm.count_debilitating_injuries(),
-                                          R_Arm.count_debilitating_injuries(),
-                                          L_Leg.count_debilitating_injuries(),
-                                          R_Leg.count_debilitating_injuries());
+                update_pdoll();
             }
+
+            if (L_Arm.is_disabled())
+                unequip(Equip_Slot.Mainhand);
+
+            if (R_Arm.is_disabled())
+                unequip(Equip_Slot.Offhand);
 
             if (!is_alive())
                 message_buffer.Add("Your wounds are too much for you. You collapse and your vision fades.");
@@ -1044,6 +1116,7 @@ namespace Cronkpit
             Torso.heal_random_wound();
 
             calculate_dodge_chance();
+            update_pdoll();
         }
 
         public void heal_via_potion(Potion pt, string bodypart, bool repair_over_armor, Floor fl)
@@ -1088,12 +1161,18 @@ namespace Cronkpit
             }
 
             calculate_dodge_chance();
+            pDoll.update_wound_report(Head.count_debilitating_injuries(),
+                                          Torso.count_debilitating_injuries(),
+                                          L_Arm.count_debilitating_injuries(),
+                                          R_Arm.count_debilitating_injuries(),
+                                          L_Leg.count_debilitating_injuries(),
+                                          R_Leg.count_debilitating_injuries());
             pt.drink();
         }
 
         public void ingest_potion(Potion pt, Floor fl, bool repair_over_armor)
         {
-            int potency = (int)(pt.potion_potency() * 1.5);
+            int potency = (int)(pt.potion_potency() * 1.6);
             bool done = false;
             Armor target_armor = null;
 
@@ -1199,23 +1278,18 @@ namespace Cronkpit
                     {
                         case 0:
                             target_zone = "Chest";
-                            chest_tally++;
                             break;
                         case 1:
                             target_zone = "LArm";
-                            larm_tally++;
                             break;
                         case 2:
                             target_zone = "RArm";
-                            rarm_tally++;
                             break;
                         case 3:
                             target_zone = "LLeg";
-                            lleg_tally++;
                             break;
                         case 4:
                             target_zone = "RLeg";
-                            rleg_tally++;
                             break;
                     }
 
@@ -1223,6 +1297,25 @@ namespace Cronkpit
                     {
                         target_armor.repair_by_zone(1, target_zone);
                         potency--;
+
+                        switch (target_zone)
+                        {
+                            case "Chest":
+                                chest_tally++;
+                                break;
+                            case "RArm":
+                                rarm_tally++;
+                                break;
+                            case "LArm":
+                                larm_tally++;
+                                break;
+                            case "LLeg":
+                                lleg_tally++;
+                                break;
+                            case "RLeg":
+                                rleg_tally++;
+                                break;
+                        }
                     }
 
                     if (potency == 0 || target_armor.is_undamaged())
@@ -1243,6 +1336,12 @@ namespace Cronkpit
             }
 
             calculate_dodge_chance();
+            pDoll.update_wound_report(Head.count_debilitating_injuries(),
+                                          Torso.count_debilitating_injuries(),
+                                          L_Arm.count_debilitating_injuries(),
+                                          R_Arm.count_debilitating_injuries(),
+                                          L_Leg.count_debilitating_injuries(),
+                                          R_Leg.count_debilitating_injuries());
 
             if(pt.get_type() == Potion.Potion_Type.Repair && target_armor != null)
                 pt.drink();
@@ -1544,45 +1643,53 @@ namespace Cronkpit
 
         public void equip_main_hand(Weapon mh)
         {
-            unequip(Equip_Slot.Mainhand);
-            if (mh.get_hand_count() == 2)
-                unequip(Equip_Slot.Offhand);
-            //Okay, we've un-equipped both weapons.
-            
-            //Now, check how many hands our current weapon has.
-            int hnd_cnt = 0;
-            if(main_hand != null)
-                hnd_cnt = main_hand.get_hand_count();
-            main_hand = mh;
-            if (main_hand.get_hand_count() == 1 && hnd_cnt == 2)
-                off_hand = null;
-            if (main_hand.get_hand_count() == 2)
-                off_hand = mh;
+            if ((mh.get_hand_count() == 1 && !L_Arm.is_disabled()) ||
+                (!L_Arm.is_disabled() && !R_Arm.is_disabled()))
+            {
+                unequip(Equip_Slot.Mainhand);
+                if (mh.get_hand_count() == 2)
+                    unequip(Equip_Slot.Offhand);
+                //Okay, we've un-equipped both weapons.
 
-            //Now that we've equipped, check to see if the offhand is a bow. If it is, unequip it.
-            check_for_1_5_hands(true);
+                //Now, check how many hands our current weapon has.
+                int hnd_cnt = 0;
+                if (main_hand != null)
+                    hnd_cnt = main_hand.get_hand_count();
+                main_hand = mh;
+                if (main_hand.get_hand_count() == 1 && hnd_cnt == 2)
+                    off_hand = null;
+                if (main_hand.get_hand_count() == 2)
+                    off_hand = mh;
 
-            remove_item_from_inventory(main_hand.get_my_IDno());
+                //Now that we've equipped, check to see if the offhand is a bow. If it is, unequip it.
+                check_for_1_5_hands(true);
+
+                remove_item_from_inventory(main_hand.get_my_IDno());
+            }
         }
 
         public void equip_off_hand(Weapon oh)
         {
-            unequip(Equip_Slot.Offhand);
-            if (oh.get_hand_count() == 2)
-                unequip(Equip_Slot.Mainhand);
+            if ((oh.get_hand_count() == 1 && !R_Arm.is_disabled()) ||
+                (!L_Arm.is_disabled() && !R_Arm.is_disabled()))
+            {
+                unequip(Equip_Slot.Offhand);
+                if (oh.get_hand_count() == 2)
+                    unequip(Equip_Slot.Mainhand);
 
-            int hnd_cnt = 0;
-            if(off_hand != null)
-                hnd_cnt = off_hand.get_hand_count();
-            off_hand = oh;
-            if (off_hand.get_hand_count() == 1 && hnd_cnt == 2)
-                main_hand = null;
-            if (off_hand.get_hand_count() == 2)
-                main_hand = oh;
+                int hnd_cnt = 0;
+                if (off_hand != null)
+                    hnd_cnt = off_hand.get_hand_count();
+                off_hand = oh;
+                if (off_hand.get_hand_count() == 1 && hnd_cnt == 2)
+                    main_hand = null;
+                if (off_hand.get_hand_count() == 2)
+                    main_hand = oh;
 
-            check_for_1_5_hands(false);
+                check_for_1_5_hands(false);
 
-            remove_item_from_inventory(off_hand.get_my_IDno());
+                remove_item_from_inventory(off_hand.get_my_IDno());
+            }
         }
 
         public void check_for_1_5_hands (bool mainHand)
@@ -1820,6 +1927,22 @@ namespace Cronkpit
             return null;
         }
 
+        public int count_full_potions_by_ID(int IDno)
+        {
+            int potion_quantity = 0;
+            for (int i = 0; i < inventory.Count; i++)
+            {
+                if (inventory[i] is Potion)
+                {
+                    Potion p = (Potion)inventory[i];
+                    if (p.get_my_IDno() == IDno && !p.is_potion_empty())
+                        potion_quantity += p.get_my_quantity();
+                }
+            }
+
+            return potion_quantity;
+        }
+
         public void calculate_dodge_chance()
         {
             dodge_chance = 0;
@@ -1827,6 +1950,27 @@ namespace Cronkpit
                 dodge_chance += 10;
             if (!L_Leg.is_disabled())
                 dodge_chance += 10;
+        }
+
+        public void deincrement_cooldowns()
+        {
+            if (main_hand != null && main_hand.get_current_cooldown() > 0)
+                main_hand.set_cooldown(-1);
+
+            if (off_hand != null && 
+                main_hand.get_hand_count() == 1 &&
+                off_hand.get_current_cooldown() > 0)
+                off_hand.set_cooldown(-1);
+        }
+
+        public void update_pdoll()
+        {
+            pDoll.update_wound_report(Head.count_debilitating_injuries(),
+                                          Torso.count_debilitating_injuries(),
+                                          L_Arm.count_debilitating_injuries(),
+                                          R_Arm.count_debilitating_injuries(),
+                                          L_Leg.count_debilitating_injuries(),
+                                          R_Leg.count_debilitating_injuries());
         }
     }
 }

@@ -7,7 +7,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\alilmoreGold.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\alilmoreGold.xnb</Output>
       <Time>2012-09-30T13:28:30.5783659-04:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\lowGold.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\lowGold.xnb</Output>
       <Time>2012-09-30T13:28:30.5843662-04:00</Time>
     </Item>
     <Item>
@@ -25,7 +25,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\someGold.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\someGold.xnb</Output>
       <Time>2012-09-30T13:28:30.5853663-04:00</Time>
     </Item>
     <Item>
@@ -34,7 +34,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\time2getpaid.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\time2getpaid.xnb</Output>
       <Time>2012-09-30T13:28:30.5863663-04:00</Time>
     </Item>
     <Item>
@@ -43,7 +43,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Entities\tonsoGold.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Entities\tonsoGold.xnb</Output>
       <Time>2012-09-30T13:28:30.5883664-04:00</Time>
     </Item>
     <Item>
@@ -52,8 +52,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\goreHound.xnb</Output>
-      <Time>2012-09-30T13:29:04.4493032-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\goreHound.xnb</Output>
+      <Time>2012-12-22T01:34:16.2645521-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\hollowKnight.png</Source>
@@ -61,8 +61,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\hollowKnight.xnb</Output>
-      <Time>2012-09-30T13:29:04.4553035-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\hollowKnight.xnb</Output>
+      <Time>2012-12-26T00:16:41.6026357-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\hollowKnight_idle.png</Source>
@@ -70,8 +70,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\hollowKnight_idle.xnb</Output>
-      <Time>2012-09-30T13:29:04.4823051-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\hollowKnight_idle.xnb</Output>
+      <Time>2012-12-26T00:16:42.8687082-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\lolzombie.png</Source>
@@ -79,8 +79,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\lolzombie.xnb</Output>
-      <Time>2012-09-30T13:29:04.4853052-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\lolzombie.xnb</Output>
+      <Time>2012-12-27T00:16:34.9410521-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\zombieCommander.png</Source>
@@ -88,7 +88,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\zombieCommander.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\zombieCommander.xnb</Output>
       <Time>2012-09-30T13:29:04.4863053-04:00</Time>
     </Item>
     <Item>
@@ -97,7 +97,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\badvoidtile.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\badvoidtile.xnb</Output>
       <Time>2012-09-30T13:29:13.6228279-04:00</Time>
     </Item>
     <Item>
@@ -106,7 +106,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\exit.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\exit.xnb</Output>
       <Time>2012-09-30T13:29:13.625828-04:00</Time>
     </Item>
     <Item>
@@ -115,8 +115,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\stonebrick.xnb</Output>
-      <Time>2012-09-30T13:29:13.641829-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\stonebrick.xnb</Output>
+      <Time>2012-12-27T00:17:01.0735467-05:00</Time>
     </Item>
     <Item>
       <Source>Background\stonebrickwtorch.png</Source>
@@ -124,8 +124,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\stonebrickwtorch.xnb</Output>
-      <Time>2012-09-30T13:29:13.66083-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\stonebrickwtorch.xnb</Output>
+      <Time>2012-12-27T00:17:01.0995482-05:00</Time>
     </Item>
     <Item>
       <Source>Background\stonefloor.png</Source>
@@ -133,8 +133,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\stonefloor.xnb</Output>
-      <Time>2012-09-30T13:29:13.6658303-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\stonefloor.xnb</Output>
+      <Time>2012-12-22T21:09:32-05:00</Time>
     </Item>
     <Item>
       <Source>Background\stonefloorwcrack.png</Source>
@@ -142,8 +142,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Background\stonefloorwcrack.xnb</Output>
-      <Time>2012-09-30T13:29:13.6678304-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\stonefloorwcrack.xnb</Output>
+      <Time>2012-12-22T21:09:32-05:00</Time>
     </Item>
     <Item>
       <Source>Player\lmfaoplayer.png</Source>
@@ -151,7 +151,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Player\lmfaoplayer.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\lmfaoplayer.xnb</Output>
       <Time>2012-09-30T13:29:24.9654766-04:00</Time>
     </Item>
     <Item>
@@ -160,7 +160,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Player\playercorpse.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\playercorpse.xnb</Output>
       <Time>2012-09-30T13:29:24.9674767-04:00</Time>
     </Item>
     <Item>
@@ -169,7 +169,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\MouseTexture.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\MouseTexture.xnb</Output>
       <Time>2012-10-01T04:53:38.5082379-04:00</Time>
     </Item>
     <Item>
@@ -178,7 +178,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\wireframe.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\wireframe.xnb</Output>
       <Time>2012-10-07T03:29:46.8392268-04:00</Time>
     </Item>
     <Item>
@@ -187,7 +187,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_blue.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_blue.xnb</Output>
       <Time>2012-10-07T22:36:34.6138064-04:00</Time>
     </Item>
     <Item>
@@ -196,7 +196,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_green.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_green.xnb</Output>
       <Time>2012-10-07T22:36:34.6158065-04:00</Time>
     </Item>
     <Item>
@@ -205,7 +205,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_red.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_red.xnb</Output>
       <Time>2012-10-07T22:36:34.6428081-04:00</Time>
     </Item>
     <Item>
@@ -214,7 +214,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_yellow.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\chest_yellow.xnb</Output>
       <Time>2012-10-07T22:36:34.8198182-04:00</Time>
     </Item>
     <Item>
@@ -223,7 +223,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_blue.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_blue.xnb</Output>
       <Time>2012-10-07T23:06:35.8528314-04:00</Time>
     </Item>
     <Item>
@@ -232,7 +232,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_green.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_green.xnb</Output>
       <Time>2012-10-07T23:06:35.862832-04:00</Time>
     </Item>
     <Item>
@@ -241,7 +241,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_red.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_red.xnb</Output>
       <Time>2012-10-07T23:06:35.8778328-04:00</Time>
     </Item>
     <Item>
@@ -250,7 +250,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_yellow.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\larm_yellow.xnb</Output>
       <Time>2012-10-07T23:06:35.8788329-04:00</Time>
     </Item>
     <Item>
@@ -259,7 +259,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_blue.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_blue.xnb</Output>
       <Time>2012-10-07T23:06:35.880833-04:00</Time>
     </Item>
     <Item>
@@ -268,7 +268,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_green.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_green.xnb</Output>
       <Time>2012-10-07T23:06:35.8818331-04:00</Time>
     </Item>
     <Item>
@@ -277,7 +277,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_red.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_red.xnb</Output>
       <Time>2012-10-07T23:06:35.9018342-04:00</Time>
     </Item>
     <Item>
@@ -286,7 +286,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_yellow.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rarm_yellow.xnb</Output>
       <Time>2012-10-07T23:06:35.9048344-04:00</Time>
     </Item>
     <Item>
@@ -295,7 +295,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_blue.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_blue.xnb</Output>
       <Time>2012-10-07T23:33:34.8004299-04:00</Time>
     </Item>
     <Item>
@@ -304,7 +304,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_green.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_green.xnb</Output>
       <Time>2012-10-07T23:33:34.80243-04:00</Time>
     </Item>
     <Item>
@@ -313,7 +313,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_red.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_red.xnb</Output>
       <Time>2012-10-07T23:33:34.8044301-04:00</Time>
     </Item>
     <Item>
@@ -322,7 +322,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_yellow.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\lleg_yellow.xnb</Output>
       <Time>2012-10-07T23:33:34.8074303-04:00</Time>
     </Item>
     <Item>
@@ -331,7 +331,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_blue.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_blue.xnb</Output>
       <Time>2012-10-07T23:33:34.8094304-04:00</Time>
     </Item>
     <Item>
@@ -340,7 +340,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_green.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_green.xnb</Output>
       <Time>2012-10-07T23:33:34.8114305-04:00</Time>
     </Item>
     <Item>
@@ -349,7 +349,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_red.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_red.xnb</Output>
       <Time>2012-10-07T23:33:34.8144307-04:00</Time>
     </Item>
     <Item>
@@ -358,7 +358,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_yellow.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\rleg_yellow.xnb</Output>
       <Time>2012-10-07T23:33:34.8164308-04:00</Time>
     </Item>
     <Item>
@@ -367,7 +367,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\head_blue.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\head_blue.xnb</Output>
       <Time>2012-10-07T23:35:24.4237-04:00</Time>
     </Item>
     <Item>
@@ -376,7 +376,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\head_red.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\head_red.xnb</Output>
       <Time>2012-10-07T23:35:24.4257001-04:00</Time>
     </Item>
     <Item>
@@ -385,7 +385,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_max_scrolldown.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_max_scrolldown.xnb</Output>
       <Time>2012-10-08T02:50:04.182744-04:00</Time>
     </Item>
     <Item>
@@ -394,7 +394,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_max_scrollup.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_max_scrollup.xnb</Output>
       <Time>2012-10-08T02:50:04.2147458-04:00</Time>
     </Item>
     <Item>
@@ -403,7 +403,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_one_scrolldown.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_one_scrolldown.xnb</Output>
       <Time>2012-10-08T02:50:04.2167459-04:00</Time>
     </Item>
     <Item>
@@ -412,7 +412,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_one_scrollup.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\invbox_one_scrollup.xnb</Output>
       <Time>2012-10-08T02:50:04.217746-04:00</Time>
     </Item>
     <Item>
@@ -421,8 +421,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Weapons\axe_icon.xnb</Output>
-      <Time>2012-10-13T03:18:54.3248723-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\axe_icon.xnb</Output>
+      <Time>2012-12-30T06:21:53.1820957-05:00</Time>
     </Item>
     <Item>
       <Source>Icons\Weapons\spear_icon.png</Source>
@@ -430,8 +430,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Weapons\spear_icon.xnb</Output>
-      <Time>2012-10-13T03:18:54.3268724-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\spear_icon.xnb</Output>
+      <Time>2012-12-30T18:15:37.8795283-05:00</Time>
     </Item>
     <Item>
       <Source>Icons\Weapons\sword_icon.png</Source>
@@ -439,8 +439,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Weapons\sword_icon.xnb</Output>
-      <Time>2012-10-13T03:18:54.3278724-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\sword_icon.xnb</Output>
+      <Time>2012-12-30T00:50:52.4201251-05:00</Time>
     </Item>
     <Item>
       <Source>Icons\Armors\chainmail_icon.png</Source>
@@ -448,7 +448,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Armors\chainmail_icon.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\chainmail_icon.xnb</Output>
       <Time>2012-10-13T03:19:09.9277647-04:00</Time>
     </Item>
     <Item>
@@ -457,7 +457,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Armors\platemail_icon.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\platemail_icon.xnb</Output>
       <Time>2012-10-13T03:19:09.9297648-04:00</Time>
     </Item>
     <Item>
@@ -466,7 +466,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Armors\quiltedarmor_icon.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\quiltedarmor_icon.xnb</Output>
       <Time>2012-10-13T03:19:09.9317649-04:00</Time>
     </Item>
     <Item>
@@ -475,7 +475,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Armors\rubberunderwear_icon.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\rubberunderwear_icon.xnb</Output>
       <Time>2012-10-13T03:19:09.932765-04:00</Time>
     </Item>
     <Item>
@@ -484,7 +484,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\skeleton.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton.xnb</Output>
       <Time>2012-10-21T02:14:50.6758542-04:00</Time>
     </Item>
     <Item>
@@ -493,7 +493,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\skeleton_archer.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_archer.xnb</Output>
       <Time>2012-10-21T02:14:50.6998556-04:00</Time>
     </Item>
     <Item>
@@ -502,7 +502,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\skeleton_axeman.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_axeman.xnb</Output>
       <Time>2012-10-21T02:14:50.707856-04:00</Time>
     </Item>
     <Item>
@@ -511,7 +511,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\skeleton_mage.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_mage.xnb</Output>
       <Time>2012-10-21T02:14:50.7088561-04:00</Time>
     </Item>
     <Item>
@@ -520,7 +520,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\skeleton_spearman.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_spearman.xnb</Output>
       <Time>2012-10-21T02:14:50.7108562-04:00</Time>
     </Item>
     <Item>
@@ -529,7 +529,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\skeleton_warrior.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\skeleton_warrior.xnb</Output>
       <Time>2012-10-21T02:14:50.7118562-04:00</Time>
     </Item>
     <Item>
@@ -538,7 +538,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\sound shit.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\sound shit.xnb</Output>
       <Time>2012-10-25T03:23:52.1669232-04:00</Time>
     </Item>
     <Item>
@@ -547,7 +547,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Projectiles\arrow.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\arrow.xnb</Output>
       <Time>2012-10-22T05:07:35.3644778-04:00</Time>
     </Item>
     <Item>
@@ -556,7 +556,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Projectiles\flamebolt.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\flamebolt.xnb</Output>
       <Time>2012-10-24T13:47:34.7375745-04:00</Time>
     </Item>
     <Item>
@@ -565,8 +565,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Weapons\katana_icon.xnb</Output>
-      <Time>2012-10-28T21:09:14.1946491-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\katana_icon.xnb</Output>
+      <Time>2012-12-30T18:15:37.3895003-05:00</Time>
     </Item>
     <Item>
       <Source>Icons\Weapons\knife_icon.png</Source>
@@ -574,8 +574,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Weapons\knife_icon.xnb</Output>
-      <Time>2012-10-30T04:34:43.4232708-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\knife_icon.xnb</Output>
+      <Time>2012-12-30T18:15:37.7295197-05:00</Time>
     </Item>
     <Item>
       <Source>Icons\Armors\linenrags_icon.png</Source>
@@ -583,7 +583,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Armors\linenrags_icon.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\linenrags_icon.xnb</Output>
       <Time>2012-10-30T04:35:16.0661379-04:00</Time>
     </Item>
     <Item>
@@ -592,7 +592,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Armors\shoddyleather_icon.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\shoddyleather_icon.xnb</Output>
       <Time>2012-10-30T04:35:16.1351418-04:00</Time>
     </Item>
     <Item>
@@ -601,7 +601,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Armors\enchantedrags_icon.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\enchantedrags_icon.xnb</Output>
       <Time>2012-10-30T04:44:53.7421791-04:00</Time>
     </Item>
     <Item>
@@ -610,7 +610,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Projectiles\slashing_spritesheet.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\slashing_spritesheet.xnb</Output>
       <Time>2012-11-03T03:39:52.0042017-04:00</Time>
     </Item>
     <Item>
@@ -619,7 +619,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Projectiles\piercing_spritesheet.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\piercing_spritesheet.xnb</Output>
       <Time>2012-11-03T03:39:52.0022016-04:00</Time>
     </Item>
     <Item>
@@ -628,7 +628,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Projectiles\impact_spritesheet.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\impact_spritesheet.xnb</Output>
       <Time>2012-11-03T03:39:49.70107-04:00</Time>
     </Item>
     <Item>
@@ -637,8 +637,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\goldenMimic.xnb</Output>
-      <Time>2012-11-04T17:59:10.7989017-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\goldenMimic.xnb</Output>
+      <Time>2012-12-30T13:18:37.7432748-05:00</Time>
     </Item>
     <Item>
       <Source>Projectiles\fire_spritesheet.png</Source>
@@ -646,7 +646,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Projectiles\fire_spritesheet.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\fire_spritesheet.xnb</Output>
       <Time>2012-11-04T20:36:46.9847646-05:00</Time>
     </Item>
     <Item>
@@ -655,7 +655,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Weapons\hyperion_icon.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\hyperion_icon.xnb</Output>
       <Time>2012-11-11T06:05:57.3258516-05:00</Time>
     </Item>
     <Item>
@@ -664,7 +664,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Weapons\heavysiegebow_icon.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\heavysiegebow_icon.xnb</Output>
       <Time>2012-11-11T17:25:40.5445183-05:00</Time>
     </Item>
     <Item>
@@ -673,8 +673,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Weapons\shortbow_icon.xnb</Output>
-      <Time>2012-11-11T17:25:40.5585191-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\shortbow_icon.xnb</Output>
+      <Time>2012-12-30T18:17:40.835561-05:00</Time>
     </Item>
     <Item>
       <Source>Player\ranged attack cursor.png</Source>
@@ -682,7 +682,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Player\ranged attack cursor.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\ranged attack cursor.xnb</Output>
       <Time>2012-11-14T01:32:31.0918607-05:00</Time>
     </Item>
     <Item>
@@ -691,7 +691,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Weapons\templarlance_icon.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\templarlance_icon.xnb</Output>
       <Time>2012-11-16T04:21:12.2632436-05:00</Time>
     </Item>
     <Item>
@@ -700,7 +700,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Icons\Weapons\traininglance_icon.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\traininglance_icon.xnb</Output>
       <Time>2012-11-16T04:21:12.3032459-05:00</Time>
     </Item>
     <Item>
@@ -709,7 +709,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Player\charge attack cursor.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\charge attack cursor.xnb</Output>
       <Time>2012-11-20T02:12:42.823867-05:00</Time>
     </Item>
     <Item>
@@ -718,7 +718,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\Grendel.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\Grendel.xnb</Output>
       <Time>2012-11-21T02:55:42.021186-05:00</Time>
     </Item>
     <Item>
@@ -727,7 +727,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\Grendel_frostmage.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\Grendel_frostmage.xnb</Output>
       <Time>2012-11-21T02:55:42.0451873-05:00</Time>
     </Item>
     <Item>
@@ -736,8 +736,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\redKnight.xnb</Output>
-      <Time>2012-11-21T03:29:05.9948067-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\redKnight.xnb</Output>
+      <Time>2012-12-27T00:16:35.0700594-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\redKnightIdle.png</Source>
@@ -745,8 +745,521 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Enemies\redKnightIdle.xnb</Output>
-      <Time>2012-11-21T03:29:06.0188081-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\redKnightIdle.xnb</Output>
+      <Time>2012-12-27T00:16:35.3210738-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\frostbolt.png</Source>
+      <Name>Projectiles\frostbolt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\frostbolt.xnb</Output>
+      <Time>2012-11-24T03:14:17.5343816-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\frost_spritesheet.png</Source>
+      <Name>Projectiles\frost_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\frost_spritesheet.xnb</Output>
+      <Time>2012-11-24T03:40:13.6013836-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Armors\paddeddragonscale_icon.png</Source>
+      <Name>Icons\Armors\paddeddragonscale_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\paddeddragonscale_icon.xnb</Output>
+      <Time>2012-11-24T05:32:04.7532395-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\javelin.png</Source>
+      <Name>Projectiles\javelin</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\javelin.xnb</Output>
+      <Time>2012-11-25T02:08:40.6640029-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\dirtfloor.png</Source>
+      <Name>Background\dirtfloor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\dirtfloor.xnb</Output>
+      <Time>2012-12-30T13:18:29.9078266-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\dirtwall.png</Source>
+      <Name>Background\dirtwall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\dirtwall.xnb</Output>
+      <Time>2012-12-22T21:09:32-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\dirtwallwtorch.png</Source>
+      <Name>Background\dirtwallwtorch</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\dirtwallwtorch.xnb</Output>
+      <Time>2012-12-22T21:09:32-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\powerstrike_spritesheet.png</Source>
+      <Name>Projectiles\powerstrike_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\powerstrike_spritesheet.xnb</Output>
+      <Time>2012-11-30T02:58:41.6759034-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\cleave_spritesheet.png</Source>
+      <Name>Projectiles\cleave_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Projectiles\cleave_spritesheet.xnb</Output>
+      <Time>2012-12-01T02:23:01.5962952-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Armors\obsidianplate_icon.png</Source>
+      <Name>Icons\Armors\obsidianplate_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Armors\obsidianplate_icon.xnb</Output>
+      <Time>2012-12-01T20:48:06.5467214-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Player\falsael_sprite.png</Source>
+      <Name>Player\falsael_sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\falsael_sprite.xnb</Output>
+      <Time>2012-12-22T21:10:17-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_chest_blue.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_chest_blue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_chest_blue.xnb</Output>
+      <Time>2012-12-02T01:26:34.0213343-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_chest_green.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_chest_green</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_chest_green.xnb</Output>
+      <Time>2012-12-02T01:26:34.0223343-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_chest_red.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_chest_red</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_chest_red.xnb</Output>
+      <Time>2012-12-02T01:26:34.0243344-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_chest_yellow.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_chest_yellow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_chest_yellow.xnb</Output>
+      <Time>2012-12-02T01:26:34.0253345-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_head_blue.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_head_blue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_head_blue.xnb</Output>
+      <Time>2012-12-02T01:26:34.0273346-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_head_red.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_head_red</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_head_red.xnb</Output>
+      <Time>2012-12-02T01:26:34.0283347-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_larm_blue.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_larm_blue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_larm_blue.xnb</Output>
+      <Time>2012-12-02T01:26:34.0303348-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_larm_green.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_larm_green</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_larm_green.xnb</Output>
+      <Time>2012-12-02T01:26:34.0763374-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_larm_red.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_larm_red</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_larm_red.xnb</Output>
+      <Time>2012-12-02T01:26:34.0773375-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_larm_yellow.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_larm_yellow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_larm_yellow.xnb</Output>
+      <Time>2012-12-02T01:26:34.0793376-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_lleg_blue.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_lleg_blue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_lleg_blue.xnb</Output>
+      <Time>2012-12-02T01:26:34.0803377-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_lleg_green.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_lleg_green</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_lleg_green.xnb</Output>
+      <Time>2012-12-02T01:26:34.0823378-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_lleg_red.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_lleg_red</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_lleg_red.xnb</Output>
+      <Time>2012-12-02T01:26:34.0853379-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_lleg_yellow.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_lleg_yellow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_lleg_yellow.xnb</Output>
+      <Time>2012-12-02T01:26:34.086338-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_rarm_blue.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_rarm_blue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rarm_blue.xnb</Output>
+      <Time>2012-12-02T01:26:34.0873381-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_rarm_green.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_rarm_green</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rarm_green.xnb</Output>
+      <Time>2012-12-02T01:26:34.0893382-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_rarm_red.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_rarm_red</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rarm_red.xnb</Output>
+      <Time>2012-12-02T01:26:34.0903382-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_rarm_yellow.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_rarm_yellow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rarm_yellow.xnb</Output>
+      <Time>2012-12-02T01:26:34.0913383-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_rleg_blue.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_rleg_blue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rleg_blue.xnb</Output>
+      <Time>2012-12-02T01:26:34.0943385-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_rleg_green.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_rleg_green</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rleg_green.xnb</Output>
+      <Time>2012-12-02T01:26:34.0953385-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_rleg_red.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_rleg_red</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rleg_red.xnb</Output>
+      <Time>2012-12-02T01:31:19.6666723-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_rleg_yellow.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_rleg_yellow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_rleg_yellow.xnb</Output>
+      <Time>2012-12-02T01:26:36.0304492-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_wireframe.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_wireframe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\UI Elements\Inventory Screen\falsael_wires\fal_wireframe.xnb</Output>
+      <Time>2012-12-02T00:43:59.2632105-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Moss Tiles\mossy_dirtfloor.png</Source>
+      <Name>Background\Moss Tiles\mossy_dirtfloor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\Moss Tiles\mossy_dirtfloor.xnb</Output>
+      <Time>2012-12-30T13:18:24.5755217-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Moss Tiles\mossy_dirtwall.png</Source>
+      <Name>Background\Moss Tiles\mossy_dirtwall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\Moss Tiles\mossy_dirtwall.xnb</Output>
+      <Time>2012-12-22T21:09:03-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Moss Tiles\mossy_stonebrick.png</Source>
+      <Name>Background\Moss Tiles\mossy_stonebrick</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\Moss Tiles\mossy_stonebrick.xnb</Output>
+      <Time>2012-12-27T14:05:50.3638995-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Moss Tiles\mossy_stonefloor.png</Source>
+      <Name>Background\Moss Tiles\mossy_stonefloor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\Moss Tiles\mossy_stonefloor.xnb</Output>
+      <Time>2012-12-22T21:09:10-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Moss Tiles\mossy_stonefloorwcrack.png</Source>
+      <Name>Background\Moss Tiles\mossy_stonefloorwcrack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Background\Moss Tiles\mossy_stonefloorwcrack.xnb</Output>
+      <Time>2012-12-07T01:50:33.5646581-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Player\Portraits\falsael_fine.png</Source>
+      <Name>Player\Portraits\falsael_fine</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\Portraits\falsael_fine.xnb</Output>
+      <Time>2012-12-26T00:49:53.6345735-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Consumables\majorhealthpotion_icon.png</Source>
+      <Name>Icons\Consumables\majorhealthpotion_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\majorhealthpotion_icon.xnb</Output>
+      <Time>2012-12-08T03:35:32.5287356-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Consumables\majorrepairpotion_icon.png</Source>
+      <Name>Icons\Consumables\majorrepairpotion_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\majorrepairpotion_icon.xnb</Output>
+      <Time>2012-12-08T03:35:32.7977509-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Consumables\minorhealthpotion_icon.png</Source>
+      <Name>Icons\Consumables\minorhealthpotion_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\minorhealthpotion_icon.xnb</Output>
+      <Time>2012-12-08T03:35:33.7488053-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Consumables\minorrepairpotion_icon.png</Source>
+      <Name>Icons\Consumables\minorrepairpotion_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\minorrepairpotion_icon.xnb</Output>
+      <Time>2012-12-08T03:35:33.7848074-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Consumables\emptymajorhealthpotion_icon.png</Source>
+      <Name>Icons\Consumables\emptymajorhealthpotion_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\emptymajorhealthpotion_icon.xnb</Output>
+      <Time>2012-12-08T03:37:22.7750413-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Consumables\emptymajorrepairpotion_icon.png</Source>
+      <Name>Icons\Consumables\emptymajorrepairpotion_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\emptymajorrepairpotion_icon.xnb</Output>
+      <Time>2012-12-08T03:37:22.787042-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Consumables\emptyminorhealthpotion_icon.png</Source>
+      <Name>Icons\Consumables\emptyminorhealthpotion_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\emptyminorhealthpotion_icon.xnb</Output>
+      <Time>2012-12-08T03:37:22.7890421-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Consumables\emptyminorrepairpotion_icon.png</Source>
+      <Name>Icons\Consumables\emptyminorrepairpotion_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Consumables\emptyminorrepairpotion_icon.xnb</Output>
+      <Time>2012-12-08T03:37:22.7900421-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\ballista_icon.png</Source>
+      <Name>Icons\Weapons\ballista_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\ballista_icon.xnb</Output>
+      <Time>2012-12-26T01:22:26.9742981-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\broadsword_icon.png</Source>
+      <Name>Icons\Weapons\broadsword_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\broadsword_icon.xnb</Output>
+      <Time>2012-12-26T01:22:26.9762982-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\heavycrossbow_icon.png</Source>
+      <Name>Icons\Weapons\heavycrossbow_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\heavycrossbow_icon.xnb</Output>
+      <Time>2012-12-26T01:22:27.0073-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\lightcrossbow_icon.png</Source>
+      <Name>Icons\Weapons\lightcrossbow_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\lightcrossbow_icon.xnb</Output>
+      <Time>2012-12-26T01:22:27.0093001-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\Necromancer.png</Source>
+      <Name>Enemies\Necromancer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Enemies\Necromancer.xnb</Output>
+      <Time>2012-12-26T01:24:37.7057755-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\reaver_icon.png</Source>
+      <Name>Icons\Weapons\reaver_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\reaver_icon.xnb</Output>
+      <Time>2012-12-30T00:43:43.3275824-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\flangedmace_icon.png</Source>
+      <Name>Icons\Weapons\flangedmace_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\flangedmace_icon.xnb</Output>
+      <Time>2012-12-30T18:35:33.7619289-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\pitsteelwarhammer_icon.png</Source>
+      <Name>Icons\Weapons\pitsteelwarhammer_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Icons\Weapons\pitsteelwarhammer_icon.xnb</Output>
+      <Time>2012-12-30T18:35:33.763929-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Player\bash attack cursor.png</Source>
+      <Name>Player\bash attack cursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Player\bash attack cursor.xnb</Output>
+      <Time>2012-12-31T00:14:54.9105199-05:00</Time>
     </Item>
     <Item>
       <Source>Fonts\sfont.spritefont</Source>
@@ -754,7 +1267,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Fonts\sfont.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\sfont.xnb</Output>
       <Time>2012-09-30T13:29:36.231121-04:00</Time>
     </Item>
     <Item>
@@ -763,7 +1276,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Fonts\tfont.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\tfont.xnb</Output>
       <Time>2012-09-30T19:28:18.3141137-04:00</Time>
     </Item>
     <Item>
@@ -772,7 +1285,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Fonts\smallfont.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\smallfont.xnb</Output>
       <Time>2012-10-01T03:45:40.1359683-04:00</Time>
     </Item>
     <Item>
@@ -781,8 +1294,35 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\Fonts\popup_msg.xnb</Output>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\popup_msg.xnb</Output>
       <Time>2012-11-04T03:30:46.7837225-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\mfont.spritefont</Source>
+      <Name>Fonts\mfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\mfont.xnb</Output>
+      <Time>2012-12-07T04:13:08.3029611-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\smallfont_bold.spritefont</Source>
+      <Name>Fonts\smallfont_bold</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\smallfont_bold.xnb</Output>
+      <Time>2012-12-27T03:07:01.5429802-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\smaller_sfont.spritefont</Source>
+      <Name>Fonts\smaller_sfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\Fonts\smaller_sfont.xnb</Output>
+      <Time>2012-12-30T14:53:01.8632439-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -790,10 +1330,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Release</BuildConfiguration>
       <CompressContent>true</CompressContent>
-      <RootDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2Content\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2Content\obj\x86\Release\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit 1.2\Cronkpit 1.2\Cronkpit 1.2\bin\x86\Release\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit Content\obj\x86\Release\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Release\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
