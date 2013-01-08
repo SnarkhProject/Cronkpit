@@ -117,10 +117,50 @@ namespace Cronkpit
         }
 
         //drawing stuff. Maybe make more advanced later.
-        public void reset_my_drawing_position()
+        public void snap_to_grid()
         {
             my_Position.X = my_grid_coord.x * 32;
             my_Position.Y = my_grid_coord.y * 32;
+        }
+
+        public void increment_my_drawing_position(float delta_time)
+        {
+            Vector2 destination = new Vector2(my_grid_coord.x * 32, my_grid_coord.y * 32);
+            Vector2 direction = destination - my_Position;
+            direction.Normalize();
+
+            if (within_pixels_of_destination(3, destination))
+                snap_to_grid();
+            else
+            {
+                my_Position.X += (direction.X * delta_time) * 160;
+                my_Position.Y += (direction.Y * delta_time) * 160;
+            }
+        }
+
+        public bool within_pixels_of_destination(int pixels, Vector2 destination)
+        {
+            float xdif = 0;
+            float ydif = 0;
+            if (destination.X > my_Position.X)
+                xdif = destination.X - my_Position.X;
+            else
+                xdif = my_Position.X - destination.X;
+
+            if (destination.Y > my_Position.Y)
+                ydif = destination.Y - my_Position.Y;
+            else
+                ydif = my_Position.Y - destination.Y;
+
+            return xdif <= pixels && ydif <= pixels;
+        }
+
+        public bool at_destination()
+        {
+            if (my_Position.X / 32 == my_grid_coord.x && my_Position.Y / 32 == my_grid_coord.y)
+                return true;
+            else
+                return false;
         }
 
         //All positioning stuff.
@@ -153,7 +193,6 @@ namespace Cronkpit
                         my_grid_coord.y--;
                         if (is_spot_free(my_grid_coord, fl, pl))
                         {
-                            reset_my_drawing_position();
                             walked = true;
                         }
                         else
@@ -167,7 +206,6 @@ namespace Cronkpit
                         my_grid_coord.y++;
                         if (is_spot_free(my_grid_coord, fl, pl))
                         {
-                            reset_my_drawing_position();
                             walked = true;
                         }
                         else
@@ -181,7 +219,6 @@ namespace Cronkpit
                         my_grid_coord.x--;
                         if (is_spot_free(my_grid_coord, fl, pl))
                         {
-                            reset_my_drawing_position();
                             walked = true;
                         }
                         else
@@ -195,7 +232,6 @@ namespace Cronkpit
                         my_grid_coord.x++;
                         if (is_spot_free(my_grid_coord, fl, pl))
                         {
-                            reset_my_drawing_position();
                             walked = true;
                         }
                         else
@@ -210,7 +246,6 @@ namespace Cronkpit
                         my_grid_coord.y++;
                         if (is_spot_free(my_grid_coord, fl, pl))
                         {
-                            reset_my_drawing_position();
                             walked = true;
                         }
                         else
@@ -226,7 +261,6 @@ namespace Cronkpit
                         my_grid_coord.y++;
                         if (is_spot_free(my_grid_coord, fl, pl))
                         {
-                            reset_my_drawing_position();
                             walked = true;
                         }
                         else
@@ -242,7 +276,6 @@ namespace Cronkpit
                         my_grid_coord.y--;
                         if (is_spot_free(my_grid_coord, fl, pl))
                         {
-                            reset_my_drawing_position();
                             walked = true;
                         }
                         else
@@ -258,7 +291,6 @@ namespace Cronkpit
                         my_grid_coord.y--;
                         if (is_spot_free(my_grid_coord, fl, pl))
                         {
-                            reset_my_drawing_position();
                             walked = true;
                         }
                         else
@@ -429,7 +461,6 @@ namespace Cronkpit
             if (is_spot_free(test_grid_coord, fl, pl))
             {
                 my_grid_coord = test_grid_coord;
-                reset_my_drawing_position();
                 has_moved = true;
             }
             else
@@ -449,13 +480,11 @@ namespace Cronkpit
                 if (xaxis_free && !yaxis_free)
                 {
                     my_grid_coord = test_grid_coord_xaxis;
-                    reset_my_drawing_position();
                     has_moved = true;
                 }
                 else if (!xaxis_free && yaxis_free)
                 {
                     my_grid_coord = test_grid_coord_yaxis;
-                    reset_my_drawing_position();
                     has_moved = true;
                 }
                 else if (xaxis_free && yaxis_free)
@@ -464,14 +493,12 @@ namespace Cronkpit
                     if (directionpick == 0)
                     {
                         my_grid_coord = test_grid_coord_xaxis;
-                        reset_my_drawing_position();
                         has_moved = true;
                     }
 
                     if (directionpick == 1)
                     {
                         my_grid_coord = test_grid_coord_yaxis;
-                        reset_my_drawing_position();
                         has_moved = true;
                     }
                 }

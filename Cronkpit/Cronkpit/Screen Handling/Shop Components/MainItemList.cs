@@ -46,6 +46,14 @@ namespace Cronkpit
             shared_items.Add(new Weapon(27, 1750, "Reaver", Weapon.Type.Axe, 2, 4, 8, 1));
             shared_items.Add(new Weapon(28, 250, "Flanged Mace", Weapon.Type.Mace, 1, 3, 6, 1));
             shared_items.Add(new Weapon(29, 1750, "Pitsteel Warhammer", Weapon.Type.Mace, 1, 4, 11, 1));
+            shared_items.Add(new Scroll(30, 250, "Firebolt I", 1));
+            shared_items.Add(new Scroll(31, 250, "Acid Cloud", 1));
+            shared_items.Add(new Scroll(32, 250, "Lightning Bolt", 1));
+            shared_items.Add(new Scroll(33, 1750, "Chain Lightning", 2));
+            shared_items.Add(new Scroll(34, 1750, "Greater Acid Cloud", 2));
+            shared_items.Add(new Scroll(35, 1750, "Firebolt II", 2));
+            shared_items.Add(new Scroll(36, 3500, "Earthquake", 3));
+            shared_items.Add(new Scroll(37, 3500, "Firebolt III", 3));
         }
 
         public List<Armor> retrieve_random_shared_armors(int number)
@@ -104,6 +112,28 @@ namespace Cronkpit
                     if (shared_items[item_index] is Potion)
                     {
                         fetched_list.Add(shared_items[item_index]);
+                        done = true;
+                    }
+                }
+            }
+            return fetched_list;
+        }
+
+        public List<Scroll> retrieve_random_shared_scrolls(int number)
+        {
+            List<Scroll> fetched_list = new List<Scroll>();
+            for (int i = 0; i < number; i++)
+            {
+                bool done = false;
+                while (!done)
+                {
+                    int item_index = rGen.Next(shared_items.Count);
+                    //if valid item add it to the list and set done to true
+                    //otherwise do nothing and force it to find a new list
+                    //for now though we'll just add it and set done to true.
+                    if (shared_items[item_index] is Scroll)
+                    {
+                        fetched_list.Add((Scroll)shared_items[item_index]);
                         done = true;
                     }
                 }

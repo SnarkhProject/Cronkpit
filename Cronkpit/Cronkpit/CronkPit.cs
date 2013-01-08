@@ -298,16 +298,20 @@ namespace Cronkpit
                     f1.sound_pulse(p1.get_my_grid_C(), p1.total_sound, 0);
                     p1.reset_sound_and_scent();
                     f1.update_dungeon_floor(p1);
+
                     bad_turn = false;
                     p1.deincrement_cooldowns();
                     icoBar.update_cooldown_and_quant(p1);
-
                 }
+
+                if (!f1.done_smooth_transitions())
+                    f1.smooth_transition_monster(elapsedTime);
 
                 cam.Pos = p1.get_my_Position();
             }
             else
                 updateInput();
+
             //Only do this if it's visible!                
 
             // TODO: Add your update logic here
@@ -586,6 +590,7 @@ namespace Cronkpit
                                 shopScr.switch_shopping_mode(ShopScreen.Shopping_Mode.Armor);
                                 break;
                             case 2:
+                                shopScr.switch_shopping_mode(ShopScreen.Shopping_Mode.Scrolls);
                                 break;
                             case 3:
                                 //Consumables
@@ -724,10 +729,13 @@ namespace Cronkpit
                         int gc_xloc = (int)((mousePosition.X - cam.viewMatrix.Translation.X) / 32);
                         int gc_yloc = (int)((mousePosition.Y - cam.viewMatrix.Translation.Y) / 32);
                         gridCoordinate click_location = new gridCoordinate(gc_xloc, gc_yloc);
-                        int monster_no;
-                        if (f1.is_monster_here(click_location, out monster_no) && f1.aura_of_specific_tile(click_location) == Tile.Aura.Attack)
+                        int monster_no = -1;
+                        int doodad_no = -1;
+                        if ((f1.is_monster_here(click_location, out monster_no) ||
+                            f1.is_destroyable_doodad_here(click_location, out doodad_no)) && 
+                            f1.aura_of_specific_tile(click_location) == Tile.Aura.Attack)
                         {
-                            p1.bow_attack(f1, ref Secondary_cManager, monster_no);
+                            p1.bow_attack(f1, ref Secondary_cManager, monster_no, doodad_no);
 
                             //gameState = 1;
                             current_state = Game_State.normal;
@@ -801,11 +809,19 @@ namespace Cronkpit
                         int gc_xloc = (int)((mousePosition.X - cam.viewMatrix.Translation.X) / 32);
                         int gc_yloc = (int)((mousePosition.Y - cam.viewMatrix.Translation.Y) / 32);
                         gridCoordinate click_location = new gridCoordinate(gc_xloc, gc_yloc);
-                        int monster_no;
-                        if (f1.is_monster_here(click_location, out monster_no) && f1.aura_of_specific_tile(click_location) == Tile.Aura.Attack)
+                        int monster_no = -1;
+                        int doodad_no = -1;
+                        if ((f1.is_monster_here(click_location, out monster_no) || 
+                            f1.is_destroyable_doodad_here(click_location, out doodad_no)) 
+                            && f1.aura_of_specific_tile(click_location) == Tile.Aura.Attack)
                         {
-                            f1.add_effect(Attack.Damage.Piercing, f1.badguy_by_monster_id(monster_no).my_grid_coord);
-                            p1.charge_attack(f1, selected_lance, monster_no);
+                            gridCoordinate effect_coord = new gridCoordinate(-1, -1);
+                            if (f1.is_monster_here(click_location, out monster_no))
+                                effect_coord = f1.badguy_by_monster_id(monster_no).my_grid_coord;
+                            else
+                                effect_coord = f1.doodad_by_index(doodad_no).get_g_coord();
+                            f1.add_effect(Attack.Damage.Piercing, effect_coord);
+                            p1.charge_attack(f1, selected_lance, monster_no, doodad_no);
 
                             //gameState = 1;
                             current_state = Game_State.normal;
@@ -954,6 +970,7 @@ namespace Cronkpit
             // Update saved state.            
         }
 
+        //ranged + charge attack region
         #region some ranged / charge attack stuff - stuffed in a function to avoid repetition
         private void start_ranged_attack()
         {
@@ -969,10 +986,13 @@ namespace Cronkpit
         private void ranged_attack_via_cursor()
         {
             gridCoordinate click_location = new gridCoordinate(ra1.my_grid_coord);
-            int monster_no;
-            if (f1.is_monster_here(click_location, out monster_no) && f1.aura_of_specific_tile(click_location) == Tile.Aura.Attack)
+            int monster_no = -1;
+            int doodad_no = -1;
+            if ((f1.is_monster_here(click_location, out monster_no) ||
+                f1.is_destroyable_doodad_here(click_location, out doodad_no)) && 
+                f1.aura_of_specific_tile(click_location) == Tile.Aura.Attack)
             {
-                p1.bow_attack(f1, ref Secondary_cManager, monster_no);
+                p1.bow_attack(f1, ref Secondary_cManager, monster_no, doodad_no);
                 bad_turn = true;
             }
 
@@ -996,11 +1016,19 @@ namespace Cronkpit
         private void charge_attack_via_cursor(int lanceID)
         {
             gridCoordinate click_location = new gridCoordinate(ra1.my_grid_coord);
-            int monster_no;
-            if (f1.is_monster_here(click_location, out monster_no) && f1.aura_of_specific_tile(click_location) == Tile.Aura.Attack)
+            int monster_no = -1;
+            int doodad_no = -1;
+            if ((f1.is_monster_here(click_location, out monster_no) || 
+                f1.is_destroyable_doodad_here(click_location, out doodad_no)) && 
+                f1.aura_of_specific_tile(click_location) == Tile.Aura.Attack)
             {
-                f1.add_effect(Attack.Damage.Piercing, f1.badguy_by_monster_id(monster_no).my_grid_coord);
-                p1.charge_attack(f1, lanceID, monster_no);
+                gridCoordinate effect_coord = new gridCoordinate(-1, -1);
+                if(f1.is_monster_here(click_location, out monster_no))
+                    effect_coord = f1.badguy_by_monster_id(monster_no).my_grid_coord;
+                else
+                    effect_coord = f1.doodad_by_index(doodad_no).get_g_coord();
+                f1.add_effect(Attack.Damage.Piercing, effect_coord);
+                p1.charge_attack(f1, lanceID, monster_no, doodad_no);
                 bad_turn = true;
             }
 
@@ -1023,10 +1051,13 @@ namespace Cronkpit
         private void bashing_attack_via_cursor(Weapon w)
         {
             gridCoordinate cursor_location = new gridCoordinate(ra1.my_grid_coord);
-            int monster_no;
-            if (f1.is_monster_here(cursor_location, out monster_no) && f1.aura_of_specific_tile(cursor_location) == Tile.Aura.Attack)
+            int monster_no = -1;
+            int doodad_no = -1;
+            if ((f1.is_monster_here(cursor_location, out monster_no) ||
+                f1.is_destroyable_doodad_here(cursor_location, out doodad_no)) && 
+                f1.aura_of_specific_tile(cursor_location) == Tile.Aura.Attack)
             {
-                p1.bash_attack(f1, f1.badguy_by_monster_id(monster_no), w);
+                p1.bash_attack(f1, f1.badguy_by_monster_id(monster_no), f1.doodad_by_index(doodad_no), w);
                 bad_turn = true;
             }
 

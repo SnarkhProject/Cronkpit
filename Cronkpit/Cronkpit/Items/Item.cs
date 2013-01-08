@@ -43,7 +43,7 @@ namespace Cronkpit
             my_texture = target_tex;
         }
 
-        public string get_my_texture_name()
+        public virtual string get_my_texture_name()
         {
             string tex_name = name.ToLower();
             return tex_name.Replace(" ", String.Empty) + "_icon";

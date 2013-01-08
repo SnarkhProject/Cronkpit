@@ -62,7 +62,7 @@ namespace Cronkpit
             rGen = new Random();
             message_buffer = msgBuffer;
             //!Constructor stuff
-            my_gold = 0;
+            my_gold = 9000;
             base_smell_value = 10;
             base_sound_value = 10;
             //Player stuff
@@ -143,6 +143,7 @@ namespace Cronkpit
             //0 = up, 1 = down, 2 = left, 3 = right
             //4 = downright, 5 = downleft, 6 = upright, 7 = upleft
             int MonsterID = -1;
+            int DoodadID = -1;
             int my_smell = my_scent_value();
             int my_sound = my_sound_value();
             //damage stuff
@@ -160,8 +161,14 @@ namespace Cronkpit
                     {                        
                         my_grid_coord.y++;
                     }
-                    else
+                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
+                    {
                         my_grid_coord.y++;
+                    }
+                    else
+                    {
+                        my_grid_coord.y++;
+                    }
                     break;
                 //down, y+
                 case 1:
@@ -171,6 +178,10 @@ namespace Cronkpit
                         reset_my_drawing_position();
                     }
                     else if (is_monster_present(fl, out MonsterID))
+                    {
+                        my_grid_coord.y--;
+                    }
+                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
                     {
                         my_grid_coord.y--;
                     }
@@ -188,6 +199,10 @@ namespace Cronkpit
                     {
                         my_grid_coord.x++;
                     }
+                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
+                    {
+                        my_grid_coord.x++;
+                    }
                     else
                         my_grid_coord.x++;
                     break;
@@ -199,6 +214,10 @@ namespace Cronkpit
                         reset_my_drawing_position();
                     }
                     else if (is_monster_present(fl, out MonsterID))
+                    {
+                        my_grid_coord.x--;
+                    }
+                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
                     {
                         my_grid_coord.x--;
                     }
@@ -214,6 +233,11 @@ namespace Cronkpit
                         reset_my_drawing_position();
                     }
                     else if (is_monster_present(fl, out MonsterID))
+                    {
+                        my_grid_coord.x--;
+                        my_grid_coord.y--;
+                    }
+                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
                     {
                         my_grid_coord.x--;
                         my_grid_coord.y--;
@@ -236,7 +260,12 @@ namespace Cronkpit
                     {
                         my_grid_coord.x++;
                         my_grid_coord.y--;
-                    }    
+                    }
+                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
+                    {
+                        my_grid_coord.x++;
+                        my_grid_coord.y--;
+                    }
                     else
                     {
                         my_grid_coord.x++;
@@ -252,6 +281,11 @@ namespace Cronkpit
                         reset_my_drawing_position();
                     }
                     else if (is_monster_present(fl, out MonsterID))
+                    {
+                        my_grid_coord.x--;
+                        my_grid_coord.y++;
+                    }
+                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
                     {
                         my_grid_coord.x--;
                         my_grid_coord.y++;
@@ -275,6 +309,11 @@ namespace Cronkpit
                         my_grid_coord.x++;
                         my_grid_coord.y++;
                     }
+                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
+                    {
+                        my_grid_coord.x++;
+                        my_grid_coord.y++;
+                    }
                     else
                     {
                         my_grid_coord.x++;
@@ -288,6 +327,10 @@ namespace Cronkpit
             if (MonsterID != -1)
             {
                 melee_attack(fl, my_grid_coord, fl.badguy_by_monster_id(MonsterID).my_grid_coord);
+            }
+            if(DoodadID != -1)
+            {
+                melee_attack(fl, my_grid_coord, fl.doodad_by_index(DoodadID).get_g_coord());
             }
             //after moving, loot and then add smell to current tile.
             loot(fl);
@@ -366,28 +409,32 @@ namespace Cronkpit
             for (int i = 0; i < squares_to_attack_mh.Count; i++)
             {
                 int c_monsterID;
-                if (fl.is_monster_here(squares_to_attack_mh[i], out c_monsterID))
+                int c_doodadID;
+
+                string w_name = "";
+                int dmg_val = 0;
+
+                if (main_hand != null)
                 {
-                    string w_name = "";
-                    int dmg_val = 0;
-
-                    if (main_hand != null)
-                    {
-                        dmg_val = main_hand.damage(ref rGen);
-                        w_name = main_hand.get_my_name();
-                    }
-                    else
-                    {
-                        dmg_val = rGen.Next(1, 4);
-                        w_name = "fists";
-                    }
-
-                    //Damage penalty of 50% for lances.
-                    if (main_hand != null && main_hand.get_my_weapon_type() == Weapon.Type.Lance)
-                        dmg_val /= 4;
-
-                    attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_mh[i], w_name, true);
+                    dmg_val = main_hand.damage(ref rGen);
+                    w_name = main_hand.get_my_name();
                 }
+                else
+                {
+                    dmg_val = rGen.Next(1, 4);
+                    w_name = "fists";
+                }
+
+                //Damage penalty of 50% for lances.
+                if (main_hand != null && main_hand.get_my_weapon_type() == Weapon.Type.Lance)
+                    dmg_val /= 4;
+
+                if (fl.is_monster_here(squares_to_attack_mh[i], out c_monsterID))
+                    attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_mh[i], w_name, true);
+
+                if (fl.is_destroyable_doodad_here(squares_to_attack_mh[i], out c_doodadID))
+                    attack_doodad_in_grid(fl, dmg_val, c_doodadID, squares_to_attack_mh[i], w_name);
+
                 if (main_hand != null)
                     fl.add_effect(main_hand.get_my_damage_type(), squares_to_attack_mh[i]);
                 else
@@ -397,44 +444,53 @@ namespace Cronkpit
             for (int i = 0; i < squares_to_attack_oh.Count; i++)
             {
                 int c_monsterID;
+                int c_doodadID;
+
+                string w_name = off_hand.get_my_name();
+                int dmg_val = off_hand.damage(ref rGen);
+
+                //Damage penalty of 50% for lances.
+                if (off_hand.get_my_weapon_type() == Weapon.Type.Lance)
+                    dmg_val /= 4;
+
                 if (fl.is_monster_here(squares_to_attack_oh[i], out c_monsterID))
-                {
-                    string w_name = off_hand.get_my_name();
-                    int dmg_val = off_hand.damage(ref rGen);
-
-                    //Damage penalty of 50% for lances.
-                    if (off_hand.get_my_weapon_type() == Weapon.Type.Lance)
-                        dmg_val /= 4;
-
                     attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_oh[i], w_name, true);
-                }
+
+                if (fl.is_destroyable_doodad_here(squares_to_attack_oh[i], out c_doodadID))
+                    attack_doodad_in_grid(fl, dmg_val, c_doodadID, squares_to_attack_oh[i], w_name);
+
                 fl.add_effect(off_hand.get_my_damage_type(), squares_to_attack_oh[i]);
             }
 
             for (int i = 0; i < squares_to_attack_both.Count; i++)
             {
                 int c_monsterID;
+                int c_doodadID;
+
+                string w_name = "";
+
+                if (off_hand == main_hand)
+                    w_name = main_hand.get_my_name();
+                else
+                    w_name = main_hand.get_my_name() + " and your " + off_hand.get_my_name();
+
+                //Both of these have a 50% damage penalty for lances.
+                int mh_dmg = main_hand.damage(ref rGen);
+                if (main_hand.get_my_weapon_type() == Weapon.Type.Lance)
+                    mh_dmg /= 4;
+
+                int oh_dmg = off_hand.damage(ref rGen);
+                if (off_hand.get_my_weapon_type() == Weapon.Type.Lance)
+                    oh_dmg /= 4;
+
+                int dmg_val = mh_dmg + oh_dmg;
+
                 if (fl.is_monster_here(squares_to_attack_both[i], out c_monsterID))
-                {
-                    string w_name = "";
-
-                    if (off_hand == main_hand)
-                        w_name = main_hand.get_my_name();
-                    else
-                        w_name = main_hand.get_my_name() + " and your " + off_hand.get_my_name();
-
-                    //Both of these have a 50% damage penalty for lances.
-                    int mh_dmg = main_hand.damage(ref rGen);
-                    if (main_hand.get_my_weapon_type() == Weapon.Type.Lance)
-                        mh_dmg /= 4;
-
-                    int oh_dmg = off_hand.damage(ref rGen);
-                    if (off_hand.get_my_weapon_type() == Weapon.Type.Lance)
-                        oh_dmg /= 4;
-
-                    int dmg_val = mh_dmg + oh_dmg;
                     attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_both[i], w_name, true);
-                }
+
+                if (fl.is_destroyable_doodad_here(squares_to_attack_both[i], out c_doodadID))
+                    attack_doodad_in_grid(fl, dmg_val, c_doodadID, squares_to_attack_both[i], w_name);
+
                 if (off_hand == main_hand)
                     fl.add_effect(main_hand.get_my_damage_type(), squares_to_attack_both[i]);
                 else
@@ -529,7 +585,7 @@ namespace Cronkpit
             for (int i = 0; i < spear_range; i++)
             {
                 gridCoordinate square_to_attack = new gridCoordinate(pl_gc.x + (x_difference*(i+1)), pl_gc.y + (y_difference*(i+1)));
-                if(fl.isWalkable(square_to_attack) && !blocked)
+                if(fl.is_tile_passable(square_to_attack) && !blocked)
                     coord_list.Add(square_to_attack);
                 else
                     blocked = true;
@@ -551,6 +607,13 @@ namespace Cronkpit
             string attack_msg = "You attack the " + fl.badguy_by_monster_id(c_monsterID).my_name + " with your " + weapon_name + "!";
             message_buffer.Add(attack_msg);
             fl.damage_monster(dmg_val, c_monsterID, melee_attack);
+        }
+
+        public void attack_doodad_in_grid(Floor fl, int dmg_val, int c_DoodadID, gridCoordinate current_gc, string weapon_name)
+        {
+            string attack_msg = "You attack the " + fl.doodad_by_index(c_DoodadID).my_name() + " with your " + weapon_name + "!";
+            message_buffer.Add(attack_msg);
+            fl.damage_doodad(dmg_val, c_DoodadID);
         }
 
         public void set_ranged_attack_aura(Floor fl, gridCoordinate pl_gc)
@@ -587,6 +650,8 @@ namespace Cronkpit
                 for (int i = 0; i < range_rays.Count; i++)
                 {
                     bool remove = false;
+                    int whoCares = -1;
+
                     range_rays[i].update();
                     gridCoordinate current_ray_position = new gridCoordinate((int)range_rays[i].my_current_position.X / 32, (int)range_rays[i].my_current_position.Y / 32);
                     int x_difference = positive_difference(pl_gc.x, current_ray_position.x);
@@ -594,6 +659,10 @@ namespace Cronkpit
                     
                     if (fl.isWalkable(current_ray_position) && (x_difference > 1 || y_difference > 1))
                             fl.set_tile_aura(current_ray_position, Tile.Aura.Attack);
+
+                    if (!fl.isWalkable(current_ray_position) && (x_difference > 1 || y_difference > 1) &&
+                        fl.is_destroyable_doodad_here(current_ray_position, out whoCares))
+                        fl.set_tile_aura(current_ray_position, Tile.Aura.Attack);
                     
                     if(!fl.isWalkable(current_ray_position))
                         remove = true;
@@ -609,24 +678,29 @@ namespace Cronkpit
             }
         }
 
-        public void bow_attack(Floor fl, ref ContentManager Secondary_cManager, int monsterID)
+        public void bow_attack(Floor fl, ref ContentManager Secondary_cManager, int monsterID, int doodadID)
         {
             int dmg_to_monster = 0;
             int splash_dmg = 0;
             string wName = "";
-            gridCoordinate monster_coord = fl.badguy_by_monster_id(monsterID).my_grid_coord;
+            gridCoordinate opposition_coord = new gridCoordinate(-1, -1);
+            if (monsterID != -1)
+                opposition_coord = fl.badguy_by_monster_id(monsterID).my_grid_coord;
+            else
+                opposition_coord = fl.doodad_by_index(doodadID).get_g_coord();
+
             int cbow_xsplash = 0;
             int cbow_ysplash = 0;
-            if (monster_coord.x < my_grid_coord.x)
+            if (opposition_coord.x < my_grid_coord.x)
                 cbow_xsplash = -1;
-            else if (monster_coord.x > my_grid_coord.x)
+            else if (opposition_coord.x > my_grid_coord.x)
                 cbow_xsplash = 1;
 
-            if (monster_coord.y < my_grid_coord.y)
+            if (opposition_coord.y < my_grid_coord.y)
                 cbow_ysplash = -1;
-            else if (monster_coord.y > my_grid_coord.y)
+            else if (opposition_coord.y > my_grid_coord.y)
                 cbow_ysplash = 1;
-            gridCoordinate splash_coord = new gridCoordinate(monster_coord.x + cbow_xsplash, monster_coord.y + cbow_ysplash);
+            gridCoordinate splash_coord = new gridCoordinate(opposition_coord.x + cbow_xsplash, opposition_coord.y + cbow_ysplash);
 
             if (main_hand != null && (main_hand.get_my_weapon_type() == Weapon.Type.Bow ||
                                       main_hand.get_my_weapon_type() == Weapon.Type.Crossbow))
@@ -642,18 +716,26 @@ namespace Cronkpit
                 wName = off_hand.get_my_name();
             }
 
-            fl.create_new_projectile(new Projectile(get_my_grid_C(), monster_coord, Projectile.projectile_type.Arrow, ref Secondary_cManager));
-            fl.add_effect(Attack.Damage.Piercing, monster_coord);
+            fl.create_new_projectile(new Projectile(get_my_grid_C(), opposition_coord, Projectile.projectile_type.Arrow, ref Secondary_cManager));
+            fl.add_effect(Attack.Damage.Piercing, opposition_coord);
             if (is_cbow_equipped() && fl.isWalkable(splash_coord))
                 fl.add_effect(Attack.Damage.Piercing, splash_coord);
 
-            attack_monster_in_grid(fl, dmg_to_monster, monsterID, monster_coord, wName, false);
+            if (monsterID != -1)
+                attack_monster_in_grid(fl, dmg_to_monster, monsterID, opposition_coord, wName, false);
+            else
+                attack_doodad_in_grid(fl, dmg_to_monster, doodadID, opposition_coord, wName);
+
             if (is_cbow_equipped())
             {
                 int splash_monster_ID = -1;
+                int splash_doodad_ID = -1;
                 fl.is_monster_here(splash_coord, out splash_monster_ID);
+                fl.is_destroyable_doodad_here(splash_coord, out splash_doodad_ID);
                 if (splash_monster_ID != -1)
                     attack_monster_in_grid(fl, splash_dmg, splash_monster_ID, splash_coord, wName, false);
+                if (splash_doodad_ID != -1)
+                    attack_doodad_in_grid(fl, splash_dmg, splash_doodad_ID, splash_coord, wName);
             }
             total_sound += my_sound_value() + (my_sound_value() / 2);
             total_scent += my_scent_value();
@@ -683,12 +765,17 @@ namespace Cronkpit
                 for (int i = 0; i < charge_rays.Count; i++)
                 {
                     bool remove = false;
+                    int whoCares = -1;
                     charge_rays[i].update();
                     gridCoordinate current_ray_position = new gridCoordinate((int)charge_rays[i].my_current_position.X / 32, (int)charge_rays[i].my_current_position.Y / 32);
                     int x_difference = positive_difference(pl_gc.x, current_ray_position.x);
                     int y_difference = positive_difference(pl_gc.y, current_ray_position.y);
 
                     if (fl.isWalkable(current_ray_position) && (x_difference > 1 || y_difference > 1))
+                        fl.set_tile_aura(current_ray_position, Tile.Aura.Attack);
+
+                    if (!fl.isWalkable(current_ray_position) && (x_difference > 1 || y_difference > 1) &&
+                        fl.is_destroyable_doodad_here(current_ray_position, out whoCares))
                         fl.set_tile_aura(current_ray_position, Tile.Aura.Attack);
 
                     if (!fl.isWalkable(current_ray_position) || fl.is_monster_here(current_ray_position, out monsterID))
@@ -700,8 +787,9 @@ namespace Cronkpit
             }
         }
 
-        public void charge_attack(Floor fl, int lanceID, int monsterID)
+        public void charge_attack(Floor fl, int lanceID, int monsterID, int doodadID)
         {
+            bool attacked_doodad = false;
             gridCoordinate my_original_position = new gridCoordinate(my_grid_coord);
             Weapon c_lance = null;
             for (int i = 0; i < inventory.Count; i++)
@@ -712,7 +800,16 @@ namespace Cronkpit
             int dmg_val = c_lance.damage(ref rGen);
             string wName = c_lance.get_my_name();
 
-            VisionRay attack_ray = new VisionRay(my_grid_coord, fl.badguy_by_monster_id(monsterID).my_grid_coord);
+            VisionRay attack_ray = null;
+            if(fl.badguy_by_monster_id(monsterID) == null)
+            {
+                attack_ray = new VisionRay(my_grid_coord, fl.doodad_by_index(doodadID).get_g_coord());
+            }
+            else
+                attack_ray = new VisionRay(my_grid_coord, fl.badguy_by_monster_id(monsterID).my_grid_coord);
+
+            gridCoordinate monster_coord = new gridCoordinate(-1, -1);
+            gridCoordinate doodad_coord = new gridCoordinate(-1, -1);
 
             bool done = false;
             while (!done)
@@ -728,111 +825,155 @@ namespace Cronkpit
                 gridCoordinate next_ray_position = new gridCoordinate(new_xPosition, new_yPosition);
 
                 int mon_ID;
+                int dood_ID;
                 fl.is_monster_here(next_ray_position, out mon_ID);
-                if (mon_ID == monsterID)
+                fl.is_destroyable_doodad_here(next_ray_position, out dood_ID);
+                if (mon_ID == monsterID && monsterID > -1)
                 {
+                    monster_coord = new gridCoordinate(fl.badguy_by_monster_id(monsterID).my_grid_coord);
                     teleport(previous_ray_position);
-                    gridCoordinate monster_coord = new gridCoordinate(fl.badguy_by_monster_id(monsterID).my_grid_coord);
                     attack_monster_in_grid(fl, dmg_val, monsterID, fl.badguy_by_monster_id(monsterID).my_grid_coord, wName, true);
+                    done = true;
+                }
 
-
-                    if (!is_spot_free(fl))
-                    {
-                        int xdif = my_original_position.x - monster_coord.x;
-                        int ydif = my_original_position.y - monster_coord.y;
-
-                        int whocares = -1;
-                        if (fl.is_monster_here(my_grid_coord, out whocares))
-                        {
-                            if (xdif == 0)
-                                if (my_original_position.x < my_grid_coord.x)
-                                    my_grid_coord.x--;
-                                else
-                                    my_grid_coord.x++;
-
-                            if (ydif == 0)
-                                if (my_original_position.y < my_grid_coord.y)
-                                    my_grid_coord.y--;
-                                else
-                                    my_grid_coord.y++;
-                            
-                        }
-                        else if(!fl.is_monster_here(my_grid_coord, out whocares) && !fl.isWalkable(my_grid_coord))
-                        {
-                            int xshift = 0;
-                            int yshift = 0;
-
-                            if (xdif < 0)
-                                xshift = -1;
-                            else
-                                xshift = 1;
-
-                            if (ydif < 0)
-                                yshift = -1;
-                            else
-                                yshift = 1;
-
-                            gridCoordinate x_shifted = new gridCoordinate(my_grid_coord.x + xshift, my_grid_coord.y);
-                            gridCoordinate y_shifted = new gridCoordinate(my_grid_coord.x, my_grid_coord.y + yshift);
-                            bool x_ok = fl.isWalkable(x_shifted);
-                            bool y_ok = fl.isWalkable(y_shifted);
-
-                            if (x_ok && !y_ok)
-                                my_grid_coord = x_shifted;
-                            else if (!x_ok && y_ok)
-                                my_grid_coord = y_shifted;
-                            else
-                            {
-                                int go_x = rGen.Next(2);
-                                if(go_x == 0)
-                                    my_grid_coord = x_shifted;
-                                else
-                                    my_grid_coord = y_shifted;
-                            }
-                        }
-                    }
-
-                    reset_my_drawing_position();
+                if (dood_ID == doodadID && doodadID > -1)
+                {
+                    attacked_doodad = true;
+                    doodad_coord = new gridCoordinate(fl.doodad_by_index(doodadID).get_g_coord());
+                    teleport(previous_ray_position);
+                    attack_doodad_in_grid(fl, dmg_val, doodadID, fl.doodad_by_index(doodadID).get_g_coord(), wName);
                     done = true;
                 }
             }
+
+            gridCoordinate opposition_coord = new gridCoordinate(-1, -1);
+            if (attacked_doodad)
+                opposition_coord = doodad_coord;
+            else
+                opposition_coord = monster_coord;
+
+            if (!is_spot_free(fl))
+            {
+                int xdif = my_original_position.x - opposition_coord.x;
+                int ydif = my_original_position.y - opposition_coord.y;
+
+                int whocares = -1;
+                if (fl.is_monster_here(my_grid_coord, out whocares) || fl.is_destroyable_doodad_here(my_grid_coord, out whocares))
+                {
+                    if (xdif == 0)
+                        if (my_original_position.x < my_grid_coord.x)
+                            my_grid_coord.x--;
+                        else
+                            my_grid_coord.x++;
+
+                    if (ydif == 0)
+                        if (my_original_position.y < my_grid_coord.y)
+                            my_grid_coord.y--;
+                        else
+                            my_grid_coord.y++;
+
+                }
+                else if (!fl.is_monster_here(my_grid_coord, out whocares) && !fl.isWalkable(my_grid_coord))
+                {
+                    int xshift = 0;
+                    int yshift = 0;
+
+                    if (xdif < 0)
+                        xshift = -1;
+                    else
+                        xshift = 1;
+
+                    if (ydif < 0)
+                        yshift = -1;
+                    else
+                        yshift = 1;
+
+                    gridCoordinate x_shifted = new gridCoordinate(my_grid_coord.x + xshift, my_grid_coord.y);
+                    gridCoordinate y_shifted = new gridCoordinate(my_grid_coord.x, my_grid_coord.y + yshift);
+                    bool x_ok = fl.isWalkable(x_shifted);
+                    bool y_ok = fl.isWalkable(y_shifted);
+
+                    if (x_ok && !y_ok)
+                        my_grid_coord = x_shifted;
+                    else if (!x_ok && y_ok)
+                        my_grid_coord = y_shifted;
+                    else
+                    {
+                        int go_x = rGen.Next(2);
+                        if (go_x == 0)
+                            my_grid_coord = x_shifted;
+                        else
+                            my_grid_coord = y_shifted;
+                    }
+                }
+            }
+
+            reset_my_drawing_position();
 
             loot(fl);
             total_sound += my_sound_value() + (my_sound_value() / 2);
             total_scent += my_scent_value();
         }
-
+        
         public void set_bash_attack_aura(Floor fl)
         {
+            int whoCares = -1;
             for (int x = my_grid_coord.x - 1; x <= my_grid_coord.x + 1; x++)
                 for (int y = my_grid_coord.y - 1; y <= my_grid_coord.y + 1; y++)
                 {
                     gridCoordinate target_coord = new gridCoordinate(x, y);
                     if (!(x == my_grid_coord.x && y == my_grid_coord.y) && fl.isWalkable(target_coord))
                         fl.set_tile_aura(target_coord, Tile.Aura.Attack);
+
+                    if (!(x == my_grid_coord.x && y == my_grid_coord.y) && !fl.isWalkable(target_coord) &&
+                        fl.is_destroyable_doodad_here(target_coord, out whoCares))
+                        fl.set_tile_aura(target_coord, Tile.Aura.Attack);
                 }
         }
 
-        public void bash_attack(Floor fl, Monster m, Weapon wp)
+        public void bash_attack(Floor fl, Monster m, Doodad d, Weapon wp)
         {
-            int xdif = m.my_grid_coord.x - my_grid_coord.x;
-            int ydif = m.my_grid_coord.y - my_grid_coord.y;
+            int xdif = 0;
+            int ydif = 0;
+            if (m != null)
+            {
+                xdif = m.my_grid_coord.x - my_grid_coord.x;
+                ydif = m.my_grid_coord.y - my_grid_coord.y;
+            }
+            else
+            {
+                xdif = d.get_g_coord().x - my_grid_coord.x;
+                ydif = d.get_g_coord().y - my_grid_coord.y;
+            }
 
             int damage_value = (int)(wp.damage(ref rGen) * 1.4);
             if (wp.get_hand_count() == 2)
                 damage_value = (int)((wp.damage(ref rGen)*2) * 1.6);
 
-            int m_hp = m.hitPoints;
-            fl.add_effect(wp.get_my_damage_type(), m.my_grid_coord);
-            attack_monster_in_grid(fl, damage_value, m.my_Index, m.my_grid_coord, wp.get_my_name(), true);
-            if (m.hitPoints > 0 && m_hp > m.hitPoints)
+            int m_hp = 0;
+            if(m!= null)
+                m_hp = m.hitPoints;
+
+            gridCoordinate opposition_coord = new gridCoordinate(-1, -1);
+            if(m != null)
+                opposition_coord = m.my_grid_coord;
+            else
+                opposition_coord = d.get_g_coord();
+
+            fl.add_effect(wp.get_my_damage_type(), opposition_coord);
+            if (m != null)
+                attack_monster_in_grid(fl, damage_value, m.my_Index, m.my_grid_coord, wp.get_my_name(), true);
+            else
+                attack_doodad_in_grid(fl, damage_value, d.get_my_index(), d.get_g_coord(), wp.get_my_name());
+
+            if (m!= null && m.hitPoints > 0 && m_hp > m.hitPoints)
             {
                 int whocares = -1;
                 gridCoordinate next_m_coord = new gridCoordinate(m.my_grid_coord.x + xdif, m.my_grid_coord.y + ydif);
                 if (fl.isWalkable(next_m_coord) && !fl.is_monster_here(next_m_coord, out whocares))
                 {
                     m.my_grid_coord = next_m_coord;
-                    m.reset_my_drawing_position();
+                    m.snap_to_grid();
                 }
                 else
                 {
@@ -853,16 +994,21 @@ namespace Cronkpit
                         target_coordinates.Add(new gridCoordinate(x, y));
 
             int monster_ID = -1;
+            int doodad_ID = -1;
             for (int i = 0; i < target_coordinates.Count; i++)
             {
+                int attack_dmg = (int)(target_weapon.damage(ref rGen) * .8);
+                if (target_weapon.get_hand_count() == 2)
+                    attack_dmg = (int)((target_weapon.damage(ref rGen) * 2) * .9);
+
                 if (fl.is_monster_here(target_coordinates[i], out monster_ID))
-                {
-                    int attack_dmg = (int)(target_weapon.damage(ref rGen) * .8);
-                    if (target_weapon.get_hand_count() == 2)
-                        attack_dmg = (int)((target_weapon.damage(ref rGen)*2) * .9);
                     attack_monster_in_grid(fl, attack_dmg, monster_ID, target_coordinates[i],
                                             target_weapon.get_my_name(), true);
-                }
+
+                if (fl.is_destroyable_doodad_here(target_coordinates[i], out doodad_ID))
+                    attack_doodad_in_grid(fl, attack_dmg, doodad_ID, target_coordinates[i],
+                                            target_weapon.get_my_name());
+
                 if (fl.isWalkable(target_coordinates[i]))
                     fl.add_effect(target_weapon.get_my_damage_type(), target_coordinates[i]);
             }
@@ -951,6 +1097,14 @@ namespace Cronkpit
                                                     weapon_thing.get_my_gold_value(),
                                                     weapon_thing.get_my_name(), weapon_thing);
                 inventory.Add(acquired_weapon);
+            }
+            else if (thing is Scroll)
+            {
+                Scroll scroll_thing = (Scroll)thing;
+                Scroll acquired_scroll = new Scroll(scroll_thing.get_my_IDno(),
+                                                    scroll_thing.get_my_gold_value(),
+                                                    scroll_thing.get_my_name(), scroll_thing);
+                inventory.Add(acquired_scroll);
             }
 
             //inventory.Add(thing);
@@ -1957,9 +2111,9 @@ namespace Cronkpit
             if (main_hand != null && main_hand.get_current_cooldown() > 0)
                 main_hand.set_cooldown(-1);
 
-            if (off_hand != null && 
+            if ((off_hand != null && main_hand != null &&
                 main_hand.get_hand_count() == 1 &&
-                off_hand.get_current_cooldown() > 0)
+                off_hand.get_current_cooldown() > 0) || (off_hand != null && main_hand == null))
                 off_hand.set_cooldown(-1);
         }
 

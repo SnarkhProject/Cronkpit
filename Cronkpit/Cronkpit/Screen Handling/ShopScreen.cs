@@ -40,6 +40,7 @@ namespace Cronkpit
         int talisman_shopping_used;
         int sell_shopping_used;
         int buyback_shopping_used;
+        int scroll_shopping_used;
         int exit_used;
         string shopkeeper;
 
@@ -64,6 +65,7 @@ namespace Cronkpit
         MainItemList all_items;
         List<Armor> armors_in_stock;
         List<Weapon> weapons_in_stock;
+        List<Scroll> scrolls_in_stock;
         List<Item> consumables_in_stock;
         List<Item> items_to_sell;
         List<Item> sold_items;
@@ -127,6 +129,17 @@ namespace Cronkpit
                 for (int i = 0; i < weapons_in_stock.Count; i++)
                 {
                     Vector2 size = sFont.MeasureString(weapons_in_stock[i].get_my_name());
+                    if (size.X > i_menu_width)
+                        i_menu_width = size.X;
+                    i_menu_height += sFont.LineSpacing + 5;
+                }
+            }
+
+            if (target_menu == Shopping_Mode.Scrolls)
+            {
+                for (int i = 0; i < scrolls_in_stock.Count; i++)
+                {
+                    Vector2 size = sFont.MeasureString(scrolls_in_stock[i].get_my_name());
                     if (size.X > i_menu_width)
                         i_menu_width = size.X;
                     i_menu_height += sFont.LineSpacing + 5;
@@ -233,6 +246,16 @@ namespace Cronkpit
                     if (selected_item_index < sold_items.Count)
                         current_item_info = sold_items[selected_item_index].get_my_information();
                     break;
+                case Shopping_Mode.Scrolls:
+                    selectedIndex = 0;
+                    selected_item_index += scroll;
+                    if (selected_item_index < 0)
+                        selected_item_index = scrolls_in_stock.Count;
+                    if (selected_item_index > scrolls_in_stock.Count)
+                        selected_item_index = 0;
+                    if (selected_item_index < scrolls_in_stock.Count)
+                        current_item_info = scrolls_in_stock[selected_item_index].get_my_information();
+                    break;
             }
         }
 
@@ -269,6 +292,10 @@ namespace Cronkpit
                     set_descriptive_buyback(buyback_shopping_used);
                     scroll_menu(0);
                     break;
+                case Shopping_Mode.Scrolls:
+                    set_descriptive_scroll_shopping(scroll_shopping_used);
+                    scroll_menu(0);
+                    break;
             }
         }
 
@@ -291,6 +318,8 @@ namespace Cronkpit
                     return selected_item_index == items_to_sell.Count;
                 case Shopping_Mode.Buyback:
                     return selected_item_index == sold_items.Count;
+                case Shopping_Mode.Scrolls:
+                    return selected_item_index == scrolls_in_stock.Count;
                 default:
                     return false;
             }
@@ -363,6 +392,15 @@ namespace Cronkpit
                         }
                     }
                     break;
+                case Shopping_Mode.Scrolls:
+                    item_gold_value = scrolls_in_stock[selected_item_index].get_my_gold_value();
+                    if (pl.get_my_gold() >= item_gold_value)
+                    {
+                        pl.pay_gold(item_gold_value);
+                        pl.acquire_item((Item)scrolls_in_stock[selected_item_index]);
+                        scrolls_in_stock.RemoveAt(selected_item_index);
+                    }
+                    break;
             }
             player_gold = pl.get_my_gold();
             scroll_menu(0);
@@ -409,18 +447,20 @@ namespace Cronkpit
         public void set_variables(Player pl)
         {
             player_gold = pl.get_my_gold();
-            intro_used = rGen.Next(1);
+            intro_used = rGen.Next(2);
             weapon_shopping_used = rGen.Next(1);
             armor_shopping_used = rGen.Next(1);
             consumable_shopping_used = rGen.Next(1);
             talisman_shopping_used = rGen.Next(1);
             sell_shopping_used = rGen.Next(1);
             buyback_shopping_used = rGen.Next(1);
+            scroll_shopping_used = rGen.Next(1);
             exit_used = rGen.Next(1);
 
             armors_in_stock = all_items.retrieve_random_shared_armors(4);
             weapons_in_stock = all_items.retrieve_random_shared_weapons(4);
             consumables_in_stock = all_items.retrieve_random_shared_consumables(2);
+            scrolls_in_stock = all_items.retrieve_random_shared_scrolls(3);
             items_to_sell = pl.retrieve_inventory();
             sold_items = new List<Item>();
 
@@ -441,6 +481,12 @@ namespace Cronkpit
             {
                 string texturename = weapons_in_stock[i].get_my_texture_name();
                 weapons_in_stock[i].set_texture(cManager.Load<Texture2D>("Icons/Weapons/" + texturename));
+            }
+
+            for (int i = 0; i < scrolls_in_stock.Count; i++)
+            {
+                string texturename = scrolls_in_stock[i].get_my_texture_name();
+                scrolls_in_stock[i].set_texture(cManager.Load<Texture2D>("Icons/Scrolls/" + texturename));
             }
 
             for (int i = 0; i < consumables_in_stock.Count; i++)
@@ -481,6 +527,20 @@ namespace Cronkpit
                                         "You shrug and begin to browse.";
                     shopkeeper = "hooded man";
                     blurb_height = ((9 + 3) * sFont.LineSpacing);
+                    break;
+                case 1:
+                    descriptive_text = "You take a step off the stairs, blood running off of your armor in \n" +
+                                       "rivulets and pooling on the floor below. Truth be told, you can't \n" +
+                                       "tell who's blood it is, whether it's yours or that of your enemies. \n" +
+                                       "An ancient goblin rushes over and starts to dab at your armor with a \n" +
+                                       "towel, sopping up the worst of the mess. You watch him with a wary \n" +
+                                       "look in your eyes, your tail ready to strike at moment's notice. His \n" +
+                                       "attentions seem sincere, as he returns to the counter a moment later. \n" +
+                                       "\"Thanks,\" you say shortly, giving him a curt nod. \"Don't flatter \n" +
+                                       "yourself,\" he snaps back. \" I'm just making sure you don't bleed on \n" +
+                                       "my wares.\"";
+                    shopkeeper = "ancient goblin";
+                    blurb_height = ((10+3) * sFont.LineSpacing);
                     break;
                 default:
                     break;
@@ -525,6 +585,25 @@ namespace Cronkpit
                     break;
             }
         }
+
+        public void set_descriptive_scroll_shopping(int choice)
+        {
+            switch (choice)
+            {
+                case 0:
+                    descriptive_text = "You take a look at the scroll and squint at it, carefully reading the \n" +
+                                       "runes. Your brows furrow as you take a moment to go over what Petaer \n" +
+                                       "told you in his lengthy explanation, carefully reciting to yourself. \n" +
+                                       "\"Okay. I think I got this. This one makes you half-translucent, like \n" +
+                                       "looking through stained glass.\" You pause. \"That's stupid. Why would \n" +
+                                       "anyone want that?\" The " + shopkeeper + " looks at you strangely. \"You're \n" +
+                                       "holding it upside down,\" he 'helpfully' points out. \"Shut the fuck \n" +
+                                       "up. I didn't want your fucking opinion,\" you snap back, flipping \n" +
+                                       "him your middle finger. He takes the hint.";
+                    blurb_height = ((9+3) * sFont.LineSpacing);
+                    break;
+            }
+        }
         
         public void set_descriptive_talisman_shopping(int choice)
         {
@@ -561,7 +640,7 @@ namespace Cronkpit
             switch (choice)
             {
                 case 0:
-                    descriptive_text = "\"Hey, I want some of that back.\" You point to your items behind the \n" +
+                    descriptive_text = "\"Hey, I want some of that back,\" you point to your items behind the \n" +
                                        "counter, then wave your hand impatiently. The " + shopkeeper + " grumbles \n" +
                                        "but dutifully complies, grabbing a few of your items and putting them \n" +
                                        "back on the counter. \"And you'd better not even fuucking think of \n" +
@@ -671,6 +750,24 @@ namespace Cronkpit
                     break;
                 case Shopping_Mode.Buyback:
                     draw_item_type_menu(sold_items, ref sBatch);
+                    break;
+                case Shopping_Mode.Scrolls:
+                    take_item_menu_measurements(im_shopping_for);
+                    position2 = new Vector2(item_menu_position.X, item_menu_position.Y);
+                    for (int i = 0; i < scrolls_in_stock.Count; i++)
+                    {
+                        if (i == selected_item_index)
+                            tint = highlighted;
+                        else
+                            tint = normal;
+                        sBatch.DrawString(sFont, scrolls_in_stock[i].get_my_name(), position2, tint);
+                        position2.Y += sFont.LineSpacing;
+                    }
+                    if (selected_item_index == scrolls_in_stock.Count)
+                        exit_submenu_tint = highlighted;
+                    else
+                        exit_submenu_tint = normal;
+                    sBatch.DrawString(sFont, sub_menu_exit, position2, exit_submenu_tint);
                     break;
             }
 

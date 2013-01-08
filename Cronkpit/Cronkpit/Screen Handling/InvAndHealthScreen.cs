@@ -295,6 +295,8 @@ namespace Cronkpit
                         texture_loc += "Weapons/";
                     if (player_inv[i] is Potion)
                         texture_loc += "Consumables/";
+                    if (player_inv[i] is Scroll)
+                        texture_loc += "Scrolls/";
 
                     texture_loc += player_inv[i].get_my_texture_name();
                     Texture2D current_texture = cManager.Load<Texture2D>(texture_loc);

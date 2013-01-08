@@ -17,7 +17,7 @@ namespace Cronkpit
         {
             my_Texture = cont.Load<Texture2D>("Enemies/hollowKnight_idle");
             can_hear = true;
-            hitPoints = 12;
+            hitPoints = 22;
             min_damage = 1;
             max_damage = 3;
             dmg_type = Attack.Damage.Piercing;

@@ -1324,6 +1324,42 @@
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smaller_sfont.xnb</Output>
       <Time>2012-12-30T14:53:01.8632439-05:00</Time>
     </Item>
+    <Item>
+      <Source>Entities\broken_armor.png</Source>
+      <Name>Entities\broken_armor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Entities\broken_armor.xnb</Output>
+      <Time>2013-01-05T16:57:35.788512-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Scrolls\tier1scroll_icon.png</Source>
+      <Name>Icons\Scrolls\tier1scroll_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\tier1scroll_icon.xnb</Output>
+      <Time>2013-01-07T00:33:40.1424608-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Scrolls\tier2scroll_icon.png</Source>
+      <Name>Icons\Scrolls\tier2scroll_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\tier2scroll_icon.xnb</Output>
+      <Time>2013-01-07T00:33:40.144461-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Scrolls\tier3scroll_icon.png</Source>
+      <Name>Icons\Scrolls\tier3scroll_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\tier3scroll_icon.xnb</Output>
+      <Time>2013-01-07T00:33:40.2974697-05:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

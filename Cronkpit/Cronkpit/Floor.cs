@@ -24,6 +24,7 @@ namespace Cronkpit
         List<MossyPatch> mossLayout;
         List<Monster> badGuys;
         List<Goldpile> Money;
+        List<Doodad> Doodads;
         List<Projectile> Pew_Pews;
         List<Effect> eff_ex;
         List<Popup> popup_alerts;
@@ -54,6 +55,7 @@ namespace Cronkpit
             mossLayout = new List<MossyPatch>();
             badGuys = new List<Monster>();
             Money = new List<Goldpile>();
+            Doodads = new List<Doodad>();
             Vision_Rc = new List<VisionRay>();
             //Vision_Log = new List<VisionRay>(); Deprecated!
             Noises = new List<SoundPulse>();
@@ -285,6 +287,11 @@ namespace Cronkpit
                         }
             }
 
+            //Add doodads
+            int suits = randGen.Next(Math.Max(0, 4 - fl_number), Math.Max(2, 6 - fl_number));
+            for (int i = 0; i < suits; i++)
+                Doodads.Add(new Doodad(Doodad.Doodad_Type.ArmorSuit, cManager, 
+                            valid_hollowKnight_spawn(), i));
 
             //Add gold piles
             int gold_per_floor = 500;
@@ -312,6 +319,7 @@ namespace Cronkpit
             int monster_lower_bound = 2;
             int monster_upper_bound = 4 + (fl_number / 2);
             int number_of_monsters = 7 + ((fl_number - 5) / 2) + randGen.Next(monster_lower_bound, monster_upper_bound);
+            //int number_of_monsters = 1;
             for (int i = 0; i < number_of_monsters; i++)
             {
                 int monsterType = randGen.Next(100);
@@ -421,10 +429,26 @@ namespace Cronkpit
             }
         }
 
+        public void smooth_transition_monster(float delta_time)
+        {
+            for(int i = 0; i < badGuys.Count; i++)
+                badGuys[i].increment_my_drawing_position(delta_time);
+        }
+
+        public bool done_smooth_transitions()
+        {
+            bool done = true;
+            for (int i = 0; i < badGuys.Count; i++)
+                if (!badGuys[i].at_destination())
+                    done = false;
+
+            return done;
+        }
+
         #endregion
 
         #region messaging stuff
-        
+
         //Green text
         public void addmsg(string message)
         {
@@ -438,13 +462,39 @@ namespace Cronkpit
         //Green text. Function here.
         public bool isWalkable(gridCoordinate grid_position)
         {
+            bool passable_tile;
             if(grid_position.x < stdfloorSize && 
                grid_position.y < stdfloorSize &&
                grid_position.x > 0 &&
                grid_position.y > 0)
-                return floorTiles[grid_position.x][grid_position.y].isPassable();
+                passable_tile = floorTiles[grid_position.x][grid_position.y].isPassable();
             else
                 return false;
+
+            bool impassible_doodad = false;
+            for (int i = 0; i < Doodads.Count; i++)
+            {
+                if (Doodads[i].get_g_coord().x == grid_position.x &&
+                    Doodads[i].get_g_coord().y == grid_position.y &&
+                    !Doodads[i].is_passable())
+                    impassible_doodad = true;
+            }
+
+            return (passable_tile == true && impassible_doodad == false);
+        }
+
+        public bool is_tile_passable(gridCoordinate grid_position)
+        {
+            bool passable_tile;
+            if(grid_position.x < stdfloorSize && 
+               grid_position.y < stdfloorSize &&
+               grid_position.x > 0 &&
+               grid_position.y > 0)
+                passable_tile = floorTiles[grid_position.x][grid_position.y].isPassable();
+            else
+                return false;
+
+            return passable_tile;
         }
 
         //Green text. Function here.
@@ -526,10 +576,10 @@ namespace Cronkpit
             while (!goodPosition)
             {
                 gridCoordinate gc = random_valid_position();
-                if ((isWalkable(new gridCoordinate(gc.x - 1, gc.y)) && !isWalkable(new gridCoordinate(gc.x + 1, gc.y))) ||
-                    (isWalkable(new gridCoordinate(gc.x + 1, gc.y)) && !isWalkable(new gridCoordinate(gc.x - 1, gc.y))) ||
-                    (isWalkable(new gridCoordinate(gc.x, gc.y + 1)) && !isWalkable(new gridCoordinate(gc.x, gc.y - 1))) ||
-                    (isWalkable(new gridCoordinate(gc.x, gc.y - 1)) && !isWalkable(new gridCoordinate(gc.x, gc.y + 1))))
+                if ((is_tile_passable(new gridCoordinate(gc.x - 1, gc.y)) && !is_tile_passable(new gridCoordinate(gc.x + 1, gc.y))) ||
+                    (is_tile_passable(new gridCoordinate(gc.x + 1, gc.y)) && !is_tile_passable(new gridCoordinate(gc.x - 1, gc.y))) ||
+                    (is_tile_passable(new gridCoordinate(gc.x, gc.y + 1)) && !is_tile_passable(new gridCoordinate(gc.x, gc.y - 1))) ||
+                    (is_tile_passable(new gridCoordinate(gc.x, gc.y - 1)) && !is_tile_passable(new gridCoordinate(gc.x, gc.y + 1))))
                 {
                     goodPosition = true;
                     returnCoord = gc;
@@ -549,6 +599,10 @@ namespace Cronkpit
                 if (Money[i].get_my_grid_C().x == gc.x && Money[i].get_my_grid_C().y == gc.y)
                     return true;
 
+            for (int i = 0; i < Doodads.Count; i++)
+                if (Doodads[i].get_g_coord().x == gc.x && Doodads[i].get_g_coord().y == gc.y)
+                    return true;
+
             return false;
         }
 
@@ -560,6 +614,21 @@ namespace Cronkpit
                 if (badGuys[i].my_grid_coord.x == gc.x && badGuys[i].my_grid_coord.y == gc.y)
                 {
                     monsterID = badGuys[i].my_Index;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool is_destroyable_doodad_here(gridCoordinate gc, out int DoodadIndex)
+        {
+            DoodadIndex = -1;
+            for (int i = 0; i < Doodads.Count; i++)
+            {
+                gridCoordinate doodad_coord = Doodads[i].get_g_coord();
+                if (doodad_coord.x == gc.x && doodad_coord.y == gc.y)
+                {
+                    DoodadIndex = i;
                     return true;
                 }
             }
@@ -990,6 +1059,9 @@ namespace Cronkpit
         {
             for (int i = 0; i < Money.Count; i++)
                 Money[i].drawMe(ref sBatch);
+
+            for (int i = 0; i < Doodads.Count; i++)
+                Doodads[i].draw_me(ref sBatch);
         }
         /*
         public void draw_vision_log(ref SpriteBatch sBatch, Texture2D blank_tex)
@@ -1043,6 +1115,14 @@ namespace Cronkpit
             return null;
         }
 
+        public Doodad doodad_by_index(int index)
+        {
+            if (index != -1)
+                return Doodads[index];
+            else
+                return null;
+        }
+
         public List<Goldpile> show_me_the_money()
         {
             return Money;
@@ -1056,9 +1136,21 @@ namespace Cronkpit
                 {
                     badGuys[i].takeDamage(dmg, melee_attack, message_buffer, this);
                     if (badGuys[i].hitPoints <= 0)
+                    {
+                        if (badGuys[i] is HollowKnight)
+                        {
+                            Doodads.Add(new Doodad(Doodad.Doodad_Type.ArmorSuit, cManager, badGuys[i].my_grid_coord, Doodads.Count));
+                            Doodads[Doodads.Count - 1].destroy();
+                        }
                         badGuys.RemoveAt(i);
+                    }
                 }
             }
+        }
+
+        public void damage_doodad(int dmg, int doodadID)
+        {
+            Doodads[doodadID].take_damage(dmg, message_buffer, this);
         }
 
         public void set_tile_aura(gridCoordinate target_tile, Tile.Aura target_aura)

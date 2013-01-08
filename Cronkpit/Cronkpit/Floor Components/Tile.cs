@@ -23,6 +23,7 @@ namespace Cronkpit
         private int tile_type;
         private int random_variation;
         bool opaque;
+        bool passable;
         int sound_absorbtion_value;
         bool deflect_sound;
 
@@ -57,6 +58,7 @@ namespace Cronkpit
                 case 1:
                     opaque = false;
                     deflect_sound = false;
+                    passable = true;
                     sound_absorbtion_value = 1;
                     if (random_variation < 5)
                         my_Texture = cont.Load<Texture2D>("Background/stonefloorwcrack");
@@ -66,6 +68,7 @@ namespace Cronkpit
                 case 2:
                     opaque = true;
                     deflect_sound = true;
+                    passable = false;
                     sound_absorbtion_value = 1;
                     if (random_variation < 15)
                         my_Texture = cont.Load<Texture2D>("Background/stonebrickwtorch");
@@ -75,18 +78,21 @@ namespace Cronkpit
                 case 4:
                     opaque = false;
                     deflect_sound = false;
+                    passable = true;
                     sound_absorbtion_value = 1;
                     my_Texture = cont.Load<Texture2D>("Background/exit");
                     break;
                 case 5:
                     opaque = false;
                     deflect_sound = false;
+                    passable = true;
                     sound_absorbtion_value = 2;
                     my_Texture = cont.Load<Texture2D>("Background/dirtfloor");
                     break;
                 case 6:
                     opaque = true;
                     deflect_sound = true;
+                    passable = false;
                     sound_absorbtion_value = 3;
                     if (random_variation < 15)
                         my_Texture = cont.Load<Texture2D>("Background/dirtwallwtorch");
@@ -96,6 +102,7 @@ namespace Cronkpit
                 default:
                     opaque = true;
                     deflect_sound = false;
+                    passable = false;
                     sound_absorbtion_value = 1000;
                     my_Texture = cont.Load<Texture2D>("Background/badvoidtile");
                     break;
@@ -136,7 +143,7 @@ namespace Cronkpit
 
         public bool isPassable()
         {
-            return tile_type == 1 || tile_type == 4 || tile_type == 5;
+            return passable;
         }
 
         public bool isExit()
