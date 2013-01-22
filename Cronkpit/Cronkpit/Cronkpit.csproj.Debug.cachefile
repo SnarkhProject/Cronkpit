@@ -119,7 +119,6 @@ Content\Background\Moss Tiles\mossy_dirtfloor.xnb
 Content\Background\Moss Tiles\mossy_dirtwall.xnb
 Content\Background\Moss Tiles\mossy_stonebrick.xnb
 Content\Background\Moss Tiles\mossy_stonefloor.xnb
-Content\Background\Moss Tiles\mossy_stonefloorwcrack.xnb
 Content\Player\Portraits\falsael_fine.xnb
 Content\Icons\Consumables\majorhealthpotion_icon.xnb
 Content\Icons\Consumables\majorrepairpotion_icon.xnb
@@ -138,6 +137,14 @@ Content\Icons\Weapons\reaver_icon.xnb
 Content\Icons\Weapons\flangedmace_icon.xnb
 Content\Icons\Weapons\pitsteelwarhammer_icon.xnb
 Content\Player\bash attack cursor.xnb
+Content\Background\Moss Tiles\mossy_stonefloorwcrack.xnb
+Content\Entities\broken_armor.xnb
+Content\Icons\Scrolls\tier1scroll_icon.xnb
+Content\Icons\Scrolls\tier2scroll_icon.xnb
+Content\Icons\Scrolls\tier3scroll_icon.xnb
+Content\Projectiles\acidblob.xnb
+Content\Projectiles\crossbowbolt.xnb
+Content\Player\spell cursor.xnb
 Content\Fonts\sfont.xnb
 Content\Fonts\tfont.xnb
 Content\Fonts\smallfont.xnb
@@ -145,10 +152,12 @@ Content\Fonts\popup_msg.xnb
 Content\Fonts\mfont.xnb
 Content\Fonts\smallfont_bold.xnb
 Content\Fonts\smaller_sfont.xnb
-Content\Entities\broken_armor.xnb
-Content\Icons\Scrolls\tier1scroll_icon.xnb
-Content\Icons\Scrolls\tier2scroll_icon.xnb
-Content\Icons\Scrolls\tier3scroll_icon.xnb
+Content\Projectiles\acid_spritesheet.xnb
+Content\Projectiles\fireball.xnb
+Content\Projectiles\blank_projectile.xnb
+Content\Projectiles\earthquake_spritesheet.xnb
+Content\Projectiles\electric_spritesheet.xnb
+Content\Projectiles\lightningbolt.xnb
 Content\Entities\alilmoreGold.png
 Content\Entities\lowGold.png
 Content\Entities\someGold.png

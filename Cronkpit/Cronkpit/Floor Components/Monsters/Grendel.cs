@@ -76,11 +76,12 @@ namespace Cronkpit
                         advance_towards_single_point(last_seen_player_at, pl, fl, 0);
                     else
                     {
-                        fl.create_new_projectile(new Projectile(my_grid_coord, last_seen_player_at, Projectile.projectile_type.Frostbolt, ref cont));
                         fl.addmsg("The Grendel attacks you!");
-                        fl.add_effect(dmg_type, pl.get_my_grid_C());
                         Attack dmg = dealDamage();
-                        pl.take_damage(dmg, ref fl);
+                        Projectile prj = new Projectile(my_grid_coord, last_seen_player_at, Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
+                        prj.set_damage_range(min_damage, max_damage);
+                        prj.set_damage_type(dmg_type);
+                        fl.create_new_projectile(prj);
                     }
                 }
                 else
@@ -92,7 +93,7 @@ namespace Cronkpit
                         fl.addmsg("The Grendel attacks you!");
                         fl.add_effect(dmg_type, pl.get_my_grid_C());
                         Attack dmg = dealDamage();
-                        pl.take_damage(dmg, ref fl);
+                        pl.take_damage(dmg, fl);
                     }
                 }
             }

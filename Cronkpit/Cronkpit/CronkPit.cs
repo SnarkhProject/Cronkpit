@@ -34,8 +34,12 @@ namespace Cronkpit
         {
             main_menu, select_character, mini_main_menu, normal,
             shop_screen, inv_screen, drinking_potion, ranged_attack,
-            charging_attack, msg_log, bashing_attack
+            charging_attack, msg_log, bashing_attack, casting_spell
         };
+
+        Keys[] hotbar_keymap = {Keys.F2, Keys.F3, Keys.F4, Keys.F5,
+                                Keys.F6, Keys.F7, Keys.F8, Keys.F9 };
+
         Game_State current_state;
         //int gameState;
         //Menu stuff!
@@ -57,9 +61,11 @@ namespace Cronkpit
         bool bad_turn;
         bool victory_condition;
 
-        //Some other misc stuff
+        //Icon bar management stuff
+        int locked_slot;
         int selected_lance;
         int selected_mace;
+        int selected_scroll;
 
         //message buffer things
         List<string> msgBuf;
@@ -91,12 +97,14 @@ namespace Cronkpit
             msgBuf = new List<string>();
             ra1 = new RACursor(Content.Load<Texture2D>("Player/ranged attack cursor"),
                                 Content.Load<Texture2D>("Player/charge attack cursor"), 
-                                Content.Load<Texture2D>("Player/bash attack cursor"), new gridCoordinate(-1, -1));
+                                Content.Load<Texture2D>("Player/bash attack cursor"), 
+                                Content.Load<Texture2D>("Player/spell cursor"), new gridCoordinate(-1, -1));
             cam = new Camera(GraphicsDevice.Viewport.Bounds);
             //stuff without constructors
             bad_turn = false;
             victory_condition = false;
             current_state = Game_State.main_menu;
+            locked_slot = -1;
             //gameState = 0;
 
             //Some base components for stuff with big constructors
@@ -221,24 +229,10 @@ namespace Cronkpit
             }
 
             string basePath = "UI Elements/Inventory Screen/" + long_character_name + "wires/" + short_character_name + bodyPart;
-            for (int i = 0; i < 4; i++)
-            {
-                switch (i)
-                {
-                    case 0:
-                        targetArray[i] = Content.Load<Texture2D>(basePath + "blue");
-                        break;
-                    case 1:
-                        targetArray[i] = Content.Load<Texture2D>(basePath + "green");
-                        break;
-                    case 2:
-                        targetArray[i] = Content.Load<Texture2D>(basePath + "yellow");
-                        break;
-                    case 3:
-                        targetArray[i] = Content.Load<Texture2D>(basePath + "red");
-                        break;
-                }
-            }
+            targetArray[0] = Content.Load<Texture2D>(basePath + "blue");
+            targetArray[1] = Content.Load<Texture2D>(basePath + "green");
+            targetArray[2] = Content.Load<Texture2D>(basePath + "yellow");
+            targetArray[3] = Content.Load<Texture2D>(basePath + "red");
         }
 
         /// <summary>
@@ -292,7 +286,7 @@ namespace Cronkpit
                     //gameState = 3;
                 }
 
-                if (bad_turn)
+                if (bad_turn && !f1.projectiles_remaining_to_update())
                 {
                     f1.add_smell_to_tile(p1.get_my_grid_C(), 0, p1.total_scent);
                     f1.sound_pulse(p1.get_my_grid_C(), p1.total_sound, 0);
@@ -327,6 +321,16 @@ namespace Cronkpit
         private void updateInput()
         {
             bool just_changed_states = false;
+
+            #region keypresses for the hotkey bar (not implemented)
+
+            /*
+            for (int i = 0; i < 8; i++)
+            {
+            }
+            */
+
+            #endregion
 
             #region keypresses for the main menu (GS = 0)
             //gameState == 0
@@ -675,10 +679,10 @@ namespace Cronkpit
             }
             #endregion
 
-            #region keypresses for shooting or charging or bashing (GS = 5 || 6)
+            #region keypresses for shooting or charging or bashing or spellcasting! (GS = 5 || 6)
             //gameState == 5 || gameState == 6
             if (current_state == Game_State.ranged_attack || current_state == Game_State.charging_attack ||
-                current_state == Game_State.bashing_attack)
+                current_state == Game_State.bashing_attack || current_state == Game_State.casting_spell)
             {
                 if (check_key_press(Keys.NumPad1))
                 {
@@ -868,6 +872,18 @@ namespace Cronkpit
                     }
                 }
                 #endregion
+
+                #region while spellcasting
+
+                if (current_state == Game_State.casting_spell)
+                {
+                    if (check_key_press(Keys.Enter))
+                    {
+                        spell_attack_via_cursor(selected_scroll);
+                    }
+                }
+
+                #endregion
             }
             #endregion
 
@@ -950,12 +966,6 @@ namespace Cronkpit
 
             #endregion
 
-            #region keypresses for mini main menu (GS = 8)
-
-
-
-            #endregion
-
 
             /*
             if (check_mouse_left_click())
@@ -977,7 +987,7 @@ namespace Cronkpit
             ra1.shift_modes(RACursor.Mode.Ranged);
             //gameState = 5;
             current_state = Game_State.ranged_attack;
-            p1.set_ranged_attack_aura(f1, p1.get_my_grid_C());
+            p1.set_ranged_attack_aura(f1, p1.get_my_grid_C(), null);
             ra1.am_i_visible = true;
             ra1.my_grid_coord = new gridCoordinate(p1.get_my_grid_C().x, p1.get_my_grid_C().y - 1);
             ra1.reset_drawing_position();
@@ -1042,7 +1052,7 @@ namespace Cronkpit
         {
             ra1.shift_modes(RACursor.Mode.Bash);
             current_state = Game_State.bashing_attack;
-            p1.set_bash_attack_aura(f1);
+            p1.set_melee_attack_aura(f1);
             ra1.am_i_visible = true;
             ra1.my_grid_coord = new gridCoordinate(p1.get_my_grid_C().x, p1.get_my_grid_C().y - 1);
             ra1.reset_drawing_position();
@@ -1059,6 +1069,52 @@ namespace Cronkpit
             {
                 p1.bash_attack(f1, f1.badguy_by_monster_id(monster_no), f1.doodad_by_index(doodad_no), w);
                 bad_turn = true;
+            }
+
+            current_state = Game_State.normal;
+            f1.scrub_all_auras();
+            ra1.am_i_visible = false;
+        }
+
+        private void start_spell_attack(Scroll s)
+        {
+            ra1.shift_modes(RACursor.Mode.Spell);
+            selected_scroll = s.get_my_IDno();
+            //gameState = 5;
+            current_state = Game_State.casting_spell;
+            if (s.is_melee_range_spell())
+                p1.set_melee_attack_aura(f1);
+            else
+                p1.set_ranged_attack_aura(f1, p1.get_my_grid_C(), s);
+            ra1.am_i_visible = true;
+            ra1.my_grid_coord = new gridCoordinate(p1.get_my_grid_C().x, p1.get_my_grid_C().y - 1);
+            ra1.reset_drawing_position();
+        }
+
+        private void spell_attack_via_cursor(int Scroll_ID)
+        {
+            gridCoordinate cursor_location = new gridCoordinate(ra1.my_grid_coord);
+            int monster_no = -1;
+            int doodad_no = -1;
+
+            Scroll s = p1.get_scroll_by_ID(Scroll_ID);
+            if (f1.aura_of_specific_tile(cursor_location) == Tile.Aura.Attack)
+            {
+                if (s.is_AoE_Spell())
+                {
+                    p1.cast_spell(s, f1, cursor_location, monster_no, doodad_no);
+                    bad_turn = true;
+                }
+                else
+                {
+                    if ((f1.is_monster_here(cursor_location, out monster_no) ||
+                        f1.is_destroyable_doodad_here(cursor_location, out doodad_no)) &&
+                        f1.aura_of_specific_tile(cursor_location) == Tile.Aura.Attack)
+                    {
+                        p1.cast_spell(s, f1, cursor_location, monster_no, doodad_no);
+                        bad_turn = true;
+                    }
+                }
             }
 
             current_state = Game_State.normal;
@@ -1123,6 +1179,12 @@ namespace Cronkpit
                             current_state = Game_State.drinking_potion;
                             changed_states = true;
                         }
+                    }
+                    else if (string.Compare(item_type, "Scroll") == 0)
+                    {
+                        Scroll s = p1.get_scroll_by_ID(item_ID);
+                        start_spell_attack(s);
+                        changed_states = true;
                     }
                 }
                 else //if it is equipped...

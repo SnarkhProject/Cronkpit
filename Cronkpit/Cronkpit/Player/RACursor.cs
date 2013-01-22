@@ -11,22 +11,25 @@ namespace Cronkpit
 {
     class RACursor
     {
-        public enum Mode { Ranged, Charge, Bash };
+        public enum Mode { Ranged, Charge, Bash, Spell };
         public gridCoordinate my_grid_coord;
         Texture2D my_RA_texture;
         Texture2D my_CA_texture;
         Texture2D my_BA_texture;
+        Texture2D my_SP_texture;
         Texture2D my_active_texture;
         Vector2 my_position;
         public bool am_i_visible;
 
-        public RACursor(Texture2D sRAText, Texture2D sCAText, Texture2D sBAText, gridCoordinate sGrid_c)
+        public RACursor(Texture2D sRAText, Texture2D sCAText, Texture2D sBAText, Texture2D sSPText, 
+                        gridCoordinate sGrid_c)
         {
             my_grid_coord = sGrid_c;
             my_position = new Vector2(my_grid_coord.x * 32, my_grid_coord.y * 32);
             my_RA_texture = sRAText;
             my_CA_texture = sCAText;
             my_BA_texture = sBAText;
+            my_SP_texture = sSPText;
             my_active_texture = my_RA_texture;
             am_i_visible = false;
         }
@@ -57,6 +60,9 @@ namespace Cronkpit
                     break;
                 case Mode.Bash:
                     my_active_texture = my_BA_texture;
+                    break;
+                case Mode.Spell:
+                    my_active_texture = my_SP_texture;
                     break;
             }
         }

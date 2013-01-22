@@ -65,12 +65,6 @@ namespace Cronkpit
             ranged_dodge = 75;
         }
 
-        public Attack generate_javelin_attack()
-        {
-            int dmgVal = rGen.Next(jav_min_dmg, (jav_max_dmg + 1));
-            return new Attack(javelin_damage_type, new wound(wound_type, dmgVal));
-        }
-
         public Attack generate_cleave_attack()
         {
             int dmgVal = rGen.Next(cleave_min_dmg, (cleave_max_dmg + 1));
@@ -101,7 +95,7 @@ namespace Cronkpit
                     if (pl.get_my_grid_C().x == target_location.x && pl.get_my_grid_C().y == target_location.y)
                     {
                         fl.addmsg("The Red Knight winds up, then unleashes an incredible attack!");
-                        pl.take_damage(generate_power_strike_attack(), ref fl);
+                        pl.take_damage(generate_power_strike_attack(), fl);
                     }
                     else
                     {
@@ -135,7 +129,7 @@ namespace Cronkpit
                     if (pl.get_my_grid_C().x == target_location.x && pl.get_my_grid_C().y == target_location.y)
                     {
                         fl.addmsg("The Red Knight winds up, then unleashes an incredible attack!");
-                        pl.take_damage(generate_power_strike_attack(), ref fl);
+                        pl.take_damage(generate_power_strike_attack(), fl);
                     }
                     else
                     {
@@ -159,7 +153,7 @@ namespace Cronkpit
             gridCoordinate playerCoord = new gridCoordinate(pl.get_my_grid_C());
             fl.addmsg("The Red Knight swings its sword in a wide arc!");
             for(int i = 0; i < 3; i++)
-                pl.take_damage(generate_cleave_attack(), ref fl);
+                pl.take_damage(generate_cleave_attack(), fl);
             fl.add_specific_effect(Floor.specific_effect.Cleave, playerCoord);
 
             if (x_difference == -1)
@@ -227,7 +221,7 @@ namespace Cronkpit
             fl.addmsg("The Red Knight swings its blade at you!");
             fl.add_effect(dmg_type, pl.get_my_grid_C());
             Attack dmg = dealDamage();
-            pl.take_damage(dmg, ref fl);
+            pl.take_damage(dmg, fl);
         }
 
         public void set_to_activeTexture()
@@ -245,11 +239,12 @@ namespace Cronkpit
 
                 if (can_see_player)
                 {
-                    fl.create_new_projectile(new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.Javelin, ref cont));
                     fl.addmsg("The Red Knight hurls a javelin at you!");
-                    fl.add_effect(javelin_damage_type, pl.get_my_grid_C());
-                    Attack dmg = generate_javelin_attack();
-                    pl.take_damage(dmg, ref fl);
+                    Projectile prj = new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.Javelin, ref cont, 
+                                                    true, Scroll.Atk_Area_Type.singleTile);
+                    prj.set_damage_range(jav_min_dmg, jav_max_dmg);
+                    prj.set_damage_type(javelin_damage_type);
+                    fl.create_new_projectile(prj);
                 }
 
                 can_see_player = temp_sight;

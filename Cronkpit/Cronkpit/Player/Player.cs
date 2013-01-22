@@ -616,17 +616,22 @@ namespace Cronkpit
             fl.damage_doodad(dmg_val, c_DoodadID);
         }
 
-        public void set_ranged_attack_aura(Floor fl, gridCoordinate pl_gc)
+        public void set_ranged_attack_aura(Floor fl, gridCoordinate pl_gc, Scroll s)
         {
             int bow_range = 0;
-            if (main_hand != null && (main_hand.get_my_weapon_type() == Weapon.Type.Bow ||
-                                      main_hand.get_my_weapon_type() == Weapon.Type.Crossbow))
-                bow_range = main_hand.get_my_range();
+            if (s == null)
+            {
+                if (main_hand != null && (main_hand.get_my_weapon_type() == Weapon.Type.Bow ||
+                                          main_hand.get_my_weapon_type() == Weapon.Type.Crossbow))
+                    bow_range = main_hand.get_my_range();
+                else
+                    bow_range = off_hand.get_my_range();
+            }
             else
-                bow_range = off_hand.get_my_range();
+                bow_range = s.get_range();
 
             List<gridCoordinate> endpoints = new List<gridCoordinate>();
-            if (is_bow_equipped() && !is_cbow_equipped())
+            if ((is_bow_equipped() && !is_cbow_equipped()) || s != null)
             {
                 endpoints = calculate_endpoints(pl_gc, bow_range);
             }
@@ -680,8 +685,8 @@ namespace Cronkpit
 
         public void bow_attack(Floor fl, ref ContentManager Secondary_cManager, int monsterID, int doodadID)
         {
-            int dmg_to_monster = 0;
-            int splash_dmg = 0;
+            int min_dmg_to_monster = 0;
+            int max_dmg_to_monster = 0;
             string wName = "";
             gridCoordinate opposition_coord = new gridCoordinate(-1, -1);
             if (monsterID != -1)
@@ -705,38 +710,43 @@ namespace Cronkpit
             if (main_hand != null && (main_hand.get_my_weapon_type() == Weapon.Type.Bow ||
                                       main_hand.get_my_weapon_type() == Weapon.Type.Crossbow))
             {
-                dmg_to_monster = main_hand.damage(ref rGen);
-                splash_dmg = main_hand.damage(ref rGen);
+                max_dmg_to_monster = main_hand.specific_damage_val(true);
+                min_dmg_to_monster = main_hand.specific_damage_val(false);
                 wName = main_hand.get_my_name();
             }
             else
             {
-                dmg_to_monster = off_hand.damage(ref rGen);
-                splash_dmg = off_hand.damage(ref rGen);
+                max_dmg_to_monster = off_hand.specific_damage_val(true);
+                min_dmg_to_monster = off_hand.specific_damage_val(false);
                 wName = off_hand.get_my_name();
             }
 
-            fl.create_new_projectile(new Projectile(get_my_grid_C(), opposition_coord, Projectile.projectile_type.Arrow, ref Secondary_cManager));
-            fl.add_effect(Attack.Damage.Piercing, opposition_coord);
-            if (is_cbow_equipped() && fl.isWalkable(splash_coord))
-                fl.add_effect(Attack.Damage.Piercing, splash_coord);
-
-            if (monsterID != -1)
-                attack_monster_in_grid(fl, dmg_to_monster, monsterID, opposition_coord, wName, false);
-            else
-                attack_doodad_in_grid(fl, dmg_to_monster, doodadID, opposition_coord, wName);
-
-            if (is_cbow_equipped())
+            if (!is_cbow_equipped())
             {
-                int splash_monster_ID = -1;
-                int splash_doodad_ID = -1;
-                fl.is_monster_here(splash_coord, out splash_monster_ID);
-                fl.is_destroyable_doodad_here(splash_coord, out splash_doodad_ID);
-                if (splash_monster_ID != -1)
-                    attack_monster_in_grid(fl, splash_dmg, splash_monster_ID, splash_coord, wName, false);
-                if (splash_doodad_ID != -1)
-                    attack_doodad_in_grid(fl, splash_dmg, splash_doodad_ID, splash_coord, wName);
+                Projectile prj = new Projectile(get_my_grid_C(), opposition_coord, Projectile.projectile_type.Arrow, ref Secondary_cManager, false, Scroll.Atk_Area_Type.singleTile);
+                prj.set_damage_type(Attack.Damage.Piercing);
+                prj.set_damage_range(min_dmg_to_monster, max_dmg_to_monster);
+                fl.create_new_projectile(prj);
             }
+            else
+            {
+                Projectile prj = new Projectile(get_my_grid_C(), opposition_coord, Projectile.projectile_type.Crossbow_Bolt, ref Secondary_cManager, false, Scroll.Atk_Area_Type.smallfixedAOE);
+                prj.set_damage_range(min_dmg_to_monster, max_dmg_to_monster);
+                List<gridCoordinate> crossbow_aoe = new List<gridCoordinate>();
+                crossbow_aoe.Add(opposition_coord);
+                crossbow_aoe.Add(splash_coord);
+                prj.set_small_AOE_matrix(crossbow_aoe);
+                prj.set_damage_type(Attack.Damage.Piercing);
+                fl.create_new_projectile(prj);
+            }
+
+            string attack_msg = "";
+            if (monsterID != -1)
+                attack_msg = "You attack the " + fl.badguy_by_monster_id(monsterID).my_name + " with your " + wName + "!";
+            else
+                attack_msg = "You attack the " + fl.doodad_by_index(doodadID).my_name() + " with your " + wName + "!";
+            message_buffer.Add(attack_msg);
+
             total_sound += my_sound_value() + (my_sound_value() / 2);
             total_scent += my_scent_value();
         }
@@ -915,7 +925,7 @@ namespace Cronkpit
             total_scent += my_scent_value();
         }
         
-        public void set_bash_attack_aura(Floor fl)
+        public void set_melee_attack_aura(Floor fl)
         {
             int whoCares = -1;
             for (int x = my_grid_coord.x - 1; x <= my_grid_coord.x + 1; x++)
@@ -1013,6 +1023,69 @@ namespace Cronkpit
                     fl.add_effect(target_weapon.get_my_damage_type(), target_coordinates[i]);
             }
             target_weapon.set_cooldown(standard_wpn_cooldown);
+        }
+
+        public void cast_spell(Scroll s, Floor fl, gridCoordinate spell_target, int target_monster_ID, int target_doodad_ID)
+        {
+            string spell_name = s.get_my_name();
+            Projectile.projectile_type prj_type = 0;
+            Attack.Damage spell_dmg_type = s.get_damage_type();
+            wound.Wound_Type spell_wnd_type = s.get_wound_type();
+            gridCoordinate starting_coord = my_grid_coord;
+
+            switch(spell_dmg_type)
+            {
+                case Attack.Damage.Acid:
+                    prj_type = Projectile.projectile_type.AcidCloud;
+                    break;
+                case Attack.Damage.Fire:
+                    if (s.get_aoe_size() == 0)
+                        prj_type = Projectile.projectile_type.Flamebolt;
+                    else
+                        prj_type = Projectile.projectile_type.Fireball;
+                    break;
+                case Attack.Damage.Crushing:
+                    if (String.Compare(s.get_my_name(), "Earthquake") == 0)
+                        prj_type = Projectile.projectile_type.Blank;
+                    break;
+                case Attack.Damage.Electric:
+                    prj_type = Projectile.projectile_type.Lightning_Bolt;
+                    break;
+            }
+ 
+            if (s.get_spell_type() == Scroll.Atk_Area_Type.piercingBolt)
+            {
+                int spell_range = s.get_range();
+                int relative_x = (spell_target.x - my_grid_coord.x) * spell_range;
+                int relative_y = (spell_target.y - my_grid_coord.y) * spell_range;
+                starting_coord = new gridCoordinate(spell_target);
+                spell_target = new gridCoordinate(my_grid_coord.x + relative_x, my_grid_coord.y + relative_y);
+            }
+
+            if (s.get_spell_type() != Scroll.Atk_Area_Type.personalBuff)
+            {
+                Projectile prj = new Projectile(starting_coord, spell_target, prj_type,
+                                                 ref cont, false, s.get_spell_type());
+                prj.set_damage_range(s.get_specific_damage(false), s.get_specific_damage(true));
+                prj.set_damage_type(spell_dmg_type);
+                prj.set_wound_type(spell_wnd_type);
+
+                if (s.get_spell_type() == Scroll.Atk_Area_Type.cloudAOE ||
+                    s.get_spell_type() == Scroll.Atk_Area_Type.solidblockAOE ||
+                    s.get_spell_type() == Scroll.Atk_Area_Type.randomblockAOE)
+                    prj.set_AOE_size(s.get_aoe_size());
+
+                if (s.get_spell_type() == Scroll.Atk_Area_Type.chainedBolt)
+                {
+                    prj.set_bounce(s.get_range());
+                    prj.set_bounces_left(s.get_t_impacts());
+                }
+
+                if (String.Compare(s.get_my_name(), "Earthquake") == 0)
+                    prj.set_special_anim(Projectile.special_anim.Earthquake);
+
+                fl.create_new_projectile(prj);
+            }
         }
 
         private int positive_difference(int i1, int i2)
@@ -1135,7 +1208,7 @@ namespace Cronkpit
         }
 
         //Green text. Function here.
-        public void take_damage(Attack atk, ref Floor fl)
+        public void take_damage(Attack atk, Floor fl)
         {
             //OKAY THIS IS GONNA BE COMPLICATED.
             //First, figure out where the attack is gonna hit. The breakdown is as follows:
@@ -1544,10 +1617,6 @@ namespace Cronkpit
             for (int i = 0; i < temporary_PTs.Count; i++)
                 acquire_potion(temporary_PTs[i]);
             temporary_PTs.Clear();
-        }
-
-        public void repair_via_potion(Potion pt)
-        {
         }
 
         public void clear_inv_nulls()
@@ -1989,6 +2058,8 @@ namespace Cronkpit
                     }
                     else if (inventory[i] is Potion)
                         return "Potion";
+                    else if (inventory[i] is Scroll)
+                        return "Scroll";
                 }
             }
             //If it hasn't returned yet, it's not in the inventory.
@@ -2041,6 +2112,15 @@ namespace Cronkpit
                 return over_armor;
             if (under_armor != null && under_armor.get_my_IDno() == IDno)
                 return under_armor;
+
+            return null;
+        }
+
+        public Scroll get_scroll_by_ID(int IDno)
+        {
+            for (int i = 0; i < inventory.Count; i++)
+                if (inventory[i] is Scroll && inventory[i].get_my_IDno() == IDno)
+                    return (Scroll)inventory[i];
 
             return null;
         }

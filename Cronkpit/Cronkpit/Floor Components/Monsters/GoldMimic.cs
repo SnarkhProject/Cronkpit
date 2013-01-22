@@ -73,7 +73,7 @@ namespace Cronkpit
                     fl.addmsg("The Gold Mimic slashes at you!");
                     Attack dmg = dealDamage();
                     fl.add_effect(dmg_type, pl.get_my_grid_C());
-                    pl.take_damage(dmg, ref fl);  
+                    pl.take_damage(dmg, fl);  
                 }
             }
             else

@@ -11,7 +11,19 @@ namespace Cronkpit
 {
     class Projectile
     {
-        public enum projectile_type { Arrow, Flamebolt, Frostbolt, Javelin };
+        public enum projectile_type { Blank, Arrow, Flamebolt, Frostbolt, Javelin, 
+                                      AcidCloud, Crossbow_Bolt, Fireball, Lightning_Bolt };
+        projectile_type my_prj_type;
+        public enum special_anim { None, Earthquake };
+        Scroll.Atk_Area_Type attack_type;
+        bool monster_projectile;
+        int max_damage;
+        int min_damage;
+        int bounce_range;
+        int bounces_left;
+        Attack.Damage damage_type;
+        wound.Wound_Type wound_type;
+        special_anim my_special_animation;
         Texture2D my_texture;
         Rectangle my_rectangle;
         projectile_type my_type;
@@ -19,13 +31,29 @@ namespace Cronkpit
         gridCoordinate my_end_coordinate;
         Vector2 my_end_position;
         Vector2 my_current_position;
+        int projectile_speed;
 
-        public Projectile(gridCoordinate start_gCoord, gridCoordinate end_gCoord, projectile_type myType, ref ContentManager cmanage)
+        gridCoordinate my_previous_coordinate;
+
+        //Spell info
+        List<gridCoordinate> Small_AoE_Matrix;
+
+        //Used for AoE purposes only
+        int AoE_size;
+
+        //OKAY LETS Cut this down to one constructor. What stuff is absolutely vital to make one constructor
+        //And what can be set later.
+        //Start coord and end coord, type of projectile and content manager.
+        //Also whether it's a monster projectile or not + attack area type
+        public Projectile(gridCoordinate start_gCoord, gridCoordinate end_gCoord, projectile_type myType, ref ContentManager cmanage, 
+                          bool monster_proj, Scroll.Atk_Area_Type atk_a_typ)
         {
             my_type = myType;
             int offset = 0;
+            projectile_speed = 240;
 
-            switch (my_type)
+            my_prj_type = my_type;
+            switch (my_prj_type)
             {
                 case projectile_type.Arrow:
                     my_texture = cmanage.Load<Texture2D>("Projectiles/arrow");
@@ -39,14 +67,34 @@ namespace Cronkpit
                 case projectile_type.Javelin:
                     my_texture = cmanage.Load<Texture2D>("Projectiles/javelin");
                     break;
+                case projectile_type.Crossbow_Bolt:
+                    my_texture = cmanage.Load<Texture2D>("Projectiles/crossbowbolt");
+                    break;
+                case projectile_type.AcidCloud:
+                    my_texture = cmanage.Load<Texture2D>("Projectiles/acidblob");
+                    break;
+                case projectile_type.Fireball:
+                    my_texture = cmanage.Load<Texture2D>("Projectiles/fireball");
+                    break;
+                case projectile_type.Blank:
+                    my_texture = cmanage.Load<Texture2D>("Projectiles/blank_projectile");
+                    projectile_speed = 480;
+                    break;
+                case projectile_type.Lightning_Bolt:
+                    my_texture = cmanage.Load<Texture2D>("Projectiles/lightningbolt");
+                    break;
             }
+            monster_projectile = monster_proj;
 
             my_start_coordinate = new gridCoordinate(start_gCoord);
             my_end_coordinate = new gridCoordinate(end_gCoord);
-            my_current_position = new Vector2((my_start_coordinate.x * 32)+offset, (my_start_coordinate.y * 32)+offset);
-            my_end_position = new Vector2((my_end_coordinate.x * 32)+offset, (my_end_coordinate.y * 32)+offset);
+            my_current_position = new Vector2((my_start_coordinate.x * 32) + offset, (my_start_coordinate.y * 32) + offset);
+            my_end_position = new Vector2((my_end_coordinate.x * 32) + offset, (my_end_coordinate.y * 32) + offset);
 
             my_rectangle = new Rectangle((int)my_current_position.X, (int)my_current_position.Y, 32, 32);
+            attack_type = atk_a_typ;
+            my_special_animation = special_anim.None;
+            my_previous_coordinate = new gridCoordinate(-1, -1);
         }
 
         public Rectangle my_rect()
@@ -59,8 +107,8 @@ namespace Cronkpit
             Vector2 direction = my_end_position - my_current_position;
             direction.Normalize();
 
-            my_current_position.X += (direction.X * delta_time)*240;
-            my_current_position.Y += (direction.Y * delta_time)*240;
+            my_current_position.X += (direction.X * delta_time)*projectile_speed;
+            my_current_position.Y += (direction.Y * delta_time)*projectile_speed;
 
             my_rectangle.X = (int)my_current_position.X;
             my_rectangle.Y = (int)my_current_position.Y;
@@ -77,6 +125,126 @@ namespace Cronkpit
 
             sb.Draw(my_texture, new Vector2(my_rectangle.X + 16, my_rectangle.Y + 16), null, Color.White, angle, new Vector2(16, 16), 1, SpriteEffects.None, 0f);
             //sb.Draw(my_texture, my_rectangle, Color.White);
+        }
+
+        //All of this is optional stuff and may not be initalized!
+        //Setters
+        public void set_small_AOE_matrix(List<gridCoordinate> matrix)
+        {
+            Small_AoE_Matrix = matrix;
+        }
+
+        public void set_damage_range(int mi_damage, int ma_damage)
+        {
+            max_damage = ma_damage;
+            min_damage = mi_damage;
+        }
+
+        public void set_damage_type(Attack.Damage dmg_typ)
+        {
+            damage_type = dmg_typ;
+        }
+
+        public void set_wound_type(wound.Wound_Type wnd_typ)
+        {
+            wound_type = wnd_typ;
+        }
+
+        public void set_AOE_size(int ae_size)
+        {
+            AoE_size = ae_size;
+        }
+
+        public void set_special_anim(special_anim ani)
+        {
+            my_special_animation = ani;
+        }
+
+        public void set_prev_coord(gridCoordinate gc)
+        {
+            my_previous_coordinate = gc;
+        }
+
+        public void set_bounce(int nBounce)
+        {
+            bounce_range = nBounce;
+        }
+
+        public void set_bounces_left(int nBouncesLeft)
+        {
+            bounces_left = nBouncesLeft;
+        }
+
+        //Getters
+        public List<gridCoordinate> get_small_AOE_matrix()
+        {
+            return Small_AoE_Matrix;
+        }
+
+        public projectile_type get_proj_type()
+        {
+            return my_prj_type;
+        }
+
+        public bool is_monster_projectile()
+        {
+            return monster_projectile;
+        }
+
+        public int get_damage_range(bool maxdamage)
+        {
+            if (maxdamage)
+                return max_damage;
+            else
+                return min_damage;
+        }
+
+        public Attack.Damage get_dmg_type()
+        {
+            return damage_type;
+        }
+
+        public wound.Wound_Type get_wound_type()
+        {
+            return wound_type;
+        }
+
+        public Scroll.Atk_Area_Type get_atk_area_type()
+        {
+            return attack_type;
+        }
+
+        public int get_aoe_size()
+        {
+            return AoE_size;
+        }
+
+        public int get_bounce()
+        {
+            return bounce_range;
+        }
+
+        public int get_remaining_bounces()
+        {
+            return bounces_left;
+        }
+
+        public special_anim get_special_anim()
+        {
+            return my_special_animation;
+        }
+
+        public gridCoordinate get_prev_coord()
+        {
+            return my_previous_coordinate;
+        }
+
+        public gridCoordinate get_center_rect_GC()
+        {
+            int c_x_val = (int)Math.Floor((double)((my_rectangle.X + my_rectangle.Width / 2)/32));
+            int c_y_val = (int)Math.Floor((double)((my_rectangle.Y + my_rectangle.Width / 2)/32));
+
+            return new gridCoordinate(c_x_val, c_y_val);
         }
     }
 }

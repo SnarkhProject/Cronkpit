@@ -45,7 +45,7 @@ namespace Cronkpit
                     fl.addmsg("The Gorehound lands a vicious bite!");
                     fl.add_effect(dmg_type, pl.get_my_grid_C());
                     Attack dmg = dealDamage();
-                    pl.take_damage(dmg, ref fl);
+                    pl.take_damage(dmg, fl);
                 }
             }
             else

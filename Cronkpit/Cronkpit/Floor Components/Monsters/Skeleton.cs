@@ -96,15 +96,21 @@ namespace Cronkpit
                     {
                         if(!has_moved)
                         {
-                            if (my_weapon_type == Skeleton_Weapon_Type.Bow)
-                                fl.create_new_projectile(new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.Arrow, ref cont));
-                            else if (my_weapon_type == Skeleton_Weapon_Type.Flamebolt)
-                                fl.create_new_projectile(new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.Flamebolt, ref cont));
-
                             fl.addmsg("The Skeleton attacks you!");
-                            fl.add_effect(dmg_type, pl.get_my_grid_C());
                             Attack dmg = dealDamage();
-                            pl.take_damage(dmg, ref fl);
+
+                            Projectile.projectile_type prjtyp = 0;
+
+                            if (my_weapon_type == Skeleton_Weapon_Type.Bow)
+                                prjtyp = Projectile.projectile_type.Arrow;
+                            else if (my_weapon_type == Skeleton_Weapon_Type.Flamebolt)
+                                prjtyp = Projectile.projectile_type.Flamebolt;
+
+                            Projectile prj = new Projectile(my_grid_coord, pl.get_my_grid_C(), prjtyp, ref cont,
+                                                                        true, Scroll.Atk_Area_Type.singleTile);
+                            prj.set_damage_range(min_damage, max_damage);
+                            prj.set_damage_type(dmg_type);
+                            fl.create_new_projectile(prj);
                         }
                     }
                 }
@@ -120,7 +126,7 @@ namespace Cronkpit
                             fl.addmsg("The Skeleton attacks you!");
                             fl.add_effect(dmg_type, pl.get_my_grid_C());
                             Attack dmg = dealDamage();
-                            pl.take_damage(dmg, ref fl);
+                            pl.take_damage(dmg, fl);
                         }
             }
 

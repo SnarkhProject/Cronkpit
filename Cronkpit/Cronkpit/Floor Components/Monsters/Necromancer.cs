@@ -165,11 +165,12 @@ namespace Cronkpit
                         {
                             if (is_player_within_diamond(pl, frostbolt_range))
                             {
-                                fl.create_new_projectile(new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.Frostbolt, ref cont));
                                 fl.addmsg("The Necromancer fires a frostbolt at you!");
-                                fl.add_effect(dmg_type, pl.get_my_grid_C());
                                 Attack dmg = dealDamage();
-                                pl.take_damage(dmg, ref fl);
+                                Projectile prj = new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
+                                prj.set_damage_range(min_damage, max_damage);
+                                prj.set_damage_type(dmg_type);
+                                fl.create_new_projectile(prj);
                             }
                             else
                                 advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 0);

@@ -46,14 +46,17 @@ namespace Cronkpit
             shared_items.Add(new Weapon(27, 1750, "Reaver", Weapon.Type.Axe, 2, 4, 8, 1));
             shared_items.Add(new Weapon(28, 250, "Flanged Mace", Weapon.Type.Mace, 1, 3, 6, 1));
             shared_items.Add(new Weapon(29, 1750, "Pitsteel Warhammer", Weapon.Type.Mace, 1, 4, 11, 1));
-            shared_items.Add(new Scroll(30, 250, "Firebolt I", 1));
-            shared_items.Add(new Scroll(31, 250, "Acid Cloud", 1));
-            shared_items.Add(new Scroll(32, 250, "Lightning Bolt", 1));
-            shared_items.Add(new Scroll(33, 1750, "Chain Lightning", 2));
-            shared_items.Add(new Scroll(34, 1750, "Greater Acid Cloud", 2));
-            shared_items.Add(new Scroll(35, 1750, "Firebolt II", 2));
-            shared_items.Add(new Scroll(36, 3500, "Earthquake", 3));
-            shared_items.Add(new Scroll(37, 3500, "Firebolt III", 3));
+            shared_items.Add(new Scroll(30, 250, "Firebolt I", 1, 4, 0, 3, 6, false, Scroll.Atk_Area_Type.singleTile, Attack.Damage.Fire));
+            shared_items.Add(new Scroll(31, 250, "Acid Cloud", 1, 4, 3, 4, 8, false, Scroll.Atk_Area_Type.cloudAOE, Attack.Damage.Acid));
+            shared_items.Add(new Scroll(32, 250, "Lightning Bolt", 1, 4, 0, 4, 8, true, Scroll.Atk_Area_Type.piercingBolt, Attack.Damage.Electric));
+            Scroll cLightning = new Scroll(33, 1750, "Chain Lightning", 2, 4, 0, 6, 14, false, Scroll.Atk_Area_Type.chainedBolt, Attack.Damage.Electric);
+            cLightning.set_t_impacts(4);
+            shared_items.Add(cLightning);
+            shared_items.Add(new Scroll(34, 1750, "Greater Acid Cloud", 2, 5, 5, 6, 14, false, Scroll.Atk_Area_Type.cloudAOE, Attack.Damage.Acid));
+            shared_items.Add(new Scroll(35, 1750, "Firebolt II", 2, 5, 0, 8, 16, false, Scroll.Atk_Area_Type.singleTile, Attack.Damage.Fire));
+            shared_items.Add(new Scroll(36, 1750, "Fireball", 2, 5, 3, 7, 16, false, Scroll.Atk_Area_Type.solidblockAOE, Attack.Damage.Fire));
+            shared_items.Add(new Scroll(37, 3500, "Earthquake", 3, 6, 5, 25, 50, false, Scroll.Atk_Area_Type.randomblockAOE, Attack.Damage.Crushing));
+            shared_items.Add(new Scroll(38, 3500, "Firebolt III", 3, 5, 0, 14, 32, false, Scroll.Atk_Area_Type.singleTile, Attack.Damage.Fire));
         }
 
         public List<Armor> retrieve_random_shared_armors(int number)

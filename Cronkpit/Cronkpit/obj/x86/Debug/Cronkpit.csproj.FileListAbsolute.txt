@@ -631,3 +631,12 @@ C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\tier1scroll_icon.xnb
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\tier2scroll_icon.xnb
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\tier3scroll_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\acidblob.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\crossbowbolt.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Player\spell cursor.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\acid_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\fireball.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\blank_projectile.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\earthquake_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\electric_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\lightningbolt.xnb

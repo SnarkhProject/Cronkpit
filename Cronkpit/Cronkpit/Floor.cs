@@ -13,7 +13,7 @@ namespace Cronkpit
     {
         //Constants
         private int stdfloorSize = 50;
-        public enum specific_effect { Power_Strike, Cleave };
+        public enum specific_effect { Power_Strike, Cleave, Earthquake };
         //Floor components
         int fl_number;
         int ambient_manavalue;
@@ -27,6 +27,7 @@ namespace Cronkpit
         List<Doodad> Doodads;
         List<Projectile> Pew_Pews;
         List<Effect> eff_ex;
+        List<PersistentEffect> persistent_effects;
         List<Popup> popup_alerts;
         SpawnTable floorSpawns;
         SpawnTable floor_Sub_Spawns;
@@ -62,6 +63,7 @@ namespace Cronkpit
             Pew_Pews = new List<Projectile>();
             eff_ex = new List<Effect>();
             popup_alerts = new List<Popup>();
+            persistent_effects = new List<PersistentEffect>();
             fl_number = floor_number;
             floorSpawns = new SpawnTable(fl_number, false);
             floor_Sub_Spawns = new SpawnTable(fl_number, true);
@@ -416,6 +418,7 @@ namespace Cronkpit
         //Green text. Function here.
         public void update_dungeon_floor(Player Pl)
         {
+            execute_persistent_effects(Pl);
             update_all_monsters(Pl);
             decay_all_scents();
         }
@@ -515,6 +518,66 @@ namespace Cronkpit
                     retValue = true;
             }
             return retValue;
+        }
+
+        Monster nearest_visible_monster(gridCoordinate origin, int within_Range)
+        {
+            int origin_x = origin.x;
+            int origin_y = origin.y;
+            //Vision_Log.Clear();
+            //Add endpoints at max y- from x- to x+
+            for (int i = -within_Range; i <= within_Range; i++)
+            {
+                gridCoordinate ray_end_point = new gridCoordinate(origin.x + i, origin.y - within_Range);
+                Vision_Rc.Add(new VisionRay(origin, ray_end_point));
+            }
+            //Add endpoints at max y+ from x- to x+
+            for (int i = -within_Range; i <= within_Range; i++)
+            {
+                gridCoordinate ray_end_point = new gridCoordinate(origin.x + i, origin.y + within_Range);
+                Vision_Rc.Add(new VisionRay(origin, ray_end_point));
+            }
+            //Add endpoints at max x- from y- to y+
+            for (int i = -within_Range + 1; i < within_Range; i++)
+            {
+                gridCoordinate ray_end_point = new gridCoordinate(origin.x - within_Range, origin.y + i);
+                Vision_Rc.Add(new VisionRay(origin, ray_end_point));
+            }
+            //Add endpoints at max x+ from y- to y+
+            for (int i = -within_Range + 1; i < within_Range; i++)
+            {
+                gridCoordinate ray_end_point = new gridCoordinate(origin.x + within_Range, origin.y + i);
+                Vision_Rc.Add(new VisionRay(origin, ray_end_point));
+            }
+
+            int not_this_monster = -1;
+            is_monster_here(origin, out not_this_monster);
+            int monsterID = -1;
+            Monster M = null;
+            while (Vision_Rc.Count > 0)
+            {
+                for (int i = 0; i < Vision_Rc.Count; i++)
+                {
+                    int c_coord_x = (int)Vision_Rc[i].my_current_position.X / 32;
+                    int c_coord_y = (int)Vision_Rc[i].my_current_position.Y / 32;
+                    gridCoordinate next_coord = new gridCoordinate(c_coord_x, c_coord_y);
+
+                    if (is_monster_here(next_coord, out monsterID) && monsterID != not_this_monster)
+                    {
+                        M = badguy_by_monster_id(monsterID);
+                        Vision_Rc.Clear();
+                    }
+                    else
+                    {
+                        if (!is_tile_passable(next_coord) || Vision_Rc[i].is_at_end())
+                            Vision_Rc.RemoveAt(i);
+                        else
+                            Vision_Rc[i].update();
+                    }
+                }
+            }
+
+            return M;
         }
 
         //Green text. Function here.
@@ -635,17 +698,208 @@ namespace Cronkpit
             return false;
         }
 
+        List<gridCoordinate> determine_range_by_aoe_type(Scroll.Atk_Area_Type aoe_type,
+                                                         gridCoordinate effect_center,
+                                                         List<gridCoordinate> small_aoe_matrix,
+                                                         int aoe_size)
+        {
+            List<gridCoordinate> range = new List<gridCoordinate>();
+
+            switch (aoe_type)
+            {
+                case Scroll.Atk_Area_Type.piercingBolt:
+                case Scroll.Atk_Area_Type.singleTile:
+                case Scroll.Atk_Area_Type.chainedBolt:
+                    range.Add(effect_center);
+                    break;
+                case Scroll.Atk_Area_Type.smallfixedAOE:
+                    range = small_aoe_matrix;
+                    break;
+                case Scroll.Atk_Area_Type.cloudAOE:
+                    List<List<bool>> cloud_matrix = generate_cloud_matrix(aoe_size);
+                    List<List<bool>> valid_matrix = generate_valid_cloud_area_matrix(aoe_size, effect_center);
+                    int half_size_floor = (int)Math.Floor((double)aoe_size / 2);
+
+                    for (int x = effect_center.x - half_size_floor; x <= effect_center.x + half_size_floor; x++)
+                    {
+                        for (int y = effect_center.y - half_size_floor; y <= effect_center.y + half_size_floor; y++)
+                        {
+                            int x_equiv = x - effect_center.x + half_size_floor;
+                            int y_equiv = y - effect_center.y + half_size_floor;
+                            if (cloud_matrix[x_equiv][y_equiv] == true &&
+                                valid_matrix[x_equiv][y_equiv] == true)
+                            {
+                                gridCoordinate cloud_coord = new gridCoordinate(x, y);
+                                range.Add(cloud_coord);
+                            }
+                        }
+                    }
+                    break;
+                case Scroll.Atk_Area_Type.solidblockAOE:
+                    int half_aoe_size = (int)Math.Floor((double)(aoe_size / 2));
+
+                    for (int x = effect_center.x - half_aoe_size; x <= effect_center.x + half_aoe_size; x++)
+                        for (int y = effect_center.y - half_aoe_size; y <= effect_center.y + half_aoe_size; y++)
+                        {
+                            gridCoordinate current_coord = new gridCoordinate(x, y);
+                            range.Add(current_coord);
+                        }
+                    break;
+                case Scroll.Atk_Area_Type.randomblockAOE:
+                    int half_r_aoe_size = (int)Math.Floor((double)(aoe_size / 2));
+                    int effect_chance = 50;
+
+                    for (int x = effect_center.x - half_r_aoe_size; x <= effect_center.x + half_r_aoe_size; x++)
+                        for (int y = effect_center.y - half_r_aoe_size; y <= effect_center.y + half_r_aoe_size; y++)
+                        {
+                            gridCoordinate current_coord = new gridCoordinate(x, y);
+                            int effect_roll = randGen.Next(100);
+                            if (effect_roll < effect_chance)
+                                range.Add(current_coord);
+                        }
+                    break;
+            }
+
+            return range;
+        }
+
         #endregion
 
-        #region projectile management
+        #region projectile management (includes cloud generation)
 
         public void update_all_projectiles(Player pl, float delta_time)
         {
+            List<gridCoordinate> attacked_coordinates = new List<gridCoordinate>();
+            bool aoe_effect = true;
+            bool remove = false;
+
             for (int i = 0; i < Pew_Pews.Count; i++)
             {
                 Pew_Pews[i].update(delta_time);
+                if (Pew_Pews[i].get_atk_area_type() == Scroll.Atk_Area_Type.piercingBolt)
+                {
+                    gridCoordinate c_position = Pew_Pews[i].get_center_rect_GC();
+                    gridCoordinate p_position = Pew_Pews[i].get_prev_coord();
 
-                if(check_overlap(Pew_Pews[i].my_rect(), new Rectangle((int)Pew_Pews[i].get_my_end_coord().x*32, (int)Pew_Pews[i].get_my_end_coord().y*32, 32, 32)))
+                    if (c_position.x != p_position.x || c_position.y != p_position.y)
+                        attacked_coordinates.Add(c_position);
+
+                    Pew_Pews[i].set_prev_coord(c_position);
+                    if (!is_tile_passable(c_position))
+                        remove = true;
+                }
+
+                int min_damage = Pew_Pews[i].get_damage_range(false);
+                int max_damage = Pew_Pews[i].get_damage_range(true);
+                Attack.Damage dmg_type = Pew_Pews[i].get_dmg_type();
+                wound.Wound_Type wnd_type = Pew_Pews[i].get_wound_type();
+
+                //Do all this if it's at the end of the line
+                if (check_overlap(Pew_Pews[i].my_rect(), new Rectangle((int)Pew_Pews[i].get_my_end_coord().x * 32, (int)Pew_Pews[i].get_my_end_coord().y * 32, 32, 32)))
+                {
+                    //discharge stored attack then remove
+                    gridCoordinate endCoord = Pew_Pews[i].get_my_end_coord();
+                    
+                    switch (Pew_Pews[i].get_atk_area_type())
+                    {
+                        case Scroll.Atk_Area_Type.piercingBolt:
+                        case Scroll.Atk_Area_Type.singleTile:
+                            aoe_effect = false;
+                            break;
+                        case Scroll.Atk_Area_Type.chainedBolt:
+                            if (Pew_Pews[i].get_bounce() > 0)
+                            {
+                                Monster M = nearest_visible_monster(endCoord, Pew_Pews[i].get_bounce());
+                                if (M != null)
+                                {
+                                    Projectile p = new Projectile(endCoord, M.my_grid_coord, Pew_Pews[i].get_proj_type(),
+                                                                  ref cManager, Pew_Pews[i].is_monster_projectile(),
+                                                                  Scroll.Atk_Area_Type.chainedBolt);
+                                    p.set_damage_range(Pew_Pews[i].get_damage_range(false), Pew_Pews[i].get_damage_range(true));
+                                    p.set_bounce(Pew_Pews[i].get_bounce());
+                                    p.set_bounces_left(Pew_Pews[i].get_remaining_bounces() - 1);
+                                    p.set_damage_type(Pew_Pews[i].get_dmg_type());
+                                    p.set_wound_type(Pew_Pews[i].get_wound_type());
+                                    create_new_projectile(p);
+                                }
+                            }
+                            break;
+                        case Scroll.Atk_Area_Type.cloudAOE:
+
+                            break;
+                        case Scroll.Atk_Area_Type.randomblockAOE:
+                            if (Pew_Pews[i].get_special_anim() == Projectile.special_anim.Earthquake)
+                            {
+                                PersistentEffect peffect = new PersistentEffect(Scroll.Atk_Area_Type.randomblockAOE,
+                                                                                PersistentEffect.special_effect_type.Earthquake,
+                                                                                endCoord, 1, Pew_Pews[i].is_monster_projectile(),
+                                                                                dmg_type, wnd_type, Pew_Pews[i].get_aoe_size(),
+                                                                                min_damage, max_damage);
+                                add_new_persistent_effect(peffect);
+                            }
+                            break;
+                    }
+
+                    attacked_coordinates = determine_range_by_aoe_type(Pew_Pews[i].get_atk_area_type(),
+                                                                       endCoord, Pew_Pews[i].get_small_AOE_matrix(),
+                                                                       Pew_Pews[i].get_aoe_size());
+                    //Range determined, now execute all attacks.
+                    remove = true;
+                }
+                //End of end of the line block
+
+                int monsterID = -1;
+                int doodadID = -1;
+
+                for (int j = 0; j < attacked_coordinates.Count; j++)
+                {
+                    Projectile.special_anim anim = Pew_Pews[i].get_special_anim();
+                    if (is_tile_passable(attacked_coordinates[j]))
+                        if (anim == Projectile.special_anim.None)
+                            add_effect(dmg_type, attacked_coordinates[j]);
+                        else
+                            switch (anim)
+                            {
+                                case Projectile.special_anim.Earthquake:
+                                    add_specific_effect(specific_effect.Earthquake, attacked_coordinates[j]);
+                                    break;
+                            }
+
+                    int dmg_val = randGen.Next(min_damage, max_damage + 1);
+                    if (Pew_Pews[i].is_monster_projectile())
+                    {
+                        if (pl.get_my_grid_C().x == attacked_coordinates[j].x &&
+                           pl.get_my_grid_C().y == attacked_coordinates[j].y)
+                        {
+                            if (aoe_effect)
+                            {
+                            }
+                            else
+                            {
+                                wound w = new wound(wnd_type, dmg_val);
+                                Attack atk = new Attack(dmg_type, w);
+                                pl.take_damage(atk, this);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (is_monster_here(attacked_coordinates[j], out monsterID))
+                            damage_monster(dmg_val, monsterID, false);
+
+                        if (is_destroyable_doodad_here(attacked_coordinates[j], out doodadID))
+                            damage_doodad(dmg_val, doodadID);
+
+                        if (pl.get_my_grid_C().x == attacked_coordinates[j].x &&
+                           pl.get_my_grid_C().y == attacked_coordinates[j].y)
+                        {
+                            int aoe_dmg_to_player = dmg_val / 2;
+                            for (int k = 0; k < aoe_dmg_to_player; k++)
+                                pl.take_damage(new Attack(dmg_type, new wound(wnd_type, 1)), this);
+                        }
+                    }
+                }
+                if (remove)
                     Pew_Pews.RemoveAt(i);
             }
         }
@@ -664,6 +918,121 @@ namespace Cronkpit
         public bool projectiles_remaining_to_update()
         {
             return Pew_Pews.Count > 0;
+        }
+
+        //Used for a bunch of spells and other projectiles WHICH IS WHY IT'S UNDER THE
+        //#PROJECTILES REGION
+        public List<List<bool>> generate_cloud_matrix(int cloud_size)
+        {
+            List<List<bool>> cloud_matrix = new List<List<bool>>();
+            int base_density = 50;
+            //start with the rows
+            for(int x = 0; x < cloud_size; x++)
+            {
+                cloud_matrix.Add(new List<bool>());
+                for (int y = 0; y < cloud_size; y++)
+                {
+                    //first we figure out what ring we're in. This is based on the smaller
+                    //of the 2 values - X or Y.
+                    int cloud_ring = 0;
+                    if (x < y)
+                        cloud_ring = cloud_matrix_ring(cloud_size, x);
+                    else
+                        cloud_ring = cloud_matrix_ring(cloud_size, y);
+
+                    int modified_density = base_density + ((cloud_ring - 1) * 5);
+                    int density_roll = randGen.Next(100);
+                    if (density_roll < modified_density)
+                        cloud_matrix[x].Add(true);
+                    else
+                        cloud_matrix[x].Add(false);
+                }
+            }
+
+            //center spot always hits.
+            int middle_row = (int)(Math.Floor((double)(cloud_size / 2)));
+            cloud_matrix[middle_row][middle_row] = true;
+
+            return cloud_matrix;
+        }
+
+        public List<List<bool>> generate_valid_cloud_area_matrix(int cloud_size, gridCoordinate cloud_center)
+        {
+            int half_aoe_size_floor = (int)Math.Floor((double)cloud_size / 2);
+            List<VisionRay> v_Area_Rays = new List<VisionRay>();
+            List<List<bool>> valid_cloud_area = new List<List<bool>>();
+
+            for (int x = 0; x < cloud_size; x++)
+            {
+                valid_cloud_area.Add(new List<bool>());
+                for (int y = 0; y < cloud_size; y++)
+                    valid_cloud_area[x].Add(false);
+            }
+
+            for (int i = -half_aoe_size_floor; i <= half_aoe_size_floor; i++)
+            {
+                gridCoordinate ray_end_point = new gridCoordinate(cloud_center.x + i, cloud_center.y - half_aoe_size_floor);
+                v_Area_Rays.Add(new VisionRay(cloud_center, ray_end_point));
+            }
+            //Add endpoints at max y+ from x- to x+
+            for (int i = -half_aoe_size_floor; i <= half_aoe_size_floor; i++)
+            {
+                gridCoordinate ray_end_point = new gridCoordinate(cloud_center.x + i, cloud_center.y + half_aoe_size_floor);
+                v_Area_Rays.Add(new VisionRay(cloud_center, ray_end_point));
+            }
+            //Add endpoints at max x- from y- to y+
+            for (int i = -half_aoe_size_floor + 1; i < half_aoe_size_floor; i++)
+            {
+                gridCoordinate ray_end_point = new gridCoordinate(cloud_center.x - half_aoe_size_floor, cloud_center.y + i);
+                v_Area_Rays.Add(new VisionRay(cloud_center, ray_end_point));
+            }
+            //Add endpoints at max x+ from y- to y+
+            for (int i = -half_aoe_size_floor + 1; i < half_aoe_size_floor; i++)
+            {
+                gridCoordinate ray_end_point = new gridCoordinate(cloud_center.x + half_aoe_size_floor, cloud_center.y + i);
+                v_Area_Rays.Add(new VisionRay(cloud_center, ray_end_point));
+            }
+            int lowest_x_coord = cloud_center.x - half_aoe_size_floor;
+            int lowest_y_coord = cloud_center.y - half_aoe_size_floor;
+            while (v_Area_Rays.Count > 0)
+            {
+                for (int i = 0; i < v_Area_Rays.Count; i++)
+                {
+                    int current_ray_end_X = (int)v_Area_Rays[i].my_end_position.X / 32;
+                    int current_ray_end_Y = (int)v_Area_Rays[i].my_end_position.Y / 32;
+
+                    int current_ray_current_X = (int)v_Area_Rays[i].my_current_position.X / 32;
+                    int current_ray_current_Y = (int)v_Area_Rays[i].my_current_position.Y / 32;
+                    gridCoordinate current_Position = new gridCoordinate(current_ray_current_X,
+                                                                         current_ray_current_Y);
+
+                    int grid_x_equiv = current_ray_current_X - lowest_x_coord;
+                    int grid_y_equiv = current_ray_current_Y - lowest_y_coord;
+
+                    if (!is_tile_passable(current_Position) || v_Area_Rays[i].is_at_end())
+                    {
+                        v_Area_Rays.RemoveAt(i);
+                    }
+                    else
+                    {
+                        valid_cloud_area[grid_x_equiv][grid_y_equiv] = true;
+                        v_Area_Rays[i].update();
+                    }    
+                }
+            }
+
+            return valid_cloud_area;
+        }
+
+        int cloud_matrix_ring(int cloud_size, int target_number)
+        {
+            for (int i = 0; i < (cloud_size / 2) + 1; i++)
+            {
+                if (target_number == i || target_number == cloud_size - (i + 1))
+                    return i + 1;
+            }
+
+            return -1;
         }
 
         #endregion
@@ -689,6 +1058,12 @@ namespace Cronkpit
                 case Attack.Damage.Frost:
                     eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/frost_spritesheet"), 7, fx_coord));
                     break;
+                case Attack.Damage.Acid:
+                    eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/acid_spritesheet"), 11, fx_coord));
+                    break;
+                case Attack.Damage.Electric:
+                    eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/electric_spritesheet"), 9, fx_coord));
+                    break;
             }
         }
 
@@ -701,6 +1076,9 @@ namespace Cronkpit
                     break;
                 case specific_effect.Cleave:
                     eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/cleave_spritesheet"), 5, fx_coord));
+                    break;
+                case specific_effect.Earthquake:
+                    eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/earthquake_spritesheet"), 7, fx_coord));
                     break;
             }
         }
@@ -720,6 +1098,84 @@ namespace Cronkpit
                 if (eff_ex[i].slated_for_removal())
                     eff_ex.RemoveAt(i);
             }
+        }
+
+        #endregion
+
+        #region Persistent Effect Management
+
+        public void add_new_persistent_effect(PersistentEffect pEffect)
+        {
+            persistent_effects.Add(pEffect);
+        }
+
+        public void execute_persistent_effects(Player pl)
+        {
+            for(int i = 0; i < persistent_effects.Count; i++)
+            {
+                if (persistent_effects[i].is_effect_ready())
+                {
+                    Scroll.Atk_Area_Type eType = persistent_effects[i].get_my_effect_type();
+                    Attack.Damage effect_dmg_type = persistent_effects[i].get_my_damage_type();
+                    wound.Wound_Type effect_wnd_type = persistent_effects[i].get_my_wound_type();
+                    int effect_max_damage = persistent_effects[i].get_specific_damage(true);
+                    int effect_min_damage = persistent_effects[i].get_specific_damage(false);
+
+                    gridCoordinate effect_center = persistent_effects[i].get_center();
+                    List<gridCoordinate> effected_tiles = new List<gridCoordinate>();
+
+                    effected_tiles = determine_range_by_aoe_type(eType, effect_center, null, 
+                                                                 persistent_effects[i].get_effect_size());
+
+                    int monsterID = -1;
+                    int doodadID = -1;
+
+                    for (int j = 0; j < effected_tiles.Count; j++)
+                    {
+                        if (is_tile_passable(effected_tiles[j]))
+                        {
+                            if (persistent_effects[i].get_my_special_fx() == PersistentEffect.special_effect_type.None)
+                                add_effect(effect_dmg_type, effected_tiles[j]);
+                            else if (persistent_effects[i].get_my_special_fx() == PersistentEffect.special_effect_type.Earthquake)
+                                add_specific_effect(specific_effect.Earthquake, effected_tiles[j]);
+                        }
+
+                        int dmg_val = randGen.Next(effect_min_damage, effect_max_damage + 1);
+                        if (persistent_effects[i].is_monster_effect())
+                        {
+                            if (pl.get_my_grid_C().x == effected_tiles[j].x &&
+                               pl.get_my_grid_C().y == effected_tiles[j].y)
+                            {
+                                //This is always an AOE effect.
+                            }
+                        }
+                        else
+                        {
+                            if (is_monster_here(effected_tiles[j], out monsterID))
+                                damage_monster(dmg_val, monsterID, false);
+
+                            if (is_destroyable_doodad_here(effected_tiles[j], out doodadID))
+                                damage_doodad(dmg_val, doodadID);
+
+                            if (pl.get_my_grid_C().x == effected_tiles[j].x &&
+                               pl.get_my_grid_C().y == effected_tiles[j].y)
+                            {
+                                int aoe_dmg_to_player = dmg_val / 2;
+                                for (int k = 0; k < aoe_dmg_to_player; k++)
+                                    pl.take_damage(new Attack(effect_dmg_type, new wound(effect_wnd_type, 1)), this);
+                            }
+                        }
+                    }
+
+                    persistent_effects[i].adjust_turns_remaining(-1);
+                }
+                else
+                    persistent_effects[i].ready_effect();   
+            }
+
+            for (int i = persistent_effects.Count - 1; i >= 0; i--)
+                if (persistent_effects[i].get_turns_left() == 0)
+                    persistent_effects.RemoveAt(i);
         }
 
         #endregion

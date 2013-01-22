@@ -8,7 +8,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Entities\alilmoreGold.xnb</Output>
-      <Time>2012-09-30T13:28:30.5783659-04:00</Time>
+      <Time>2013-01-09T01:39:22.2605318-05:00</Time>
     </Item>
     <Item>
       <Source>Entities\lowGold.png</Source>
@@ -17,7 +17,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Entities\lowGold.xnb</Output>
-      <Time>2012-09-30T13:28:30.5843662-04:00</Time>
+      <Time>2013-01-09T01:39:22.5215467-05:00</Time>
     </Item>
     <Item>
       <Source>Entities\someGold.png</Source>
@@ -26,7 +26,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Entities\someGold.xnb</Output>
-      <Time>2012-09-30T13:28:30.5853663-04:00</Time>
+      <Time>2013-01-09T01:39:22.5485482-05:00</Time>
     </Item>
     <Item>
       <Source>Entities\time2getpaid.png</Source>
@@ -35,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Entities\time2getpaid.xnb</Output>
-      <Time>2012-09-30T13:28:30.5863663-04:00</Time>
+      <Time>2013-01-09T01:39:22.5815501-05:00</Time>
     </Item>
     <Item>
       <Source>Entities\tonsoGold.png</Source>
@@ -44,7 +44,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Entities\tonsoGold.xnb</Output>
-      <Time>2012-09-30T13:28:30.5883664-04:00</Time>
+      <Time>2013-01-09T01:39:22.667555-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\goreHound.png</Source>
@@ -107,7 +107,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\exit.xnb</Output>
-      <Time>2012-09-30T13:29:13.625828-04:00</Time>
+      <Time>2013-01-09T01:39:53.3593105-05:00</Time>
     </Item>
     <Item>
       <Source>Background\stonebrick.png</Source>
@@ -782,7 +782,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\javelin.xnb</Output>
-      <Time>2012-11-25T02:08:40.6640029-05:00</Time>
+      <Time>2013-01-09T02:46:39.2284331-05:00</Time>
     </Item>
     <Item>
       <Source>Background\dirtfloor.png</Source>
@@ -845,7 +845,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Player\falsael_sprite.xnb</Output>
-      <Time>2012-12-22T21:10:17-05:00</Time>
+      <Time>2013-01-20T23:59:12.9204514-05:00</Time>
     </Item>
     <Item>
       <Source>UI Elements\Inventory Screen\falsael_wires\fal_chest_blue.png</Source>
@@ -1091,15 +1091,6 @@
       <Time>2012-12-22T21:09:10-05:00</Time>
     </Item>
     <Item>
-      <Source>Background\Moss Tiles\mossy_stonefloorwcrack.png</Source>
-      <Name>Background\Moss Tiles\mossy_stonefloorwcrack</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_stonefloorwcrack.xnb</Output>
-      <Time>2013-01-02T12:02:46.0963275-05:00</Time>
-    </Item>
-    <Item>
       <Source>Player\Portraits\falsael_fine.png</Source>
       <Name>Player\Portraits\falsael_fine</Name>
       <Importer>TextureImporter</Importer>
@@ -1262,6 +1253,78 @@
       <Time>2012-12-31T00:14:54.9105199-05:00</Time>
     </Item>
     <Item>
+      <Source>Background\Moss Tiles\mossy_stonefloorwcrack.png</Source>
+      <Name>Background\Moss Tiles\mossy_stonefloorwcrack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_stonefloorwcrack.xnb</Output>
+      <Time>2013-01-02T12:02:46.0963275-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Entities\broken_armor.png</Source>
+      <Name>Entities\broken_armor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Entities\broken_armor.xnb</Output>
+      <Time>2013-01-05T16:57:35.788512-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Scrolls\tier1scroll_icon.png</Source>
+      <Name>Icons\Scrolls\tier1scroll_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\tier1scroll_icon.xnb</Output>
+      <Time>2013-01-07T00:33:40.1424608-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Scrolls\tier2scroll_icon.png</Source>
+      <Name>Icons\Scrolls\tier2scroll_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\tier2scroll_icon.xnb</Output>
+      <Time>2013-01-07T00:33:40.144461-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Scrolls\tier3scroll_icon.png</Source>
+      <Name>Icons\Scrolls\tier3scroll_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\tier3scroll_icon.xnb</Output>
+      <Time>2013-01-07T00:33:40.2974697-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\acidblob.png</Source>
+      <Name>Projectiles\acidblob</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\acidblob.xnb</Output>
+      <Time>2013-01-09T02:25:11.4377757-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\crossbowbolt.png</Source>
+      <Name>Projectiles\crossbowbolt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\crossbowbolt.xnb</Output>
+      <Time>2013-01-09T02:46:37.1593148-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Player\spell cursor.png</Source>
+      <Name>Player\spell cursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Player\spell cursor.xnb</Output>
+      <Time>2013-01-11T02:59:29.0950574-05:00</Time>
+    </Item>
+    <Item>
       <Source>Fonts\sfont.spritefont</Source>
       <Name>Fonts\sfont</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -1325,45 +1388,63 @@
       <Time>2012-12-30T14:53:01.8632439-05:00</Time>
     </Item>
     <Item>
-      <Source>Entities\broken_armor.png</Source>
-      <Name>Entities\broken_armor</Name>
+      <Source>Projectiles\acid_spritesheet.png</Source>
+      <Name>Projectiles\acid_spritesheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Entities\broken_armor.xnb</Output>
-      <Time>2013-01-05T16:57:35.788512-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\acid_spritesheet.xnb</Output>
+      <Time>2013-01-13T23:12:37.2158944-05:00</Time>
     </Item>
     <Item>
-      <Source>Icons\Scrolls\tier1scroll_icon.png</Source>
-      <Name>Icons\Scrolls\tier1scroll_icon</Name>
+      <Source>Projectiles\fireball.png</Source>
+      <Name>Projectiles\fireball</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\tier1scroll_icon.xnb</Output>
-      <Time>2013-01-07T00:33:40.1424608-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\fireball.xnb</Output>
+      <Time>2013-01-15T03:02:17.1998617-05:00</Time>
     </Item>
     <Item>
-      <Source>Icons\Scrolls\tier2scroll_icon.png</Source>
-      <Name>Icons\Scrolls\tier2scroll_icon</Name>
+      <Source>Projectiles\blank_projectile.png</Source>
+      <Name>Projectiles\blank_projectile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\tier2scroll_icon.xnb</Output>
-      <Time>2013-01-07T00:33:40.144461-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\blank_projectile.xnb</Output>
+      <Time>2013-01-17T03:05:37.0698883-05:00</Time>
     </Item>
     <Item>
-      <Source>Icons\Scrolls\tier3scroll_icon.png</Source>
-      <Name>Icons\Scrolls\tier3scroll_icon</Name>
+      <Source>Projectiles\earthquake_spritesheet.png</Source>
+      <Name>Projectiles\earthquake_spritesheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\tier3scroll_icon.xnb</Output>
-      <Time>2013-01-07T00:33:40.2974697-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\earthquake_spritesheet.xnb</Output>
+      <Time>2013-01-17T04:13:58.3994709-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\electric_spritesheet.png</Source>
+      <Name>Projectiles\electric_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\electric_spritesheet.xnb</Output>
+      <Time>2013-01-19T19:36:28.2808977-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\lightningbolt.png</Source>
+      <Name>Projectiles\lightningbolt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\lightningbolt.xnb</Output>
+      <Time>2013-01-20T21:01:29.0835148-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
-      <TargetProfile>HiDef</TargetProfile>
+      <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
       <RootDirectory>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit Content\</RootDirectory>
