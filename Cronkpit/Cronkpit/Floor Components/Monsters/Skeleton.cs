@@ -15,6 +15,7 @@ namespace Cronkpit
         Skeleton_Weapon_Type my_weapon_type;
         public gridCoordinate last_seen_player_at;
         bool have_i_seen_player;
+        int flamebolt_mana_cost = 20;
 
         public Skeleton(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, Skeleton_Weapon_Type wType)
             : base(sGridCoord, sCont, sIndex)
@@ -86,7 +87,8 @@ namespace Cronkpit
             if(is_player_within(pl, sight_range+1))
                 look_for_player(fl, pl, sight_range);
 
-            if (my_weapon_type == Skeleton_Weapon_Type.Bow || my_weapon_type == Skeleton_Weapon_Type.Flamebolt)
+            if (my_weapon_type == Skeleton_Weapon_Type.Bow || 
+               (my_weapon_type == Skeleton_Weapon_Type.Flamebolt && fl.check_mana() >= flamebolt_mana_cost))
             {
                 if (can_see_player)
                 {
@@ -117,6 +119,14 @@ namespace Cronkpit
             }
             else
             {
+                if (my_weapon_type == Skeleton_Weapon_Type.Flamebolt && fl.check_mana() < flamebolt_mana_cost)
+                {
+                    min_damage = 1;
+                    max_damage = 1;
+                    dmg_type = Attack.Damage.Crushing;
+                    wound_type = wound.Wound_Type.Impact;
+                }
+
                 if(can_see_player)
                     if(!is_player_within(pl, 1))
                         advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1);

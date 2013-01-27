@@ -500,10 +500,12 @@ namespace Cronkpit
                             the_icoBar.assign_icon_to_slot(player_inv[index_of_mouse_selected_item].get_my_texture(), i);
                             if (player_inv[index_of_mouse_selected_item] is Potion)
                                 the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Potion, i);
-                            else if(player_inv[index_of_mouse_selected_item] is Armor)
+                            else if (player_inv[index_of_mouse_selected_item] is Armor)
                                 the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Armor, i);
-                            else if(player_inv[index_of_mouse_selected_item] is Weapon)
+                            else if (player_inv[index_of_mouse_selected_item] is Weapon)
                                 the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Weapon, i);
+                            else if (player_inv[index_of_mouse_selected_item] is Scroll)
+                                the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Scroll, i);
                             the_icoBar.update_cooldown_and_quant(pl);
                             done = true;
                         }

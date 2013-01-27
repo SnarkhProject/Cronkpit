@@ -7,6 +7,7 @@ namespace Cronkpit
 {
     struct gridCoordinate 
     {
+        public enum direction { UpLeft, Up, UpRight, Left, Right, DownLeft, Down, DownRight };
         public int x;
         public int y;
 
@@ -20,6 +21,41 @@ namespace Cronkpit
         {
             x = cpy.x;
             y = cpy.y;
+        }
+
+        public void shift_direction(direction dir)
+        {
+            switch (dir)
+            {
+                case direction.UpLeft:
+                    x--;
+                    y--;
+                    break;
+                case direction.Up:
+                    y--;
+                    break;
+                case direction.UpRight:
+                    y--;
+                    x++;
+                    break;
+                case direction.Left:
+                    x--;
+                    break;
+                case direction.Right:
+                    x++;
+                    break;
+                case direction.DownLeft:
+                    y++;
+                    x--;
+                    break;
+                case direction.Down:
+                    y++;
+                    break;
+                case direction.DownRight:
+                    y++;
+                    x++;
+                    break;
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Cronkpit
     {
         public enum Wound_Type { Open, Impact, Burn, Frostburn };
         public Wound_Type type;
-        public int severity;
+        public int severity; 
 
         public wound(Wound_Type wType, int sDmg)
         {
@@ -29,17 +29,21 @@ namespace Cronkpit
         List<wound> injuries;
         bool is_head;
         Random rGen;
+        string long_name;
+        string short_name;
 
         String[] open_wounds = { "minor cut", "cut", "slash", "heavy slash", "gaping wound" };
         String[] impact_wounds = { "bruise", "large bruise", "bruised bone", "fracture", "broken bone" };
         String[] burn_wounds = { "blister", "minor burn", "burn", "severe burn", "horrific burn" };
         String[] frost_wounds = { "chillblains", "frostnip", "frostbite", "deep frostbite", "frostburn" };
 
-        public Limb(bool head, ref Random r_gen)
+        public Limb(bool head, ref Random r_gen, string lname, string sname)
         {
             injuries = new List<wound>();
             is_head = head;
             rGen = r_gen;
+            long_name = lname;
+            short_name = sname;
         }
 
         public bool is_disabled()
@@ -191,6 +195,16 @@ namespace Cronkpit
         public bool is_uninjured()
         {
             return injuries.Count == 0;
+        }
+
+        public string get_longname()
+        {
+            return long_name;
+        }
+
+        public string get_shortname()
+        {
+            return short_name;
         }
     }
 }

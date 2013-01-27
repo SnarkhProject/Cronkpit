@@ -51,6 +51,8 @@ namespace Cronkpit
         PotionPrompt potiPrompt;
         MiniMainMenu miniMain;
         PaperDoll pDoll;
+        ManaBall mBall;
+        CharSelect cSelect;
 
         //Game things.
         int current_floor;
@@ -141,6 +143,11 @@ namespace Cronkpit
             shopScr = new ShopScreen(shopMenuItems, normal_font, smaller_font, client_rect(), ref Secondary_cManager);
             potiPrompt = new PotionPrompt(blank_texture, tiny_font, tiny_bold_font);
             miniMain = new MiniMainMenu(miniMenuItems, client_rect(), blank_texture, big_font);
+            cSelect = new CharSelect(ref Secondary_cManager);
+            //Stuff with smaller constructors
+            mBall = new ManaBall(Content.Load<Texture2D>("UI Elements/ManaBall/cball_background"),
+                                 Content.Load<Texture2D>("UI Elements/ManaBall/cball_effect_mask"),
+                                 client_rect());
             pDoll = new PaperDoll(client_rect());
             //then init the base
             base.Initialize();
@@ -266,7 +273,8 @@ namespace Cronkpit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            if (current_state != Game_State.main_menu && current_state != Game_State.shop_screen)
+            if (current_state != Game_State.main_menu && current_state != Game_State.shop_screen &&
+                current_state != Game_State.select_character)
             {
                 if (!f1.projectiles_remaining_to_update())
                     updateInput();
@@ -274,6 +282,7 @@ namespace Cronkpit
                 f1.update_all_projectiles(p1, elapsedTime);
                 f1.update_all_effects(elapsedTime);
                 f1.update_all_popups(elapsedTime);
+                mBall.update(elapsedTime);
 
                 if (p1.is_spot_exit(f1))
                 {
@@ -352,8 +361,7 @@ namespace Cronkpit
                     {
                         case 0:
                             //gameState = 1;
-                            current_state = Game_State.normal;
-                            start_new_game();
+                            current_state = Game_State.select_character;
                             break;
                         default:
                             this.Exit();
@@ -435,7 +443,7 @@ namespace Cronkpit
                     if (check_key_press(Keys.NumPad1))
                         if (p1.is_alive() && !victory_condition)
                         {
-                            p1.move("downleft", f1);
+                            p1.move(gridCoordinate.direction.DownLeft, f1);
                             bad_turn = true;
                         }
 
@@ -443,7 +451,7 @@ namespace Cronkpit
                     if (check_key_press(Keys.NumPad2))
                         if (p1.is_alive() && !victory_condition)
                         {
-                            p1.move("down", f1);
+                            p1.move(gridCoordinate.direction.Down, f1);
                             bad_turn = true;
                         }
 
@@ -451,7 +459,7 @@ namespace Cronkpit
                     if (check_key_press(Keys.NumPad3))
                         if (p1.is_alive() && !victory_condition)
                         {
-                            p1.move("downright", f1);
+                            p1.move(gridCoordinate.direction.DownRight, f1);
                             bad_turn = true;
                         }
 
@@ -459,21 +467,21 @@ namespace Cronkpit
                     if (check_key_press(Keys.NumPad8))
                         if (p1.is_alive() && !victory_condition)
                         {
-                            p1.move("up", f1);
+                            p1.move(gridCoordinate.direction.Up, f1);
                             bad_turn = true;
                         }
 
                     if (check_key_press(Keys.NumPad7))
                         if (p1.is_alive() && !victory_condition)
                         {
-                            p1.move("upleft", f1);
+                            p1.move(gridCoordinate.direction.UpLeft, f1);
                             bad_turn = true;
                         }
 
                     if (check_key_press(Keys.NumPad9))
                         if (p1.is_alive() && !victory_condition)
                         {
-                            p1.move("upright", f1);
+                            p1.move(gridCoordinate.direction.UpRight, f1);
                             bad_turn = true;
                         }
 
@@ -481,7 +489,7 @@ namespace Cronkpit
                     if (check_key_press(Keys.NumPad4))
                         if (p1.is_alive() && !victory_condition)
                         {
-                            p1.move("left", f1);
+                            p1.move(gridCoordinate.direction.Left, f1);
                             bad_turn = true;
                         }
 
@@ -490,7 +498,7 @@ namespace Cronkpit
                     if (check_key_press(Keys.NumPad6))
                         if (p1.is_alive() && !victory_condition)
                         {
-                            p1.move("right", f1);
+                            p1.move(gridCoordinate.direction.Right, f1);
                             bad_turn = true;
                         }
 
@@ -612,6 +620,7 @@ namespace Cronkpit
                                 shopScr.switch_shopping_mode(ShopScreen.Shopping_Mode.Buyback);
                                 break;
                             case 7:
+                                icoBar.purge_sold_items(p1);
                                 invScr.init_necessary_textures(p1);
                                 current_state = Game_State.normal;
                                 break;
@@ -1098,12 +1107,21 @@ namespace Cronkpit
             int doodad_no = -1;
 
             Scroll s = p1.get_scroll_by_ID(Scroll_ID);
+            int floor_mana_consumed = s.get_manaCost();
+            int mana_on_floor = f1.check_mana();
+
             if (f1.aura_of_specific_tile(cursor_location) == Tile.Aura.Attack)
             {
                 if (s.is_AoE_Spell())
                 {
-                    p1.cast_spell(s, f1, cursor_location, monster_no, doodad_no);
-                    bad_turn = true;
+                    if (mana_on_floor >= floor_mana_consumed)
+                    {
+                        f1.consume_mana(floor_mana_consumed);
+                        p1.cast_spell(s, f1, cursor_location, monster_no, doodad_no);
+                        bad_turn = true;
+                    }
+                    else
+                        f1.add_new_popup("Not enough mana!", Popup.popup_msg_color.Purple, p1.get_my_grid_C());
                 }
                 else
                 {
@@ -1111,11 +1129,18 @@ namespace Cronkpit
                         f1.is_destroyable_doodad_here(cursor_location, out doodad_no)) &&
                         f1.aura_of_specific_tile(cursor_location) == Tile.Aura.Attack)
                     {
-                        p1.cast_spell(s, f1, cursor_location, monster_no, doodad_no);
-                        bad_turn = true;
+                        if (mana_on_floor >= floor_mana_consumed)
+                        {
+                            f1.consume_mana(floor_mana_consumed);
+                            p1.cast_spell(s, f1, cursor_location, monster_no, doodad_no);
+                            bad_turn = true;
+                        }
+                        else
+                            f1.add_new_popup("Not enough mana!", Popup.popup_msg_color.Purple, p1.get_my_grid_C());
                     }
                 }
             }
+            mBall.calculate_opacity((double)f1.check_mana());
 
             current_state = Game_State.normal;
             f1.scrub_all_auras();
@@ -1370,6 +1395,11 @@ namespace Cronkpit
                     shopScr.drawMe(ref spriteBatch);
                     spriteBatch.End();
                     break;
+                case Game_State.select_character:
+                    spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.NonPremultiplied);
+                    cSelect.draw_me(ref spriteBatch);
+                    spriteBatch.End();
+                    break;
                 default:
                     draw_game();
                     break;
@@ -1440,6 +1470,7 @@ namespace Cronkpit
             {
                 icoBar.draw_me(ref spriteBatch);
                 pDoll.draw_me(ref spriteBatch);
+                mBall.draw_me(ref spriteBatch);
             }
 
             if (invScr.is_visible())

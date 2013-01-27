@@ -11,7 +11,7 @@ namespace Cronkpit
 {
     class Player
     {
-        public enum Character { Falsael };
+        public enum Character { Falsael, Ziktofel, Halephon, Petaer };
         public enum Chara_Class { Warrior, Mage, Rogue };
         public enum Equip_Slot { Mainhand, Offhand, Overarmor, Underarmor };
         //Constructor stuff
@@ -62,7 +62,7 @@ namespace Cronkpit
             rGen = new Random();
             message_buffer = msgBuffer;
             //!Constructor stuff
-            my_gold = 9000;
+            my_gold = 0;
             base_smell_value = 10;
             base_sound_value = 10;
             //Player stuff
@@ -81,12 +81,12 @@ namespace Cronkpit
                     break;
             }
             //Health stuff.
-            Head = new Limb(true, ref rGen);
-            Torso = new Limb(false, ref rGen);
-            R_Arm = new Limb(false, ref rGen);
-            L_Arm = new Limb(false, ref rGen);
-            R_Leg = new Limb(false, ref rGen);
-            L_Leg = new Limb(false, ref rGen);
+            Head = new Limb(true, ref rGen, "Head", "Head");
+            Torso = new Limb(false, ref rGen, "Chest", "Chest");
+            R_Arm = new Limb(false, ref rGen, "Right Arm", "RArm");
+            L_Arm = new Limb(false, ref rGen, "Left Arm", "LArm");
+            R_Leg = new Limb(false, ref rGen, "Right Leg", "RLeg");
+            L_Leg = new Limb(false, ref rGen, "Left Leg", "LLeg");
             calculate_dodge_chance();
             //Inventory stuff
             main_hand = new Weapon(0, 100, "Knife", Weapon.Type.Sword, 1, 2, 4, 1);
@@ -105,6 +105,12 @@ namespace Cronkpit
             {
                 case Character.Falsael:
                     return "Falsael";
+                case Character.Ziktofel:
+                    return "Ziktofel";
+                case Character.Halephon:
+                    return "Halephon";
+                case Character.Petaer:
+                    return "Petaer";
             }
 
             return "Default";
@@ -121,25 +127,8 @@ namespace Cronkpit
         }
 
         //Green text. Function here.
-        public void move(string direction, Floor fl)
+        public void move(gridCoordinate.direction dir, Floor fl)
         {
-            int numeric_direction = -1;
-            if (String.Compare("up", direction) == 0)
-                numeric_direction = 0;
-            else if (String.Compare("down", direction) == 0)
-                numeric_direction = 1;
-            else if (String.Compare("left", direction) == 0)
-                numeric_direction = 2;
-            else if (String.Compare("right", direction) == 0)
-                numeric_direction = 3;
-            else if (String.Compare("downright", direction) == 0)
-                numeric_direction = 4;
-            else if (String.Compare("downleft", direction) == 0)
-                numeric_direction = 5;
-            else if (String.Compare("upright", direction) == 0)
-                numeric_direction = 6;
-            else if (String.Compare("upleft", direction) == 0)
-                numeric_direction = 7;
             //0 = up, 1 = down, 2 = left, 3 = right
             //4 = downright, 5 = downleft, 6 = upright, 7 = upleft
             int MonsterID = -1;
@@ -147,191 +136,25 @@ namespace Cronkpit
             int my_smell = my_scent_value();
             int my_sound = my_sound_value();
             //damage stuff
+            gridCoordinate test_coord = new gridCoordinate(my_grid_coord);
+            test_coord.shift_direction(dir);
 
-            switch (numeric_direction)
+            if (is_spot_free(fl, test_coord))
             {
-                //up, y-
-                case 0:
-                    my_grid_coord.y--;
-                    if (is_spot_free(fl))
-                    {
-                        reset_my_drawing_position();
-                    }
-                    else if (is_monster_present(fl, out MonsterID))
-                    {                        
-                        my_grid_coord.y++;
-                    }
-                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
-                    {
-                        my_grid_coord.y++;
-                    }
-                    else
-                    {
-                        my_grid_coord.y++;
-                    }
-                    break;
-                //down, y+
-                case 1:
-                    my_grid_coord.y++;
-                    if (is_spot_free(fl))
-                    {
-                        reset_my_drawing_position();
-                    }
-                    else if (is_monster_present(fl, out MonsterID))
-                    {
-                        my_grid_coord.y--;
-                    }
-                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
-                    {
-                        my_grid_coord.y--;
-                    }
-                    else
-                        my_grid_coord.y--;
-                    break;
-                //left, x-
-                case 2:
-                    my_grid_coord.x--;
-                    if (is_spot_free(fl))
-                    {
-                        reset_my_drawing_position();
-                    }
-                    else if (is_monster_present(fl, out MonsterID))
-                    {
-                        my_grid_coord.x++;
-                    }
-                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
-                    {
-                        my_grid_coord.x++;
-                    }
-                    else
-                        my_grid_coord.x++;
-                    break;
-                //right, x+
-                case 3:
-                    my_grid_coord.x++;
-                    if (is_spot_free(fl))
-                    {
-                        reset_my_drawing_position();
-                    }
-                    else if (is_monster_present(fl, out MonsterID))
-                    {
-                        my_grid_coord.x--;
-                    }
-                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
-                    {
-                        my_grid_coord.x--;
-                    }
-                    else
-                        my_grid_coord.x--;
-                    break;
-                //down right, x+ y+
-                case 4:
-                    my_grid_coord.x++;
-                    my_grid_coord.y++;
-                    if (is_spot_free(fl))
-                    {
-                        reset_my_drawing_position();
-                    }
-                    else if (is_monster_present(fl, out MonsterID))
-                    {
-                        my_grid_coord.x--;
-                        my_grid_coord.y--;
-                    }
-                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
-                    {
-                        my_grid_coord.x--;
-                        my_grid_coord.y--;
-                    }
-                    else
-                    {
-                        my_grid_coord.x--;
-                        my_grid_coord.y--;
-                    }
-                    break;
-                //down left, x- y+
-                case 5:
-                    my_grid_coord.x--;
-                    my_grid_coord.y++;
-                    if (is_spot_free(fl))
-                    {
-                        reset_my_drawing_position();
-                    }
-                    else if (is_monster_present(fl, out MonsterID))
-                    {
-                        my_grid_coord.x++;
-                        my_grid_coord.y--;
-                    }
-                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
-                    {
-                        my_grid_coord.x++;
-                        my_grid_coord.y--;
-                    }
-                    else
-                    {
-                        my_grid_coord.x++;
-                        my_grid_coord.y--;
-                    }
-                    break;
-                //up right, x+ y-
-                case 6:
-                    my_grid_coord.x++;
-                    my_grid_coord.y--;
-                    if (is_spot_free(fl))
-                    {
-                        reset_my_drawing_position();
-                    }
-                    else if (is_monster_present(fl, out MonsterID))
-                    {
-                        my_grid_coord.x--;
-                        my_grid_coord.y++;
-                    }
-                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
-                    {
-                        my_grid_coord.x--;
-                        my_grid_coord.y++;
-                    }
-                    else
-                    {
-                        my_grid_coord.x--;
-                        my_grid_coord.y++;
-                    }
-                    break;
-                //up left, x- y-
-                case 7:
-                    my_grid_coord.x--;
-                    my_grid_coord.y--;
-                    if (is_spot_free(fl))
-                    {
-                        reset_my_drawing_position();
-                    }
-                    else if (is_monster_present(fl, out MonsterID))
-                    {                       
-                        my_grid_coord.x++;
-                        my_grid_coord.y++;
-                    }
-                    else if(fl.is_destroyable_doodad_here(my_grid_coord, out DoodadID))
-                    {
-                        my_grid_coord.x++;
-                        my_grid_coord.y++;
-                    }
-                    else
-                    {
-                        my_grid_coord.x++;
-                        my_grid_coord.y++;
-                    }
-                    break;
-                default:
-                    break;
+                my_grid_coord = test_coord;
+                reset_my_drawing_position();
+            }
+            else
+            {
+                fl.is_monster_here(test_coord, out MonsterID);
+                fl.is_destroyable_doodad_here(test_coord, out DoodadID);
             }
 
             if (MonsterID != -1)
-            {
                 melee_attack(fl, my_grid_coord, fl.badguy_by_monster_id(MonsterID).my_grid_coord);
-            }
+
             if(DoodadID != -1)
-            {
                 melee_attack(fl, my_grid_coord, fl.doodad_by_index(DoodadID).get_g_coord());
-            }
             //after moving, loot and then add smell to current tile.
             loot(fl);
             total_sound = my_sound_value();
@@ -662,19 +485,20 @@ namespace Cronkpit
                     int x_difference = positive_difference(pl_gc.x, current_ray_position.x);
                     int y_difference = positive_difference(pl_gc.y, current_ray_position.y);
                     
-                    if (fl.isWalkable(current_ray_position) && (x_difference > 1 || y_difference > 1))
+                    if (fl.is_tile_passable(current_ray_position) && (x_difference > 1 || y_difference > 1))
                             fl.set_tile_aura(current_ray_position, Tile.Aura.Attack);
 
-                    if (!fl.isWalkable(current_ray_position) && (x_difference > 1 || y_difference > 1) &&
-                        fl.is_destroyable_doodad_here(current_ray_position, out whoCares))
-                        fl.set_tile_aura(current_ray_position, Tile.Aura.Attack);
-                    
-                    if(!fl.isWalkable(current_ray_position))
+                    if (!fl.is_tile_passable(current_ray_position))
+                    {
                         remove = true;
+                        if(s != null && s.spell_destroys_walls())
+                            fl.set_tile_aura(current_ray_position, Tile.Aura.Attack);
+                    }
 
                     if ((main_hand != null && main_hand.get_my_weapon_type() == Weapon.Type.Crossbow) ||
                         (off_hand != null && off_hand.get_my_weapon_type() == Weapon.Type.Crossbow))
-                        if (fl.is_monster_here(current_ray_position, out monsterID))
+                        if (fl.is_monster_here(current_ray_position, out monsterID) ||
+                            fl.is_destroyable_doodad_here(current_ray_position, out whoCares))
                             remove = true;
 
                     if (range_rays[i].is_at_end() || remove)
@@ -862,7 +686,7 @@ namespace Cronkpit
             else
                 opposition_coord = monster_coord;
 
-            if (!is_spot_free(fl))
+            if (!is_spot_free(fl, my_grid_coord))
             {
                 int xdif = my_original_position.x - opposition_coord.x;
                 int ydif = my_original_position.y - opposition_coord.y;
@@ -1069,6 +893,7 @@ namespace Cronkpit
                 prj.set_damage_range(s.get_specific_damage(false), s.get_specific_damage(true));
                 prj.set_damage_type(spell_dmg_type);
                 prj.set_wound_type(spell_wnd_type);
+                prj.set_wall_destroying(s.spell_destroys_walls());
 
                 if (s.get_spell_type() == Scroll.Atk_Area_Type.cloudAOE ||
                     s.get_spell_type() == Scroll.Atk_Area_Type.solidblockAOE ||
@@ -1240,79 +1065,54 @@ namespace Cronkpit
 
             if (!dodged)
             {
+                bool armored_location = true;
+                Armor.Attack_Zone atkzone = 0;
+                Limb target_limb = null;
+
                 if (hit_location < 5 && !Head.is_disabled())
                 {
-                    wound dmg = new wound(atk.get_assoc_wound());
-                    Head.add_injury(dmg);
-                    if (dmg.severity > 0)
-                        fl.add_new_popup("-" + dmg.severity + " Head", Popup.popup_msg_color.Red, my_grid_coord);
-                    message_buffer.Add("Your head takes " + dmg.severity + " " + w_type + " wounds!");
+                    armored_location = false;
+                    target_limb = Head;
                 }
                 else if (hit_location >= 5 && hit_location < 22 && !R_Arm.is_disabled())
                 {
-                    Armor.Attack_Zone atkzone = Armor.Attack_Zone.R_Arm;
-                    if (over_armor != null)
-                        atk = over_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
-                    if (under_armor != null)
-                        atk = under_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
-                    wound dmg = new wound(atk.get_assoc_wound());
-                    R_Arm.add_injury(dmg);
-                    if (dmg.severity > 0)
-                        fl.add_new_popup("-" + dmg.severity + " R Arm", Popup.popup_msg_color.Red, my_grid_coord);
-                    message_buffer.Add("Your right arm takes " + dmg.severity + " " + w_type + " wounds!");
+                    atkzone = Armor.Attack_Zone.R_Arm;
+                    target_limb = R_Arm;
                 }
                 else if (hit_location >= 22 && hit_location < 39 && !L_Arm.is_disabled())
                 {
-                    Armor.Attack_Zone atkzone = Armor.Attack_Zone.L_Arm;
-                    if (over_armor != null)
-                        atk = over_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
-                    if (under_armor != null)
-                        atk = under_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
-                    wound dmg = new wound(atk.get_assoc_wound());
-                    L_Arm.add_injury(dmg);
-                    if (dmg.severity > 0)
-                        fl.add_new_popup("-" + dmg.severity + " L Arm", Popup.popup_msg_color.Red, my_grid_coord);
-                    message_buffer.Add("Your left arm takes " + dmg.severity + " " + w_type + " wounds!");
+                    atkzone = Armor.Attack_Zone.L_Arm;
+                    target_limb = L_Arm;
                 }
                 else if (hit_location >= 39 && hit_location < 57 && !R_Leg.is_disabled())
                 {
-                    Armor.Attack_Zone atkzone = Armor.Attack_Zone.R_Leg;
-                    if (over_armor != null)
-                        atk = over_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
-                    if (under_armor != null)
-                        atk = under_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
-                    wound dmg = new wound(atk.get_assoc_wound());
-                    R_Leg.add_injury(dmg);
-                    if (dmg.severity > 0)
-                        fl.add_new_popup("-" + dmg.severity + " R Leg", Popup.popup_msg_color.Red, my_grid_coord);
-                    message_buffer.Add("Your right leg takes " + dmg.severity + " " + w_type + " wounds!");
+                    atkzone = Armor.Attack_Zone.R_Leg;
+                    target_limb = R_Leg;
                 }
                 else if (hit_location >= 57 && hit_location < 75 && !L_Leg.is_disabled())
                 {
-                    Armor.Attack_Zone atkzone = Armor.Attack_Zone.L_Leg;
-                    if (over_armor != null)
-                        atk = over_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
-                    if (under_armor != null)
-                        atk = under_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
-                    wound dmg = new wound(atk.get_assoc_wound());
-                    L_Leg.add_injury(dmg);
-                    if (dmg.severity > 0)
-                        fl.add_new_popup("-" + dmg.severity + " L Leg", Popup.popup_msg_color.Red, my_grid_coord);
-                    message_buffer.Add("Your left leg takes " + dmg.severity + " " + w_type + " wounds!");
+                    atkzone = Armor.Attack_Zone.L_Leg;
+                    target_limb = L_Leg;
                 }
                 else
                 {
-                    Armor.Attack_Zone atkzone = Armor.Attack_Zone.Chest;
+                    atkzone = Armor.Attack_Zone.Chest;
+                    target_limb = Torso;
+                }
+
+                if (armored_location)
+                {
                     if (over_armor != null)
                         atk = over_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
                     if (under_armor != null)
                         atk = under_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
-                    wound dmg = new wound(atk.get_assoc_wound());
-                    Torso.add_injury(dmg);
-                    if (dmg.severity > 0)
-                        fl.add_new_popup("-" + dmg.severity + " Chest", Popup.popup_msg_color.Red, my_grid_coord);
-                    message_buffer.Add("Your chest takes " + dmg.severity + " " + w_type + " wounds!");
                 }
+                wound dmg = new wound(atk.get_assoc_wound());
+                target_limb.add_injury(dmg);
+                if (dmg.severity > 0)
+                        fl.add_new_popup("-" + dmg.severity + " " + target_limb.get_shortname(), Popup.popup_msg_color.Red, my_grid_coord);
+                    message_buffer.Add("Your " + target_limb.get_longname() + " takes " + dmg.severity + " " + w_type + " wounds!");
+
                 calculate_dodge_chance();
                 update_pdoll();
             }
@@ -1325,6 +1125,88 @@ namespace Cronkpit
 
             if (!is_alive())
                 message_buffer.Add("Your wounds are too much for you. You collapse and your vision fades.");
+        }
+
+        public void take_aoe_damage(int min_dmg, int max_dmg, 
+                                    Attack.Damage dmg_type, wound.Wound_Type wnd_type, Floor fl)
+        {
+            List<Limb> target_limbs = new List<Limb>();
+            List<Armor.Attack_Zone> target_zones = new List<Armor.Attack_Zone>();
+
+            string w_type = "";
+            switch (wnd_type)
+            {
+                case wound.Wound_Type.Burn:
+                    w_type = "burn";
+                    break;
+                case wound.Wound_Type.Impact:
+                    w_type = "impact";
+                    break;
+                case wound.Wound_Type.Open:
+                    w_type = "open";
+                    break;
+            }
+
+            //Head and chest
+            int hc_dodge_roll = rGen.Next(100);
+            if (hc_dodge_roll < dodge_chance)
+            {
+                fl.add_new_popup("Dodged!", Popup.popup_msg_color.LimeGreen, my_grid_coord);
+                message_buffer.Add("You dodge the attack!");
+            }
+            else
+            {
+                wound h_wnd = new wound(wnd_type, rGen.Next(min_dmg, max_dmg));
+                Head.add_injury(h_wnd);
+
+                target_limbs.Add(Torso);
+                target_zones.Add(Armor.Attack_Zone.Chest);
+            }
+
+            //R Arm / Leg
+            int rs_dodge_roll = rGen.Next(100);
+            if (rs_dodge_roll < dodge_chance)
+            {
+                fl.add_new_popup("Dodged!", Popup.popup_msg_color.LimeGreen, my_grid_coord);
+                message_buffer.Add("You dodge the attack!");
+            }
+            else
+            {
+                target_limbs.Add(R_Arm);
+                target_zones.Add(Armor.Attack_Zone.R_Arm);
+                target_limbs.Add(R_Leg);
+                target_zones.Add(Armor.Attack_Zone.R_Leg);
+            }
+
+            //L Arm / Leg
+            int ls_dodge_roll = rGen.Next(100);
+            if (ls_dodge_roll < dodge_chance)
+            {
+                fl.add_new_popup("Dodged!", Popup.popup_msg_color.LimeGreen, my_grid_coord);
+                message_buffer.Add("You dodge the attack!");
+            }
+            else
+            {
+                target_limbs.Add(L_Arm);
+                target_zones.Add(Armor.Attack_Zone.L_Arm);
+                target_limbs.Add(L_Leg);
+                target_zones.Add(Armor.Attack_Zone.L_Leg);
+            }
+
+            for (int i = 0; i < target_limbs.Count; i++)
+            {
+                Attack next_attack = new Attack(dmg_type, new wound(wnd_type, rGen.Next(min_dmg, max_dmg)));
+                if (over_armor != null)
+                    next_attack = over_armor.absorb_damage(next_attack, target_zones[i], my_grid_coord, ref rGen, ref message_buffer, ref fl);
+                if (under_armor != null)
+                    next_attack = under_armor.absorb_damage(next_attack, target_zones[i], my_grid_coord, ref rGen, ref message_buffer, ref fl);
+
+                wound next_wnd = new wound(next_attack.get_assoc_wound());
+                target_limbs[i].add_injury(next_wnd);
+                if (next_wnd.severity > 0)
+                    fl.add_new_popup("-" + next_wnd.severity + " " + target_limbs[i].get_shortname(), Popup.popup_msg_color.Red, my_grid_coord);
+                message_buffer.Add("Your " + target_limbs[i].get_longname() + " takes " + next_wnd.severity + " " + w_type + " wounds!");
+            }
         }
 
         public void teleport(gridCoordinate gc)
@@ -1642,24 +1524,10 @@ namespace Cronkpit
         //Bool returns - gets whether there's a monster on your current grid coordinate.
         //Or whether the spot is free, or if you're alive, OR if that spot is an exit.
         //Green text. Function here.
-        public bool is_monster_present(Floor fl, out int bad_guy_ID)
-        {
-            bad_guy_ID = -1;
-            for (int i = 0; i < fl.see_badGuys().Count; i++)
-                if (my_grid_coord.x == fl.see_badGuys()[i].my_grid_coord.x &&
-                   my_grid_coord.y == fl.see_badGuys()[i].my_grid_coord.y)
-                {
-                    bad_guy_ID = fl.see_badGuys()[i].my_Index;
-                    return true;
-                }
-            return false;
-        }
-
-        //Green text. Function here.
-        public bool is_spot_free(Floor fl)
+        public bool is_spot_free(Floor fl, gridCoordinate test_coord)
         {
             int whoCares;
-            return (fl.isWalkable(my_grid_coord) && !is_monster_present(fl, out whoCares));
+            return (fl.isWalkable(test_coord) && !fl.is_monster_here(test_coord, out whoCares));
         }
 
         //Green text. Function here.

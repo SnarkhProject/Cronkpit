@@ -15,6 +15,7 @@ namespace Cronkpit
         Grendel_Weapon_Type my_weapon_type;
         gridCoordinate last_seen_player_at;
         bool have_i_seen_player;
+        int frostbolt_manacost = 30;
 
         public Grendel(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, Grendel_Weapon_Type wType)
             : base(sGridCoord, sCont, sIndex)
@@ -70,7 +71,7 @@ namespace Cronkpit
                 last_seen_player_at = new gridCoordinate(pl.get_my_grid_C());
                 //fl.add_new_popup("The Grendel sees you!", Popup.popup_msg_color.Red, my_grid_coord);
 
-                if (my_weapon_type == Grendel_Weapon_Type.Frostbolt)
+                if (my_weapon_type == Grendel_Weapon_Type.Frostbolt && fl.check_mana() >= frostbolt_manacost)
                 {
                     if (!is_player_within_diamond(pl, 4))
                         advance_towards_single_point(last_seen_player_at, pl, fl, 0);
@@ -86,6 +87,14 @@ namespace Cronkpit
                 }
                 else
                 {
+                    if (my_weapon_type == Grendel_Weapon_Type.Frostbolt && fl.check_mana() < frostbolt_manacost)
+                    {
+                        min_damage = 3;
+                        max_damage = 5;
+                        dmg_type = Attack.Damage.Crushing;
+                        wound_type = wound.Wound_Type.Impact;
+                    }
+
                     if(!is_player_within(pl, 1))
                         advance_towards_single_point(last_seen_player_at, pl, fl, 1);
                     else

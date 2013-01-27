@@ -76,6 +76,7 @@ namespace Cronkpit
             cManager = sCont;
             randGen = new Random((int)DateTime.Now.Ticks);
             popup_msg_font = sCont.Load<SpriteFont>("Fonts/popup_msg");
+            ambient_manavalue = 1000;
         
             //Then do stuff for real
             buildFloor();
@@ -180,9 +181,9 @@ namespace Cronkpit
                     for (int y = roomLayout[i].startYPos; y < roomLayout[i].startYPos + roomLayout[i].roomHeight; y++)
                     {
                         if (!roomLayout[i].is_dirt_room())
-                            floorTiles[x][y].setTexture(1);
+                            floorTiles[x][y].set_tile_type(1);
                         else
-                            floorTiles[x][y].setTexture(5);
+                            floorTiles[x][y].set_tile_type(5);
                     }
             }
             //Then hallways
@@ -242,7 +243,7 @@ namespace Cronkpit
                     {
                         if (floorTiles[x][exit_coord.y].isVoid() && !exitPlaced)
                         {
-                            floorTiles[x][exit_coord.y].setTexture(4);
+                            floorTiles[x][exit_coord.y].set_tile_type(4);
                             exitPlaced = true;
                         }
                     }
@@ -253,7 +254,7 @@ namespace Cronkpit
                     {
                         if (floorTiles[exit_coord.x][y].isVoid() && !exitPlaced)
                         {
-                            floorTiles[exit_coord.x][y].setTexture(4);
+                            floorTiles[exit_coord.x][y].set_tile_type(4);
                             exitPlaced = true;
                         }
                     }
@@ -262,7 +263,7 @@ namespace Cronkpit
             for (int x = 0; x < stdfloorSize; x++)
                 for (int y = 0; y < stdfloorSize; y++)
                     if (floorTiles[x][y].isPassable())
-                        replace_surrounding_void(floorTiles[x][y], 2);
+                        replace_surrounding_void(floorTiles[x][y]);
 
             //Next, do mossy tiles.
             int moss_patches = randGen.Next(Math.Min(5, Math.Max(fl_number - 3, 0))+1);
@@ -396,22 +397,30 @@ namespace Cronkpit
         public void draw_hallway_tiles(Tile target_tile)
         {
             if (target_tile.get_my_tile_type() != 1 && target_tile.get_my_tile_type() != 5)
-                target_tile.setTexture(1);
+                target_tile.set_tile_type(1);
         }
 
-        public void replace_surrounding_void(Tile target_tile, int replacement_tex)
+        public void replace_surrounding_void(Tile target_tile)
         {
             gridCoordinate target_grid_c = target_tile.get_grid_c();
-            bool dirt_room = (target_tile.get_my_tile_type() == 5);
+            int tileType = target_tile.get_my_tile_type();
 
             for (int x = target_grid_c.x - 1; x < target_grid_c.x + 2; x++)
                 for (int y = target_grid_c.y - 1; y < target_grid_c.y + 2; y++)
                     if (floorTiles[x][y].isVoid())
                     {
-                        if (!dirt_room)
-                            floorTiles[x][y].setTexture(2);
-                        else
-                            floorTiles[x][y].setTexture(6);
+                        switch (target_tile.get_my_tile_type())
+                        {
+                            case 5:
+                                floorTiles[x][y].set_tile_type(6);
+                                break;
+                            case 7:
+                                floorTiles[x][y].set_tile_type(8);
+                                break;
+                            default:
+                                floorTiles[x][y].set_tile_type(2);
+                                break;
+                        }   
                     }
         }
 
@@ -446,6 +455,11 @@ namespace Cronkpit
                     done = false;
 
             return done;
+        }
+
+        public bool acceptable_destruction_coordinate(gridCoordinate t_coord)
+        {
+            return t_coord.x > 0 && t_coord.x < stdfloorSize-1 && t_coord.y > 0 && t_coord.y < stdfloorSize-1;
         }
 
         #endregion
@@ -498,6 +512,11 @@ namespace Cronkpit
                 return false;
 
             return passable_tile;
+        }
+
+        public bool is_void_tile(gridCoordinate grid_position)
+        {
+            return floorTiles[grid_position.x][grid_position.y].isVoid();
         }
 
         //Green text. Function here.
@@ -795,7 +814,8 @@ namespace Cronkpit
                 wound.Wound_Type wnd_type = Pew_Pews[i].get_wound_type();
 
                 //Do all this if it's at the end of the line
-                if (check_overlap(Pew_Pews[i].my_rect(), new Rectangle((int)Pew_Pews[i].get_my_end_coord().x * 32, (int)Pew_Pews[i].get_my_end_coord().y * 32, 32, 32)))
+                if (check_overlap(Pew_Pews[i].my_rect(), new Rectangle((int)Pew_Pews[i].get_my_end_coord().x * 32, 
+                                                                       (int)Pew_Pews[i].get_my_end_coord().y * 32, 32, 32)))
                 {
                     //discharge stored attack then remove
                     gridCoordinate endCoord = Pew_Pews[i].get_my_end_coord();
@@ -825,7 +845,15 @@ namespace Cronkpit
                             }
                             break;
                         case Scroll.Atk_Area_Type.cloudAOE:
-
+                            int cloud_size = Pew_Pews[i].get_aoe_size();
+                            int cloud_duration = 1 + ((cloud_size-1)/2);
+                            PersistentEffect ceffect = new PersistentEffect(Scroll.Atk_Area_Type.cloudAOE,
+                                                                            PersistentEffect.special_effect_type.None,
+                                                                            endCoord, cloud_duration, 
+                                                                            Pew_Pews[i].is_monster_projectile(),
+                                                                            dmg_type, wnd_type, cloud_size,
+                                                                            min_damage, max_damage);
+                            add_new_persistent_effect(ceffect);
                             break;
                         case Scroll.Atk_Area_Type.randomblockAOE:
                             if (Pew_Pews[i].get_special_anim() == Projectile.special_anim.Earthquake)
@@ -850,11 +878,14 @@ namespace Cronkpit
 
                 int monsterID = -1;
                 int doodadID = -1;
+                bool destroy_walls = Pew_Pews[i].projectile_destroys_walls();
 
                 for (int j = 0; j < attacked_coordinates.Count; j++)
                 {
                     Projectile.special_anim anim = Pew_Pews[i].get_special_anim();
-                    if (is_tile_passable(attacked_coordinates[j]))
+                    if (is_tile_passable(attacked_coordinates[j]) ||
+                        destroy_walls && acceptable_destruction_coordinate(attacked_coordinates[j]))
+                    {
                         if (anim == Projectile.special_anim.None)
                             add_effect(dmg_type, attacked_coordinates[j]);
                         else
@@ -864,6 +895,17 @@ namespace Cronkpit
                                     add_specific_effect(specific_effect.Earthquake, attacked_coordinates[j]);
                                     break;
                             }
+                        if (!is_tile_passable(attacked_coordinates[j]) && destroy_walls)
+                        {
+                            gridCoordinate target_coordinate = new gridCoordinate(attacked_coordinates[j]);
+                            if(acceptable_destruction_coordinate(target_coordinate))
+                            {
+                                Tile target_tile = floorTiles[target_coordinate.x][target_coordinate.y];
+                                target_tile.set_tile_type(7);
+                                replace_surrounding_void(target_tile);
+                            }
+                        }
+                    }
 
                     int dmg_val = randGen.Next(min_damage, max_damage + 1);
                     if (Pew_Pews[i].is_monster_projectile())
@@ -873,6 +915,8 @@ namespace Cronkpit
                         {
                             if (aoe_effect)
                             {
+                                pl.take_aoe_damage(min_damage, max_damage,
+                                                   dmg_type, wnd_type, this);
                             }
                             else
                             {
@@ -881,6 +925,16 @@ namespace Cronkpit
                                 pl.take_damage(atk, this);
                             }
                         }
+
+                        //Monsters can hurt each other and damage doodads with AoE attacks too!
+                        //Silver lining
+                        int mon_on_mon_ID = -1;
+                        if(is_monster_here(attacked_coordinates[j], out mon_on_mon_ID))
+                            damage_monster(dmg_val*2, mon_on_mon_ID, false);
+
+                        int mon_on_doodad_ID = -1;
+                        if (is_destroyable_doodad_here(attacked_coordinates[j], out mon_on_doodad_ID))
+                            damage_doodad(dmg_val * 2, mon_on_doodad_ID);
                     }
                     else
                     {
@@ -1624,6 +1678,16 @@ namespace Cronkpit
         public Tile.Aura aura_of_specific_tile(gridCoordinate target_tile)
         {
             return floorTiles[target_tile.x][target_tile.y].get_my_aura();
+        }
+
+        public void consume_mana(int mana)
+        {
+            ambient_manavalue -= mana;
+        }
+
+        public int check_mana()
+        {
+            return ambient_manavalue;
         }
 
         #endregion

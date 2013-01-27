@@ -1325,6 +1325,114 @@
       <Time>2013-01-11T02:59:29.0950574-05:00</Time>
     </Item>
     <Item>
+      <Source>Projectiles\acid_spritesheet.png</Source>
+      <Name>Projectiles\acid_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\acid_spritesheet.xnb</Output>
+      <Time>2013-01-13T23:12:37.2158944-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\fireball.png</Source>
+      <Name>Projectiles\fireball</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\fireball.xnb</Output>
+      <Time>2013-01-15T03:02:17.1998617-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\blank_projectile.png</Source>
+      <Name>Projectiles\blank_projectile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\blank_projectile.xnb</Output>
+      <Time>2013-01-17T03:05:37.0698883-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\earthquake_spritesheet.png</Source>
+      <Name>Projectiles\earthquake_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\earthquake_spritesheet.xnb</Output>
+      <Time>2013-01-17T04:13:58.3994709-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\electric_spritesheet.png</Source>
+      <Name>Projectiles\electric_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\electric_spritesheet.xnb</Output>
+      <Time>2013-01-19T19:36:28.2808977-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\lightningbolt.png</Source>
+      <Name>Projectiles\lightningbolt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\lightningbolt.xnb</Output>
+      <Time>2013-01-20T21:01:29.0835148-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\rubble_floor.png</Source>
+      <Name>Background\rubble_floor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\rubble_floor.xnb</Output>
+      <Time>2013-01-24T01:02:36.4543931-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\rubble_wall.png</Source>
+      <Name>Background\rubble_wall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\rubble_wall.xnb</Output>
+      <Time>2013-01-24T01:02:36.6484042-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\necromancer_female.png</Source>
+      <Name>Enemies\necromancer_female</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\necromancer_female.xnb</Output>
+      <Time>2013-01-25T02:20:46.2054288-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\necromancer_male.png</Source>
+      <Name>Enemies\necromancer_male</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\necromancer_male.xnb</Output>
+      <Time>2013-01-25T02:20:46.2524315-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\ManaBall\cball_backround.png</Source>
+      <Name>UI Elements\ManaBall\cball_background</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\ManaBall\cball_background.xnb</Output>
+      <Time>2013-01-25T01:11:41.9353901-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\ManaBall\cball_effect_mask.png</Source>
+      <Name>UI Elements\ManaBall\cball_effect_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\ManaBall\cball_effect_mask.xnb</Output>
+      <Time>2013-01-26T01:08:11.3651435-05:00</Time>
+    </Item>
+    <Item>
       <Source>Fonts\sfont.spritefont</Source>
       <Name>Fonts\sfont</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -1388,58 +1496,40 @@
       <Time>2012-12-30T14:53:01.8632439-05:00</Time>
     </Item>
     <Item>
-      <Source>Projectiles\acid_spritesheet.png</Source>
-      <Name>Projectiles\acid_spritesheet</Name>
+      <Source>UI Elements\Large Chara Images\Falsael_large.png</Source>
+      <Name>UI Elements\Large Chara Images\Falsael_large</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\acid_spritesheet.xnb</Output>
-      <Time>2013-01-13T23:12:37.2158944-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Large Chara Images\Falsael_large.xnb</Output>
+      <Time>2013-01-27T02:52:15.93811-05:00</Time>
     </Item>
     <Item>
-      <Source>Projectiles\fireball.png</Source>
-      <Name>Projectiles\fireball</Name>
+      <Source>UI Elements\Large Chara Images\Halephon_large.png</Source>
+      <Name>UI Elements\Large Chara Images\Halephon_large</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\fireball.xnb</Output>
-      <Time>2013-01-15T03:02:17.1998617-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Large Chara Images\Halephon_large.xnb</Output>
+      <Time>2013-01-27T02:52:15.9501107-05:00</Time>
     </Item>
     <Item>
-      <Source>Projectiles\blank_projectile.png</Source>
-      <Name>Projectiles\blank_projectile</Name>
+      <Source>UI Elements\Large Chara Images\Petaer_large.png</Source>
+      <Name>UI Elements\Large Chara Images\Petaer_large</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\blank_projectile.xnb</Output>
-      <Time>2013-01-17T03:05:37.0698883-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Large Chara Images\Petaer_large.xnb</Output>
+      <Time>2013-01-27T02:52:16.0411159-05:00</Time>
     </Item>
     <Item>
-      <Source>Projectiles\earthquake_spritesheet.png</Source>
-      <Name>Projectiles\earthquake_spritesheet</Name>
+      <Source>UI Elements\Large Chara Images\Ziktofel_large.png</Source>
+      <Name>UI Elements\Large Chara Images\Ziktofel_large</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\earthquake_spritesheet.xnb</Output>
-      <Time>2013-01-17T04:13:58.3994709-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Projectiles\electric_spritesheet.png</Source>
-      <Name>Projectiles\electric_spritesheet</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\electric_spritesheet.xnb</Output>
-      <Time>2013-01-19T19:36:28.2808977-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Projectiles\lightningbolt.png</Source>
-      <Name>Projectiles\lightningbolt</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\lightningbolt.xnb</Output>
-      <Time>2013-01-20T21:01:29.0835148-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Large Chara Images\Ziktofel_large.xnb</Output>
+      <Time>2013-01-27T02:52:16.0421159-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

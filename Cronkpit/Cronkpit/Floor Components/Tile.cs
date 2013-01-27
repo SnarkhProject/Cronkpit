@@ -34,13 +34,13 @@ namespace Cronkpit
             grid_coord = sgCoord;
             tile_type = sType;
             random_variation = sVari;
-            setTexture(sType);
+            set_tile_type(sType);
             smells = new List<Scent>();
             my_Aura = Aura.None;
             my_blank_texture = bText;
         }
 
-        public void setTexture(int sType)
+        public void set_tile_type(int sType)
         {
             tile_type = sType;
             /*
@@ -52,6 +52,8 @@ namespace Cronkpit
              * 4 = Exit
              * 5 = dirt floor
              * 6 = dirt wall
+             * 7 = rubble
+             * 8 = harsh rock
              */
             switch(sType)
             {
@@ -98,6 +100,20 @@ namespace Cronkpit
                         my_Texture = cont.Load<Texture2D>("Background/dirtwallwtorch");
                     else
                         my_Texture = cont.Load<Texture2D>("Background/dirtwall");
+                    break;
+                case 7:
+                    opaque = false;
+                    deflect_sound = false;
+                    passable = true;
+                    sound_absorbtion_value = 1;
+                    my_Texture = cont.Load<Texture2D>("Background/rubble_floor");
+                    break;
+                case 8:
+                    opaque = true;
+                    deflect_sound = true;
+                    passable = false;
+                    sound_absorbtion_value = 2;
+                    my_Texture = cont.Load<Texture2D>("Background/rubble_wall");
                     break;
                 default:
                     opaque = true;

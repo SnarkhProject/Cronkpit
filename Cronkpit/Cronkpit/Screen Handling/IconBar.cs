@@ -11,7 +11,7 @@ namespace Cronkpit
 {
     class IconBar
     {
-        public enum Type_Tracker { None, Weapon, Armor, Potion };
+        public enum Type_Tracker { None, Weapon, Armor, Potion, Scroll };
         int number_of_icons;
         int mode;
         bool visible;
@@ -191,6 +191,32 @@ namespace Cronkpit
             }
         }
 
+        public void purge_sold_items(Player pl)
+        {
+            List<Item> pl_inv = pl.retrieve_inventory();
+            for (int i = 0; i < number_of_icons; i++)
+            {
+                bool match = false;
+                for (int j = 0; j < pl_inv.Count; j++)
+                {
+                    if (pl_inv[j].get_my_IDno() == icon_item_IDs[i])
+                        match = true;
+                }
+                //Check the 4 inventory slots
+                if (pl.show_main_hand() != null && pl.show_main_hand().get_my_IDno() == icon_item_IDs[i])
+                    match = true;
+                if (pl.show_off_hand() != null && pl.show_off_hand().get_my_IDno() == icon_item_IDs[i])
+                    match = true;
+                if (pl.show_over_armor() != null && pl.show_over_armor().get_my_IDno() == icon_item_IDs[i])
+                    match = true;
+                if (pl.show_under_armor() != null && pl.show_under_armor().get_my_IDno() == icon_item_IDs[i])
+                    match = true;
+
+                if (!match)
+                    wipe_slot(i);
+            }
+        }
+
         public bool item_is_on_bar(int itemID)
         {
             for (int i = 0; i < number_of_icons; i++)
@@ -205,13 +231,16 @@ namespace Cronkpit
         public void wipe()
         {
             for (int i = 0; i < number_of_icons; i++)
-            {
-                icon_textures[i] = default_texture;
-                icon_item_IDs[i] = -1;
-                icon_item_types[i] = Type_Tracker.None;
-                icon_quantities[i] = -1;
-                icon_cooldowns[i] = -1;
-            }
+                wipe_slot(i);
+        }
+
+        public void wipe_slot(int slot)
+        {
+            icon_textures[slot] = default_texture;
+            icon_item_IDs[slot] = -1;
+            icon_item_types[slot] = Type_Tracker.None;
+            icon_quantities[slot] = -1;
+            icon_cooldowns[slot] = -1;
         }
 
         #region drawing stuff

@@ -17,6 +17,7 @@ namespace Cronkpit
         public enum special_anim { None, Earthquake };
         Scroll.Atk_Area_Type attack_type;
         bool monster_projectile;
+        bool destroys_walls;
         int max_damage;
         int min_damage;
         int bounce_range;
@@ -175,6 +176,11 @@ namespace Cronkpit
             bounces_left = nBouncesLeft;
         }
 
+        public void set_wall_destroying(bool destroy)
+        {
+            destroys_walls = destroy;
+        }
+
         //Getters
         public List<gridCoordinate> get_small_AOE_matrix()
         {
@@ -227,6 +233,11 @@ namespace Cronkpit
         public int get_remaining_bounces()
         {
             return bounces_left;
+        }
+
+        public bool projectile_destroys_walls()
+        {
+            return destroys_walls;
         }
 
         public special_anim get_special_anim()

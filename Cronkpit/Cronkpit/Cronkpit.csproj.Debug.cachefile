@@ -145,6 +145,18 @@ Content\Icons\Scrolls\tier3scroll_icon.xnb
 Content\Projectiles\acidblob.xnb
 Content\Projectiles\crossbowbolt.xnb
 Content\Player\spell cursor.xnb
+Content\Projectiles\acid_spritesheet.xnb
+Content\Projectiles\fireball.xnb
+Content\Projectiles\blank_projectile.xnb
+Content\Projectiles\earthquake_spritesheet.xnb
+Content\Projectiles\electric_spritesheet.xnb
+Content\Projectiles\lightningbolt.xnb
+Content\Background\rubble_floor.xnb
+Content\Background\rubble_wall.xnb
+Content\Enemies\necromancer_female.xnb
+Content\Enemies\necromancer_male.xnb
+Content\UI Elements\ManaBall\cball_background.xnb
+Content\UI Elements\ManaBall\cball_effect_mask.xnb
 Content\Fonts\sfont.xnb
 Content\Fonts\tfont.xnb
 Content\Fonts\smallfont.xnb
@@ -152,12 +164,10 @@ Content\Fonts\popup_msg.xnb
 Content\Fonts\mfont.xnb
 Content\Fonts\smallfont_bold.xnb
 Content\Fonts\smaller_sfont.xnb
-Content\Projectiles\acid_spritesheet.xnb
-Content\Projectiles\fireball.xnb
-Content\Projectiles\blank_projectile.xnb
-Content\Projectiles\earthquake_spritesheet.xnb
-Content\Projectiles\electric_spritesheet.xnb
-Content\Projectiles\lightningbolt.xnb
+Content\UI Elements\Large Chara Images\Falsael_large.xnb
+Content\UI Elements\Large Chara Images\Halephon_large.xnb
+Content\UI Elements\Large Chara Images\Petaer_large.xnb
+Content\UI Elements\Large Chara Images\Ziktofel_large.xnb
 Content\Entities\alilmoreGold.png
 Content\Entities\lowGold.png
 Content\Entities\someGold.png

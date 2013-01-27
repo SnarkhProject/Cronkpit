@@ -13,14 +13,60 @@ namespace Cronkpit
     {
         int create_minor_undead_cooldown = 0;
         int create_major_undead_cooldown = 0;
+        int acid_splash_cooldown = 0;
+        Attack.Damage acid_splash_dmgtyp;
+        wound.Wound_Type acid_splash_wndtyp;
+        Attack.Damage melee_damage_type;
+        wound.Wound_Type melee_wound_type;
+
+        bool female;
+        string pronoun;
+
         bool can_create_major;
         int frostbolt_range;
+        int acidsplash_range;
+
+        int frostbolt_manacost = 30;
+        int acidsplash_manacost = 50;
+        int create_minor_manacost = 100;
+
+        int min_melee_damage;
+        int max_melee_damage;
+        int min_acidsplash_dmg;
+        int max_acidsplash_dmg;
 
         public Necromancer(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, bool createMajor)
             : base(sGridCoord, sCont, sIndex)
         {
-            my_Texture = cont.Load<Texture2D>("Enemies/Necromancer");
-            hitPoints = 30;
+            female = false;
+            int gender_roll = rGen.Next(2);
+            if (gender_roll == 0)
+            {
+                my_Texture = sCont.Load<Texture2D>("Enemies/necromancer_male");
+                pronoun = "him";
+                min_melee_damage = 1;
+                max_melee_damage = 3;
+                melee_damage_type = Attack.Damage.Crushing;
+                melee_wound_type = wound.Wound_Type.Impact;
+            }
+            else
+            {
+                female = true;
+                my_Texture = sCont.Load<Texture2D>("Enemies/necromancer_female");
+                pronoun = "her";
+                min_melee_damage = 1;
+                max_melee_damage = 4;
+                melee_damage_type = Attack.Damage.Slashing;
+                melee_wound_type = wound.Wound_Type.Open;
+            }
+
+            hitPoints = 34;
+
+            min_acidsplash_dmg = 1;
+            max_acidsplash_dmg = 2;
+            acid_splash_dmgtyp = Attack.Damage.Acid;
+            acid_splash_wndtyp = wound.Wound_Type.Burn;
+
             min_damage = 2;
             max_damage = 6;
             dmg_type = Attack.Damage.Frost;
@@ -29,6 +75,7 @@ namespace Cronkpit
             can_hear = true;
 
             frostbolt_range = 4;
+            acidsplash_range = 5;
             can_create_major = createMajor;
 
             sight_range = 3;
@@ -36,6 +83,18 @@ namespace Cronkpit
 
             melee_dodge = 5;
             ranged_dodge = 5;
+        }
+
+        public List<gridCoordinate> acid_splash_matrix(gridCoordinate target_coord)
+        {
+            List<gridCoordinate> splash_matrix = new List<gridCoordinate>();
+            splash_matrix.Add(target_coord);
+            splash_matrix.Add(new gridCoordinate(target_coord.x - 1, target_coord.y));
+            splash_matrix.Add(new gridCoordinate(target_coord.x + 1, target_coord.y));
+            splash_matrix.Add(new gridCoordinate(target_coord.x, target_coord.y + 1));
+            splash_matrix.Add(new gridCoordinate(target_coord.x, target_coord.y - 1));
+
+            return splash_matrix;
         }
 
         public void create_minor_undead(gridCoordinate pl_gc, Floor fl)
@@ -122,11 +181,14 @@ namespace Cronkpit
         public override void Update_Monster(Player pl, Floor fl)
         {
             can_see_player = false;
+            has_moved = false;
 
             if (create_minor_undead_cooldown > 0)
                 create_minor_undead_cooldown--;
             if (create_major_undead_cooldown > 0)
                 create_major_undead_cooldown--;
+            if (acid_splash_cooldown > 0)
+                acid_splash_cooldown--;
 
             if (!active)
             {
@@ -136,8 +198,8 @@ namespace Cronkpit
                 {
                     active = true;
                     listen_threshold = 4;
-                    sight_range = 5;
-                    fl.addmsg("The Necromancer stops mumbling arcane phrases to themself!");
+                    sight_range = 6;
+                    fl.addmsg("The Necromancer stops mumbling arcane phrases to " + pronoun + "self!");
                     fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coord);
                 }
                 else
@@ -157,23 +219,56 @@ namespace Cronkpit
                     }
                     else
                     {
-                        if (create_minor_undead_cooldown == 0)
+                        if (create_minor_undead_cooldown == 0 && fl.check_mana() >= create_minor_manacost)
                         {
                             create_minor_undead(pl.get_my_grid_C(), fl);
+                            fl.consume_mana(create_minor_manacost);
                         }
                         else
                         {
-                            if (is_player_within_diamond(pl, frostbolt_range))
+                            if (acid_splash_cooldown == 0 && is_player_within_diamond(pl, acidsplash_range) &&
+                                fl.check_mana() >= acidsplash_manacost)
                             {
-                                fl.addmsg("The Necromancer fires a frostbolt at you!");
-                                Attack dmg = dealDamage();
-                                Projectile prj = new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
-                                prj.set_damage_range(min_damage, max_damage);
-                                prj.set_damage_type(dmg_type);
+                                fl.addmsg("The Necromancer tosses a glob of acid at you!");
+                                Projectile prj = new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.AcidCloud, ref cont, true, Scroll.Atk_Area_Type.smallfixedAOE);
+                                prj.set_small_AOE_matrix(acid_splash_matrix(pl.get_my_grid_C()));
+                                prj.set_damage_range(min_acidsplash_dmg, max_acidsplash_dmg);
+                                prj.set_damage_type(acid_splash_dmgtyp);
+                                prj.set_wound_type(acid_splash_wndtyp);
                                 fl.create_new_projectile(prj);
+                                acid_splash_cooldown = 5;
+                                fl.consume_mana(acidsplash_manacost);
                             }
                             else
-                                advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 0);
+                            {
+                                if (is_player_within_diamond(pl, frostbolt_range) 
+                                    && fl.check_mana() >= frostbolt_manacost)
+                                {
+                                    fl.addmsg("The Necromancer fires a frostbolt at you!");
+                                    Projectile prj = new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
+                                    prj.set_damage_range(min_damage, max_damage);
+                                    prj.set_damage_type(dmg_type);
+                                    prj.set_wound_type(wound_type);
+                                    fl.create_new_projectile(prj);
+                                    fl.consume_mana(frostbolt_manacost);
+                                }
+                                else
+                                {
+                                    advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 0);
+                                    if(!has_moved)
+                                        if(is_player_within(pl, 1))
+                                        {
+                                            int wounds = rGen.Next(min_melee_damage, max_melee_damage + 1);
+                                            Attack dmg = new Attack(melee_damage_type, new wound(melee_wound_type, wounds));
+                                            pl.take_damage(dmg, fl);
+                                            fl.add_effect(melee_damage_type, pl.get_my_grid_C());
+                                            if(female)
+                                                fl.addmsg("The necromancer swipes at you with her dagger!");
+                                            else
+                                                fl.addmsg("The necromancer tries to club you with his censer!");
+                                        }
+                                }
+                            }
                         }
                     }
                 }
