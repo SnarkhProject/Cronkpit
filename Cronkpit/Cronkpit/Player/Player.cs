@@ -75,6 +75,18 @@ namespace Cronkpit
                     my_Texture = cont.Load<Texture2D>("Player/falsael_sprite");
                     my_dead_texture = cont.Load<Texture2D>("Player/playercorpse");
                     break;
+                case Character.Petaer:
+                    my_Texture = cont.Load<Texture2D>("Player/petaer_sprite");
+                    my_dead_texture = cont.Load<Texture2D>("Player/playercorpse");
+                    break;
+                case Character.Ziktofel:
+                    my_Texture = cont.Load<Texture2D>("Player/ziktofel_sprite");
+                    my_dead_texture = cont.Load<Texture2D>("Player/playercorpse");
+                    break;
+                case Character.Halephon:
+                    my_Texture = cont.Load<Texture2D>("Player/halephon_sprite");
+                    my_dead_texture = cont.Load<Texture2D>("Player/playercorpse");
+                    break;
                 default:
                     my_Texture = cont.Load<Texture2D>("Player/lmfaoplayer");
                     my_dead_texture = cont.Load<Texture2D>("Player/playercorpse");
@@ -179,6 +191,7 @@ namespace Cronkpit
                         squares_to_attack_mh.Add(new gridCoordinate(monster_gc));
                         break;
                     case Weapon.Type.Spear:
+                    case Weapon.Type.Staff:
                         squares_to_attack_mh = return_spear_patterns(pl_gc, monster_gc, squares_to_attack_mh, fl, true);
                         break;
                     //Axe!
@@ -200,6 +213,7 @@ namespace Cronkpit
                         squares_to_attack_oh.Add(new gridCoordinate(monster_gc));
                         break;
                     case Weapon.Type.Spear:
+                    case Weapon.Type.Staff:
                         squares_to_attack_oh = return_spear_patterns(pl_gc, monster_gc, squares_to_attack_oh, fl, false);
                         break;
                     case Weapon.Type.Axe:
@@ -1230,42 +1244,45 @@ namespace Cronkpit
 
         public void heal_via_potion(Potion pt, string bodypart, bool repair_over_armor, Floor fl)
         {
+            double potion_potency = (double)pt.potion_potency();
+            if (my_character == Character.Ziktofel)
+                potion_potency = Math.Ceiling((double)pt.potion_potency() * 1.6);
+            int heal_value = (int)potion_potency;
+
             if (pt.get_type() == Potion.Potion_Type.Health)
-            { 
+            {
+                Limb target_limb = null;
                 switch (bodypart)
                 {
                     case "Head":
-                        Head.heal_via_potion(pt.potion_potency());
-                        fl.add_new_popup("+" + pt.potion_potency() + " Head", Popup.popup_msg_color.VividGreen, my_grid_coord);
+                        target_limb = Head;
                         break;
                     case "Chest":
-                        Torso.heal_via_potion(pt.potion_potency());
-                        fl.add_new_popup("+" + pt.potion_potency() + " Chest", Popup.popup_msg_color.VividGreen, my_grid_coord);
+                        target_limb = Torso;
                         break;
                     case "LArm":
-                        L_Arm.heal_via_potion(pt.potion_potency());
-                        fl.add_new_popup("+" + pt.potion_potency() + " LArm", Popup.popup_msg_color.VividGreen, my_grid_coord);
+                        target_limb = L_Arm;
                         break;
                     case "RArm":
-                        R_Arm.heal_via_potion(pt.potion_potency());
-                        fl.add_new_popup("+" + pt.potion_potency() + " RArm", Popup.popup_msg_color.VividGreen, my_grid_coord);
+                        target_limb = R_Arm;
                         break;
                     case "LLeg":
-                        L_Leg.heal_via_potion(pt.potion_potency());
-                        fl.add_new_popup("+" + pt.potion_potency() + " LLeg", Popup.popup_msg_color.VividGreen, my_grid_coord);
+                        target_limb = L_Leg;
                         break;
                     case "RLeg":
-                        R_Leg.heal_via_potion(pt.potion_potency());
-                        fl.add_new_popup("+" + pt.potion_potency() + " RLeg", Popup.popup_msg_color.VividGreen, my_grid_coord);
+                        target_limb = R_Leg;
                         break;
                 }
+
+                target_limb.heal_via_potion(heal_value);
+                fl.add_new_popup("+" + heal_value + " RLeg", Popup.popup_msg_color.VividGreen, my_grid_coord);
             }
             else if (pt.get_type() == Potion.Potion_Type.Repair)
             {
                 if (repair_over_armor)
-                    over_armor.repair_by_zone(pt.potion_potency(), bodypart);
+                    over_armor.repair_by_zone(heal_value, bodypart);
                 else
-                    under_armor.repair_by_zone(pt.potion_potency(), bodypart);
+                    under_armor.repair_by_zone(heal_value, bodypart);
                 fl.add_new_popup("+" + pt.potion_potency() + " " + bodypart, Popup.popup_msg_color.Blue, my_grid_coord);
             }
 
@@ -1281,7 +1298,11 @@ namespace Cronkpit
 
         public void ingest_potion(Potion pt, Floor fl, bool repair_over_armor)
         {
-            int potency = (int)(pt.potion_potency() * 1.6);
+            double base_potency = (double)pt.potion_potency() * 1.6;
+            if (my_character == Character.Ziktofel)
+                base_potency *= 1.6;
+            int potency = (int)Math.Ceiling(base_potency);
+
             bool done = false;
             Armor target_armor = null;
 

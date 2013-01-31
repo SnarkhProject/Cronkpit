@@ -25,7 +25,7 @@ namespace Cronkpit
             shared_items.Add(new Armor(6, 250, "Quilted Armor", 0, 4, 10, 0, 0, 3, false));
             shared_items.Add(new Weapon(7, 250, "Axe", Weapon.Type.Axe, 1, 3, 6, 1));
             shared_items.Add(new Weapon(8, 250, "Sword", Weapon.Type.Sword, 1, 3, 6, 1));
-            shared_items.Add(new Weapon(9, 250, "Spear", Weapon.Type.Spear, 2, 2, 4, 2));
+            shared_items.Add(new Weapon(9, 250, "Spear", Weapon.Type.Spear, 2, 2, 3, 2));
             shared_items.Add(new Weapon(10, 3500, "Katana", Weapon.Type.Sword, 2, 5, 12, 1));
             shared_items.Add(new Armor(11, 3000, "Enchanted Rags", 20, 15, 20, 5, 5, 10, true));
             shared_items.Add(new Weapon(12, 4500, "Hyperion", Weapon.Type.Spear, 2, 5, 12, 4));
@@ -59,6 +59,9 @@ namespace Cronkpit
             shared_items.Add(new Scroll(38, 3500, "Firebolt III", 3, 45, 5, 0, 14, 32, false, Scroll.Atk_Area_Type.singleTile, Attack.Damage.Fire, false));
             shared_items.Add(new Scroll(39, 250, "Shock Blade", 1, 10, 1, 0, 3, 6, true, Scroll.Atk_Area_Type.singleTile, Attack.Damage.Electric, false));
             shared_items.Add(new Scroll(40, 3500, "Shock Blade II", 3, 20, 1, 0, 18, 30, true, Scroll.Atk_Area_Type.singleTile, Attack.Damage.Electric, false));
+            shared_items.Add(new Weapon(41, 250, "Training Staff", Weapon.Type.Staff, 2, 2, 3, 2));
+            shared_items.Add(new Weapon(42, 1750, "Quarterstaff", Weapon.Type.Staff, 2, 4, 8, 2));
+            shared_items.Add(new Weapon(43, 3500, "Mockernut Staff", Weapon.Type.Staff, 2, 5, 12, 3));
         }
 
         public List<Armor> retrieve_random_shared_armors(int number)

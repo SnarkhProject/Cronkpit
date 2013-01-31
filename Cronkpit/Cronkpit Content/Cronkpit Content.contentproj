@@ -1135,7 +1135,23 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Icons\Weapons\mockernutstaff_icon.png">
+      <Name>mockernutstaff_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Weapons\quarterstaff_icon.png">
+      <Name>quarterstaff_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Weapons\trainingstaff_icon.png">
+      <Name>trainingstaff_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="UI Elements\Large Chara Images\Falsael_large.png">
       <Name>Falsael_large</Name>
@@ -1154,6 +1170,23 @@
     </Compile>
     <Compile Include="UI Elements\Large Chara Images\Ziktofel_large.png">
       <Name>Ziktofel_large</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Player\halephon_sprite.png">
+      <Name>halephon_sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Player\petaer_sprite.png">
+      <Name>petaer_sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Player\ziktofel_sprite.png">
+      <Name>ziktofel_sprite</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

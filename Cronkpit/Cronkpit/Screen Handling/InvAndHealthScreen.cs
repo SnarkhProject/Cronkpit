@@ -684,6 +684,7 @@ namespace Cronkpit
             Vector2 w_frame_position = new Vector2(wframe_xpos, wframe_ypos);
 
             sBatch.Draw(character_wireframe, BGElement_portraitBackground, Color.White);
+            if(character_portrait != null)  
             sBatch.Draw(character_portrait, BGElement_playerPortrait, Color.White);
             sBatch.Draw(my_chest_textures[Math.Min(pl_chest_wounds, 3)], BGElement_portraitBackground, Color.White);
             sBatch.Draw(my_larm_textures[Math.Min(pl_larm_wounds, 3)], BGElement_portraitBackground, Color.White);

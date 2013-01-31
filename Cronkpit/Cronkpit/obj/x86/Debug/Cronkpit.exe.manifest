@@ -93,14 +93,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Cronkpit.exe" size="190976">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Cronkpit.exe" size="194560">
       <assemblyIdentity name="Cronkpit" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>dGSJThw/xj/27gtsnrqmbM2z934=</dsig:DigestValue>
+        <dsig:DigestValue>d+hZx3ZiAua4UpVJWqsqN6XEVDo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1121,6 +1121,15 @@
       <dsig:DigestValue>OoM5CzslMw3GlY1QKnsYZTs8l+w=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="Content\Icons\Weapons\mockernutstaff_icon.xnb" size="9403">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>Axcye5RE61HH7lBy1O5dWM9ZYcc=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Content\Icons\Weapons\pitsteelwarhammer_icon.xnb" size="9403">
     <hash>
       <dsig:Transforms>
@@ -1128,6 +1137,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>g+IlrQ6OVR79HrQ02zuIoSxe7u8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Icons\Weapons\quarterstaff_icon.xnb" size="9403">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>ujrzlzBkScxlby3bZU7q5wd9k2w=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Icons\Weapons\reaver_icon.xnb" size="9403">
@@ -1211,6 +1229,15 @@
       <dsig:DigestValue>ozWCIiqLsCWiUZ4TYVFOW3A8YSE=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="Content\Icons\Weapons\trainingstaff_icon.xnb" size="9403">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>t0d7W/TvM6dkRTdL0zjnB7Iu/uU=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Content\MouseTexture.png" size="415">
     <hash>
       <dsig:Transforms>
@@ -1256,6 +1283,15 @@
       <dsig:DigestValue>3i0pmRxqxgdbP6hnL4NxKEUYaDY=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="Content\Player\halephon_sprite.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>I0LYZTdZ1iVasb+Sor1ccvmoBXU=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Content\Player\lmfaoplayer.png" size="544">
     <hash>
       <dsig:Transforms>
@@ -1272,6 +1308,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>lrQRdVc4jLgUPtcHruv066Vkq2U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Player\petaer_sprite.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>7nsTxlz8/Iy43Go6eexc2lp+lZ8=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Player\playercorpse.png" size="630">
@@ -1317,6 +1362,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>8S5OUhWF+YmQT8inXJE1SmRU8hI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Player\ziktofel_sprite.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>0rheNg1nH7U+I+OSnTgppRpA7Dw=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Projectiles\acid_spritesheet.xnb" size="45243">
@@ -2261,7 +2315,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>LHYAvDUS8t/5LQYRAyhj3LgmgDU=</dsig:DigestValue>
+      <dsig:DigestValue>cliPWE95mBtzSgyOYDvELl8I/Eo=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\UI Elements\Large Chara Images\Halephon_large.xnb" size="1920187">
@@ -2270,7 +2324,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>Vy3ChN/frvuVjqZQxZD3ed2vBSU=</dsig:DigestValue>
+      <dsig:DigestValue>nWGHlBXuRlqqUH9fJfFlmQjvdSM=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\UI Elements\Large Chara Images\Petaer_large.xnb" size="1920187">
@@ -2279,7 +2333,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>rfrdWE6Ib3+uKjBTBUQQz1URkPY=</dsig:DigestValue>
+      <dsig:DigestValue>pxOZAyouT5qFsImkqNUMLsyKpfg=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\UI Elements\Large Chara Images\Ziktofel_large.xnb" size="1920187">
@@ -2288,7 +2342,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>j41qPsxumQE+miBISDEqeQbtZ1k=</dsig:DigestValue>
+      <dsig:DigestValue>GAFeu7eiLfQO9SMjIh826vYjghc=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\UI Elements\ManaBall\cball_background.xnb" size="22687">
