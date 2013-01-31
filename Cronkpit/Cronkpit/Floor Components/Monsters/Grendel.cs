@@ -76,12 +76,37 @@ namespace Cronkpit
                     if (!is_player_within_diamond(pl, 4))
                         advance_towards_single_point(last_seen_player_at, pl, fl, 0);
                     else
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     {
                         fl.addmsg("The Grendel attacks you!");
                         Attack dmg = dealDamage();
                         Projectile prj = new Projectile(my_grid_coord, last_seen_player_at, Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
                         prj.set_damage_range(min_damage, max_damage);
                         prj.set_damage_type(dmg_type);
+                        prj.set_wound_type(wound_type);
                         fl.create_new_projectile(prj);
                     }
                 }

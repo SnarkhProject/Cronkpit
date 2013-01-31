@@ -26,6 +26,12 @@ namespace Cronkpit
             my_end_position = new Vector2((my_end_gridC.x * 32) + 16, (my_end_gridC.y * 32) + 16);
         }
 
+        public VisionRay(Vector2 start_position, Vector2 end_position)
+        {
+            my_current_position = start_position;
+            my_end_position = end_position;
+        }
+
         public void update()
         {
             Vector2 direction = my_end_position - my_current_position;

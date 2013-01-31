@@ -7,7 +7,7 @@ namespace Cronkpit
 {
     class Weapon: Item
     {
-        public enum Type { Lance, Spear, Sword, Axe, Mace, Bow, Crossbow };
+        public enum Type { Lance, Spear, Sword, Axe, Mace, Bow, Crossbow, Staff };
         int hands;
 
         Type weaponType;
@@ -52,6 +52,9 @@ namespace Cronkpit
                     break;
                 case Type.Crossbow:
                     damageType = Attack.Damage.Piercing;
+                    break;
+                case Type.Staff:
+                    damageType = Attack.Damage.Crushing;
                     break;
             }
 
@@ -128,6 +131,9 @@ namespace Cronkpit
                     break;
                 case Type.Sword:
                     w_type += "Sword";
+                    break;
+                case Type.Staff:
+                    w_type += "Staff";
                     break;
             }
             return_array.Add(w_type);

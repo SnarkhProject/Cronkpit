@@ -11,7 +11,7 @@ namespace Cronkpit
 {
     class Tile
     {
-        public enum Aura { None, Attack };
+        public enum Aura { None, Attack, SmellTarget };
 
         private Texture2D my_Texture;
         private Texture2D my_blank_texture;
@@ -27,6 +27,11 @@ namespace Cronkpit
         int sound_absorbtion_value;
         bool deflect_sound;
 
+        private Vector2 corner_1; //Upper left
+        private Vector2 corner_2; //Upper right
+        private Vector2 corner_3; //Lower left
+        private Vector2 corner_4; //Lower right
+
         public Tile(int sType, int sVari, ContentManager sCont, Texture2D bText, Vector2 sPos, gridCoordinate sgCoord)
         {
             cont = sCont;
@@ -38,6 +43,11 @@ namespace Cronkpit
             smells = new List<Scent>();
             my_Aura = Aura.None;
             my_blank_texture = bText;
+
+            corner_1 = new Vector2(sPos.X + 3, sPos.Y + 3);
+            corner_2 = new Vector2(sPos.X + 13, sPos.Y + 3);
+            corner_3 = new Vector2(sPos.X + 3, sPos.Y + 13);
+            corner_4 = new Vector2(sPos.X + 13, sPos.Y + 13);
         }
 
         public void set_tile_type(int sType)
@@ -172,6 +182,23 @@ namespace Cronkpit
             return grid_coord;
         }
 
+        public Vector2 get_corner(int corner)
+        {
+            switch (corner)
+            {
+                case 1:
+                    return corner_1;
+                case 2:
+                    return corner_2;
+                case 3:
+                    return corner_3;
+                case 4:
+                    return corner_4;
+            }
+
+            return new Vector2(-1, -1);
+        }
+
         //Smell functions.
         public void decayScents()
         {
@@ -263,6 +290,9 @@ namespace Cronkpit
             {
                 case Aura.Attack:
                     my_color = new Color(255, 0, 0, 100);
+                    break;
+                case Aura.SmellTarget:
+                    my_color = new Color(255, 10, 120, 100);
                     break;
             }
 

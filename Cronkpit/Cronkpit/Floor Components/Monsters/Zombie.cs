@@ -37,9 +37,11 @@ namespace Cronkpit
             //When not aggroed, there is a 25% chance that a zombie will wander in a random direction.
             //If it cannot wander in the first direction, it will try up to 5 times for another one.
             //Aggroed when the player comes within 3 blocks of it. Then it will move towards the player.
-            can_see_player = false;
-            if(is_player_within(pl, sight_range+1))
-                look_for_player(fl, pl, sight_range);
+
+            if (is_player_within(pl, sight_range))
+                can_see_player = fl.establish_los(my_grid_coord, pl.get_my_grid_C());
+            else
+                can_see_player = false;
 
             if (!can_see_player)
             {

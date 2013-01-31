@@ -427,6 +427,7 @@ namespace Cronkpit
         //Green text. Function here.
         public void update_dungeon_floor(Player Pl)
         {
+            scrub_all_auras();
             execute_persistent_effects(Pl);
             update_all_monsters(Pl);
             decay_all_scents();
@@ -827,7 +828,7 @@ namespace Cronkpit
                             aoe_effect = false;
                             break;
                         case Scroll.Atk_Area_Type.chainedBolt:
-                            if (Pew_Pews[i].get_bounce() > 0)
+                            if (Pew_Pews[i].get_remaining_bounces() > 0)
                             {
                                 Monster M = nearest_visible_monster(endCoord, Pew_Pews[i].get_bounce());
                                 if (M != null)
@@ -1347,6 +1348,29 @@ namespace Cronkpit
             }
         }
 
+        public Tile establish_los_strongest_smell(gridCoordinate origin, int targetSmell, int smell_threshold)
+        {
+            //We sort these by scent.
+            Tile target_tile = null;
+            int strongest_smell = 0;
+            for (int i = scentedTiles.Count - 1; i >= 0; i--)
+            {
+                if (scentedTiles[i].strength_of_scent(targetSmell) >= smell_threshold &&
+                    scentedTiles[i].strength_of_scent(targetSmell) > strongest_smell)
+                {
+                    Tile test_tile = scentedTiles[i];
+                    if (establish_los(origin, test_tile.get_grid_c()))
+                    {
+                        strongest_smell = scentedTiles[i].strength_of_scent(targetSmell);
+                        target_tile = scentedTiles[i];
+                        target_tile.set_my_aura(Tile.Aura.SmellTarget);
+                    }
+                }
+            }
+
+            return target_tile;
+        }
+
         public bool check_for_smellable_smell(gridCoordinate my_grid_coord, int targetSmell, int smell_threshold, int radius)
         {
             int min_x_val = my_grid_coord.x - radius;
@@ -1439,6 +1463,7 @@ namespace Cronkpit
             return floorTiles[grid_position.x][grid_position.y].isOpaque();
         }
 
+        //This may also be deprecated.
         public void sight_pulse_raycast(gridCoordinate origin, Player pl, Monster theMon, int sightRange)
         {
             int origin_x = origin.x;
@@ -1494,6 +1519,48 @@ namespace Cronkpit
                         Vision_Rc.Clear();
                 }
             }
+        }
+
+        public bool establish_los(gridCoordinate origin, gridCoordinate destination)
+        {
+            Tile originTile = floorTiles[origin.x][origin.y];
+            Tile destinationTile = floorTiles[destination.x][destination.y];
+            Vision_Rc.Add(new VisionRay(originTile.get_corner(1), destinationTile.get_corner(1)));
+            Vision_Rc.Add(new VisionRay(originTile.get_corner(2), destinationTile.get_corner(2)));
+            Vision_Rc.Add(new VisionRay(originTile.get_corner(3), destinationTile.get_corner(3)));
+            Vision_Rc.Add(new VisionRay(originTile.get_corner(4), destinationTile.get_corner(4)));
+            Vision_Rc.Add(new VisionRay(originTile.get_corner(3), destinationTile.get_corner(1)));
+            Vision_Rc.Add(new VisionRay(originTile.get_corner(2), destinationTile.get_corner(4)));
+
+            bool established_los = false;
+            while (Vision_Rc.Count > 0)
+            {
+                for (int i = 0; i < Vision_Rc.Count; i++)
+                {
+                    bool remove = false;
+                    int my_grid_x_position = (int)(Vision_Rc[i].my_current_position.X / 32);
+                    int my_grid_y_position = (int)(Vision_Rc[i].my_current_position.Y / 32);
+
+                    if (floorTiles[my_grid_x_position][my_grid_y_position].isOpaque())
+                        remove = true;
+
+                    if (Vision_Rc[i].is_at_end() &&
+                       floorTiles[my_grid_x_position][my_grid_y_position].get_grid_c().x == destination.x &&
+                       floorTiles[my_grid_x_position][my_grid_y_position].get_grid_c().y == destination.y)
+                    {
+                        remove = true;
+                        established_los = true;
+                    }
+
+                    if (remove)
+                        Vision_Rc.RemoveAt(i);
+                    else
+                        Vision_Rc[i].update();
+                }
+            }
+
+            Vision_Rc.Clear();
+            return established_los;
         }
 
         #endregion

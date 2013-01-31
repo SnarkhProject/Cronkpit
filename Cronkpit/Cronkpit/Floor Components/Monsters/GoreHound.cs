@@ -34,12 +34,21 @@ namespace Cronkpit
 
         public override void Update_Monster(Player pl, Floor fl)
         {
-            has_scent = false;
-            if(is_smell_i_can_smell_within(my_grid_coord, fl, 0, smell_threshold, smell_range+1))
-                sniff_for_trail(fl, 0, smell_range, smell_threshold);
+            Tile target_tile = null;
+            if (is_smell_i_can_smell_within(my_grid_coord, fl, 0, smell_threshold, smell_range))
+                target_tile = fl.establish_los_strongest_smell(my_grid_coord, 0, smell_threshold);
+
+            if (target_tile == null)
+                has_scent = false;
+            else
+            {
+                has_scent = true;
+                strongest_smell_coord = target_tile.get_grid_c();
+            }
+
             if (has_scent)
             {
-                advance_towards_single_point(strongest_smell_coord, pl, fl, 1);
+                advance_towards_single_point(strongest_smell_coord, pl, fl, 0);
                 if (is_player_within(pl, 1) && !has_moved)
                 {
                     fl.addmsg("The Gorehound lands a vicious bite!");

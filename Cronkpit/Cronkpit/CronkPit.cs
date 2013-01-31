@@ -143,7 +143,7 @@ namespace Cronkpit
             shopScr = new ShopScreen(shopMenuItems, normal_font, smaller_font, client_rect(), ref Secondary_cManager);
             potiPrompt = new PotionPrompt(blank_texture, tiny_font, tiny_bold_font);
             miniMain = new MiniMainMenu(miniMenuItems, client_rect(), blank_texture, big_font);
-            cSelect = new CharSelect(ref Secondary_cManager);
+            cSelect = new CharSelect(ref Secondary_cManager, normal_font, big_font, client_rect());
             //Stuff with smaller constructors
             mBall = new ManaBall(Content.Load<Texture2D>("UI Elements/ManaBall/cball_background"),
                                  Content.Load<Texture2D>("UI Elements/ManaBall/cball_effect_mask"),
@@ -180,8 +180,8 @@ namespace Cronkpit
             Texture2D scroll_down_one_arrow = Content.Load<Texture2D>("UI Elements/Inventory Screen/invbox_one_scrolldown");
             Texture2D scroll_down_max_arrow = Content.Load<Texture2D>("UI Elements/Inventory Screen/invbox_max_scrolldown");
             //Init textures
-            msgBufBox.init_textures(scroll_up_one_arrow, scroll_up_max_arrow, scroll_down_one_arrow, scroll_down_max_arrow);
-            
+            msgBufBox.init_textures(scroll_up_one_arrow, scroll_up_max_arrow, scroll_down_one_arrow, 
+                                    scroll_down_max_arrow);
             invScr.init_textures(scroll_up_max_arrow, scroll_up_one_arrow, scroll_down_max_arrow, 
                                 scroll_down_one_arrow);
             
@@ -230,6 +230,10 @@ namespace Cronkpit
             switch (character)
             {
                 case "Falsael":
+                    short_character_name = "fal_";
+                    long_character_name = "falsael_";
+                    break;
+                default:
                     short_character_name = "fal_";
                     long_character_name = "falsael_";
                     break;
@@ -362,6 +366,8 @@ namespace Cronkpit
                         case 0:
                             //gameState = 1;
                             current_state = Game_State.select_character;
+                            cSelect.init_character_textures();
+                            just_changed_states = true;
                             break;
                         default:
                             this.Exit();
@@ -414,8 +420,9 @@ namespace Cronkpit
                     switch (miniMain.get_index())
                     {
                         case 0:
-                            start_new_game();
-                            current_state = Game_State.normal;
+                            current_state = Game_State.select_character;
+                            cSelect.init_character_textures();
+                            just_changed_states = true;
                             icoBar.show();
                             miniMain.hide();
                             break;
@@ -975,7 +982,24 @@ namespace Cronkpit
 
             #endregion
 
+            #region keypresses for character selection
 
+            if (current_state == Game_State.select_character)
+            {
+                if(check_key_release(Keys.Left))
+                    cSelect.scroll_menu(-1);
+
+                if(check_key_release(Keys.Right))
+                    cSelect.scroll_menu(1);
+
+                if (check_key_release(Keys.Enter) && !just_changed_states)
+                {
+                    start_new_game(cSelect.get_current_selection());
+                    current_state = Game_State.normal;
+                }
+            }
+
+            #endregion
             /*
             if (check_mouse_left_click())
             {
@@ -1352,12 +1376,29 @@ namespace Cronkpit
             return mouse_newState.LeftButton == ButtonState.Pressed && mouse_oldState.LeftButton == ButtonState.Pressed;
         }
 
-        public void start_new_game()
+        public void start_new_game(int character_number)
         {
+            Player.Character chara = Player.Character.Falsael;
+            switch (character_number)
+            {
+                case 0:
+                    chara = Player.Character.Petaer;
+                    break;
+                case 1:
+                    chara = Player.Character.Ziktofel;
+                    break;
+                case 2:
+                    chara = Player.Character.Halephon;
+                    break;
+                case 3:
+                    chara = Player.Character.Falsael;
+                    break;
+            }
+
             miniMain.set_index(0);
             current_floor = 0;
             p1 = new Player(Content, new gridCoordinate(-1, -1), ref msgBuf, Player.Chara_Class.Warrior, 
-                            Player.Character.Falsael, ref pDoll);
+                            chara, ref pDoll);
             initalize_menu_wireframes();
             p1.update_pdoll();
             icoBar.wipe();

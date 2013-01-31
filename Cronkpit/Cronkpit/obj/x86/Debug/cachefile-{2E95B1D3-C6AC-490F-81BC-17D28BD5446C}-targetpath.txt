@@ -168,6 +168,12 @@ Content\UI Elements\Large Chara Images\Falsael_large.xnb
 Content\UI Elements\Large Chara Images\Halephon_large.xnb
 Content\UI Elements\Large Chara Images\Petaer_large.xnb
 Content\UI Elements\Large Chara Images\Ziktofel_large.xnb
+Content\Icons\Weapons\mockernutstaff_icon.xnb
+Content\Icons\Weapons\quarterstaff_icon.xnb
+Content\Icons\Weapons\trainingstaff_icon.xnb
+Content\Player\halephon_sprite.xnb
+Content\Player\petaer_sprite.xnb
+Content\Player\ziktofel_sprite.xnb
 Content\Entities\alilmoreGold.png
 Content\Entities\lowGold.png
 Content\Entities\someGold.png
