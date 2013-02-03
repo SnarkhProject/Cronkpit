@@ -91,12 +91,7 @@ namespace Cronkpit
         int total_messages_shown;
 
         Texture2D my_back_texture;
-        Texture2D[] my_chest_textures;
-        Texture2D[] my_larm_textures;
-        Texture2D[] my_rarm_textures;
-        Texture2D[] my_lleg_textures;
-        Texture2D[] my_rleg_textures;
-        Texture2D[] my_head_textures;
+        Texture2D[] texture_masks;
 
         Texture2D injSummary_scroll_up_max;
         Texture2D injSummary_scroll_up_one;
@@ -122,12 +117,8 @@ namespace Cronkpit
         SpriteFont section_titleFont;
 
         //Player information:
-        int pl_head_wounds;
-        int pl_chest_wounds;
-        int pl_larm_wounds;
-        int pl_rarm_wounds;
-        int pl_lleg_wounds;
-        int pl_rleg_wounds;
+        int[] wounds_by_part;
+        int[] max_health_by_part;
 
         List<string> pl_injury_report;
 
@@ -256,23 +247,12 @@ namespace Cronkpit
             injSummary_scroll_up_one = inj_scuo;
             injSummary_scroll_down_max = inj_scdm;
             injSummary_scroll_down_one = inj_scdo;
-
-            
         }
 
-        public void init_wframes(Texture2D wFrameTex, Texture2D[] chest_textures, 
-                                    Texture2D[] larm_textures, Texture2D[] rarm_textures,
-                                    Texture2D[] lleg_textures, Texture2D[] rleg_textures,
-                                    Texture2D[] head_textures)
+        public void init_wframes(Texture2D wFrameTex, Texture2D[] tex_masks)
         {
             character_wireframe = wFrameTex;
-            my_chest_textures = chest_textures;
-            my_larm_textures = larm_textures;
-            my_rarm_textures = rarm_textures;
-            my_lleg_textures = lleg_textures;
-            my_rleg_textures = rleg_textures;
-            my_head_textures = head_textures;
-
+            texture_masks = tex_masks;
             //set the wframe position.
             wframe_xpos = ((BGElement_portraitBackground.X + BGElement_portraitBackground.Width + my_xPosition - wFrameTex.Width) / 2) + 5;
             wframe_ypos = (BGElement_portraitBackground.Y + BGElement_portraitBackground.Height) - (wFrameTex.Height + 10);
@@ -599,8 +579,7 @@ namespace Cronkpit
             player_inv = pl.retrieve_inventory();
             player_gold = pl.get_my_gold();
             init_necessary_textures(pl);
-            pl.wound_report(out pl_head_wounds, out pl_chest_wounds, out pl_rarm_wounds,
-                            out pl_larm_wounds, out pl_lleg_wounds, out pl_rleg_wounds);
+            pl.wound_report(out wounds_by_part, out max_health_by_part);
             inj_start_index = 0;
             pl_injury_report.Clear();
             pl_injury_report = pl.detailed_wound_report();
@@ -686,12 +665,24 @@ namespace Cronkpit
             sBatch.Draw(character_wireframe, BGElement_portraitBackground, Color.White);
             if(character_portrait != null)  
             sBatch.Draw(character_portrait, BGElement_playerPortrait, Color.White);
-            sBatch.Draw(my_chest_textures[Math.Min(pl_chest_wounds, 3)], BGElement_portraitBackground, Color.White);
-            sBatch.Draw(my_larm_textures[Math.Min(pl_larm_wounds, 3)], BGElement_portraitBackground, Color.White);
-            sBatch.Draw(my_rarm_textures[Math.Min(pl_rarm_wounds, 3)], BGElement_portraitBackground, Color.White);
-            sBatch.Draw(my_lleg_textures[Math.Min(pl_lleg_wounds, 3)], BGElement_portraitBackground, Color.White);
-            sBatch.Draw(my_rleg_textures[Math.Min(pl_rleg_wounds, 3)], BGElement_portraitBackground, Color.White);
-            sBatch.Draw(my_head_textures[Math.Min(pl_head_wounds, 1)], BGElement_portraitBackground, Color.White);
+
+            //This suddenly became much more involved.
+            for (int i = 0; i < 6; i++)
+            {
+                Color part_color = Color.Blue;
+                if (wounds_by_part[i] == max_health_by_part[i])
+                    part_color = Color.Red;
+
+                else if (max_health_by_part[i] == 3)
+                {
+                    if (wounds_by_part[i] == 1)
+                        part_color = new Color(0, 255, 0);
+                    else if (wounds_by_part[i] == 2)
+                        part_color = Color.Yellow;
+                }
+
+                sBatch.Draw(texture_masks[i], BGElement_portraitBackground, part_color);
+            }
         }
 
         public void draw_my_text(ref SpriteBatch sBatch)
@@ -721,7 +712,6 @@ namespace Cronkpit
                     equip_msg_pos2.Y += stdFont.LineSpacing;
                 }
             }
-            
 
             //Then equipment text!
             sBatch.DrawString(player_name_font, player_name, player_name_pos, my_text_color);

@@ -32,32 +32,26 @@ namespace Cronkpit
 
             switch (weaponType)
             {
-                case Type.Lance:
-                    damageType = Attack.Damage.Piercing;
-                    break;
+                //Spears, lances, bows and crossbows do piercing damage
                 case Type.Spear:
-                    damageType = Attack.Damage.Piercing;
-                    break;
-                case Type.Sword:
-                    damageType = Attack.Damage.Slashing;
-                    break;
-                case Type.Axe:
-                    damageType = Attack.Damage.Slashing;
-                    break;
-                case Type.Mace:
-                    damageType = Attack.Damage.Crushing;
-                    break;
+                case Type.Lance:
                 case Type.Bow:
-                    damageType = Attack.Damage.Piercing;
-                    break;
                 case Type.Crossbow:
                     damageType = Attack.Damage.Piercing;
                     break;
+                //Swords and axes do slashing damage
+                case Type.Sword:
+                case Type.Axe:
+                    damageType = Attack.Damage.Slashing;
+                    break;
+                //Maces and staffs do crushing damage
+                case Type.Mace:
                 case Type.Staff:
                     damageType = Attack.Damage.Crushing;
                     break;
             }
 
+            //Specifically overwrites the hyperion spear to do fire damage
             if (IDno == 12)
                 damageType = Attack.Damage.Fire;
         }
@@ -74,26 +68,22 @@ namespace Cronkpit
 
             switch (weaponType)
             {
-                case Type.Lance:
-                    damageType = Attack.Damage.Piercing;
-                    break;
+                //Spears, lances, bows and crossbows do piercing damage
                 case Type.Spear:
+                case Type.Lance:
+                case Type.Bow:
+                case Type.Crossbow:
                     damageType = Attack.Damage.Piercing;
                     break;
+                //Swords and axes do slashing damage
                 case Type.Sword:
-                    damageType = Attack.Damage.Slashing;
-                    break;
                 case Type.Axe:
                     damageType = Attack.Damage.Slashing;
                     break;
+                //Maces and staffs do crushing damage
                 case Type.Mace:
+                case Type.Staff:
                     damageType = Attack.Damage.Crushing;
-                    break;
-                case Type.Bow:
-                    damageType = Attack.Damage.Piercing;
-                    break;
-                case Type.Crossbow:
-                    damageType = Attack.Damage.Piercing;
                     break;
             }
 

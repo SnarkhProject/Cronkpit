@@ -39,7 +39,7 @@ namespace Cronkpit
         //Sensory lists
         List<SoundPulse> Noises;
         List<VisionRay> Vision_Rc;
-        //List<VisionRay> Vision_Log;
+        List<VisionRay> Vision_Log;
 
         //Other stuff needed for the thing to function
         ContentManager cManager;
@@ -58,7 +58,7 @@ namespace Cronkpit
             Money = new List<Goldpile>();
             Doodads = new List<Doodad>();
             Vision_Rc = new List<VisionRay>();
-            //Vision_Log = new List<VisionRay>(); Deprecated!
+            Vision_Log = new List<VisionRay>(); //Still useful.
             Noises = new List<SoundPulse>();
             Pew_Pews = new List<Projectile>();
             eff_ex = new List<Effect>();
@@ -84,6 +84,8 @@ namespace Cronkpit
 
         #region super important stuff
 
+        //All of this is dungeon building stuff and will eventually get torn out
+        //And put into a dungeon that inherits this class specifically.
         public void buildFloor()
         {
             //Make the base tiles.
@@ -103,8 +105,8 @@ namespace Cronkpit
             int dirt_threshold = Math.Max((50 - ((fl_number - 1) * 2)), 20);
             for (int i = 0; i < number_of_rooms; i++)
             {
-                int next_room_height = randGen.Next(4, 9);
-                int next_room_width = randGen.Next(4, 9);
+                int next_room_height = randGen.Next(4, 10);
+                int next_room_width = randGen.Next(4, 10);
                 int next_room_startX = randGen.Next(1, ((stdfloorSize - 1) - next_room_width));
                 int next_room_startY = randGen.Next(1, ((stdfloorSize - 1) - next_room_height));
 
@@ -120,11 +122,23 @@ namespace Cronkpit
                     lower_room_y_edge < 15 || upper_room_y_edge > 35))
                     dirt_room = true;
 
-                roomLayout.Add(new Room(next_room_height,
+                Room rm = new Room(next_room_height,
                                     next_room_width,
                                     next_room_startX,
                                     next_room_startY,
-                                    dirt_room));
+                                    dirt_room);
+
+                if (next_room_height == next_room_width && next_room_width % 2 == 1)
+                {
+                    int circular_room_roll = randGen.Next(3);
+                    if (circular_room_roll < 2)
+                    {
+                        rm.set_to_circular_room();
+                        rm.set_circular_room_matrix(circular_room_matrix(next_room_width));
+                    }
+                }
+
+                roomLayout.Add(rm);
             }
             //Next hallways.
             int number_of_hallways = number_of_rooms - 1;
@@ -177,15 +191,31 @@ namespace Cronkpit
             //First rooms
             for (int i = 0; i < roomLayout.Count; i++)
             {
+                List<List<bool>> circle_matrix = null;
+                if (roomLayout[i].is_circular_room())
+                {
+                    circle_matrix = roomLayout[i].retrieve_circular_matrix();
+                }
+
                 for (int x = roomLayout[i].startXPos; x < roomLayout[i].startXPos + roomLayout[i].roomWidth; x++)
                     for (int y = roomLayout[i].startYPos; y < roomLayout[i].startYPos + roomLayout[i].roomHeight; y++)
                     {
-                        if (!roomLayout[i].is_dirt_room())
-                            floorTiles[x][y].set_tile_type(1);
+                        if (roomLayout[i].is_circular_room())
+                        {
+                            if (circle_matrix[x - roomLayout[i].startXPos][y - roomLayout[i].startYPos])
+                                if (!roomLayout[i].is_dirt_room())
+                                    floorTiles[x][y].set_tile_type(1);
+                                else
+                                    floorTiles[x][y].set_tile_type(5);
+                        }
                         else
-                            floorTiles[x][y].set_tile_type(5);
+                            if (!roomLayout[i].is_dirt_room())
+                                floorTiles[x][y].set_tile_type(1);
+                            else
+                                floorTiles[x][y].set_tile_type(5);
                     }
             }
+
             //Then hallways
             for (int i = 0; i < hallLayout.Count; i++)
             {
@@ -424,10 +454,58 @@ namespace Cronkpit
                     }
         }
 
+        List<List<bool>> circular_room_matrix(int diameter)
+        {
+            List<List<bool>> circle_matrix = new List<List<bool>>();
+
+            int radius = (int)Math.Floor((double)diameter / 2);
+            //the "r" here stands for room, so room x, room y, etc.
+            for (int rx = 0; rx < diameter; rx++)
+            {
+                circle_matrix.Add(new List<bool>());
+                for (int ry = 0; ry < diameter; ry++)
+                    circle_matrix[rx].Add(true);
+            }
+
+            int tiles_off_corners = Math.Max(radius - 2, 1);
+            
+            for(int rx = 0; rx < diameter; rx++)
+                for (int ry = 0; ry < diameter; ry++)
+                {
+                    if ((rx < tiles_off_corners || rx >= diameter - tiles_off_corners) &&
+                       (ry < tiles_off_corners || ry >= diameter - tiles_off_corners))
+                        circle_matrix[rx][ry] = false;
+                }
+
+            if (radius - 2 > 0)
+            {
+                //The two leftmost tiles.
+                circle_matrix[0][diameter - (tiles_off_corners + 1)] = false;
+                circle_matrix[0][tiles_off_corners] = false;
+
+                //The two next ones to the right
+                circle_matrix[tiles_off_corners][0] = false;
+                circle_matrix[tiles_off_corners][diameter - 1] = false;
+
+                //Two next to the right
+                circle_matrix[diameter - (tiles_off_corners + 1)][0] = false;
+                circle_matrix[diameter - (tiles_off_corners +1)][diameter - 1] = false;
+
+                //The two rightmost ones
+                circle_matrix[diameter - 1][tiles_off_corners] = false;
+                circle_matrix[diameter - 1][diameter - (tiles_off_corners + 1)] = false;
+            }
+
+            return circle_matrix;
+        }
+
+        //This is all non-dungeon building stuff pertaining to monsters, etc.
+
         //Green text. Function here.
         public void update_dungeon_floor(Player Pl)
         {
-            scrub_all_auras();
+            //Vision_Log.Clear();
+            //scrub_all_auras();
             execute_persistent_effects(Pl);
             update_all_monsters(Pl);
             decay_all_scents();
@@ -1363,7 +1441,7 @@ namespace Cronkpit
                     {
                         strongest_smell = scentedTiles[i].strength_of_scent(targetSmell);
                         target_tile = scentedTiles[i];
-                        target_tile.set_my_aura(Tile.Aura.SmellTarget);
+                        //target_tile.set_my_aura(Tile.Aura.SmellTarget);
                     }
                 }
             }
@@ -1525,12 +1603,21 @@ namespace Cronkpit
         {
             Tile originTile = floorTiles[origin.x][origin.y];
             Tile destinationTile = floorTiles[destination.x][destination.y];
+            
             Vision_Rc.Add(new VisionRay(originTile.get_corner(1), destinationTile.get_corner(1)));
             Vision_Rc.Add(new VisionRay(originTile.get_corner(2), destinationTile.get_corner(2)));
             Vision_Rc.Add(new VisionRay(originTile.get_corner(3), destinationTile.get_corner(3)));
             Vision_Rc.Add(new VisionRay(originTile.get_corner(4), destinationTile.get_corner(4)));
             Vision_Rc.Add(new VisionRay(originTile.get_corner(3), destinationTile.get_corner(1)));
             Vision_Rc.Add(new VisionRay(originTile.get_corner(2), destinationTile.get_corner(4)));
+
+            //Comment this out when we're done with the vision log
+            Vision_Log.Add(new VisionRay(originTile.get_corner(1), destinationTile.get_corner(1)));
+            Vision_Log.Add(new VisionRay(originTile.get_corner(2), destinationTile.get_corner(2)));
+            Vision_Log.Add(new VisionRay(originTile.get_corner(3), destinationTile.get_corner(3)));
+            Vision_Log.Add(new VisionRay(originTile.get_corner(4), destinationTile.get_corner(4)));
+            Vision_Log.Add(new VisionRay(originTile.get_corner(3), destinationTile.get_corner(1)));
+            Vision_Log.Add(new VisionRay(originTile.get_corner(2), destinationTile.get_corner(4)));
 
             bool established_los = false;
             while (Vision_Rc.Count > 0)
@@ -1640,7 +1727,7 @@ namespace Cronkpit
             for (int i = 0; i < Doodads.Count; i++)
                 Doodads[i].draw_me(ref sBatch);
         }
-        /*
+        
         public void draw_vision_log(ref SpriteBatch sBatch, Texture2D blank_tex)
         {
             for (int i = 0; i < Vision_Log.Count; i++)
@@ -1655,7 +1742,7 @@ namespace Cronkpit
                             SpriteEffects.None, 0);
             }
         }
-         */
+        
 
         //Green text.
         public void drawEnemies(ref SpriteBatch sBatch)

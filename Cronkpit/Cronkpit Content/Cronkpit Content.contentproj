@@ -202,154 +202,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UI Elements\Inventory Screen\wireframe.png">
-      <Name>wireframe</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="UI Elements\Inventory Screen\chest_blue.png">
-      <Name>chest_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\chest_green.png">
-      <Name>chest_green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\chest_red.png">
-      <Name>chest_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\chest_yellow.png">
-      <Name>chest_yellow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="UI Elements\Inventory Screen\larm_blue.png">
-      <Name>larm_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\larm_green.png">
-      <Name>larm_green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\larm_red.png">
-      <Name>larm_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\larm_yellow.png">
-      <Name>larm_yellow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\rarm_blue.png">
-      <Name>rarm_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\rarm_green.png">
-      <Name>rarm_green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\rarm_red.png">
-      <Name>rarm_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\rarm_yellow.png">
-      <Name>rarm_yellow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="UI Elements\Inventory Screen\lleg_blue.png">
-      <Name>lleg_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\lleg_green.png">
-      <Name>lleg_green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\lleg_red.png">
-      <Name>lleg_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\lleg_yellow.png">
-      <Name>lleg_yellow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\rleg_blue.png">
-      <Name>rleg_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\rleg_green.png">
-      <Name>rleg_green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\rleg_red.png">
-      <Name>rleg_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\rleg_yellow.png">
-      <Name>rleg_yellow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="UI Elements\Inventory Screen\head_blue.png">
-      <Name>head_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\head_red.png">
-      <Name>head_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="UI Elements\Inventory Screen\invbox_max_scrolldown.png">
       <Name>invbox_max_scrolldown</Name>
       <Importer>TextureImporter</Importer>
@@ -714,125 +566,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_chest_blue.png">
-      <Name>fal_chest_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_chest_green.png">
-      <Name>fal_chest_green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_chest_red.png">
-      <Name>fal_chest_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_chest_yellow.png">
-      <Name>fal_chest_yellow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_head_blue.png">
-      <Name>fal_head_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_head_red.png">
-      <Name>fal_head_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_larm_blue.png">
-      <Name>fal_larm_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_larm_green.png">
-      <Name>fal_larm_green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_larm_red.png">
-      <Name>fal_larm_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_larm_yellow.png">
-      <Name>fal_larm_yellow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_lleg_blue.png">
-      <Name>fal_lleg_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_lleg_green.png">
-      <Name>fal_lleg_green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_lleg_red.png">
-      <Name>fal_lleg_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_lleg_yellow.png">
-      <Name>fal_lleg_yellow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_rarm_blue.png">
-      <Name>fal_rarm_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_rarm_green.png">
-      <Name>fal_rarm_green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_rarm_red.png">
-      <Name>fal_rarm_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_rarm_yellow.png">
-      <Name>fal_rarm_yellow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_rleg_blue.png">
-      <Name>fal_rleg_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_rleg_green.png">
-      <Name>fal_rleg_green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_rleg_red.png">
-      <Name>fal_rleg_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_rleg_yellow.png">
-      <Name>fal_rleg_yellow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_wireframe.png">
-      <Name>fal_wireframe</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Background\Moss Tiles\mossy_dirtfloor.png">
       <Name>mossy_dirtfloor</Name>
       <Importer>TextureImporter</Importer>
@@ -1187,6 +920,156 @@
     </Compile>
     <Compile Include="Player\ziktofel_sprite.png">
       <Name>ziktofel_sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UI Elements\Inventory Screen\ziktofel_wires\zik_chest_mask.png">
+      <Name>zik_chest_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\ziktofel_wires\zik_head_mask.png">
+      <Name>zik_head_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\ziktofel_wires\zik_larm_mask.png">
+      <Name>zik_larm_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\ziktofel_wires\zik_lleg_mask.png">
+      <Name>zik_lleg_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\ziktofel_wires\zik_rarm_mask.png">
+      <Name>zik_rarm_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\ziktofel_wires\zik_rleg_mask.png">
+      <Name>zik_rleg_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_chest_mask.png">
+      <Name>fal_chest_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_head_mask.png">
+      <Name>fal_head_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_larm_mask.png">
+      <Name>fal_larm_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_lleg_mask.png">
+      <Name>fal_lleg_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_rarm_mask.png">
+      <Name>fal_rarm_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_rleg_mask.png">
+      <Name>fal_rleg_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\falsael_wires\fal_wireframe.png">
+      <Name>fal_wireframe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UI Elements\Inventory Screen\halephon_wires\hal_chest_mask.png">
+      <Name>hal_chest_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\halephon_wires\hal_head_mask.png">
+      <Name>hal_head_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\halephon_wires\hal_larm_mask.png">
+      <Name>hal_larm_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\halephon_wires\hal_lleg_mask.png">
+      <Name>hal_lleg_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\halephon_wires\hal_rarm_mask.png">
+      <Name>hal_rarm_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\halephon_wires\hal_rleg_mask.png">
+      <Name>hal_rleg_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\halephon_wires\hal_wireframe.png">
+      <Name>hal_wireframe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UI Elements\Inventory Screen\petaer_wires\pet_chest_mask.png">
+      <Name>pet_chest_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\petaer_wires\pet_head_mask.png">
+      <Name>pet_head_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\petaer_wires\pet_larm_mask.png">
+      <Name>pet_larm_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\petaer_wires\pet_lleg_mask.png">
+      <Name>pet_lleg_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\petaer_wires\pet_rarm_mask.png">
+      <Name>pet_rarm_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\petaer_wires\pet_rleg_mask.png">
+      <Name>pet_rleg_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Inventory Screen\petaer_wires\pet_wireframe.png">
+      <Name>pet_wireframe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UI Elements\Inventory Screen\ziktofel_wires\zik_wireframe.png">
+      <Name>zik_wireframe</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

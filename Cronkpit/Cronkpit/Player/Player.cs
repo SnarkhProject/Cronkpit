@@ -93,12 +93,12 @@ namespace Cronkpit
                     break;
             }
             //Health stuff.
-            Head = new Limb(true, ref rGen, "Head", "Head");
-            Torso = new Limb(false, ref rGen, "Chest", "Chest");
-            R_Arm = new Limb(false, ref rGen, "Right Arm", "RArm");
-            L_Arm = new Limb(false, ref rGen, "Left Arm", "LArm");
-            R_Leg = new Limb(false, ref rGen, "Right Leg", "RLeg");
-            L_Leg = new Limb(false, ref rGen, "Left Leg", "LLeg");
+            Head = new Limb(ref rGen, "Head", "Head", 1);
+            Torso = new Limb(ref rGen, "Chest", "Chest", 3);
+            R_Arm = new Limb(ref rGen, "Right Arm", "RArm", 3);
+            L_Arm = new Limb(ref rGen, "Left Arm", "LArm", 3);
+            R_Leg = new Limb(ref rGen, "Right Leg", "RLeg", 3);
+            L_Leg = new Limb(ref rGen, "Left Leg", "LLeg",3 );
             calculate_dodge_chance();
             //Inventory stuff
             main_hand = new Weapon(0, 100, "Knife", Weapon.Type.Sword, 1, 2, 4, 1);
@@ -441,16 +441,26 @@ namespace Cronkpit
 
         public void attack_monster_in_grid(Floor fl, int dmg_val, int c_monsterID, gridCoordinate current_gc, string weapon_name, bool melee_attack)
         {
+            double base_dmg_val = (double)dmg_val;
+            int modified_dmg_val = (int)base_dmg_val;
+            if (my_character == Character.Falsael)
+                modified_dmg_val = (int)Math.Ceiling(base_dmg_val * 1.2);
+
             string attack_msg = "You attack the " + fl.badguy_by_monster_id(c_monsterID).my_name + " with your " + weapon_name + "!";
             message_buffer.Add(attack_msg);
-            fl.damage_monster(dmg_val, c_monsterID, melee_attack);
+            fl.damage_monster(modified_dmg_val, c_monsterID, melee_attack);
         }
 
         public void attack_doodad_in_grid(Floor fl, int dmg_val, int c_DoodadID, gridCoordinate current_gc, string weapon_name)
         {
+            double base_dmg_val = (double)dmg_val;
+            int modified_dmg_val = (int)base_dmg_val;
+            if (my_character == Character.Falsael)
+                modified_dmg_val = (int)Math.Ceiling(base_dmg_val * 1.2);
+
             string attack_msg = "You attack the " + fl.doodad_by_index(c_DoodadID).my_name() + " with your " + weapon_name + "!";
             message_buffer.Add(attack_msg);
-            fl.damage_doodad(dmg_val, c_DoodadID);
+            fl.damage_doodad(modified_dmg_val, c_DoodadID);
         }
 
         public void set_ranged_attack_aura(Floor fl, gridCoordinate pl_gc, Scroll s)
@@ -523,8 +533,8 @@ namespace Cronkpit
 
         public void bow_attack(Floor fl, ref ContentManager Secondary_cManager, int monsterID, int doodadID)
         {
-            int min_dmg_to_monster = 0;
-            int max_dmg_to_monster = 0;
+            double base_min_dmg_to_monster = 0;
+            double base_max_dmg_to_monster = 0;
             string wName = "";
             gridCoordinate opposition_coord = new gridCoordinate(-1, -1);
             if (monsterID != -1)
@@ -548,15 +558,23 @@ namespace Cronkpit
             if (main_hand != null && (main_hand.get_my_weapon_type() == Weapon.Type.Bow ||
                                       main_hand.get_my_weapon_type() == Weapon.Type.Crossbow))
             {
-                max_dmg_to_monster = main_hand.specific_damage_val(true);
-                min_dmg_to_monster = main_hand.specific_damage_val(false);
+                base_max_dmg_to_monster = (double)main_hand.specific_damage_val(true);
+                base_min_dmg_to_monster = (double)main_hand.specific_damage_val(false);
                 wName = main_hand.get_my_name();
             }
             else
             {
-                max_dmg_to_monster = off_hand.specific_damage_val(true);
-                min_dmg_to_monster = off_hand.specific_damage_val(false);
+                base_max_dmg_to_monster = (double)off_hand.specific_damage_val(true);
+                base_min_dmg_to_monster = (double)off_hand.specific_damage_val(false);
                 wName = off_hand.get_my_name();
+            }
+
+            int max_dmg_to_monster = (int)base_max_dmg_to_monster;
+            int min_dmg_to_monster = (int)base_min_dmg_to_monster;
+            if (is_cbow_equipped() && my_character == Character.Falsael)
+            {
+                max_dmg_to_monster = (int)Math.Ceiling(base_max_dmg_to_monster * 1.2);
+                min_dmg_to_monster = (int)Math.Ceiling(base_min_dmg_to_monster * 1.2);
             }
 
             if (!is_cbow_equipped())
@@ -904,7 +922,21 @@ namespace Cronkpit
             {
                 Projectile prj = new Projectile(starting_coord, spell_target, prj_type,
                                                  ref cont, false, s.get_spell_type());
-                prj.set_damage_range(s.get_specific_damage(false), s.get_specific_damage(true));
+                double base_spell_max_damage = (double)s.get_specific_damage(true);
+                double base_spell_min_damage = (double)s.get_specific_damage(false);
+                int spell_max_damage = (int)base_spell_max_damage;
+                int spell_min_damage = (int)base_spell_min_damage;
+
+                //Petaer does 20% more damage with all spells.
+                //Falsael does 20% more damage with all melee range spells.
+                if (my_character == Character.Petaer || (my_character == Character.Falsael &&
+                                                        s.is_melee_range_spell()))
+                {
+                    spell_max_damage = (int)Math.Ceiling(base_spell_max_damage*1.2);
+                    spell_min_damage = (int)Math.Ceiling(base_spell_min_damage*1.2);
+                }
+
+                prj.set_damage_range(spell_min_damage, spell_max_damage);
                 prj.set_damage_type(spell_dmg_type);
                 prj.set_wound_type(spell_wnd_type);
                 prj.set_wall_destroying(s.spell_destroys_walls());
@@ -1287,12 +1319,7 @@ namespace Cronkpit
             }
 
             calculate_dodge_chance();
-            pDoll.update_wound_report(Head.count_debilitating_injuries(),
-                                          Torso.count_debilitating_injuries(),
-                                          L_Arm.count_debilitating_injuries(),
-                                          R_Arm.count_debilitating_injuries(),
-                                          L_Leg.count_debilitating_injuries(),
-                                          R_Leg.count_debilitating_injuries());
+            update_pdoll();
             pt.drink();
         }
 
@@ -1466,12 +1493,7 @@ namespace Cronkpit
             }
 
             calculate_dodge_chance();
-            pDoll.update_wound_report(Head.count_debilitating_injuries(),
-                                          Torso.count_debilitating_injuries(),
-                                          L_Arm.count_debilitating_injuries(),
-                                          R_Arm.count_debilitating_injuries(),
-                                          L_Leg.count_debilitating_injuries(),
-                                          R_Leg.count_debilitating_injuries());
+            update_pdoll();
 
             if(pt.get_type() == Potion.Potion_Type.Repair && target_armor != null)
                 pt.drink();
@@ -1588,14 +1610,23 @@ namespace Cronkpit
         }
 
         //Wounding stuff
-        public void wound_report(out int h_wounds, out int t_wounds, out int ra_wounds, out int la_wounds, out int ll_wounds, out int rl_wounds)
+        public void wound_report(out int[] wounds_by_part, out int[] max_health_by_part)
         {
-            h_wounds = Head.count_debilitating_injuries();
-            t_wounds = Torso.count_debilitating_injuries();
-            ra_wounds = R_Arm.count_debilitating_injuries();
-            la_wounds = L_Arm.count_debilitating_injuries();
-            ll_wounds = L_Leg.count_debilitating_injuries();
-            rl_wounds = R_Leg.count_debilitating_injuries();
+            wounds_by_part = new int[6];
+            wounds_by_part[0] = Head.count_debilitating_injuries();
+            wounds_by_part[1] = Torso.count_debilitating_injuries();
+            wounds_by_part[2] = L_Arm.count_debilitating_injuries();
+            wounds_by_part[3] = R_Arm.count_debilitating_injuries();
+            wounds_by_part[4] = L_Leg.count_debilitating_injuries();
+            wounds_by_part[5] = R_Leg.count_debilitating_injuries();
+
+            max_health_by_part = new int[6];
+            max_health_by_part[0] = Head.get_max_health();
+            max_health_by_part[1] = Torso.get_max_health();
+            max_health_by_part[2] = L_Arm.get_max_health();
+            max_health_by_part[3] = R_Arm.get_max_health();
+            max_health_by_part[4] = L_Leg.get_max_health();
+            max_health_by_part[5] = R_Leg.get_max_health();
         }
 
         public List<string> detailed_wound_report()
@@ -2088,12 +2119,10 @@ namespace Cronkpit
 
         public void update_pdoll()
         {
-            pDoll.update_wound_report(Head.count_debilitating_injuries(),
-                                          Torso.count_debilitating_injuries(),
-                                          L_Arm.count_debilitating_injuries(),
-                                          R_Arm.count_debilitating_injuries(),
-                                          L_Leg.count_debilitating_injuries(),
-                                          R_Leg.count_debilitating_injuries());
+            int[] wounds;
+            int[] max_health;
+            wound_report(out wounds, out max_health);
+            pDoll.update_wound_report(wounds, max_health);
         }
     }
 }

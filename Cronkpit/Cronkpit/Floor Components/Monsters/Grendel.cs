@@ -58,12 +58,23 @@ namespace Cronkpit
 
         public override void Update_Monster(Player pl, Floor fl)
         {
-            can_see_player = false;
             has_moved = false;
-            has_scent = false;
+            Tile target_tile = null;
+            if (is_smell_i_can_smell_within(my_grid_coord, fl, 0, smell_threshold, smell_range))
+                target_tile = fl.establish_los_strongest_smell(my_grid_coord, 0, smell_threshold);
 
-            if (is_player_within(pl, sight_range + 1))
-                look_for_player(fl, pl, sight_range);
+            if (target_tile == null)
+                has_scent = false;
+            else
+            {
+                has_scent = true;
+                strongest_smell_coord = target_tile.get_grid_c();
+            }
+
+            if (is_player_within(pl, sight_range))
+                can_see_player = fl.establish_los(my_grid_coord, pl.get_my_grid_C());
+            else
+                can_see_player = false;
 
             if (can_see_player)
             {
@@ -76,30 +87,6 @@ namespace Cronkpit
                     if (!is_player_within_diamond(pl, 4))
                         advance_towards_single_point(last_seen_player_at, pl, fl, 0);
                     else
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     {
                         fl.addmsg("The Grendel attacks you!");
                         Attack dmg = dealDamage();
@@ -145,12 +132,13 @@ namespace Cronkpit
             }
             else
             {
-                if(is_smell_i_can_smell_within(my_grid_coord, fl, 0, smell_threshold, smell_range+1))
-                    sniff_for_trail(fl, 0, smell_range, smell_threshold);
                 if (has_scent)
                 {
                     //fl.add_new_popup("The Grendel smells you!", Popup.popup_msg_color.Red, my_grid_coord);
-                    advance_towards_single_point(strongest_smell_coord, pl, fl, 1);
+                    if (is_player_within(pl, 1))
+                        advance_towards_single_point(strongest_smell_coord, pl, fl, 1);
+                    else
+                        advance_towards_single_point(strongest_smell_coord, pl, fl, 0);
                 }
                 else
                 {

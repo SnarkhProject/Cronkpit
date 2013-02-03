@@ -48,7 +48,11 @@ namespace Cronkpit
 
             if (has_scent)
             {
-                advance_towards_single_point(strongest_smell_coord, pl, fl, 0);
+                if(is_player_within(pl, 1))
+                    advance_towards_single_point(strongest_smell_coord, pl, fl, 1);
+                else
+                    advance_towards_single_point(strongest_smell_coord, pl, fl, 0);
+
                 if (is_player_within(pl, 1) && !has_moved)
                 {
                     fl.addmsg("The Gorehound lands a vicious bite!");

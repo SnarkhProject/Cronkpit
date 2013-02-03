@@ -27,23 +27,23 @@ namespace Cronkpit
     class Limb
     {
         List<wound> injuries;
-        bool is_head;
         Random rGen;
         string long_name;
         string short_name;
+        int max_health;
 
         String[] open_wounds = { "minor cut", "cut", "slash", "heavy slash", "gaping wound" };
         String[] impact_wounds = { "bruise", "large bruise", "bruised bone", "fracture", "broken bone" };
         String[] burn_wounds = { "blister", "minor burn", "burn", "severe burn", "horrific burn" };
         String[] frost_wounds = { "chillblains", "frostnip", "frostbite", "deep frostbite", "frostburn" };
 
-        public Limb(bool head, ref Random r_gen, string lname, string sname)
+        public Limb(ref Random r_gen, string lname, string sname, int mhealth)
         {
             injuries = new List<wound>();
-            is_head = head;
             rGen = r_gen;
             long_name = lname;
             short_name = sname;
+            max_health = mhealth;
         }
 
         public bool is_disabled()
@@ -55,10 +55,7 @@ namespace Cronkpit
                     debilitating_injuries++;
             }
 
-            if (is_head)
-                return debilitating_injuries >= 1;
-            else
-                return debilitating_injuries >= 3;
+            return debilitating_injuries >= max_health;
         }
 
         public void add_injury(wound ouchie)
@@ -205,6 +202,11 @@ namespace Cronkpit
         public string get_shortname()
         {
             return short_name;
+        }
+
+        public int get_max_health()
+        {
+            return max_health;
         }
     }
 }

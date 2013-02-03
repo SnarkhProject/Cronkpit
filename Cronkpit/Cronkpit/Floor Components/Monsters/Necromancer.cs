@@ -78,8 +78,8 @@ namespace Cronkpit
             acidsplash_range = 5;
             can_create_major = createMajor;
 
-            sight_range = 3;
-            listen_threshold = 7;
+            sight_range = 2;
+            listen_threshold = 8;
 
             melee_dodge = 5;
             ranged_dodge = 5;
@@ -180,7 +180,11 @@ namespace Cronkpit
 
         public override void Update_Monster(Player pl, Floor fl)
         {
-            can_see_player = false;
+            if (is_player_within(pl, sight_range))
+                can_see_player = fl.establish_los(my_grid_coord, pl.get_my_grid_C());
+            else
+                can_see_player = false;
+
             has_moved = false;
 
             if (create_minor_undead_cooldown > 0)
@@ -192,8 +196,6 @@ namespace Cronkpit
 
             if (!active)
             {
-                look_for_player(fl, pl, sight_range);
-
                 if (heard_something || can_see_player)
                 {
                     active = true;

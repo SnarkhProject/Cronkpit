@@ -258,8 +258,10 @@ namespace Cronkpit
             //it uses power strike, then cleave.
             //then, move the knight towards the player if it can move towards the player.
             //if it can't, it throws a javelin at the player if it can hear them.
-            can_see_player = false;
-            look_for_player(fl, pl, sight_range);
+            if (is_player_within(pl, sight_range))
+                can_see_player = fl.establish_los(my_grid_coord, pl.get_my_grid_C());
+            else
+                can_see_player = false;
 
             int pl_x_difference = pl.get_my_grid_C().x - my_grid_coord.x;
             int pl_y_difference = pl.get_my_grid_C().y - my_grid_coord.y;

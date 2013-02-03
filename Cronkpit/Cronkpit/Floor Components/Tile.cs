@@ -44,10 +44,10 @@ namespace Cronkpit
             my_Aura = Aura.None;
             my_blank_texture = bText;
 
-            corner_1 = new Vector2(sPos.X + 3, sPos.Y + 3);
-            corner_2 = new Vector2(sPos.X + 13, sPos.Y + 3);
-            corner_3 = new Vector2(sPos.X + 3, sPos.Y + 13);
-            corner_4 = new Vector2(sPos.X + 13, sPos.Y + 13);
+            corner_1 = new Vector2(sPos.X + 16, sPos.Y + 13);
+            corner_2 = new Vector2(sPos.X + 16, sPos.Y + 19);
+            corner_3 = new Vector2(sPos.X + 13, sPos.Y + 16);
+            corner_4 = new Vector2(sPos.X + 19, sPos.Y + 16);
         }
 
         public void set_tile_type(int sType)
@@ -292,7 +292,7 @@ namespace Cronkpit
                     my_color = new Color(255, 0, 0, 100);
                     break;
                 case Aura.SmellTarget:
-                    my_color = new Color(255, 10, 120, 100);
+                    my_color = new Color(255, 120, 10, 100);
                     break;
             }
 

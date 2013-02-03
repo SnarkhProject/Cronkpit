@@ -46,7 +46,7 @@ namespace Cronkpit
                     my_idle_texture = cont.Load<Texture2D>("Entities/lowGold");
                     break;
             }
-            turns_idle = 0;
+            turns_idle = 5;
             my_Texture = my_idle_texture;
             //SENSORY
             sight_range = 3;
@@ -59,8 +59,11 @@ namespace Cronkpit
 
         public override void Update_Monster(Player pl, Floor fl)
         {
-            can_see_player = false;
-            look_for_player(fl, pl, sight_range);
+            if (is_player_within(pl, sight_range))
+                can_see_player = fl.establish_los(my_grid_coord, pl.get_my_grid_C());
+            else
+                can_see_player = false;
+
             if (can_see_player)
             {
                 my_Texture = my_active_texture;

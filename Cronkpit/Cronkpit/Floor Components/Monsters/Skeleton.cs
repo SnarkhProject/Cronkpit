@@ -83,9 +83,11 @@ namespace Cronkpit
         public override void Update_Monster(Player pl, Floor fl)
         {
             has_moved = false;
-            can_see_player = false;
-            if(is_player_within(pl, sight_range+1))
-                look_for_player(fl, pl, sight_range);
+
+            if (is_player_within(pl, sight_range))
+                can_see_player = fl.establish_los(my_grid_coord, pl.get_my_grid_C());
+            else
+                can_see_player = false;
 
             if (my_weapon_type == Skeleton_Weapon_Type.Bow || 
                (my_weapon_type == Skeleton_Weapon_Type.Flamebolt && fl.check_mana() >= flamebolt_mana_cost))
@@ -112,6 +114,7 @@ namespace Cronkpit
                                                                         true, Scroll.Atk_Area_Type.singleTile);
                             prj.set_damage_range(min_damage, max_damage);
                             prj.set_damage_type(dmg_type);
+                            prj.set_wound_type(wound_type);
                             fl.create_new_projectile(prj);
                         }
                     }

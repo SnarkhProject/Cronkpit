@@ -47,23 +47,14 @@ namespace Cronkpit
         bool repair_over_armor;
 
         Texture2D wireframe_texture;
-        Texture2D[] head_textures;
-        Texture2D[] larm_textures;
-        Texture2D[] rarm_textures;
-        Texture2D[] lleg_textures;
-        Texture2D[] rleg_textures;
-        Texture2D[] chest_textures;
+        Texture2D[] texture_masks;
         Texture2D my_blank_texture;
 
         SpriteFont text_font;
         SpriteFont big_text_font;
 
-        int larm_wounds;
-        int rarm_wounds;
-        int chest_wounds;
-        int lleg_wounds;
-        int rleg_wounds;
-        int head_wounds;
+        int[] wounds_by_part;
+        int[] max_health_by_part;
 
         Armor player_oa;
         Armor player_ua;
@@ -118,23 +109,15 @@ namespace Cronkpit
             my_m_yellow_color = new Color(170, 170, 50);
         }
 
-        public void init_textures(Texture2D wframe_tex, Texture2D[] head_texes, Texture2D[] larm_texes,
-                                Texture2D[] rarm_texes, Texture2D[] lleg_texes, Texture2D[] rleg_texes,
-                                Texture2D[] chest_texes)
+        public void init_textures(Texture2D wframe_tex, Texture2D[] tex_masks)
         {
             wireframe_texture = wframe_tex;
-            head_textures = head_texes;
-            chest_textures = chest_texes;
-            larm_textures = larm_texes;
-            rarm_textures = rarm_texes;
-            lleg_textures = lleg_texes;
-            rleg_textures = rleg_texes;
+            texture_masks = tex_masks;
         }
 
         public void grab_injury_report(Player pl)
         {
-            pl.wound_report(out head_wounds, out chest_wounds, out rarm_wounds, 
-                            out larm_wounds, out lleg_wounds, out rleg_wounds);
+            pl.wound_report(out wounds_by_part, out max_health_by_part);
             player_oa = pl.show_over_armor();
             player_ua = pl.show_under_armor();
         }
@@ -289,12 +272,23 @@ namespace Cronkpit
         {
             Vector2 wframe_position = new Vector2(my_grey_foreground.X, my_grey_foreground.Y - 60);
             sBatch.Draw(wireframe_texture, wframe_position, Color.White);
-            sBatch.Draw(head_textures[Math.Min(head_wounds, 1)], wframe_position, Color.White);
-            sBatch.Draw(chest_textures[Math.Min(chest_wounds, 3)], wframe_position, Color.White);
-            sBatch.Draw(larm_textures[Math.Min(larm_wounds, 3)], wframe_position, Color.White);
-            sBatch.Draw(rarm_textures[Math.Min(rarm_wounds, 3)], wframe_position, Color.White);
-            sBatch.Draw(lleg_textures[Math.Min(lleg_wounds, 3)], wframe_position, Color.White);
-            sBatch.Draw(rleg_textures[Math.Min(rleg_wounds, 3)], wframe_position, Color.White);
+
+            for (int i = 0; i < 6; i++)
+            {
+                Color part_color = Color.Blue;
+                if (wounds_by_part[i] == max_health_by_part[i])
+                    part_color = Color.Red;
+
+                else if (max_health_by_part[i] == 3)
+                {
+                    if (wounds_by_part[i] == 1)
+                        part_color = new Color(0, 255, 0);
+                    else if (wounds_by_part[i] == 2)
+                        part_color = Color.Yellow;
+                }
+
+                sBatch.Draw(texture_masks[i], wframe_position, part_color);
+            }
         }
 
         public void draw_my_text(ref SpriteBatch sBatch)
