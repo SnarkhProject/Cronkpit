@@ -7,7 +7,6 @@ Content\Enemies\goreHound.xnb
 Content\Enemies\hollowKnight.xnb
 Content\Enemies\hollowKnight_idle.xnb
 Content\Enemies\lolzombie.xnb
-Content\Enemies\zombieCommander.xnb
 Content\Background\badvoidtile.xnb
 Content\Background\exit.xnb
 Content\Background\stonebrick.xnb
@@ -69,7 +68,6 @@ Content\Projectiles\powerstrike_spritesheet.xnb
 Content\Projectiles\cleave_spritesheet.xnb
 Content\Icons\Armors\obsidianplate_icon.xnb
 Content\Player\falsael_sprite.xnb
-Content\UI Elements\Inventory Screen\falsael_wires\fal_wireframe.xnb
 Content\Background\Moss Tiles\mossy_dirtfloor.xnb
 Content\Background\Moss Tiles\mossy_dirtwall.xnb
 Content\Background\Moss Tiles\mossy_stonebrick.xnb
@@ -112,29 +110,29 @@ Content\Enemies\necromancer_female.xnb
 Content\Enemies\necromancer_male.xnb
 Content\UI Elements\ManaBall\cball_background.xnb
 Content\UI Elements\ManaBall\cball_effect_mask.xnb
-Content\Fonts\sfont.xnb
-Content\Fonts\tfont.xnb
-Content\Fonts\smallfont.xnb
-Content\Fonts\popup_msg.xnb
-Content\Fonts\mfont.xnb
-Content\Fonts\smallfont_bold.xnb
-Content\Fonts\smaller_sfont.xnb
+Content\Icons\Weapons\mockernutstaff_icon.xnb
+Content\Icons\Weapons\quarterstaff_icon.xnb
+Content\Icons\Weapons\trainingstaff_icon.xnb
 Content\UI Elements\Large Chara Images\Falsael_large.xnb
 Content\UI Elements\Large Chara Images\Halephon_large.xnb
 Content\UI Elements\Large Chara Images\Petaer_large.xnb
 Content\UI Elements\Large Chara Images\Ziktofel_large.xnb
-Content\Icons\Weapons\mockernutstaff_icon.xnb
-Content\Icons\Weapons\quarterstaff_icon.xnb
-Content\Icons\Weapons\trainingstaff_icon.xnb
 Content\Player\halephon_sprite.xnb
 Content\Player\petaer_sprite.xnb
 Content\Player\ziktofel_sprite.xnb
+Content\UI Elements\Inventory Screen\ziktofel_wires\zik_chest_mask.xnb
+Content\UI Elements\Inventory Screen\ziktofel_wires\zik_head_mask.xnb
+Content\UI Elements\Inventory Screen\ziktofel_wires\zik_larm_mask.xnb
+Content\UI Elements\Inventory Screen\ziktofel_wires\zik_lleg_mask.xnb
+Content\UI Elements\Inventory Screen\ziktofel_wires\zik_rarm_mask.xnb
+Content\UI Elements\Inventory Screen\ziktofel_wires\zik_rleg_mask.xnb
 Content\UI Elements\Inventory Screen\falsael_wires\fal_chest_mask.xnb
 Content\UI Elements\Inventory Screen\falsael_wires\fal_head_mask.xnb
 Content\UI Elements\Inventory Screen\falsael_wires\fal_larm_mask.xnb
 Content\UI Elements\Inventory Screen\falsael_wires\fal_lleg_mask.xnb
 Content\UI Elements\Inventory Screen\falsael_wires\fal_rarm_mask.xnb
 Content\UI Elements\Inventory Screen\falsael_wires\fal_rleg_mask.xnb
+Content\UI Elements\Inventory Screen\falsael_wires\fal_wireframe.xnb
 Content\UI Elements\Inventory Screen\halephon_wires\hal_chest_mask.xnb
 Content\UI Elements\Inventory Screen\halephon_wires\hal_head_mask.xnb
 Content\UI Elements\Inventory Screen\halephon_wires\hal_larm_mask.xnb
@@ -149,13 +147,32 @@ Content\UI Elements\Inventory Screen\petaer_wires\pet_lleg_mask.xnb
 Content\UI Elements\Inventory Screen\petaer_wires\pet_rarm_mask.xnb
 Content\UI Elements\Inventory Screen\petaer_wires\pet_rleg_mask.xnb
 Content\UI Elements\Inventory Screen\petaer_wires\pet_wireframe.xnb
-Content\UI Elements\Inventory Screen\ziktofel_wires\zik_chest_mask.xnb
-Content\UI Elements\Inventory Screen\ziktofel_wires\zik_head_mask.xnb
-Content\UI Elements\Inventory Screen\ziktofel_wires\zik_larm_mask.xnb
-Content\UI Elements\Inventory Screen\ziktofel_wires\zik_lleg_mask.xnb
-Content\UI Elements\Inventory Screen\ziktofel_wires\zik_rarm_mask.xnb
-Content\UI Elements\Inventory Screen\ziktofel_wires\zik_rleg_mask.xnb
 Content\UI Elements\Inventory Screen\ziktofel_wires\zik_wireframe.xnb
+Content\Background\Doodads\stonewall_woodendoor.xnb
+Content\Background\Doodads\stonewall_woodendoor_destroyed.xnb
+Content\Background\Doodads\stonewall_woodendoor_open.xnb
+Content\Background\Doodads\woodwall_woodendoor.xnb
+Content\Background\Doodads\woodwall_woodendoor_destroyed.xnb
+Content\Background\Doodads\woodwall_woodendoor_open.xnb
+Content\Player\falsael_dead.xnb
+Content\Player\petaer_dead.xnb
+Content\Enemies\armored_skeleton_crossbowman.xnb
+Content\Enemies\armored_skeleton_elementalmage.xnb
+Content\Enemies\armored_skeleton_halberdier.xnb
+Content\Enemies\armored_skeleton_swordsman.xnb
+Content\Enemies\boneyard.xnb
+Content\Enemies\ghost.xnb
+Content\Enemies\voidwraith.xnb
+Content\Enemies\zombie_fanatic.xnb
+Content\Enemies\gorewolf.xnb
+Content\Player\halephon_dead.xnb
+Content\Fonts\sfont.xnb
+Content\Fonts\tfont.xnb
+Content\Fonts\smallfont.xnb
+Content\Fonts\popup_msg.xnb
+Content\Fonts\mfont.xnb
+Content\Fonts\smallfont_bold.xnb
+Content\Fonts\smaller_sfont.xnb
 Content\Entities\alilmoreGold.png
 Content\Entities\lowGold.png
 Content\Entities\someGold.png
@@ -165,7 +182,6 @@ Content\Enemies\goreHound.png
 Content\Enemies\hollowKnight.png
 Content\Enemies\hollowKnight_idle.png
 Content\Enemies\lolzombie.png
-Content\Enemies\zombieCommander.png
 Content\Background\badvoidtile.bmp
 Content\Background\exit.png
 Content\Background\stonebrick.png

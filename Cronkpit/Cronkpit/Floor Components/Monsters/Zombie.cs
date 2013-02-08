@@ -12,7 +12,7 @@ namespace Cronkpit
     class Zombie: Monster
     {
         public Zombie(gridCoordinate sGridCoord, ContentManager sCont, int sIndex)
-            : base(sGridCoord, sCont, sIndex)
+            : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_Texture = cont.Load<Texture2D>("Enemies/lolzombie");
             hitPoints = 10;
@@ -39,7 +39,7 @@ namespace Cronkpit
             //Aggroed when the player comes within 3 blocks of it. Then it will move towards the player.
 
             if (is_player_within(pl, sight_range))
-                can_see_player = fl.establish_los(my_grid_coord, pl.get_my_grid_C());
+                can_see_player = can_i_see_point(fl, pl.get_my_grid_C());
             else
                 can_see_player = false;
 
@@ -48,19 +48,19 @@ namespace Cronkpit
                 int should_i_wander = rGen.Next(5);
                 if (should_i_wander == 1)
                 {
-                    wander(pl, fl);
+                    wander(pl, fl, corporeal);
                 }
             }
             else
             {
                 //the monster is aggroed!
-                advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1);
+                advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
                 if (is_player_within(pl, 1) && !has_moved)
                 {
                     fl.addmsg("The Zombie swings at you!");
                     Attack dmg = dealDamage();
                     fl.add_effect(dmg_type, pl.get_my_grid_C());
-                    pl.take_damage(dmg, fl);  
+                    pl.take_damage(dmg, fl, "");  
                 }
             }
         }

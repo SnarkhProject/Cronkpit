@@ -83,15 +83,6 @@
       <Time>2012-12-27T00:16:34.9410521-05:00</Time>
     </Item>
     <Item>
-      <Source>Enemies\zombieCommander.png</Source>
-      <Name>Enemies\zombieCommander</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\zombieCommander.xnb</Output>
-      <Time>2012-09-30T13:29:04.4863053-04:00</Time>
-    </Item>
-    <Item>
       <Source>Background\badvoidtile.bmp</Source>
       <Name>Background\badvoidtile</Name>
       <Importer>TextureImporter</Importer>
@@ -641,15 +632,6 @@
       <Time>2013-01-20T23:59:12.9204514-05:00</Time>
     </Item>
     <Item>
-      <Source>UI Elements\Inventory Screen\falsael_wires\fal_wireframe.png</Source>
-      <Name>UI Elements\Inventory Screen\falsael_wires\fal_wireframe</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\falsael_wires\fal_wireframe.xnb</Output>
-      <Time>2013-02-02T22:04:18.3226891-05:00</Time>
-    </Item>
-    <Item>
       <Source>Background\Moss Tiles\mossy_dirtfloor.png</Source>
       <Name>Background\Moss Tiles\mossy_dirtfloor</Name>
       <Importer>TextureImporter</Importer>
@@ -1028,67 +1010,31 @@
       <Time>2013-01-26T01:08:11.3651435-05:00</Time>
     </Item>
     <Item>
-      <Source>Fonts\sfont.spritefont</Source>
-      <Name>Fonts\sfont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
+      <Source>Icons\Weapons\mockernutstaff_icon.png</Source>
+      <Name>Icons\Weapons\mockernutstaff_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\sfont.xnb</Output>
-      <Time>2012-09-30T13:29:36.231121-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\mockernutstaff_icon.xnb</Output>
+      <Time>2013-01-28T02:09:41.2387869-05:00</Time>
     </Item>
     <Item>
-      <Source>Fonts\tfont.spritefont</Source>
-      <Name>Fonts\tfont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
+      <Source>Icons\Weapons\quarterstaff_icon.png</Source>
+      <Name>Icons\Weapons\quarterstaff_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\tfont.xnb</Output>
-      <Time>2012-09-30T19:28:18.3141137-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\quarterstaff_icon.xnb</Output>
+      <Time>2013-01-28T02:09:41.3727945-05:00</Time>
     </Item>
     <Item>
-      <Source>Fonts\smallfont.spritefont</Source>
-      <Name>Fonts\smallfont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
+      <Source>Icons\Weapons\trainingstaff_icon.png</Source>
+      <Name>Icons\Weapons\trainingstaff_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smallfont.xnb</Output>
-      <Time>2012-10-01T03:45:40.1359683-04:00</Time>
-    </Item>
-    <Item>
-      <Source>Fonts\popup_msg.spritefont</Source>
-      <Name>Fonts\popup_msg</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\popup_msg.xnb</Output>
-      <Time>2012-11-04T03:30:46.7837225-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Fonts\mfont.spritefont</Source>
-      <Name>Fonts\mfont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\mfont.xnb</Output>
-      <Time>2012-12-07T04:13:08.3029611-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Fonts\smallfont_bold.spritefont</Source>
-      <Name>Fonts\smallfont_bold</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smallfont_bold.xnb</Output>
-      <Time>2012-12-27T03:07:01.5429802-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Fonts\smaller_sfont.spritefont</Source>
-      <Name>Fonts\smaller_sfont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smaller_sfont.xnb</Output>
-      <Time>2012-12-30T14:53:01.8632439-05:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\trainingstaff_icon.xnb</Output>
+      <Time>2013-01-28T02:09:41.3787949-05:00</Time>
     </Item>
     <Item>
       <Source>UI Elements\Large Chara Images\Falsael_large.png</Source>
@@ -1127,33 +1073,6 @@
       <Time>2013-01-28T01:49:23.5101368-05:00</Time>
     </Item>
     <Item>
-      <Source>Icons\Weapons\mockernutstaff_icon.png</Source>
-      <Name>Icons\Weapons\mockernutstaff_icon</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\mockernutstaff_icon.xnb</Output>
-      <Time>2013-01-28T02:09:41.2387869-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Icons\Weapons\quarterstaff_icon.png</Source>
-      <Name>Icons\Weapons\quarterstaff_icon</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\quarterstaff_icon.xnb</Output>
-      <Time>2013-01-28T02:09:41.3727945-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Icons\Weapons\trainingstaff_icon.png</Source>
-      <Name>Icons\Weapons\trainingstaff_icon</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\trainingstaff_icon.xnb</Output>
-      <Time>2013-01-28T02:09:41.3787949-05:00</Time>
-    </Item>
-    <Item>
       <Source>Player\halephon_sprite.png</Source>
       <Name>Player\halephon_sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -1179,6 +1098,60 @@
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Player\ziktofel_sprite.xnb</Output>
       <Time>2013-01-28T02:55:37.4324321-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_chest_mask.png</Source>
+      <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_chest_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_chest_mask.xnb</Output>
+      <Time>2013-02-02T23:27:35.2004941-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_head_mask.png</Source>
+      <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_head_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_head_mask.xnb</Output>
+      <Time>2013-02-02T23:27:35.2024942-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_larm_mask.png</Source>
+      <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_larm_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_larm_mask.xnb</Output>
+      <Time>2013-02-02T23:27:35.2034943-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_lleg_mask.png</Source>
+      <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_lleg_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_lleg_mask.xnb</Output>
+      <Time>2013-02-02T23:27:35.2044944-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_rarm_mask.png</Source>
+      <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_rarm_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_rarm_mask.xnb</Output>
+      <Time>2013-02-02T23:27:35.2064945-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_rleg_mask.png</Source>
+      <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_rleg_mask</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_rleg_mask.xnb</Output>
+      <Time>2013-02-02T23:27:35.2074945-05:00</Time>
     </Item>
     <Item>
       <Source>UI Elements\Inventory Screen\falsael_wires\fal_chest_mask.png</Source>
@@ -1233,6 +1206,15 @@
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\falsael_wires\fal_rleg_mask.xnb</Output>
       <Time>2013-02-02T23:26:48.5378252-05:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Inventory Screen\falsael_wires\fal_wireframe.png</Source>
+      <Name>UI Elements\Inventory Screen\falsael_wires\fal_wireframe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\falsael_wires\fal_wireframe.xnb</Output>
+      <Time>2013-02-02T22:04:18.3226891-05:00</Time>
     </Item>
     <Item>
       <Source>UI Elements\Inventory Screen\halephon_wires\hal_chest_mask.png</Source>
@@ -1361,60 +1343,6 @@
       <Time>2013-02-02T22:04:40.4639555-05:00</Time>
     </Item>
     <Item>
-      <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_chest_mask.png</Source>
-      <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_chest_mask</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_chest_mask.xnb</Output>
-      <Time>2013-02-02T23:27:35.2004941-05:00</Time>
-    </Item>
-    <Item>
-      <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_head_mask.png</Source>
-      <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_head_mask</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_head_mask.xnb</Output>
-      <Time>2013-02-02T23:27:35.2024942-05:00</Time>
-    </Item>
-    <Item>
-      <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_larm_mask.png</Source>
-      <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_larm_mask</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_larm_mask.xnb</Output>
-      <Time>2013-02-02T23:27:35.2034943-05:00</Time>
-    </Item>
-    <Item>
-      <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_lleg_mask.png</Source>
-      <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_lleg_mask</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_lleg_mask.xnb</Output>
-      <Time>2013-02-02T23:27:35.2044944-05:00</Time>
-    </Item>
-    <Item>
-      <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_rarm_mask.png</Source>
-      <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_rarm_mask</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_rarm_mask.xnb</Output>
-      <Time>2013-02-02T23:27:35.2064945-05:00</Time>
-    </Item>
-    <Item>
-      <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_rleg_mask.png</Source>
-      <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_rleg_mask</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_rleg_mask.xnb</Output>
-      <Time>2013-02-02T23:27:35.2074945-05:00</Time>
-    </Item>
-    <Item>
       <Source>UI Elements\Inventory Screen\ziktofel_wires\zik_wireframe.png</Source>
       <Name>UI Elements\Inventory Screen\ziktofel_wires\zik_wireframe</Name>
       <Importer>TextureImporter</Importer>
@@ -1422,6 +1350,231 @@
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\ziktofel_wires\zik_wireframe.xnb</Output>
       <Time>2013-02-02T23:31:28.8708593-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Doodads\stonewall_woodendoor.png</Source>
+      <Name>Background\Doodads\stonewall_woodendoor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\stonewall_woodendoor.xnb</Output>
+      <Time>2013-02-03T17:58:02.0364818-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Doodads\stonewall_woodendoor_destroyed.png</Source>
+      <Name>Background\Doodads\stonewall_woodendoor_destroyed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\stonewall_woodendoor_destroyed.xnb</Output>
+      <Time>2013-02-03T17:58:02.039482-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Doodads\stonewall_woodendoor_open.png</Source>
+      <Name>Background\Doodads\stonewall_woodendoor_open</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\stonewall_woodendoor_open.xnb</Output>
+      <Time>2013-02-03T17:58:02.0414821-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Doodads\woodwall_woodendoor.png</Source>
+      <Name>Background\Doodads\woodwall_woodendoor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\woodwall_woodendoor.xnb</Output>
+      <Time>2013-02-03T17:58:02.0444823-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Doodads\woodwall_woodendoor_destroyed.png</Source>
+      <Name>Background\Doodads\woodwall_woodendoor_destroyed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\woodwall_woodendoor_destroyed.xnb</Output>
+      <Time>2013-02-03T17:58:02.0464824-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Doodads\woodwall_woodendoor_open.png</Source>
+      <Name>Background\Doodads\woodwall_woodendoor_open</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\woodwall_woodendoor_open.xnb</Output>
+      <Time>2013-02-03T17:58:02.0474825-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Player\falsael_dead.png</Source>
+      <Name>Player\falsael_dead</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Player\falsael_dead.xnb</Output>
+      <Time>2013-02-03T17:58:51.3263011-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Player\petaer_dead.png</Source>
+      <Name>Player\petaer_dead</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Player\petaer_dead.xnb</Output>
+      <Time>2013-02-03T17:58:51.3283012-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\armored_skeleton_crossbowman.png</Source>
+      <Name>Enemies\armored_skeleton_crossbowman</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\armored_skeleton_crossbowman.xnb</Output>
+      <Time>2013-02-03T18:19:03.7596483-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\armored_skeleton_elementalmage.png</Source>
+      <Name>Enemies\armored_skeleton_elementalmage</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\armored_skeleton_elementalmage.xnb</Output>
+      <Time>2013-02-03T18:19:03.7866498-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\armored_skeleton_halberdier.png</Source>
+      <Name>Enemies\armored_skeleton_halberdier</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\armored_skeleton_halberdier.xnb</Output>
+      <Time>2013-02-03T18:19:03.8466532-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\armored_skeleton_swordsman.png</Source>
+      <Name>Enemies\armored_skeleton_swordsman</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\armored_skeleton_swordsman.xnb</Output>
+      <Time>2013-02-03T18:19:03.8496534-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\boneyard.png</Source>
+      <Name>Enemies\boneyard</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\boneyard.xnb</Output>
+      <Time>2013-02-03T18:19:03.8516535-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\ghost.png</Source>
+      <Name>Enemies\ghost</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\ghost.xnb</Output>
+      <Time>2013-02-03T18:19:03.8536536-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\voidwraith.png</Source>
+      <Name>Enemies\voidwraith</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\voidwraith.xnb</Output>
+      <Time>2013-02-03T18:19:03.8556538-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\zombie_fanatic.png</Source>
+      <Name>Enemies\zombie_fanatic</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\zombie_fanatic.xnb</Output>
+      <Time>2013-02-03T18:19:03.8786551-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\gorewolf.png</Source>
+      <Name>Enemies\gorewolf</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\gorewolf.xnb</Output>
+      <Time>2013-02-03T21:53:29.5865315-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Player\halephon_dead.png</Source>
+      <Name>Player\halephon_dead</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Player\halephon_dead.xnb</Output>
+      <Time>2013-02-03T21:54:39.9595566-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\sfont.spritefont</Source>
+      <Name>Fonts\sfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\sfont.xnb</Output>
+      <Time>2012-09-30T13:29:36.231121-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\tfont.spritefont</Source>
+      <Name>Fonts\tfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\tfont.xnb</Output>
+      <Time>2012-09-30T19:28:18.3141137-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\smallfont.spritefont</Source>
+      <Name>Fonts\smallfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smallfont.xnb</Output>
+      <Time>2012-10-01T03:45:40.1359683-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\popup_msg.spritefont</Source>
+      <Name>Fonts\popup_msg</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\popup_msg.xnb</Output>
+      <Time>2012-11-04T03:30:46.7837225-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\mfont.spritefont</Source>
+      <Name>Fonts\mfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\mfont.xnb</Output>
+      <Time>2012-12-07T04:13:08.3029611-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\smallfont_bold.spritefont</Source>
+      <Name>Fonts\smallfont_bold</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smallfont_bold.xnb</Output>
+      <Time>2012-12-27T03:07:01.5429802-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\smaller_sfont.spritefont</Source>
+      <Name>Fonts\smaller_sfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smaller_sfont.xnb</Output>
+      <Time>2012-12-30T14:53:01.8632439-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

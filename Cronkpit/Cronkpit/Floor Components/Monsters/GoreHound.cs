@@ -12,10 +12,11 @@ namespace Cronkpit
     class GoreHound: Monster
     {
         public GoreHound(gridCoordinate sGridCoord, ContentManager sCont, int sIndex)
-            : base(sGridCoord, sCont, sIndex)
+            : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_Texture = cont.Load<Texture2D>("Enemies/goreHound");
             hitPoints = 6;
+            armorPoints = 0;
             min_damage = 1;
             max_damage = 2;
             dmg_type = Attack.Damage.Slashing;
@@ -23,8 +24,8 @@ namespace Cronkpit
             can_melee_attack = true;
 
             //SENSORY
-            smell_range = 6;
-            smell_threshold = 5;
+            smell_range = 4;
+            smell_threshold = 10;
 
             //OTHER
             my_name = "Gorehound";
@@ -34,9 +35,7 @@ namespace Cronkpit
 
         public override void Update_Monster(Player pl, Floor fl)
         {
-            Tile target_tile = null;
-            if (is_smell_i_can_smell_within(my_grid_coord, fl, 0, smell_threshold, smell_range))
-                target_tile = fl.establish_los_strongest_smell(my_grid_coord, 0, smell_threshold);
+            Tile target_tile = strongest_smell_within(fl, 0, smell_threshold, smell_range);
 
             if (target_tile == null)
                 has_scent = false;
@@ -49,20 +48,20 @@ namespace Cronkpit
             if (has_scent)
             {
                 if(is_player_within(pl, 1))
-                    advance_towards_single_point(strongest_smell_coord, pl, fl, 1);
+                    advance_towards_single_point(strongest_smell_coord, pl, fl, 1, corporeal);
                 else
-                    advance_towards_single_point(strongest_smell_coord, pl, fl, 0);
+                    advance_towards_single_point(strongest_smell_coord, pl, fl, 0, corporeal);
 
                 if (is_player_within(pl, 1) && !has_moved)
                 {
                     fl.addmsg("The Gorehound lands a vicious bite!");
                     fl.add_effect(dmg_type, pl.get_my_grid_C());
                     Attack dmg = dealDamage();
-                    pl.take_damage(dmg, fl);
+                    pl.take_damage(dmg, fl, "");
                 }
             }
             else
-                wander(pl, fl);
+                wander(pl, fl, corporeal);
         }
     }
 }

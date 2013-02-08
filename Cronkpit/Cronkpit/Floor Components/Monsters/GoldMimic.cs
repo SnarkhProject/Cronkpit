@@ -16,10 +16,11 @@ namespace Cronkpit
         int turns_idle;
 
         public GoldMimic(gridCoordinate sGridCoord, ContentManager sCont, int sIndex)
-            : base(sGridCoord, sCont, sIndex)
+            : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_active_texture = cont.Load<Texture2D>("Enemies/goldenMimic");
             hitPoints = 8;
+            armorPoints = 10;
             min_damage = 1;
             max_damage = 2;
             dmg_type = Attack.Damage.Slashing;
@@ -55,12 +56,13 @@ namespace Cronkpit
             my_name = "Gold Mimic";
             melee_dodge = 5;
             ranged_dodge = 0;
+            armor_effectiveness = 10;
         }
 
         public override void Update_Monster(Player pl, Floor fl)
         {
             if (is_player_within(pl, sight_range))
-                can_see_player = fl.establish_los(my_grid_coord, pl.get_my_grid_C());
+                can_see_player = can_i_see_point(fl, pl.get_my_grid_C());
             else
                 can_see_player = false;
 
@@ -69,14 +71,14 @@ namespace Cronkpit
                 my_Texture = my_active_texture;
                 turns_idle = 0;
                 ranged_dodge = 10;
-                advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1);
+                advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
                 
                 if(!has_moved && is_player_within(pl, 1))
                 {
                     fl.addmsg("The Gold Mimic slashes at you!");
                     Attack dmg = dealDamage();
                     fl.add_effect(dmg_type, pl.get_my_grid_C());
-                    pl.take_damage(dmg, fl);  
+                    pl.take_damage(dmg, fl, "");  
                 }
             }
             else
@@ -88,7 +90,7 @@ namespace Cronkpit
                     ranged_dodge = 0;
                 }
                 else
-                    wander(pl, fl);
+                    wander(pl, fl, corporeal);
             }
         }
     }

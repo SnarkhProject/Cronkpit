@@ -11,11 +11,15 @@ namespace Cronkpit
 {
     class Doodad
     {
-        public enum Doodad_Type { ArmorSuit };
+        public enum Doodad_Type { ArmorSuit, Destroyed_ArmorSuit, Door };
         Texture2D my_impassable_texture;
         Texture2D my_passable_texture;
         gridCoordinate my_grid_coord;
         Vector2 drawing_position;
+        //Door only stuff
+
+
+        //General functions used for both armor suits and doors.
         public bool passable;
         public bool destroyable;
         int HP;
@@ -33,6 +37,14 @@ namespace Cronkpit
                     passable = false;
                     destroyable = true;
                     HP = 22;
+                    break;
+                case Doodad_Type.Destroyed_ArmorSuit:
+                    my_impassable_texture = cManage.Load<Texture2D>("Entities/broken_armor");
+                    my_passable_texture = cManage.Load<Texture2D>("Entities/broken_armor");
+                    name = "suit of armor";
+                    passable = true;
+                    destroyable = false;
+                    HP = 0;
                     break;
             }
             index = s_ind;
@@ -90,6 +102,7 @@ namespace Cronkpit
         {
             HP = 0;
             passable = true;
+            destroyable = false;
         }
     }
 }

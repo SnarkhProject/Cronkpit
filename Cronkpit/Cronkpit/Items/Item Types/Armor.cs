@@ -7,8 +7,9 @@ namespace Cronkpit
 {
     class Armor: Item
     {
-        bool overArmor;
+        public enum Armor_Type { UnderArmor, OverArmor, Helmet };
 
+        Armor_Type my_armor_type;
         int ablative_value;
         int insulative_value;
         int padding_value;
@@ -26,7 +27,7 @@ namespace Cronkpit
 
         public Armor(int IDno, int goldVal, string myName,
                     int ab_val, int ins_val, int pad_val, int rig_val, int hard_val, 
-                    int integ, bool ovrArmr)
+                    int integ, Armor_Type a_type)
             : base(IDno, goldVal, myName)
         {
             ablative_value = ab_val;
@@ -43,7 +44,7 @@ namespace Cronkpit
             c_rleg_integ = max_integrity;
             c_lleg_integ = max_integrity;
 
-            overArmor = ovrArmr;
+            my_armor_type = a_type;
         }
 
         public Armor(int IDno, int goldVal, string myName, Armor a)
@@ -63,7 +64,7 @@ namespace Cronkpit
             c_rleg_integ = max_integrity;
             c_lleg_integ = max_integrity;
 
-            overArmor = a.is_over_armor();
+            my_armor_type = a.what_armor_type();
         }
 
         public override List<string> get_my_information()
@@ -73,11 +74,13 @@ namespace Cronkpit
             return_array.Add(name);
             return_array.Add("Price: " + cost.ToString());
             return_array.Add(" ");
-            string is_over_armor = "Overarmor: ";
-            if (overArmor)
-                is_over_armor += "Yes";
+            string is_over_armor = "Armor Type: ";
+            if (my_armor_type == Armor_Type.OverArmor)
+                is_over_armor += "Over Armor";
+            else if (my_armor_type == Armor_Type.UnderArmor)
+                is_over_armor += "Under Armor";
             else
-                is_over_armor += "No";
+                is_over_armor += "Helmet";
             return_array.Add(is_over_armor);
             return_array.Add(" ");
             return_array.Add("Protective values:");
@@ -91,9 +94,9 @@ namespace Cronkpit
             return return_array;
         }
 
-        public bool is_over_armor()
+        public Armor_Type what_armor_type()
         {
-            return overArmor;
+            return my_armor_type;
         }
 
         public Attack absorb_damage (Attack atk, Attack_Zone area, gridCoordinate atk_origin, ref Random rgen, ref List<string> msgBuf, ref Floor fl)

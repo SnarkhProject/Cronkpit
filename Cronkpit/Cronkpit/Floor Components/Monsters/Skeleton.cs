@@ -18,7 +18,7 @@ namespace Cronkpit
         int flamebolt_mana_cost = 20;
 
         public Skeleton(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, Skeleton_Weapon_Type wType)
-            : base(sGridCoord, sCont, sIndex)
+            : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_weapon_type = wType;
             switch (my_weapon_type)
@@ -69,7 +69,7 @@ namespace Cronkpit
             
             hitPoints = 12;
             can_melee_attack = true;
-            last_seen_player_at = new gridCoordinate(my_grid_coord);
+            last_seen_player_at = new gridCoordinate(my_grid_coords[0]);
 
             //SENSORY
             sight_range = 5;
@@ -85,7 +85,7 @@ namespace Cronkpit
             has_moved = false;
 
             if (is_player_within(pl, sight_range))
-                can_see_player = fl.establish_los(my_grid_coord, pl.get_my_grid_C());
+                can_see_player = can_i_see_point(fl, pl.get_my_grid_C());
             else
                 can_see_player = false;
 
@@ -95,7 +95,7 @@ namespace Cronkpit
                 if (can_see_player)
                 {
                     if(!is_player_within_diamond(pl, 4))
-                        advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1);
+                        advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
                     else
                     {
                         if(!has_moved)
@@ -110,8 +110,8 @@ namespace Cronkpit
                             else if (my_weapon_type == Skeleton_Weapon_Type.Flamebolt)
                                 prjtyp = Projectile.projectile_type.Flamebolt;
 
-                            Projectile prj = new Projectile(my_grid_coord, pl.get_my_grid_C(), prjtyp, ref cont,
-                                                                        true, Scroll.Atk_Area_Type.singleTile);
+                            Projectile prj = new Projectile(randomly_chosen_personal_coord(), pl.get_my_grid_C(), prjtyp, 
+                                                            ref cont, true, Scroll.Atk_Area_Type.singleTile);
                             prj.set_damage_range(min_damage, max_damage);
                             prj.set_damage_type(dmg_type);
                             prj.set_wound_type(wound_type);
@@ -132,14 +132,14 @@ namespace Cronkpit
 
                 if(can_see_player)
                     if(!is_player_within(pl, 1))
-                        advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1);
+                        advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
                     else
                         if(!has_moved)
                         {
                             fl.addmsg("The Skeleton attacks you!");
                             fl.add_effect(dmg_type, pl.get_my_grid_C());
                             Attack dmg = dealDamage();
-                            pl.take_damage(dmg, fl);
+                            pl.take_damage(dmg, fl, "");
                         }
             }
 
@@ -151,8 +151,8 @@ namespace Cronkpit
             
             if (!can_see_player && have_i_seen_player && !has_moved)
             {
-                advance_towards_single_point(last_seen_player_at, pl, fl, 0);
-                if (last_seen_player_at.x == my_grid_coord.x && last_seen_player_at.y == my_grid_coord.y)
+                advance_towards_single_point(last_seen_player_at, pl, fl, 0, corporeal);
+                if (occupies_tile(last_seen_player_at))
                     have_i_seen_player = false;
             }
             
@@ -160,7 +160,7 @@ namespace Cronkpit
             {
                 int should_i_wander = rGen.Next(6);
                 if (should_i_wander == 1)
-                    wander(pl, fl);
+                    wander(pl, fl, corporeal);
             } 
         }
     }

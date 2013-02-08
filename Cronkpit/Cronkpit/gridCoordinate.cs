@@ -23,6 +23,13 @@ namespace Cronkpit
             y = cpy.y;
         }
 
+        public gridCoordinate(gridCoordinate cpy, direction shifted_direction)
+        {
+            x = cpy.x;
+            y = cpy.y;
+            shift_direction(shifted_direction);
+        }
+
         public void shift_direction(direction dir)
         {
             switch (dir)

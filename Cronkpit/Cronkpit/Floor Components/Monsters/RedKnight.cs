@@ -25,11 +25,12 @@ namespace Cronkpit
         int pwr_strike_cooldown;
 
         public RedKnight(gridCoordinate sGridCoord, ContentManager sCont, int sIndex)
-            : base(sGridCoord, sCont, sIndex)
+            : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_Texture = cont.Load<Texture2D>("Enemies/redKnightIdle");
             can_hear = true;
-            hitPoints = 45;
+            hitPoints = 10;
+            armorPoints = 30;
             min_damage = 2;
             max_damage = 5;
             dmg_type = Attack.Damage.Slashing;
@@ -63,6 +64,7 @@ namespace Cronkpit
 
             melee_dodge = 5;
             ranged_dodge = 75;
+            armor_effectiveness = 95;
         }
 
         public Attack generate_cleave_attack()
@@ -87,15 +89,15 @@ namespace Cronkpit
 
             if (y_difference == 0)
             {
-                int y_value = my_grid_coord.y;
+                int y_value = my_grid_coords[0].y;
                 for (int i = 0; i < 2; i++)
                 {
-                    int x_value = my_grid_coord.x + (x_incr * (i+1));
+                    int x_value = my_grid_coords[0].x + (x_incr * (i + 1));
                     gridCoordinate target_location = new gridCoordinate(x_value, y_value);
                     if (pl.get_my_grid_C().x == target_location.x && pl.get_my_grid_C().y == target_location.y)
                     {
                         fl.addmsg("The Red Knight winds up, then unleashes an incredible attack!");
-                        pl.take_damage(generate_power_strike_attack(), fl);
+                        pl.take_damage(generate_power_strike_attack(), fl, "");
                     }
                     else
                     {
@@ -121,15 +123,15 @@ namespace Cronkpit
 
             if (x_difference == 0)
             {
-                int x_value = my_grid_coord.x;
+                int x_value = my_grid_coords[0].x;
                 for (int i = 0; i < 2; i++)
                 {
-                    int y_value = my_grid_coord.y + (y_incr * (i + 1));
+                    int y_value = my_grid_coords[0].y + (y_incr * (i + 1));
                     gridCoordinate target_location = new gridCoordinate(x_value, y_value);
                     if (pl.get_my_grid_C().x == target_location.x && pl.get_my_grid_C().y == target_location.y)
                     {
                         fl.addmsg("The Red Knight winds up, then unleashes an incredible attack!");
-                        pl.take_damage(generate_power_strike_attack(), fl);
+                        pl.take_damage(generate_power_strike_attack(), fl, "");
                     }
                     else
                     {
@@ -152,8 +154,9 @@ namespace Cronkpit
         {
             gridCoordinate playerCoord = new gridCoordinate(pl.get_my_grid_C());
             fl.addmsg("The Red Knight swings its sword in a wide arc!");
-            for(int i = 0; i < 3; i++)
-                pl.take_damage(generate_cleave_attack(), fl);
+            pl.take_damage(generate_cleave_attack(), fl, "RArm");
+            pl.take_damage(generate_cleave_attack(), fl, "Chest");
+            pl.take_damage(generate_cleave_attack(), fl, "LArm");
             fl.add_specific_effect(Floor.specific_effect.Cleave, playerCoord);
 
             if (x_difference == -1)
@@ -221,7 +224,7 @@ namespace Cronkpit
             fl.addmsg("The Red Knight swings its blade at you!");
             fl.add_effect(dmg_type, pl.get_my_grid_C());
             Attack dmg = dealDamage();
-            pl.take_damage(dmg, fl);
+            pl.take_damage(dmg, fl, "");
         }
 
         public void set_to_activeTexture()
@@ -234,13 +237,15 @@ namespace Cronkpit
             if (is_player_within_diamond(pl, javelin_range))
             {
                 bool temp_sight = can_see_player;
-                can_see_player = false;
-                fl.sight_pulse_raycast(my_grid_coord, pl, this, javelin_range);
+                if (is_player_within(pl, sight_range))
+                    can_see_player = can_i_see_point(fl, pl.get_my_grid_C());
+                else
+                    can_see_player = false;
 
                 if (can_see_player)
                 {
                     fl.addmsg("The Red Knight hurls a javelin at you!");
-                    Projectile prj = new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.Javelin, ref cont, 
+                    Projectile prj = new Projectile(randomly_chosen_personal_coord(), pl.get_my_grid_C(), Projectile.projectile_type.Javelin, ref cont, 
                                                     true, Scroll.Atk_Area_Type.singleTile);
                     prj.set_damage_range(jav_min_dmg, jav_max_dmg);
                     prj.set_damage_type(javelin_damage_type);
@@ -259,12 +264,12 @@ namespace Cronkpit
             //then, move the knight towards the player if it can move towards the player.
             //if it can't, it throws a javelin at the player if it can hear them.
             if (is_player_within(pl, sight_range))
-                can_see_player = fl.establish_los(my_grid_coord, pl.get_my_grid_C());
+                can_see_player = can_i_see_point(fl, pl.get_my_grid_C());
             else
                 can_see_player = false;
 
-            int pl_x_difference = pl.get_my_grid_C().x - my_grid_coord.x;
-            int pl_y_difference = pl.get_my_grid_C().y - my_grid_coord.y;
+            int pl_x_difference = pl.get_my_grid_C().x - my_grid_coords[0].x;
+            int pl_y_difference = pl.get_my_grid_C().y - my_grid_coords[0].y;
 
             if (pwr_strike_cooldown > 0)
                 pwr_strike_cooldown--;
@@ -304,7 +309,7 @@ namespace Cronkpit
                             //chase the player, or throw a jav if it can't
                             if (speed_numerator < speed_denominator)
                             {
-                                advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1);
+                                advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, true);
                             }
                             else
                             {
@@ -341,7 +346,7 @@ namespace Cronkpit
                     active = true;
                     fl.addmsg("The Red Knight awakens with an unearthly moan!");
                     set_to_activeTexture();
-                    fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coord);
+                    fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coords[0]);
                 }
             }
         }

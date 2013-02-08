@@ -19,22 +19,22 @@ namespace Cronkpit
 
         public void add_all_shared_items()
         {
-            shared_items.Add(new Armor(3, 250, "Plate Mail", 8, 0, 0, 10, 10, 8, true));
-            shared_items.Add(new Armor(4, 250, "Chain Mail", 8, 0, 2, 0, 10, 5, true));
-            shared_items.Add(new Armor(5, 250, "Rubber Underwear", 3, 10, 3, 0, 0, 3, false));
-            shared_items.Add(new Armor(6, 250, "Quilted Armor", 0, 4, 10, 0, 0, 3, false));
+            shared_items.Add(new Armor(3, 250, "Plate Mail", 8, 0, 0, 10, 10, 8, Armor.Armor_Type.OverArmor));
+            shared_items.Add(new Armor(4, 250, "Chain Mail", 8, 0, 2, 0, 10, 5, Armor.Armor_Type.OverArmor));
+            shared_items.Add(new Armor(5, 250, "Rubber Underwear", 3, 10, 3, 0, 0, 3, Armor.Armor_Type.UnderArmor));
+            shared_items.Add(new Armor(6, 250, "Quilted Armor", 0, 4, 10, 0, 0, 3, Armor.Armor_Type.UnderArmor));
             shared_items.Add(new Weapon(7, 250, "Axe", Weapon.Type.Axe, 1, 3, 6, 1));
             shared_items.Add(new Weapon(8, 250, "Sword", Weapon.Type.Sword, 1, 3, 6, 1));
             shared_items.Add(new Weapon(9, 250, "Spear", Weapon.Type.Spear, 2, 2, 3, 2));
             shared_items.Add(new Weapon(10, 3500, "Katana", Weapon.Type.Sword, 2, 5, 12, 1));
-            shared_items.Add(new Armor(11, 3000, "Enchanted Rags", 20, 15, 20, 5, 5, 10, true));
+            shared_items.Add(new Armor(11, 3000, "Enchanted Rags", 20, 15, 20, 5, 5, 10, Armor.Armor_Type.OverArmor));
             shared_items.Add(new Weapon(12, 4500, "Hyperion", Weapon.Type.Spear, 2, 5, 12, 4));
             shared_items.Add(new Weapon(13, 250, "Shortbow", Weapon.Type.Bow, 1, 3, 6, 3));
             shared_items.Add(new Weapon(14, 3500, "Heavy Siege Bow", Weapon.Type.Bow, 1, 10, 24, 5));
             shared_items.Add(new Weapon(15, 250, "Training Lance", Weapon.Type.Lance, 1, 5, 8, 5));
             shared_items.Add(new Weapon(16, 3500, "Templar Lance", Weapon.Type.Lance, 1, 9, 29, 5));
-            shared_items.Add(new Armor(17, 3000, "Padded Dragonscale", 5, 5, 10, 20, 20, 8, false));
-            shared_items.Add(new Armor(18, 3000, "Obsidian Plate", 6, 1, 0, 5, 4, 30, true));
+            shared_items.Add(new Armor(17, 3000, "Padded Dragonscale", 5, 5, 10, 20, 20, 8, Armor.Armor_Type.UnderArmor));
+            shared_items.Add(new Armor(18, 3000, "Obsidian Plate", 6, 1, 0, 5, 4, 30, Armor.Armor_Type.OverArmor));
             shared_items.Add(new Potion(19, 500, "Minor Health Potion", Potion.Potion_Type.Health, 2));
             shared_items.Add(new Potion(20, 500, "Minor Repair Potion", Potion.Potion_Type.Repair, 4));
             shared_items.Add(new Potion(21, 1500, "Major Health Potion", Potion.Potion_Type.Health, 7));

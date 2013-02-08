@@ -130,14 +130,22 @@
     <Compile Include="Floor Components\Monster Senses\SoundPulse.cs" />
     <Compile Include="Floor Components\Monster Senses\VisionRay.cs" />
     <Compile Include="Floor Components\Monster.cs" />
+    <Compile Include="Floor Components\Monsters\Armored_Skeleton.cs" />
+    <Compile Include="Floor Components\Monsters\Boneyard.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Floor Components\Monsters\Ghost.cs" />
     <Compile Include="Floor Components\Monsters\GoldMimic.cs" />
     <Compile Include="Floor Components\Monsters\GoreHound.cs" />
+    <Compile Include="Floor Components\Monsters\Gorewolf.cs" />
     <Compile Include="Floor Components\Monsters\Grendel.cs" />
     <Compile Include="Floor Components\Monsters\HollowKnight.cs" />
     <Compile Include="Floor Components\Monsters\Necromancer.cs" />
     <Compile Include="Floor Components\Monsters\RedKnight.cs" />
     <Compile Include="Floor Components\Monsters\Skeleton.cs" />
+    <Compile Include="Floor Components\Monsters\Voidwraith.cs" />
     <Compile Include="Floor Components\Monsters\Zombie.cs" />
+    <Compile Include="Floor Components\Monsters\ZombieFanatic.cs" />
     <Compile Include="Floor Components\MossyPatch.cs" />
     <Compile Include="Floor Components\PersistentEffect.cs" />
     <Compile Include="Floor Components\Popup.cs" />

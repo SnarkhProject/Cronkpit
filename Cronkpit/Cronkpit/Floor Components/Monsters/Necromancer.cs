@@ -36,7 +36,7 @@ namespace Cronkpit
         int max_acidsplash_dmg;
 
         public Necromancer(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, bool createMajor)
-            : base(sGridCoord, sCont, sIndex)
+            : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             female = false;
             int gender_roll = rGen.Next(2);
@@ -61,6 +61,7 @@ namespace Cronkpit
             }
 
             hitPoints = 34;
+            armorPoints = 5;
 
             min_acidsplash_dmg = 1;
             max_acidsplash_dmg = 2;
@@ -83,6 +84,7 @@ namespace Cronkpit
 
             melee_dodge = 5;
             ranged_dodge = 5;
+            armor_effectiveness = 10;
         }
 
         public List<gridCoordinate> acid_splash_matrix(gridCoordinate target_coord)
@@ -105,19 +107,20 @@ namespace Cronkpit
             gridCoordinate monster_position = new gridCoordinate();
             bool valid_position_found = false;
 
-            for(int x = -1; x <= 1; x++)
-                for(int y = -1; y <= 1; y++)
-                {
-                    int whocares = -1;
-                    gridCoordinate next_position = new gridCoordinate(my_grid_coord.x + x, my_grid_coord.y + y);
-                    if (!valid_position_found && !fl.is_tile_opaque(next_position) &&
-                        !fl.is_entity_here(next_position) && !fl.is_monster_here(next_position, out whocares) &&
-                        pl_gc.x != next_position.x && pl_gc.y != next_position.y)
+            for(int i = 0; i < my_grid_coords.Count; i++)
+                for(int x = -1; x <= 1; x++)
+                    for (int y = -1; y <= 1; y++)
                     {
-                        monster_position = next_position;
-                        valid_position_found = true;
+                        int whocares = -1;
+                        gridCoordinate next_position = new gridCoordinate(my_grid_coords[i].x + x, my_grid_coords[i].y + y);
+                        if (!valid_position_found && !fl.is_tile_opaque(next_position) &&
+                            !fl.is_entity_here(next_position) && !fl.is_monster_here(next_position, out whocares) &&
+                            pl_gc.x != next_position.x && pl_gc.y != next_position.y)
+                        {
+                            monster_position = next_position;
+                            valid_position_found = true;
+                        }
                     }
-                }
 
             if (valid_position_found)
             {
@@ -181,7 +184,7 @@ namespace Cronkpit
         public override void Update_Monster(Player pl, Floor fl)
         {
             if (is_player_within(pl, sight_range))
-                can_see_player = fl.establish_los(my_grid_coord, pl.get_my_grid_C());
+                can_see_player = can_i_see_point(fl, pl.get_my_grid_C());
             else
                 can_see_player = false;
 
@@ -202,18 +205,17 @@ namespace Cronkpit
                     listen_threshold = 4;
                     sight_range = 6;
                     fl.addmsg("The Necromancer stops mumbling arcane phrases to " + pronoun + "self!");
-                    fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coord);
+                    fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coords[0]);
                 }
                 else
                 {
                     int should_i_wander = rGen.Next(10);
                     if (should_i_wander == 1)
-                        wander(pl, fl);
+                        wander(pl, fl, corporeal);
                 } 
             }
             else
             {
-                look_for_player(fl, pl, sight_range);
                 if (can_see_player)
                 {
                     if (can_create_major && create_major_undead_cooldown == 0)
@@ -232,7 +234,7 @@ namespace Cronkpit
                                 fl.check_mana() >= acidsplash_manacost)
                             {
                                 fl.addmsg("The Necromancer tosses a glob of acid at you!");
-                                Projectile prj = new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.AcidCloud, ref cont, true, Scroll.Atk_Area_Type.smallfixedAOE);
+                                Projectile prj = new Projectile(randomly_chosen_personal_coord(), pl.get_my_grid_C(), Projectile.projectile_type.AcidCloud, ref cont, true, Scroll.Atk_Area_Type.smallfixedAOE);
                                 prj.set_small_AOE_matrix(acid_splash_matrix(pl.get_my_grid_C()));
                                 prj.set_damage_range(min_acidsplash_dmg, max_acidsplash_dmg);
                                 prj.set_damage_type(acid_splash_dmgtyp);
@@ -247,7 +249,7 @@ namespace Cronkpit
                                     && fl.check_mana() >= frostbolt_manacost)
                                 {
                                     fl.addmsg("The Necromancer fires a frostbolt at you!");
-                                    Projectile prj = new Projectile(my_grid_coord, pl.get_my_grid_C(), Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
+                                    Projectile prj = new Projectile(randomly_chosen_personal_coord(), pl.get_my_grid_C(), Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
                                     prj.set_damage_range(min_damage, max_damage);
                                     prj.set_damage_type(dmg_type);
                                     prj.set_wound_type(wound_type);
@@ -256,13 +258,13 @@ namespace Cronkpit
                                 }
                                 else
                                 {
-                                    advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 0);
+                                    advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 0, true);
                                     if(!has_moved)
                                         if(is_player_within(pl, 1))
                                         {
                                             int wounds = rGen.Next(min_melee_damage, max_melee_damage + 1);
                                             Attack dmg = new Attack(melee_damage_type, new wound(melee_wound_type, wounds));
-                                            pl.take_damage(dmg, fl);
+                                            pl.take_damage(dmg, fl, "");
                                             fl.add_effect(melee_damage_type, pl.get_my_grid_C());
                                             if(female)
                                                 fl.addmsg("The necromancer swipes at you with her dagger!");
@@ -282,7 +284,7 @@ namespace Cronkpit
                 {
                     int should_i_wander = rGen.Next(10);
                     if (should_i_wander == 1)
-                        wander(pl, fl);
+                        wander(pl, fl, corporeal);
                 }
             }
         }

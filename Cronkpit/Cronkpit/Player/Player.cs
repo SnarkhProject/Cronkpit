@@ -11,7 +11,7 @@ namespace Cronkpit
 {
     class Player
     {
-        public enum Character { Falsael, Ziktofel, Halephon, Petaer };
+        public enum Character { Falsael, Ziktofel, Halephon, Petaer, Belia, Tavec, Sir_Placeholder };
         public enum Chara_Class { Warrior, Mage, Rogue };
         public enum Equip_Slot { Mainhand, Offhand, Overarmor, Underarmor };
         //Constructor stuff
@@ -37,6 +37,7 @@ namespace Cronkpit
         //Equipped items
         Weapon main_hand;
         Weapon off_hand;
+        Armor helm;
         Armor over_armor;
         Armor under_armor;
         //Inventory
@@ -73,11 +74,11 @@ namespace Cronkpit
             {
                 case Character.Falsael:
                     my_Texture = cont.Load<Texture2D>("Player/falsael_sprite");
-                    my_dead_texture = cont.Load<Texture2D>("Player/playercorpse");
+                    my_dead_texture = cont.Load<Texture2D>("Player/falsael_dead");
                     break;
                 case Character.Petaer:
                     my_Texture = cont.Load<Texture2D>("Player/petaer_sprite");
-                    my_dead_texture = cont.Load<Texture2D>("Player/playercorpse");
+                    my_dead_texture = cont.Load<Texture2D>("Player/petaer_dead");
                     break;
                 case Character.Ziktofel:
                     my_Texture = cont.Load<Texture2D>("Player/ziktofel_sprite");
@@ -85,7 +86,7 @@ namespace Cronkpit
                     break;
                 case Character.Halephon:
                     my_Texture = cont.Load<Texture2D>("Player/halephon_sprite");
-                    my_dead_texture = cont.Load<Texture2D>("Player/playercorpse");
+                    my_dead_texture = cont.Load<Texture2D>("Player/halephon_dead");
                     break;
                 default:
                     my_Texture = cont.Load<Texture2D>("Player/lmfaoplayer");
@@ -103,8 +104,8 @@ namespace Cronkpit
             //Inventory stuff
             main_hand = new Weapon(0, 100, "Knife", Weapon.Type.Sword, 1, 2, 4, 1);
             off_hand = null;
-            over_armor = new Armor(1, 100, "Shoddy Leather", 0, 1, 2, 1, 1, 3, true);
-            under_armor = new Armor(2, 100, "Linen Rags", 0, 2, 2, 0, 0, 2, false);
+            over_armor = new Armor(1, 100, "Shoddy Leather", 0, 1, 2, 1, 1, 3, Armor.Armor_Type.OverArmor);
+            under_armor = new Armor(2, 100, "Linen Rags", 0, 2, 2, 0, 0, 2, Armor.Armor_Type.UnderArmor);
             inventory = new List<Item>();
             //Character stuff
 
@@ -159,14 +160,14 @@ namespace Cronkpit
             else
             {
                 fl.is_monster_here(test_coord, out MonsterID);
-                fl.is_destroyable_doodad_here(test_coord, out DoodadID);
+                fl.is_destroyable_Doodad_here(test_coord, out DoodadID);
             }
 
             if (MonsterID != -1)
-                melee_attack(fl, my_grid_coord, fl.badguy_by_monster_id(MonsterID).my_grid_coord);
+                melee_attack(fl, my_grid_coord, test_coord);
 
             if(DoodadID != -1)
-                melee_attack(fl, my_grid_coord, fl.doodad_by_index(DoodadID).get_g_coord());
+                melee_attack(fl, my_grid_coord, test_coord);
             //after moving, loot and then add smell to current tile.
             loot(fl);
             total_sound = my_sound_value();
@@ -246,7 +247,7 @@ namespace Cronkpit
             for (int i = 0; i < squares_to_attack_mh.Count; i++)
             {
                 int c_monsterID;
-                int c_doodadID;
+                int c_DoodadID;
 
                 string w_name = "";
                 int dmg_val = 0;
@@ -269,8 +270,8 @@ namespace Cronkpit
                 if (fl.is_monster_here(squares_to_attack_mh[i], out c_monsterID))
                     attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_mh[i], w_name, true);
 
-                if (fl.is_destroyable_doodad_here(squares_to_attack_mh[i], out c_doodadID))
-                    attack_doodad_in_grid(fl, dmg_val, c_doodadID, squares_to_attack_mh[i], w_name);
+                if (fl.is_destroyable_Doodad_here(squares_to_attack_mh[i], out c_DoodadID))
+                    attack_Doodad_in_grid(fl, dmg_val, c_DoodadID, squares_to_attack_mh[i], w_name);
 
                 if (main_hand != null)
                     fl.add_effect(main_hand.get_my_damage_type(), squares_to_attack_mh[i]);
@@ -281,7 +282,7 @@ namespace Cronkpit
             for (int i = 0; i < squares_to_attack_oh.Count; i++)
             {
                 int c_monsterID;
-                int c_doodadID;
+                int c_DoodadID;
 
                 string w_name = off_hand.get_my_name();
                 int dmg_val = off_hand.damage(ref rGen);
@@ -293,8 +294,8 @@ namespace Cronkpit
                 if (fl.is_monster_here(squares_to_attack_oh[i], out c_monsterID))
                     attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_oh[i], w_name, true);
 
-                if (fl.is_destroyable_doodad_here(squares_to_attack_oh[i], out c_doodadID))
-                    attack_doodad_in_grid(fl, dmg_val, c_doodadID, squares_to_attack_oh[i], w_name);
+                if (fl.is_destroyable_Doodad_here(squares_to_attack_oh[i], out c_DoodadID))
+                    attack_Doodad_in_grid(fl, dmg_val, c_DoodadID, squares_to_attack_oh[i], w_name);
 
                 fl.add_effect(off_hand.get_my_damage_type(), squares_to_attack_oh[i]);
             }
@@ -302,7 +303,7 @@ namespace Cronkpit
             for (int i = 0; i < squares_to_attack_both.Count; i++)
             {
                 int c_monsterID;
-                int c_doodadID;
+                int c_DoodadID;
 
                 string w_name = "";
 
@@ -324,9 +325,9 @@ namespace Cronkpit
 
                 if (fl.is_monster_here(squares_to_attack_both[i], out c_monsterID))
                     attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_both[i], w_name, true);
-
-                if (fl.is_destroyable_doodad_here(squares_to_attack_both[i], out c_doodadID))
-                    attack_doodad_in_grid(fl, dmg_val, c_doodadID, squares_to_attack_both[i], w_name);
+                
+                if (fl.is_destroyable_Doodad_here(squares_to_attack_both[i], out c_DoodadID))
+                    attack_Doodad_in_grid(fl, dmg_val, c_DoodadID, squares_to_attack_both[i], w_name);
 
                 if (off_hand == main_hand)
                     fl.add_effect(main_hand.get_my_damage_type(), squares_to_attack_both[i]);
@@ -451,16 +452,16 @@ namespace Cronkpit
             fl.damage_monster(modified_dmg_val, c_monsterID, melee_attack);
         }
 
-        public void attack_doodad_in_grid(Floor fl, int dmg_val, int c_DoodadID, gridCoordinate current_gc, string weapon_name)
+        public void attack_Doodad_in_grid(Floor fl, int dmg_val, int c_DoodadID, gridCoordinate current_gc, string weapon_name)
         {
             double base_dmg_val = (double)dmg_val;
             int modified_dmg_val = (int)base_dmg_val;
             if (my_character == Character.Falsael)
                 modified_dmg_val = (int)Math.Ceiling(base_dmg_val * 1.2);
 
-            string attack_msg = "You attack the " + fl.doodad_by_index(c_DoodadID).my_name() + " with your " + weapon_name + "!";
+            string attack_msg = "You attack the " + fl.Doodad_by_index(c_DoodadID).my_name() + " with your " + weapon_name + "!";
             message_buffer.Add(attack_msg);
-            fl.damage_doodad(modified_dmg_val, c_DoodadID);
+            fl.damage_Doodad(modified_dmg_val, c_DoodadID);
         }
 
         public void set_ranged_attack_aura(Floor fl, gridCoordinate pl_gc, Scroll s)
@@ -522,7 +523,7 @@ namespace Cronkpit
                     if ((main_hand != null && main_hand.get_my_weapon_type() == Weapon.Type.Crossbow) ||
                         (off_hand != null && off_hand.get_my_weapon_type() == Weapon.Type.Crossbow))
                         if (fl.is_monster_here(current_ray_position, out monsterID) ||
-                            fl.is_destroyable_doodad_here(current_ray_position, out whoCares))
+                            fl.is_destroyable_Doodad_here(current_ray_position, out whoCares))
                             remove = true;
 
                     if (range_rays[i].is_at_end() || remove)
@@ -531,16 +532,16 @@ namespace Cronkpit
             }
         }
 
-        public void bow_attack(Floor fl, ref ContentManager Secondary_cManager, int monsterID, int doodadID)
+        public void bow_attack(Floor fl, ref ContentManager Secondary_cManager, gridCoordinate attack_location, int monsterID, int DoodadID)
         {
             double base_min_dmg_to_monster = 0;
             double base_max_dmg_to_monster = 0;
             string wName = "";
             gridCoordinate opposition_coord = new gridCoordinate(-1, -1);
             if (monsterID != -1)
-                opposition_coord = fl.badguy_by_monster_id(monsterID).my_grid_coord;
+                opposition_coord = attack_location;
             else
-                opposition_coord = fl.doodad_by_index(doodadID).get_g_coord();
+                opposition_coord = fl.Doodad_by_index(DoodadID).get_g_coord();
 
             int cbow_xsplash = 0;
             int cbow_ysplash = 0;
@@ -600,7 +601,7 @@ namespace Cronkpit
             if (monsterID != -1)
                 attack_msg = "You attack the " + fl.badguy_by_monster_id(monsterID).my_name + " with your " + wName + "!";
             else
-                attack_msg = "You attack the " + fl.doodad_by_index(doodadID).my_name() + " with your " + wName + "!";
+                attack_msg = "You attack the " + fl.Doodad_by_index(DoodadID).my_name() + " with your " + wName + "!";
             message_buffer.Add(attack_msg);
 
             total_sound += my_sound_value() + (my_sound_value() / 2);
@@ -641,7 +642,7 @@ namespace Cronkpit
                         fl.set_tile_aura(current_ray_position, Tile.Aura.Attack);
 
                     if (!fl.isWalkable(current_ray_position) && (x_difference > 1 || y_difference > 1) &&
-                        fl.is_destroyable_doodad_here(current_ray_position, out whoCares))
+                        fl.is_destroyable_Doodad_here(current_ray_position, out whoCares))
                         fl.set_tile_aura(current_ray_position, Tile.Aura.Attack);
 
                     if (!fl.isWalkable(current_ray_position) || fl.is_monster_here(current_ray_position, out monsterID))
@@ -653,9 +654,9 @@ namespace Cronkpit
             }
         }
 
-        public void charge_attack(Floor fl, int lanceID, int monsterID, int doodadID)
+        public void charge_attack(Floor fl, int lanceID, gridCoordinate charge_coordinate, int monsterID, int DoodadID)
         {
-            bool attacked_doodad = false;
+            bool attacked_Doodad = false;
             gridCoordinate my_original_position = new gridCoordinate(my_grid_coord);
             Weapon c_lance = null;
             for (int i = 0; i < inventory.Count; i++)
@@ -669,13 +670,13 @@ namespace Cronkpit
             VisionRay attack_ray = null;
             if(fl.badguy_by_monster_id(monsterID) == null)
             {
-                attack_ray = new VisionRay(my_grid_coord, fl.doodad_by_index(doodadID).get_g_coord());
+                attack_ray = new VisionRay(my_grid_coord, fl.Doodad_by_index(DoodadID).get_g_coord());
             }
             else
-                attack_ray = new VisionRay(my_grid_coord, fl.badguy_by_monster_id(monsterID).my_grid_coord);
+                attack_ray = new VisionRay(my_grid_coord, charge_coordinate);
 
             gridCoordinate monster_coord = new gridCoordinate(-1, -1);
-            gridCoordinate doodad_coord = new gridCoordinate(-1, -1);
+            gridCoordinate Doodad_coord = new gridCoordinate(-1, -1);
 
             bool done = false;
             while (!done)
@@ -693,28 +694,28 @@ namespace Cronkpit
                 int mon_ID;
                 int dood_ID;
                 fl.is_monster_here(next_ray_position, out mon_ID);
-                fl.is_destroyable_doodad_here(next_ray_position, out dood_ID);
+                fl.is_destroyable_Doodad_here(next_ray_position, out dood_ID);
                 if (mon_ID == monsterID && monsterID > -1)
                 {
-                    monster_coord = new gridCoordinate(fl.badguy_by_monster_id(monsterID).my_grid_coord);
+                    monster_coord = new gridCoordinate(charge_coordinate);
                     teleport(previous_ray_position);
-                    attack_monster_in_grid(fl, dmg_val, monsterID, fl.badguy_by_monster_id(monsterID).my_grid_coord, wName, true);
+                    attack_monster_in_grid(fl, dmg_val, monsterID, charge_coordinate, wName, true);
                     done = true;
                 }
 
-                if (dood_ID == doodadID && doodadID > -1)
+                if (dood_ID == DoodadID && DoodadID > -1)
                 {
-                    attacked_doodad = true;
-                    doodad_coord = new gridCoordinate(fl.doodad_by_index(doodadID).get_g_coord());
+                    attacked_Doodad = true;
+                    Doodad_coord = new gridCoordinate(fl.Doodad_by_index(DoodadID).get_g_coord());
                     teleport(previous_ray_position);
-                    attack_doodad_in_grid(fl, dmg_val, doodadID, fl.doodad_by_index(doodadID).get_g_coord(), wName);
+                    attack_Doodad_in_grid(fl, dmg_val, DoodadID, fl.Doodad_by_index(DoodadID).get_g_coord(), wName);
                     done = true;
                 }
             }
 
             gridCoordinate opposition_coord = new gridCoordinate(-1, -1);
-            if (attacked_doodad)
-                opposition_coord = doodad_coord;
+            if (attacked_Doodad)
+                opposition_coord = Doodad_coord;
             else
                 opposition_coord = monster_coord;
 
@@ -724,7 +725,7 @@ namespace Cronkpit
                 int ydif = my_original_position.y - opposition_coord.y;
 
                 int whocares = -1;
-                if (fl.is_monster_here(my_grid_coord, out whocares) || fl.is_destroyable_doodad_here(my_grid_coord, out whocares))
+                if (fl.is_monster_here(my_grid_coord, out whocares) || fl.is_destroyable_Doodad_here(my_grid_coord, out whocares))
                 {
                     if (xdif == 0)
                         if (my_original_position.x < my_grid_coord.x)
@@ -792,19 +793,19 @@ namespace Cronkpit
                         fl.set_tile_aura(target_coord, Tile.Aura.Attack);
 
                     if (!(x == my_grid_coord.x && y == my_grid_coord.y) && !fl.isWalkable(target_coord) &&
-                        fl.is_destroyable_doodad_here(target_coord, out whoCares))
+                        fl.is_destroyable_Doodad_here(target_coord, out whoCares))
                         fl.set_tile_aura(target_coord, Tile.Aura.Attack);
                 }
         }
 
-        public void bash_attack(Floor fl, Monster m, Doodad d, Weapon wp)
+        public void bash_attack(Floor fl, Monster m, gridCoordinate target_coord, Doodad d, Weapon wp)
         {
             int xdif = 0;
             int ydif = 0;
             if (m != null)
             {
-                xdif = m.my_grid_coord.x - my_grid_coord.x;
-                ydif = m.my_grid_coord.y - my_grid_coord.y;
+                xdif = target_coord.x - my_grid_coord.x;
+                ydif = target_coord.y - my_grid_coord.y;
             }
             else
             {
@@ -822,30 +823,23 @@ namespace Cronkpit
 
             gridCoordinate opposition_coord = new gridCoordinate(-1, -1);
             if(m != null)
-                opposition_coord = m.my_grid_coord;
+                opposition_coord = target_coord;
             else
                 opposition_coord = d.get_g_coord();
 
             fl.add_effect(wp.get_my_damage_type(), opposition_coord);
             if (m != null)
-                attack_monster_in_grid(fl, damage_value, m.my_Index, m.my_grid_coord, wp.get_my_name(), true);
+                attack_monster_in_grid(fl, damage_value, m.my_Index, target_coord, wp.get_my_name(), true);
             else
-                attack_doodad_in_grid(fl, damage_value, d.get_my_index(), d.get_g_coord(), wp.get_my_name());
+                attack_Doodad_in_grid(fl, damage_value, d.get_my_index(), d.get_g_coord(), wp.get_my_name());
 
             if (m!= null && m.hitPoints > 0 && m_hp > m.hitPoints)
             {
-                int whocares = -1;
-                gridCoordinate next_m_coord = new gridCoordinate(m.my_grid_coord.x + xdif, m.my_grid_coord.y + ydif);
-                if (fl.isWalkable(next_m_coord) && !fl.is_monster_here(next_m_coord, out whocares))
-                {
-                    m.my_grid_coord = next_m_coord;
-                    m.snap_to_grid();
-                }
-                else
+                if(!m.shove(xdif, ydif, this, fl))
                 {
                     int secondary_damage_value = wp.damage(ref rGen) / 2;
-                    fl.add_effect(wp.get_my_damage_type(), m.my_grid_coord);
-                    attack_monster_in_grid(fl, damage_value, m.my_Index, m.my_grid_coord, wp.get_my_name(), true);
+                    fl.add_effect(wp.get_my_damage_type(), target_coord);
+                    attack_monster_in_grid(fl, damage_value, m.my_Index, target_coord, wp.get_my_name(), true);
                 }
             }
             wp.set_cooldown(standard_wpn_cooldown);
@@ -860,7 +854,7 @@ namespace Cronkpit
                         target_coordinates.Add(new gridCoordinate(x, y));
 
             int monster_ID = -1;
-            int doodad_ID = -1;
+            int Doodad_ID = -1;
             for (int i = 0; i < target_coordinates.Count; i++)
             {
                 int attack_dmg = (int)(target_weapon.damage(ref rGen) * .8);
@@ -871,8 +865,8 @@ namespace Cronkpit
                     attack_monster_in_grid(fl, attack_dmg, monster_ID, target_coordinates[i],
                                             target_weapon.get_my_name(), true);
 
-                if (fl.is_destroyable_doodad_here(target_coordinates[i], out doodad_ID))
-                    attack_doodad_in_grid(fl, attack_dmg, doodad_ID, target_coordinates[i],
+                if (fl.is_destroyable_Doodad_here(target_coordinates[i], out Doodad_ID))
+                    attack_Doodad_in_grid(fl, attack_dmg, Doodad_ID, target_coordinates[i],
                                             target_weapon.get_my_name());
 
                 if (fl.isWalkable(target_coordinates[i]))
@@ -881,7 +875,7 @@ namespace Cronkpit
             target_weapon.set_cooldown(standard_wpn_cooldown);
         }
 
-        public void cast_spell(Scroll s, Floor fl, gridCoordinate spell_target, int target_monster_ID, int target_doodad_ID)
+        public void cast_spell(Scroll s, Floor fl, gridCoordinate spell_target, int target_monster_ID, int target_Doodad_ID)
         {
             string spell_name = s.get_my_name();
             Projectile.projectile_type prj_type = 0;
@@ -1079,12 +1073,34 @@ namespace Cronkpit
         }
 
         //Green text. Function here.
-        public void take_damage(Attack atk, Floor fl)
+        public void take_damage(Attack atk, Floor fl, string specific_part)
         {
             //OKAY THIS IS GONNA BE COMPLICATED.
             //First, figure out where the attack is gonna hit. The breakdown is as follows:
             //head, 5%, chest = 25%, arm = 17%, leg = 18%
             int hit_location = rGen.Next(100);
+            switch (specific_part)
+            {
+                case "Head":
+                    hit_location = 0;
+                    break;
+                case "Chest":
+                    hit_location = 76;
+                    break;
+                case "LArm":
+                    hit_location = 23;
+                    break;
+                case "RArm":
+                    hit_location = 6;
+                    break;
+                case "LLeg":
+                    hit_location = 58;
+                    break;
+                case "RLeg":
+                    hit_location = 40;
+                    break;
+            }
+
             int dodge_roll = rGen.Next(100);
             bool dodged = false;
 
@@ -1971,10 +1987,12 @@ namespace Cronkpit
                     else if (inventory[i] is Armor)
                     {
                         Armor c_armor = (Armor)inventory[i];
-                        if (c_armor.is_over_armor())
+                        if (c_armor.what_armor_type() == Armor.Armor_Type.OverArmor)
                             return "Overarmor";
-                        else
+                        else if (c_armor.what_armor_type() == Armor.Armor_Type.UnderArmor)
                             return "Underarmor";
+                        else
+                            return "Helmet";
                     }
                     else if (inventory[i] is Potion)
                         return "Potion";

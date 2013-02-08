@@ -55,6 +55,39 @@ namespace Cronkpit
             }
         }
 
+        public Popup(string txt, popup_msg_color clr, SpriteFont fnt, Vector2 s_position)
+        {
+            my_text = txt;
+            my_font = fnt;
+
+            float x_position = s_position.X - (fnt.MeasureString(txt).X / 2);
+            float y_position = s_position.Y = s_position.Y - (fnt.LineSpacing);
+            my_position = new Vector2(x_position, y_position);
+            gc_origin = new gridCoordinate((int)Math.Round(s_position.X), (int)Math.Round(s_position.Y));
+
+            switch (clr)
+            {
+                case popup_msg_color.Red:
+                    my_color = new Color(255, 0, 0);
+                    break;
+                case popup_msg_color.Blue:
+                    my_color = new Color(0, 0, 255);
+                    break;
+                case popup_msg_color.Yellow:
+                    my_color = new Color(255, 255, 0);
+                    break;
+                case popup_msg_color.Purple:
+                    my_color = new Color(255, 0, 255);
+                    break;
+                case popup_msg_color.LimeGreen:
+                    my_color = new Color(80, 235, 50);
+                    break;
+                case popup_msg_color.VividGreen:
+                    my_color = new Color(50, 255, 30);
+                    break;
+            }
+        }
+
         public void update(float delta_time)
         {
             my_position.Y -= 50 * delta_time;

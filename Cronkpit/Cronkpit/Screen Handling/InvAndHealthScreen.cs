@@ -452,7 +452,7 @@ namespace Cronkpit
                         if (player_inv[index_of_mouse_selected_item] is Armor)
                         {
                             Armor nextArmor = (Armor)player_inv[index_of_mouse_selected_item];
-                            if (nextArmor.is_over_armor())
+                            if (nextArmor.what_armor_type() == Armor.Armor_Type.OverArmor)
                             {
                                 pl.equip_over_armor((Armor)player_inv[index_of_mouse_selected_item]);
                                 equipped_new_item = true;
@@ -463,7 +463,7 @@ namespace Cronkpit
                         if (player_inv[index_of_mouse_selected_item] is Armor)
                         {
                             Armor nextArmor = (Armor)player_inv[index_of_mouse_selected_item];
-                            if (!nextArmor.is_over_armor())
+                            if (nextArmor.what_armor_type() == Armor.Armor_Type.UnderArmor)
                             {
                                 pl.equip_under_armor((Armor)player_inv[index_of_mouse_selected_item]);
                                 equipped_new_item = true;

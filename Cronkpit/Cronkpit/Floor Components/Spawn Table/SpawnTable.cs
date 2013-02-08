@@ -44,70 +44,75 @@ namespace Cronkpit
                     break;
                 case 5:
                     spData.Add(new SpawnData("HollowKnight", 4));
-                    spData.Add(new SpawnData("Skeleton", 24));
-                    spData.Add(new SpawnData("GoldMimic", 34));
-                    spData.Add(new SpawnData("GoreHound", 49));
+                    spData.Add(new SpawnData("GoreHound", 19));
+                    spData.Add(new SpawnData("Ghost", 29));
+                    spData.Add(new SpawnData("Skeleton", 49));
                     spData.Add(new SpawnData("Zombie", 99));
                     break;
                 case 6:
                     spData.Add(new SpawnData("HollowKnight", 9));
                     spData.Add(new SpawnData("Skeleton", 29));
-                    spData.Add(new SpawnData("GoldMimic", 49));
+                    spData.Add(new SpawnData("Ghost", 44));
                     spData.Add(new SpawnData("GoreHound", 54));
                     spData.Add(new SpawnData("Zombie", 99));
                     break;
                 case 7:
                     spData.Add(new SpawnData("HollowKnight", 14));
                     spData.Add(new SpawnData("Skeleton", 39));
-                    spData.Add(new SpawnData("GoldMimic", 59));
+                    spData.Add(new SpawnData("Ghost", 49));
+                    spData.Add(new SpawnData("GoreWolf", 59));
                     spData.Add(new SpawnData("Zombie", 99));
                     break;
-                    //for 8 and over we do GRENDELS
                 case 8:
                     spData.Add(new SpawnData("HollowKnight", 14));
-                    spData.Add(new SpawnData("Skeleton", 39));
-                    spData.Add(new SpawnData("Grendel", 44));
-                    spData.Add(new SpawnData("GoldMimic", 64));
+                    spData.Add(new SpawnData("Skeleton", 29));
+                    spData.Add(new SpawnData("ArmoredSkel", 39));
+                    spData.Add(new SpawnData("Ghost", 49));
+                    spData.Add(new SpawnData("GoreWolf", 59));
+                    spData.Add(new SpawnData("Necromancer", 5));
                     spData.Add(new SpawnData("Zombie", 99));
                     break;
                 case 9:
                     spData.Add(new SpawnData("HollowKnight", 14));
-                    spData.Add(new SpawnData("Skeleton", 39));
-                    spData.Add(new SpawnData("Grendel", 49));
-                    spData.Add(new SpawnData("GoldMimic", 64));
+                    spData.Add(new SpawnData("Skeleton", 24));
+                    spData.Add(new SpawnData("ArmoredSkel", 39));
+                    spData.Add(new SpawnData("Ghost", 49));
+                    spData.Add(new SpawnData("GoreWolf", 64));
                     spData.Add(new SpawnData("Necromancer", 69));
                     spData.Add(new SpawnData("Zombie", 99));
                     break;
                 case 10:
                     spData.Add(new SpawnData("HollowKnight", 14));
-                    spData.Add(new SpawnData("Skeleton", 34));
-                    spData.Add(new SpawnData("Grendel", 49));
-                    spData.Add(new SpawnData("GoldMimic", 59));
+                    spData.Add(new SpawnData("Skeleton", 19));
+                    spData.Add(new SpawnData("ArmoredSkel", 34));
+                    spData.Add(new SpawnData("Ghost", 39));
+                    spData.Add(new SpawnData("VoidWraith", 44));
+                    spData.Add(new SpawnData("GoreWolf", 59));
                     spData.Add(new SpawnData("Necromancer", 69));
                     spData.Add(new SpawnData("Zombie", 99));
                     break;
                 case 11:
                     spData.Add(new SpawnData("HollowKnight", 14));
-                    spData.Add(new SpawnData("Skeleton", 34));
-                    spData.Add(new SpawnData("Grendel", 54));
-                    spData.Add(new SpawnData("GoldMimic", 64));
+                    spData.Add(new SpawnData("ArmoredSkel", 34));
+                    spData.Add(new SpawnData("VoidWraith", 44));
+                    spData.Add(new SpawnData("GoreWolf", 64));
                     spData.Add(new SpawnData("Necromancer", 74));
                     spData.Add(new SpawnData("Zombie", 99));
                     break;
                 case 12:
                     spData.Add(new SpawnData("HollowKnight", 9));
-                    spData.Add(new SpawnData("Skeleton", 24));
-                    spData.Add(new SpawnData("Grendel", 49));
-                    spData.Add(new SpawnData("GoldMimic", 59));
+                    spData.Add(new SpawnData("ArmoredSkel", 34));
+                    spData.Add(new SpawnData("GoreWolf", 44));
+                    spData.Add(new SpawnData("VoidWraith", 59));
                     spData.Add(new SpawnData("Necromancer", 74));
                     spData.Add(new SpawnData("Zombie", 99));
                     break;
                 default:
                     spData.Add(new SpawnData("HollowKnight", 9));
-                    spData.Add(new SpawnData("Skeleton", 24));
-                    spData.Add(new SpawnData("Grendel", 54));
-                    spData.Add(new SpawnData("GoldMimic", 64));
-                    spData.Add(new SpawnData("Necromancer", 79));
+                    spData.Add(new SpawnData("ArmoredSkel", 34));
+                    spData.Add(new SpawnData("GoreWolf", 44));
+                    spData.Add(new SpawnData("VoidWraith", 59));
+                    spData.Add(new SpawnData("Necromancer", 74));
                     spData.Add(new SpawnData("Zombie", 99));
                     break;
             }
@@ -119,6 +124,28 @@ namespace Cronkpit
             redKnight_Spawn = Math.Max((floor-5)*2, 0) + 1;
 
             spData.Add(new SpawnData("RedKnight", redKnight_Spawn));
+
+            switch (floor)
+            {
+                case 7:
+                    spData.Add(new SpawnData("ZombieFanatic", 10));
+                    break;
+                case 8:
+                    spData.Add(new SpawnData("ZombieFanatic", 15));
+                    break;
+                case 9:
+                    spData.Add(new SpawnData("ZombieFanatic", 20));
+                    break;
+                case 10:
+                    spData.Add(new SpawnData("ZombieFanatic", 20));
+                    break;
+                case 11:
+                    spData.Add(new SpawnData("ZombieFanatic", 20));
+                    break;
+                case 12:
+                    spData.Add(new SpawnData("ZombieFanatic", 25));
+                    break;
+            }
         }
 
         public string find_monster_by_number(int number)

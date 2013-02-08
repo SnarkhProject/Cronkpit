@@ -18,7 +18,7 @@ namespace Cronkpit
         int frostbolt_manacost = 30;
 
         public Grendel(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, Grendel_Weapon_Type wType)
-            : base(sGridCoord, sCont, sIndex)
+            : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_weapon_type = wType;
             switch (my_weapon_type)
@@ -41,7 +41,7 @@ namespace Cronkpit
 
             hitPoints = 37;
             can_melee_attack = true;
-            last_seen_player_at = new gridCoordinate(my_grid_coord);
+            last_seen_player_at = new gridCoordinate(my_grid_coords[0]);
 
             //SENSORY
             sight_range = 5;
@@ -59,9 +59,7 @@ namespace Cronkpit
         public override void Update_Monster(Player pl, Floor fl)
         {
             has_moved = false;
-            Tile target_tile = null;
-            if (is_smell_i_can_smell_within(my_grid_coord, fl, 0, smell_threshold, smell_range))
-                target_tile = fl.establish_los_strongest_smell(my_grid_coord, 0, smell_threshold);
+            Tile target_tile = strongest_smell_within(fl, 0, smell_threshold, smell_range);
 
             if (target_tile == null)
                 has_scent = false;
@@ -72,7 +70,7 @@ namespace Cronkpit
             }
 
             if (is_player_within(pl, sight_range))
-                can_see_player = fl.establish_los(my_grid_coord, pl.get_my_grid_C());
+                can_see_player = can_i_see_point(fl, pl.get_my_grid_C());
             else
                 can_see_player = false;
 
@@ -85,12 +83,12 @@ namespace Cronkpit
                 if (my_weapon_type == Grendel_Weapon_Type.Frostbolt && fl.check_mana() >= frostbolt_manacost)
                 {
                     if (!is_player_within_diamond(pl, 4))
-                        advance_towards_single_point(last_seen_player_at, pl, fl, 0);
+                        advance_towards_single_point(last_seen_player_at, pl, fl, 0, corporeal);
                     else
                     {
                         fl.addmsg("The Grendel attacks you!");
                         Attack dmg = dealDamage();
-                        Projectile prj = new Projectile(my_grid_coord, last_seen_player_at, Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
+                        Projectile prj = new Projectile(randomly_chosen_personal_coord(), last_seen_player_at, Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
                         prj.set_damage_range(min_damage, max_damage);
                         prj.set_damage_type(dmg_type);
                         prj.set_wound_type(wound_type);
@@ -108,21 +106,21 @@ namespace Cronkpit
                     }
 
                     if(!is_player_within(pl, 1))
-                        advance_towards_single_point(last_seen_player_at, pl, fl, 1);
+                        advance_towards_single_point(last_seen_player_at, pl, fl, 1, corporeal);
                     else
                     {
                         fl.addmsg("The Grendel attacks you!");
                         fl.add_effect(dmg_type, pl.get_my_grid_C());
                         Attack dmg = dealDamage();
-                        pl.take_damage(dmg, fl);
+                        pl.take_damage(dmg, fl, "");
                     }
                 }
             }
             else if(!can_see_player && have_i_seen_player)
             {
                 //fl.add_new_popup("The Grendel goes to your last position!", Popup.popup_msg_color.Red, my_grid_coord);
-                advance_towards_single_point(last_seen_player_at, pl, fl, 0);
-                if (last_seen_player_at.x == my_grid_coord.x && last_seen_player_at.y == my_grid_coord.y)
+                advance_towards_single_point(last_seen_player_at, pl, fl, 0, corporeal);
+                if (occupies_tile(last_seen_player_at))
                     have_i_seen_player = false;
             }
             else if(!can_see_player && !have_i_seen_player && heard_something)
@@ -136,9 +134,9 @@ namespace Cronkpit
                 {
                     //fl.add_new_popup("The Grendel smells you!", Popup.popup_msg_color.Red, my_grid_coord);
                     if (is_player_within(pl, 1))
-                        advance_towards_single_point(strongest_smell_coord, pl, fl, 1);
+                        advance_towards_single_point(strongest_smell_coord, pl, fl, 1, corporeal);
                     else
-                        advance_towards_single_point(strongest_smell_coord, pl, fl, 0);
+                        advance_towards_single_point(strongest_smell_coord, pl, fl, 0, corporeal);
                 }
                 else
                 {
@@ -147,7 +145,7 @@ namespace Cronkpit
                     if (should_i_wander == 1)
                     {
                         //fl.add_new_popup("The Grendel wanders!", Popup.popup_msg_color.Red, my_grid_coord);
-                        wander(pl, fl);
+                        wander(pl, fl, corporeal);
                     }
                 }
             }

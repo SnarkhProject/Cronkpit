@@ -13,11 +13,12 @@ namespace Cronkpit
     {
         
         public HollowKnight(gridCoordinate sGridCoord, ContentManager sCont, int sIndex)
-            : base(sGridCoord, sCont, sIndex)
+            : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_Texture = cont.Load<Texture2D>("Enemies/hollowKnight_idle");
             can_hear = true;
-            hitPoints = 22;
+            hitPoints = 5;
+            armorPoints = 22;
             min_damage = 1;
             max_damage = 3;
             dmg_type = Attack.Damage.Piercing;
@@ -32,6 +33,7 @@ namespace Cronkpit
             my_name = "Hollow Knight";
             melee_dodge = 5;
             ranged_dodge = 95;
+            armor_effectiveness = 95;
         }
 
         public void set_to_activeTexture()
@@ -47,7 +49,7 @@ namespace Cronkpit
                 set_to_activeTexture();
                 listen_threshold = 2;
                 fl.addmsg("The Hollow Knight awakens with a lurch and a strange creak!");
-                fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coord);
+                fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coords[0]);
             }
 
             has_moved = false;
@@ -66,7 +68,7 @@ namespace Cronkpit
                     fl.addmsg("The Hollow Knight savagely impales you!");
                     fl.add_effect(dmg_type, pl.get_my_grid_C());
                     Attack dmg = dealDamage();
-                    pl.take_damage(dmg, fl);
+                    pl.take_damage(dmg, fl, "");
                 }
             }
         }

@@ -906,12 +906,12 @@ namespace Cronkpit
         private void ranged_attack_via_cursor(gridCoordinate click_location)
         {
             int monster_no = -1;
-            int doodad_no = -1;
+            int Doodad_no = -1;
             if ((f1.is_monster_here(click_location, out monster_no) ||
-                f1.is_destroyable_doodad_here(click_location, out doodad_no)) && 
+                f1.is_destroyable_Doodad_here(click_location, out Doodad_no)) && 
                 f1.aura_of_specific_tile(click_location) == Tile.Aura.Attack)
             {
-                p1.bow_attack(f1, ref Secondary_cManager, monster_no, doodad_no);
+                p1.bow_attack(f1, ref Secondary_cManager, click_location, monster_no, Doodad_no);
                 bad_turn = true;
             }
 
@@ -933,18 +933,18 @@ namespace Cronkpit
         private void charge_attack_via_cursor(int lanceID, gridCoordinate click_location)
         {
             int monster_no = -1;
-            int doodad_no = -1;
+            int Doodad_no = -1;
             if ((f1.is_monster_here(click_location, out monster_no) || 
-                f1.is_destroyable_doodad_here(click_location, out doodad_no)) && 
+                f1.is_destroyable_Doodad_here(click_location, out Doodad_no)) && 
                 f1.aura_of_specific_tile(click_location) == Tile.Aura.Attack)
             {
                 gridCoordinate effect_coord = new gridCoordinate(-1, -1);
                 if(f1.is_monster_here(click_location, out monster_no))
-                    effect_coord = f1.badguy_by_monster_id(monster_no).my_grid_coord;
+                    effect_coord = click_location;
                 else
-                    effect_coord = f1.doodad_by_index(doodad_no).get_g_coord();
+                    effect_coord = f1.Doodad_by_index(Doodad_no).get_g_coord();
                 f1.add_effect(Attack.Damage.Piercing, effect_coord);
-                p1.charge_attack(f1, lanceID, monster_no, doodad_no);
+                p1.charge_attack(f1, lanceID, click_location, monster_no, Doodad_no);
                 bad_turn = true;
             }
 
@@ -965,12 +965,12 @@ namespace Cronkpit
         private void bashing_attack_via_cursor(Weapon w, gridCoordinate click_location)
         {
             int monster_no = -1;
-            int doodad_no = -1;
+            int Doodad_no = -1;
             if ((f1.is_monster_here(click_location, out monster_no) ||
-                f1.is_destroyable_doodad_here(click_location, out doodad_no)) && 
+                f1.is_destroyable_Doodad_here(click_location, out Doodad_no)) && 
                 f1.aura_of_specific_tile(click_location) == Tile.Aura.Attack)
             {
-                p1.bash_attack(f1, f1.badguy_by_monster_id(monster_no), f1.doodad_by_index(doodad_no), w);
+                p1.bash_attack(f1, f1.badguy_by_monster_id(monster_no), click_location, f1.Doodad_by_index(Doodad_no), w);
                 bad_turn = true;
             }
 
@@ -995,7 +995,7 @@ namespace Cronkpit
         private void spell_attack_via_cursor(int Scroll_ID, gridCoordinate click_location)
         {
             int monster_no = -1;
-            int doodad_no = -1;
+            int Doodad_no = -1;
 
             Scroll s = p1.get_scroll_by_ID(Scroll_ID);
             int floor_mana_consumed = s.get_manaCost();
@@ -1008,7 +1008,7 @@ namespace Cronkpit
                     if (mana_on_floor >= floor_mana_consumed)
                     {
                         f1.consume_mana(floor_mana_consumed);
-                        p1.cast_spell(s, f1, click_location, monster_no, doodad_no);
+                        p1.cast_spell(s, f1, click_location, monster_no, Doodad_no);
                         bad_turn = true;
                     }
                     else
@@ -1017,13 +1017,13 @@ namespace Cronkpit
                 else
                 {
                     if ((f1.is_monster_here(click_location, out monster_no) ||
-                        f1.is_destroyable_doodad_here(click_location, out doodad_no)) &&
+                        f1.is_destroyable_Doodad_here(click_location, out Doodad_no)) &&
                         f1.aura_of_specific_tile(click_location) == Tile.Aura.Attack)
                     {
                         if (mana_on_floor >= floor_mana_consumed)
                         {
                             f1.consume_mana(floor_mana_consumed);
-                            p1.cast_spell(s, f1, click_location, monster_no, doodad_no);
+                            p1.cast_spell(s, f1, click_location, monster_no, Doodad_no);
                             bad_turn = true;
                         }
                         else
@@ -1256,6 +1256,7 @@ namespace Cronkpit
             bad_turn = false;
             msgBuf.Clear();
             msgBufBox.scrollMSG(-1000);
+            mBall.calculate_opacity(f1.check_mana());
         }
 
         /// <summary>
@@ -1338,11 +1339,13 @@ namespace Cronkpit
                 spriteBatch.End();
             }
 
+            /*
             Texture2D blank_texture = new Texture2D(GraphicsDevice, 1, 1);
             blank_texture.SetData(new[] { Color.White });
             spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
             f1.draw_vision_log(ref spriteBatch, blank_texture);
             spriteBatch.End();
+            */
 
             if (msgBufBox.is_visible())
                 msgBufBox.draw_me(ref spriteBatch);
