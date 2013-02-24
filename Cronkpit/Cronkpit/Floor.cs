@@ -12,8 +12,8 @@ namespace Cronkpit
     class Floor
     {
         //Constants
-        private int stdfloorSize = 50;
-        public enum specific_effect { Power_Strike, Cleave, Earthquake };
+        protected int stdfloorSize = 50;
+        public enum specific_effect { None, Power_Strike, Cleave, Earthquake, Acid_Blood };
         //Floor components
         int fl_number;
         int ambient_manavalue;
@@ -45,8 +45,24 @@ namespace Cronkpit
         ContentManager cManager;
         Random randGen;
 
+        //Various lists of textures.
+        Texture2D[] rubble_wall = new Texture2D[1];
+        Texture2D[] rubble_floor = new Texture2D[1];
+        Texture2D[] the_void = new Texture2D[1];
+        Texture2D[] stone_walls = new Texture2D[2];
+        Texture2D[] stone_floors = new Texture2D[2];
+        Texture2D[] dirt_floors = new Texture2D[1];
+        Texture2D[] dirt_walls = new Texture2D[2];
+        Texture2D[] exit_tile = new Texture2D[1];
+        //Mossy textures - present in the necropolis
+        Texture2D[] mossy_stonewalls = new Texture2D[1];
+        Texture2D[] mossy_stonefloors = new Texture2D[2];
+        Texture2D[] mossy_dirtfloors = new Texture2D[1];
+        Texture2D[] mossy_dirtwalls = new Texture2D[1];
+
         //Green text. Function here.
-        public Floor(ContentManager sCont, ref List<string> msgBuffer, Texture2D blnkTex, int floor_number)
+        public Floor(ContentManager sCont, ref List<string> msgBuffer, Texture2D blnkTex, int floor_number,
+                     Cronkpit.CronkPit.Dungeon dungeon)
         {
             //Init floor components.
             floorTiles = new List<List<Tile>>();
@@ -79,23 +95,296 @@ namespace Cronkpit
             ambient_manavalue = 1000;
         
             //Then do stuff for real
-            buildFloor();
+            buildFloor(dungeon);
         }
 
         #region super important stuff
 
         //All of this is dungeon building stuff and will eventually get torn out
         //And put into a dungeon that inherits this class specifically.
-        public void buildFloor()
+        public void buildFloor(Cronkpit.CronkPit.Dungeon cDungeon)
         {
+            rubble_floor[0] = cManager.Load<Texture2D>("Background/rubble_floor");
+            rubble_wall[0] = cManager.Load<Texture2D>("Background/rubble_wall");
+            switch (cDungeon)
+            {
+                case CronkPit.Dungeon.Necropolis:
+                    build_necropolis_floor();
+                    break;
+            }
+        }
+
+        protected void add_monsters(ref List<Monster> monsters, int number_of_monsters)
+        {
+            for (int i = 0; i < number_of_monsters; i++)
+            {
+                int monsterType = randGen.Next(100);
+                string monster_to_add = floorSpawns.find_monster_by_number(monsterType);
+
+                switch (monster_to_add)
+                {
+                    case "HollowKnight":
+                        if (randGen.Next(100) <= floor_Sub_Spawns.return_spawn_chance_by_monster("RedKnight"))
+                            badGuys.Add(new RedKnight(valid_hollowKnight_spawn(), cManager, i));
+                        else
+                            badGuys.Add(new HollowKnight(valid_hollowKnight_spawn(), cManager, i));
+                        break;
+                    case "Skeleton":
+                        int skelwpn = randGen.Next(6);
+                        Skeleton.Skeleton_Weapon_Type reg_skel_wpn = 0;
+                        switch (skelwpn)
+                        {
+                            case 0:
+                                reg_skel_wpn = Skeleton.Skeleton_Weapon_Type.Fist;
+                                break;
+                            case 1:
+                                reg_skel_wpn = Skeleton.Skeleton_Weapon_Type.Axe;
+                                break;
+                            case 2:
+                                reg_skel_wpn = Skeleton.Skeleton_Weapon_Type.Bow;
+                                break;
+                            case 3:
+                                reg_skel_wpn = Skeleton.Skeleton_Weapon_Type.Sword;
+                                break;
+                            case 4:
+                                reg_skel_wpn = Skeleton.Skeleton_Weapon_Type.Spear;
+                                break;
+                            case 5:
+                                reg_skel_wpn = Skeleton.Skeleton_Weapon_Type.Flamebolt;
+                                break;
+                        }
+                        badGuys.Add(new Skeleton(random_valid_position(), cManager, i, reg_skel_wpn));
+                        break;
+                    case "GoldMimic":
+                        badGuys.Add(new GoldMimic(random_valid_position(), cManager, i));
+                        break;
+                    case "GoreHound":
+                        badGuys.Add(new GoreHound(random_valid_position(), cManager, i));
+                        break;
+                    case "Zombie":
+                        if (randGen.Next(100) <= floor_Sub_Spawns.return_spawn_chance_by_monster("ZombieFanatic"))
+                            badGuys.Add(new ZombieFanatic(random_valid_position(), cManager, i));
+                        else
+                            badGuys.Add(new Zombie(random_valid_position(), cManager, i));
+                        break;
+                    case "Grendel":
+                        int grenwpn = randGen.Next(3);
+                        switch (grenwpn)
+                        {
+                            case 0:
+                                badGuys.Add(new Grendel(random_valid_position(), cManager, i, Grendel.Grendel_Weapon_Type.Club));
+                                break;
+                            case 1:
+                                badGuys.Add(new Grendel(random_valid_position(), cManager, i, Grendel.Grendel_Weapon_Type.Frostbolt));
+                                break;
+                        }
+                        break;
+                    case "Necromancer":
+                        badGuys.Add(new Necromancer(random_valid_position(), cManager, i, false));
+                        break;
+                    case "GoreWolf":
+                        badGuys.Add(new Gorewolf(random_valid_position(), cManager, i));
+                        break;
+                    case "Ghost":
+                        badGuys.Add(new Ghost(random_valid_position(), cManager, i));
+                        break;
+                    case "ArmoredSkel":
+                        int a_skelwpn = randGen.Next(4);
+                        Armored_Skeleton.Armor_Skeleton_Weapon arm_skel_wpn = 0;
+                        switch (a_skelwpn)
+                        {
+                            case 0:
+                                arm_skel_wpn = Armored_Skeleton.Armor_Skeleton_Weapon.Halberd;
+                                break;
+                            case 1:
+                                arm_skel_wpn = Armored_Skeleton.Armor_Skeleton_Weapon.Crossbow;
+                                break;
+                            case 2:
+                                arm_skel_wpn = Armored_Skeleton.Armor_Skeleton_Weapon.Magic;
+                                break;
+                            case 3:
+                                arm_skel_wpn = Armored_Skeleton.Armor_Skeleton_Weapon.Greatsword;
+                                break;
+                        }
+                        badGuys.Add(new Armored_Skeleton(random_valid_position(), cManager, i, arm_skel_wpn));
+                        break;
+                    case "VoidWraith":
+                        badGuys.Add(new Voidwraith(random_valid_position(), cManager, i));
+                        break;
+                }
+            }
+
+            badGuys.Add(new Boneyard(random_valid_position(Monster.Monster_Size.Large), cManager, badGuys.Count, false));
+        }
+
+        public void draw_hallway_tiles(Tile target_tile)
+        {
+            if (target_tile.get_my_tile_type() !=  Tile.Tile_Type.StoneFloor && 
+                target_tile.get_my_tile_type() != Tile.Tile_Type.DirtFloor)
+                target_tile.set_tile_type(Tile.Tile_Type.StoneFloor, stone_floors);
+        }
+
+        public void replace_surrounding_void(Tile target_tile, Texture2D[] stone_walls, 
+                                                               Texture2D[] dirt_walls,
+                                                               Texture2D[] rubble_walls)
+        {
+            gridCoordinate target_grid_c = target_tile.get_grid_c();
+            Tile.Tile_Type tileType = target_tile.get_my_tile_type();
+
+            for (int x = target_grid_c.x - 1; x < target_grid_c.x + 2; x++)
+                for (int y = target_grid_c.y - 1; y < target_grid_c.y + 2; y++)
+                    if (floorTiles[x][y].isVoid())
+                    {
+                        switch (target_tile.get_my_tile_type())
+                        {
+                            //Dirt
+                            case Tile.Tile_Type.DirtFloor:
+                                floorTiles[x][y].set_tile_type(Tile.Tile_Type.DirtWall, dirt_walls);
+                                break;
+                            case Tile.Tile_Type.Rubble_Floor:
+                                floorTiles[x][y].set_tile_type(Tile.Tile_Type.Rubble_Wall, rubble_walls);
+                                break;
+                            //Stone
+                            default:
+                                floorTiles[x][y].set_tile_type(Tile.Tile_Type.StoneWall, stone_walls);
+                                break;
+                        }   
+                    }
+        }
+
+        List<List<bool>> circular_room_matrix(int diameter)
+        {
+            List<List<bool>> circle_matrix = new List<List<bool>>();
+
+            int radius = (int)Math.Floor((double)diameter / 2);
+            //the "r" here stands for room, so room x, room y, etc.
+            for (int rx = 0; rx < diameter; rx++)
+            {
+                circle_matrix.Add(new List<bool>());
+                for (int ry = 0; ry < diameter; ry++)
+                    circle_matrix[rx].Add(true);
+            }
+
+            int tiles_off_corners = Math.Max(radius - 2, 1);
+            
+            for(int rx = 0; rx < diameter; rx++)
+                for (int ry = 0; ry < diameter; ry++)
+                {
+                    if ((rx < tiles_off_corners || rx >= diameter - tiles_off_corners) &&
+                       (ry < tiles_off_corners || ry >= diameter - tiles_off_corners))
+                        circle_matrix[rx][ry] = false;
+                }
+
+            if (radius - 2 > 0)
+            {
+                //The two leftmost tiles.
+                circle_matrix[0][diameter - (tiles_off_corners + 1)] = false;
+                circle_matrix[0][tiles_off_corners] = false;
+
+                //The two next ones to the right
+                circle_matrix[tiles_off_corners][0] = false;
+                circle_matrix[tiles_off_corners][diameter - 1] = false;
+
+                //Two next to the right
+                circle_matrix[diameter - (tiles_off_corners + 1)][0] = false;
+                circle_matrix[diameter - (tiles_off_corners +1)][diameter - 1] = false;
+
+                //The two rightmost ones
+                circle_matrix[diameter - 1][tiles_off_corners] = false;
+                circle_matrix[diameter - 1][diameter - (tiles_off_corners + 1)] = false;
+            }
+
+            return circle_matrix;
+        }
+
+        public void add_door(gridCoordinate target_coord)
+        {
+            Doodads.Add(new Doodad(Doodad.Doodad_Type.Door, cManager, target_coord, Doodads.Count));
+            int door_state = randGen.Next(5);
+            if (door_state == 0)
+                Doodads[Doodads.Count - 1].set_door_state(Doodad.Door_State.Locked);
+            else if (door_state == 1)
+                Doodads[Doodads.Count - 1].set_door_state(Doodad.Door_State.Stuck);
+        }
+
+        //This is all non-dungeon building stuff pertaining to monsters, etc.
+        //Green text. Function here.
+        public void update_dungeon_floor(Player Pl)
+        {
+            //Vision_Log.Clear();
+            //scrub_all_auras();
+            execute_persistent_effects(Pl);
+            update_all_monsters(Pl);
+            decay_all_scents();
+        }
+
+        //Green text. Function here.
+        public void update_all_monsters(Player pl)
+        {
+            for (int i = 0; i < badGuys.Count; i++)
+            {
+                badGuys[i].Update_Monster(pl, this);
+            }
+        }
+
+        public void smooth_transition_monster(float delta_time)
+        {
+            for(int i = 0; i < badGuys.Count; i++)
+                badGuys[i].increment_my_drawing_position(delta_time);
+        }
+
+        public bool done_smooth_transitions()
+        {
+            bool done = true;
+            for (int i = 0; i < badGuys.Count; i++)
+                if (!badGuys[i].at_destination())
+                    done = false;
+
+            return done;
+        }
+
+        public bool acceptable_destruction_coordinate(gridCoordinate t_coord)
+        {
+            return t_coord.x > 0 && t_coord.x < stdfloorSize-1 && t_coord.y > 0 && t_coord.y < stdfloorSize-1;
+        }
+
+        #endregion
+
+        #region specific dungeon building functions
+
+        public void build_necropolis_floor()
+        {
+            string basePath = "Background/Necropolis/Necro_";
             //Make the base tiles.
+            //Void
+            the_void[0] = cManager.Load<Texture2D>("Background/badvoidtile");
+            //Stone Walls
+            stone_walls[0] = cManager.Load<Texture2D>(basePath + "StoneWall");
+            stone_walls[1] = cManager.Load<Texture2D>(basePath + "StoneWallTorch");
+            //Stone Floors
+            stone_floors[0] = cManager.Load<Texture2D>(basePath + "StoneFloor");
+            stone_floors[1] = cManager.Load<Texture2D>(basePath + "StoneFloorCracked");
+            //Dirt Floors
+            dirt_floors[0] = cManager.Load<Texture2D>(basePath + "Dirtfloor");
+            //Dirt Walls
+            dirt_walls[0] = cManager.Load<Texture2D>(basePath + "DirtWall");
+            dirt_walls[1] = cManager.Load<Texture2D>(basePath + "DirtWallTorch");
+            //Exit Tile
+            exit_tile[0] = cManager.Load<Texture2D>("Background/exit");
+            //MOSS
+            mossy_dirtfloors[0] = cManager.Load<Texture2D>(basePath + "MossDirtFloor");
+            mossy_stonefloors[0] = cManager.Load<Texture2D>(basePath + "StoneFloorMoss");
+            mossy_stonefloors[1] = cManager.Load<Texture2D>(basePath + "StoneFloorCrackedMoss");
+            mossy_dirtwalls[0] = cManager.Load<Texture2D>(basePath + "MossDirtWall");
+            mossy_stonewalls[0] = cManager.Load<Texture2D>(basePath + "StoneWallMoss");
+
             for (int x = 0; x < stdfloorSize; x++)
             {
                 floorTiles.Add(new List<Tile>());
                 for (int y = 0; y < stdfloorSize; y++)
                 {
                     Vector2 tilePos = new Vector2(x * 32, y * 32);
-                    floorTiles[x].Add(new Tile(0, randGen.Next(100), cManager, blank_texture, tilePos, new gridCoordinate(x, y)));
+                    floorTiles[x].Add(new Tile(Tile.Tile_Type.Void, randGen.Next(100), cManager, blank_texture, tilePos, new gridCoordinate(x, y), the_void));
                 }
             }
 
@@ -117,8 +406,8 @@ namespace Cronkpit
 
                 bool dirt_room = false;
                 int dirt_dice_roll = randGen.Next(100);
-                if (dirt_dice_roll < dirt_threshold && 
-                    (lower_room_x_edge < 15 || upper_room_x_edge > 35 || 
+                if (dirt_dice_roll < dirt_threshold &&
+                    (lower_room_x_edge < 15 || upper_room_x_edge > 35 ||
                     lower_room_y_edge < 15 || upper_room_y_edge > 35))
                     dirt_room = true;
 
@@ -128,6 +417,16 @@ namespace Cronkpit
                                     next_room_startY,
                                     dirt_room);
 
+                int corpse_chance = fl_number * 5;
+                if (rm.is_dirt_room())
+                    corpse_chance += 20;
+
+                if (randGen.Next(100) < corpse_chance)
+                    rm.set_corpses(true);
+
+                if (rm.has_corpses())
+                    rm.set_corners_with_corpses(randGen.Next(1, 5));
+
                 if (next_room_height == next_room_width && next_room_width % 2 == 1)
                 {
                     int circular_room_roll = randGen.Next(3);
@@ -136,6 +435,13 @@ namespace Cronkpit
                         rm.set_to_circular_room();
                         rm.set_circular_room_matrix(circular_room_matrix(next_room_width));
                     }
+                }
+
+                if (!rm.is_circular_room())
+                {
+                    int doors = randGen.Next(4);
+                    if (doors == 0)
+                        rm.set_doors(true);
                 }
 
                 roomLayout.Add(rm);
@@ -204,15 +510,15 @@ namespace Cronkpit
                         {
                             if (circle_matrix[x - roomLayout[i].startXPos][y - roomLayout[i].startYPos])
                                 if (!roomLayout[i].is_dirt_room())
-                                    floorTiles[x][y].set_tile_type(1);
+                                    floorTiles[x][y].set_tile_type(Tile.Tile_Type.StoneFloor, stone_floors);
                                 else
-                                    floorTiles[x][y].set_tile_type(5);
+                                    floorTiles[x][y].set_tile_type(Tile.Tile_Type.DirtFloor, dirt_floors);
                         }
                         else
                             if (!roomLayout[i].is_dirt_room())
-                                floorTiles[x][y].set_tile_type(1);
+                                floorTiles[x][y].set_tile_type(Tile.Tile_Type.StoneFloor, stone_floors);
                             else
-                                floorTiles[x][y].set_tile_type(5);
+                                floorTiles[x][y].set_tile_type(Tile.Tile_Type.DirtFloor, dirt_floors);
                     }
             }
 
@@ -273,18 +579,18 @@ namespace Cronkpit
                     {
                         if (floorTiles[x][exit_coord.y].isVoid() && !exitPlaced)
                         {
-                            floorTiles[x][exit_coord.y].set_tile_type(4);
+                            floorTiles[x][exit_coord.y].set_tile_type(Tile.Tile_Type.Exit, exit_tile);
                             exitPlaced = true;
                         }
                     }
                 }
-                
+
                 for (int y = exit_coord.y - 1; y <= exit_coord.y + 1; y++)
                     if (y < stdfloorSize && y > 0)
                     {
                         if (floorTiles[exit_coord.x][y].isVoid() && !exitPlaced)
                         {
-                            floorTiles[exit_coord.x][y].set_tile_type(4);
+                            floorTiles[exit_coord.x][y].set_tile_type(Tile.Tile_Type.Exit, exit_tile);
                             exitPlaced = true;
                         }
                     }
@@ -293,10 +599,10 @@ namespace Cronkpit
             for (int x = 0; x < stdfloorSize; x++)
                 for (int y = 0; y < stdfloorSize; y++)
                     if (floorTiles[x][y].isPassable())
-                        replace_surrounding_void(floorTiles[x][y]);
+                        replace_surrounding_void(floorTiles[x][y], stone_walls, dirt_walls, rubble_wall);
 
             //Next, do mossy tiles.
-            int moss_patches = randGen.Next(Math.Min(5, Math.Max(fl_number - 3, 0))+1);
+            int moss_patches = randGen.Next(Math.Min(5, Math.Max(fl_number - 3, 0)) + 1);
             //int moss_patches = 12;
             for (int i = 0; i < moss_patches; i++)
             {
@@ -315,16 +621,175 @@ namespace Cronkpit
                             int y_position = mossLayout[j].grid_position.y + y;
                             if (x_position > 0 && x_position < 50 && y_position > 0 && y_position < 50)
                             {
-                                floorTiles[x_position][y_position].mossify();
+                                switch (floorTiles[x_position][y_position].get_my_tile_type())
+                                {
+                                    case Tile.Tile_Type.DirtFloor:
+                                        floorTiles[x_position][y_position].mossify(mossy_dirtfloors);
+                                        break;
+                                    case Tile.Tile_Type.DirtWall:
+                                        floorTiles[x_position][y_position].mossify(mossy_dirtwalls);
+                                        break;
+                                    case Tile.Tile_Type.StoneWall:
+                                        floorTiles[x_position][y_position].mossify(mossy_stonewalls);
+                                        break;
+                                    default:
+                                        floorTiles[x_position][y_position].mossify(mossy_stonefloors);
+                                        break;
+                                }
+                                
                             }
                         }
+            }
+            //Add Doors first
+            for (int i = 0; i < roomLayout.Count; i++)
+            {
+                if (roomLayout[i].room_has_doors())
+                {
+                    int roomX = roomLayout[i].startXPos;
+                    int roomY = roomLayout[i].startYPos;
+                    int roomH = roomLayout[i].roomHeight;
+                    int roomW = roomLayout[i].roomWidth;
+                    for (int x = roomX; x < roomX + roomW; x++)
+                    {
+                        if (!is_tile_passable(new gridCoordinate(x - 1, roomY - 1)) &&
+                            !is_tile_passable(new gridCoordinate(x + 1, roomY - 1)) &&
+                            is_tile_passable(new gridCoordinate(x, roomY - 1)) &&
+                            !floorTiles[x][roomY - 1].isExit())
+                            add_door(new gridCoordinate(x, roomY - 1));
+
+                        if (!is_tile_passable(new gridCoordinate(x - 1, roomY + roomH)) &&
+                            !is_tile_passable(new gridCoordinate(x + 1, roomY + roomH)) &&
+                            is_tile_passable(new gridCoordinate(x, roomY + roomH)) &&
+                            !floorTiles[x][roomY + roomH].isExit())
+                            add_door(new gridCoordinate(x, roomY+roomH));
+                    }
+
+                    for (int y = roomY; y < roomY + roomH; y++)
+                    {
+                        if (!is_tile_passable(new gridCoordinate(roomX - 1, y - 1)) &&
+                            !is_tile_passable(new gridCoordinate(roomX - 1, y + 1)) &&
+                            is_tile_passable(new gridCoordinate(roomX - 1, y)) &&
+                            !floorTiles[roomX - 1][y].isExit())
+                            add_door(new gridCoordinate(roomX-1, y));
+
+                        if (!is_tile_passable(new gridCoordinate(roomX + roomW, y - 1)) &&
+                            !is_tile_passable(new gridCoordinate(roomX + roomW, y + 1)) &&
+                            is_tile_passable(new gridCoordinate(roomX + roomW, y)) &&
+                            !floorTiles[roomX + roomW][y].isExit())
+                            add_door(new gridCoordinate(roomX + roomW, y));
+                    }
+                }
             }
 
             //Add Doodads
             int suits = randGen.Next(Math.Max(0, 4 - fl_number), Math.Max(2, 6 - fl_number));
             for (int i = 0; i < suits; i++)
-                Doodads.Add(new Doodad(Doodad.Doodad_Type.ArmorSuit, cManager, 
+                Doodads.Add(new Doodad(Doodad.Doodad_Type.ArmorSuit, cManager,
                             valid_hollowKnight_spawn(), i));
+
+            for (int i = 0; i < roomLayout.Count; i++)
+            {
+                if (roomLayout[i].has_corpses())
+                {
+                    int corners = roomLayout[i].how_many_corners_have_corpses();
+                    int roomX = roomLayout[i].startXPos;
+                    int roomY = roomLayout[i].startYPos;
+                    int roomH = roomLayout[i].roomHeight-1;
+                    int roomW = roomLayout[i].roomWidth-1;
+                    int x_dir_check = 0;
+                    int y_dir_check = 0;
+                    gridCoordinate top_left = new gridCoordinate(roomX, roomY);
+                    gridCoordinate top_right = new gridCoordinate(roomX+roomW, roomY);
+                    gridCoordinate bottom_left = new gridCoordinate(roomX, roomY+roomH);
+                    gridCoordinate bottom_right = new gridCoordinate(roomX+roomW, roomY+roomH);
+                    for(int c = 0; c < corners; c++)
+                    {
+                        bool corner_valid = false;
+                        gridCoordinate target_corner_gc = new gridCoordinate(-1, -1);
+                        while(!corner_valid)
+                        {
+                            //pick a random corner.
+                            int target_corner = randGen.Next(4);
+                            if (target_corner == 0)
+                            {
+                                target_corner_gc = top_left;
+                                x_dir_check = -1;
+                                y_dir_check = -1;
+                            }
+                            else if (target_corner == 1)
+                            {
+                                target_corner_gc = top_right;
+                                x_dir_check = 1;
+                                y_dir_check = -1;
+                            }
+                            else if (target_corner == 2)
+                            {
+                                target_corner_gc = bottom_left;
+                                x_dir_check = -1;
+                                y_dir_check = 1;
+                            }
+                            else if (target_corner == 3)
+                            {
+                                target_corner_gc = bottom_right;
+                                x_dir_check = 1;
+                                y_dir_check = 1;
+                            }
+
+                            //Next, check to see if there's a corpse pile in that corner
+                            //Already.
+                            corner_valid = true;
+                            for (int d = 0; d < Doodads.Count; d++)
+                                if (Doodads[d].get_g_coord().x == target_corner_gc.x &&
+                                    Doodads[d].get_g_coord().y == target_corner_gc.y)
+                                    corner_valid = false;
+                        }
+
+                        if (corner_valid)
+                        {
+                            int number_of_corpses = randGen.Next(1, 4); //Math.Min(3, 5 - randGen.Next(6));
+
+                            if (is_tile_passable(target_corner_gc) &&
+                               !is_tile_passable(new gridCoordinate(target_corner_gc.x + x_dir_check, target_corner_gc.y)) &&
+                               !is_tile_passable(new gridCoordinate(target_corner_gc.x, target_corner_gc.y + y_dir_check)))
+                                Doodads.Add(new Doodad(Doodad.Doodad_Type.CorpsePile, cManager, target_corner_gc, Doodads.Count));
+                            if (number_of_corpses >= 2)
+                            {
+                                gridCoordinate pile_2 = new gridCoordinate(target_corner_gc.x + (x_dir_check * -1), target_corner_gc.y);
+                                if (is_tile_passable(pile_2) &&
+                                    !is_tile_passable(new gridCoordinate(pile_2.x, pile_2.y + y_dir_check)))
+                                    Doodads.Add(new Doodad(Doodad.Doodad_Type.CorpsePile, cManager, pile_2, Doodads.Count));
+                            }
+                            if (number_of_corpses == 3)
+                            {
+                                gridCoordinate pile_3 = new gridCoordinate(target_corner_gc.x, target_corner_gc.y + (y_dir_check * -1));
+                                if (is_tile_passable(pile_3) &&
+                                    !is_tile_passable(new gridCoordinate(pile_3.x + x_dir_check, pile_3.y)))
+                                    Doodads.Add(new Doodad(Doodad.Doodad_Type.CorpsePile, cManager, pile_3, Doodads.Count));
+                            }
+                            /*
+                            if (number_of_corpses <= 4)
+                            {
+                                gridCoordinate pile_4 = new gridCoordinate(pile_2.x + (x_dir_check * -1), target_corner_gc.y);
+                                if (is_tile_passable(pile_4) &&
+                                    !is_tile_passable(new gridCoordinate(pile_4.x, pile_4.y + y_dir_check)))
+                                    Doodads.Add(new Doodad(Doodad.Doodad_Type.CorpsePile, cManager, pile_4, Doodads.Count));
+                            }
+                            
+                            if (number_of_corpses == 5)
+                            {
+                                gridCoordinate pile_5 = new gridCoordinate(pile_3.x + (x_dir_check * -1), pile_3.y);
+                                if(is_tile_passable(pile_5) &&
+                                   !is_tile_passable(new gridCoordinate(target_corner_gc.x + x_dir_check, target_corner_gc.y)) &&
+                                   !is_tile_passable(new gridCoordinate(target_corner_gc.x, target_corner_gc.y + y_dir_check)) &&
+                                   !is_tile_passable(new gridCoordinate(pile_2.x, pile_2.y + y_dir_check)) &&
+                                   !is_tile_passable(new gridCoordinate(pile_3.x + x_dir_check, pile_3.y)))
+                                Doodads.Add(new Doodad(Doodad.Doodad_Type.CorpsePile, cManager, pile_5, Doodads.Count));
+                            }
+                            */
+                        }
+                    }
+                }
+            }
 
             //Add gold piles
             int gold_per_floor = 500;
@@ -340,7 +805,7 @@ namespace Cronkpit
             {
                 for (int i = 0; i < number_of_goldpiles; i++)
                 {
-                    int amt_to_subtract = Math.Min(randGen.Next(0, (50-Money[i].my_quantity)+1), gold_per_floor);
+                    int amt_to_subtract = Math.Min(randGen.Next(0, (50 - Money[i].my_quantity) + 1), gold_per_floor);
                     gold_per_floor -= amt_to_subtract;
                     Money[i].my_quantity += amt_to_subtract;
                 }
@@ -352,199 +817,7 @@ namespace Cronkpit
             int monster_lower_bound = 2;
             int monster_upper_bound = 4 + (fl_number / 2);
             int number_of_monsters = 7 + ((fl_number - 5) / 2) + randGen.Next(monster_lower_bound, monster_upper_bound);
-            //int number_of_monsters = 1;
-            for (int i = 0; i < number_of_monsters; i++)
-            {
-                int monsterType = randGen.Next(100);
-                string monster_to_add = floorSpawns.find_monster_by_number(monsterType);
-
-                switch (monster_to_add)
-                {
-                    case "HollowKnight":
-                        if (randGen.Next(100) <= floor_Sub_Spawns.return_spawn_chance_by_monster("RedKnight"))
-                            badGuys.Add(new RedKnight(valid_hollowKnight_spawn(), cManager, i));
-                        else
-                            badGuys.Add(new HollowKnight(valid_hollowKnight_spawn(), cManager, i));
-                        break;
-                    case "Skeleton":
-                        int skelwpn = randGen.Next(6);
-                        switch (skelwpn)
-                        {
-                            case 0:
-                                badGuys.Add(new Skeleton(random_valid_position(), cManager, i, Skeleton.Skeleton_Weapon_Type.Fist));
-                                break;
-                            case 1:
-                                badGuys.Add(new Skeleton(random_valid_position(), cManager, i, Skeleton.Skeleton_Weapon_Type.Axe));
-                                break;
-                            case 2:
-                                badGuys.Add(new Skeleton(random_valid_position(), cManager, i, Skeleton.Skeleton_Weapon_Type.Bow));
-                                break;
-                            case 3:
-                                badGuys.Add(new Skeleton(random_valid_position(), cManager, i, Skeleton.Skeleton_Weapon_Type.Sword));
-                                break;
-                            case 4:
-                                badGuys.Add(new Skeleton(random_valid_position(), cManager, i, Skeleton.Skeleton_Weapon_Type.Spear));
-                                break;
-                            case 5:
-                                badGuys.Add(new Skeleton(random_valid_position(), cManager, i, Skeleton.Skeleton_Weapon_Type.Flamebolt));
-                                break;
-                        }
-                        break;
-                    case "GoldMimic":
-                        badGuys.Add(new GoldMimic(random_valid_position(), cManager, i));
-                        break;
-                    case "GoreHound":
-                        badGuys.Add(new GoreHound(random_valid_position(), cManager, i));
-                        break;
-                    case "Zombie":
-                        badGuys.Add(new Zombie(random_valid_position(), cManager, i));
-                        break;
-                    case "Grendel":
-                        int grenwpn = randGen.Next(3);
-                        switch (grenwpn)
-                        {
-                            case 0:
-                                badGuys.Add(new Grendel(random_valid_position(), cManager, i, Grendel.Grendel_Weapon_Type.Club));
-                                break;
-                            case 1:
-                                badGuys.Add(new Grendel(random_valid_position(), cManager, i, Grendel.Grendel_Weapon_Type.Frostbolt));
-                                break;
-                        }
-                        break;
-                    case "Necromancer":
-                        badGuys.Add(new Necromancer(random_valid_position(), cManager, i, false));
-                        break;
-                    case "GoreWolf":
-                        badGuys.Add(new Gorewolf(random_valid_position(), cManager, i));
-                        break;
-                    case "Ghost":
-                        badGuys.Add(new Ghost(random_valid_position(), cManager, i));
-                        break;
-                }                    
-            }
-            //Have monsters wander
-            /*
-            for(int i = 0; i < stdfloorSize; i++)
-                for(int j = 0; j < badGuys.Count; j++)
-                    badGuys[j].wander(
-             */
-        }
-
-        public void draw_hallway_tiles(Tile target_tile)
-        {
-            if (target_tile.get_my_tile_type() != 1 && target_tile.get_my_tile_type() != 5)
-                target_tile.set_tile_type(1);
-        }
-
-        public void replace_surrounding_void(Tile target_tile)
-        {
-            gridCoordinate target_grid_c = target_tile.get_grid_c();
-            int tileType = target_tile.get_my_tile_type();
-
-            for (int x = target_grid_c.x - 1; x < target_grid_c.x + 2; x++)
-                for (int y = target_grid_c.y - 1; y < target_grid_c.y + 2; y++)
-                    if (floorTiles[x][y].isVoid())
-                    {
-                        switch (target_tile.get_my_tile_type())
-                        {
-                            case 5:
-                                floorTiles[x][y].set_tile_type(6);
-                                break;
-                            case 7:
-                                floorTiles[x][y].set_tile_type(8);
-                                break;
-                            default:
-                                floorTiles[x][y].set_tile_type(2);
-                                break;
-                        }   
-                    }
-        }
-
-        List<List<bool>> circular_room_matrix(int diameter)
-        {
-            List<List<bool>> circle_matrix = new List<List<bool>>();
-
-            int radius = (int)Math.Floor((double)diameter / 2);
-            //the "r" here stands for room, so room x, room y, etc.
-            for (int rx = 0; rx < diameter; rx++)
-            {
-                circle_matrix.Add(new List<bool>());
-                for (int ry = 0; ry < diameter; ry++)
-                    circle_matrix[rx].Add(true);
-            }
-
-            int tiles_off_corners = Math.Max(radius - 2, 1);
-            
-            for(int rx = 0; rx < diameter; rx++)
-                for (int ry = 0; ry < diameter; ry++)
-                {
-                    if ((rx < tiles_off_corners || rx >= diameter - tiles_off_corners) &&
-                       (ry < tiles_off_corners || ry >= diameter - tiles_off_corners))
-                        circle_matrix[rx][ry] = false;
-                }
-
-            if (radius - 2 > 0)
-            {
-                //The two leftmost tiles.
-                circle_matrix[0][diameter - (tiles_off_corners + 1)] = false;
-                circle_matrix[0][tiles_off_corners] = false;
-
-                //The two next ones to the right
-                circle_matrix[tiles_off_corners][0] = false;
-                circle_matrix[tiles_off_corners][diameter - 1] = false;
-
-                //Two next to the right
-                circle_matrix[diameter - (tiles_off_corners + 1)][0] = false;
-                circle_matrix[diameter - (tiles_off_corners +1)][diameter - 1] = false;
-
-                //The two rightmost ones
-                circle_matrix[diameter - 1][tiles_off_corners] = false;
-                circle_matrix[diameter - 1][diameter - (tiles_off_corners + 1)] = false;
-            }
-
-            return circle_matrix;
-        }
-
-        //This is all non-dungeon building stuff pertaining to monsters, etc.
-
-        //Green text. Function here.
-        public void update_dungeon_floor(Player Pl)
-        {
-            //Vision_Log.Clear();
-            //scrub_all_auras();
-            execute_persistent_effects(Pl);
-            update_all_monsters(Pl);
-            decay_all_scents();
-        }
-
-        //Green text. Function here.
-        public void update_all_monsters(Player pl)
-        {
-            for (int i = 0; i < badGuys.Count; i++)
-            {
-                badGuys[i].Update_Monster(pl, this);
-            }
-        }
-
-        public void smooth_transition_monster(float delta_time)
-        {
-            for(int i = 0; i < badGuys.Count; i++)
-                badGuys[i].increment_my_drawing_position(delta_time);
-        }
-
-        public bool done_smooth_transitions()
-        {
-            bool done = true;
-            for (int i = 0; i < badGuys.Count; i++)
-                if (!badGuys[i].at_destination())
-                    done = false;
-
-            return done;
-        }
-
-        public bool acceptable_destruction_coordinate(gridCoordinate t_coord)
-        {
-            return t_coord.x > 0 && t_coord.x < stdfloorSize-1 && t_coord.y > 0 && t_coord.y < stdfloorSize-1;
+            add_monsters(ref badGuys, number_of_monsters);
         }
 
         #endregion
@@ -559,7 +832,7 @@ namespace Cronkpit
 
         #endregion
 
-        #region position stuff
+        #region position stuff - includes mouse click functions
 
         //Green text. Function here.
         public bool isWalkable(gridCoordinate grid_position)
@@ -601,7 +874,11 @@ namespace Cronkpit
 
         public bool is_void_tile(gridCoordinate grid_position)
         {
-            return floorTiles[grid_position.x][grid_position.y].isVoid();
+            if (grid_position.x >= 0 && grid_position.x < stdfloorSize &&
+               grid_position.y >= 0 && grid_position.y < stdfloorSize)
+                return floorTiles[grid_position.x][grid_position.y].isVoid();
+            else
+                return true;
         }
 
         //Green text. Function here.
@@ -684,54 +961,60 @@ namespace Cronkpit
         }
 
         //Green text. Function here.
-        public gridCoordinate random_valid_position()
+        public gridCoordinate random_valid_position(Monster.Monster_Size entitySize = Monster.Monster_Size.Normal)
         {
-            int gridx = randGen.Next(stdfloorSize);
-            int gridy = randGen.Next(stdfloorSize);
+            bool valid_position = false;
+            List<gridCoordinate> g_coords = new List<gridCoordinate>();
+            int size_modifier = 0;
+            if (entitySize == Monster.Monster_Size.Large)
+                size_modifier = 1;
 
-            if (isWalkable(floorTiles[gridx][gridy].get_grid_c()) && 
-                !isExit(floorTiles[gridx][gridy].get_grid_c()) &&
-                !is_entity_here(floorTiles[gridx][gridy].get_grid_c()))
-                return new gridCoordinate(gridx, gridy);
-            else
+            while (!valid_position)
             {
-                //Now we do this the long way...
-                int offset = 1;
-                while (offset < 50)
+                int grid_basex = randGen.Next(stdfloorSize - size_modifier);
+                int grid_basey = randGen.Next(stdfloorSize - size_modifier);
+                g_coords.Add(new gridCoordinate(grid_basex, grid_basey));
+                if(entitySize == Monster.Monster_Size.Large)
                 {
-                    for (int nextx = gridx - offset; nextx <= gridx + offset; nextx++)
-                    {
-                        gridCoordinate g_c = new gridCoordinate(nextx, gridy - offset);
-                        if (isWalkable(g_c) && !isExit(g_c) && !is_entity_here(g_c))
-                            return new gridCoordinate(nextx, gridy - offset);
-                    }
-
-                    for (int nexty = gridy - offset; nexty <= gridy + offset; nexty++)
-                    {
-                        gridCoordinate g_c = new gridCoordinate(gridx - offset, nexty);
-                        if (isWalkable(g_c) && !isExit(g_c) && !is_entity_here(g_c))
-                            return new gridCoordinate(gridx - offset, nexty);
-                    }
-
-                    for (int nextx = gridx - offset; nextx <= gridx + offset; nextx++)
-                    {
-                        gridCoordinate g_c = new gridCoordinate(nextx, gridy + offset);
-                        if (isWalkable(g_c) && !isExit(g_c) && !is_entity_here(g_c))
-                            return new gridCoordinate(nextx, gridy + offset);
-                    }
-
-                    for (int nexty = gridy - offset; nexty <= gridy + offset; nexty++)
-                    {
-                        gridCoordinate g_c = new gridCoordinate(gridx + offset, nexty);
-                        if (isWalkable(g_c) && !isExit(g_c) && !is_entity_here(g_c))
-                            return new gridCoordinate(gridx + offset, nexty);
-                    }
-
-                    offset++;
+                    g_coords.Add(new gridCoordinate(grid_basex + 1, grid_basey));
+                    g_coords.Add(new gridCoordinate(grid_basex, grid_basey + 1));
+                    g_coords.Add(new gridCoordinate(grid_basex + 1, grid_basey + 1));
                 }
-                //and if we STILL can't find one, just return the starting coordinate of room 0
-                return new gridCoordinate(roomLayout[0].startXPos, roomLayout[0].startYPos);
+
+                bool good_position = true;
+                //Check to make sure they can all be walked in
+                for (int i = 0; i < g_coords.Count; i++)
+                    if (!isWalkable(g_coords[i]))
+                        good_position = false;
+                //Make sure there are no monsters there.
+                for (int i = 0; i < badGuys.Count; i++)
+                    for (int j = 0; j < g_coords.Count; j++)
+                        if (badGuys[i].occupies_tile(g_coords[j]))
+                            good_position = false;
+                //Make sure there are no doodads there
+                for (int i = 0; i < Doodads.Count; i++)
+                    for (int j = 0; j < g_coords.Count; j++)
+                        if (Doodads[i].get_g_coord().x == g_coords[j].x &&
+                            Doodads[i].get_g_coord().y == g_coords[j].y)
+                            good_position = false;
+                //make sure there are no gold piles there
+                for (int i = 0; i < Money.Count; i++)
+                    for (int j = 0; j < g_coords.Count; j++)
+                        if (Money[i].get_my_grid_C().x == g_coords[j].x &&
+                            Money[i].get_my_grid_C().y == g_coords[j].y)
+                            good_position = false;
+                //make sure it's not the exit
+                for (int i = 0; i < g_coords.Count; i++)
+                    if (floorTiles[g_coords[i].x][g_coords[i].y].get_my_tile_type() == Tile.Tile_Type.Exit)
+                        good_position = false;
+
+                if (good_position)
+                    valid_position = true;
+                else
+                    g_coords.Clear();
             }
+
+            return g_coords[0];
         }
 
         //Green text!
@@ -792,7 +1075,7 @@ namespace Cronkpit
             for (int i = 0; i < Doodads.Count; i++)
             {
                 gridCoordinate Doodad_coord = Doodads[i].get_g_coord();
-                if (Doodad_coord.x == gc.x && Doodad_coord.y == gc.y)
+                if (Doodad_coord.x == gc.x && Doodad_coord.y == gc.y && Doodads[i].is_destructible())
                 {
                     DoodadIndex = i;
                     return true;
@@ -866,9 +1149,38 @@ namespace Cronkpit
             return range;
         }
 
+        public void check_click(Player pl, gridCoordinate click_loc, out bool bad_turn)
+        {
+            bad_turn = false;
+            int pl_x_difference = pl.get_my_grid_C().x - click_loc.x;
+            int pl_y_difference = pl.get_my_grid_C().y - click_loc.y;
+            for (int i = 0; i < Doodads.Count; i++)
+            {
+                if (Doodads[i].get_g_coord().x == click_loc.x &&
+                   Doodads[i].get_g_coord().y == click_loc.y &&
+                   pl_x_difference > -2 && pl_x_difference < 2 &&
+                   pl_y_difference > -2 && pl_y_difference < 2)
+                    switch (Doodads[i].get_my_doodad_type())
+                    {
+                        case Doodad.Doodad_Type.Door:
+                            if(!Doodads[i].is_door_destroyed())
+                                if (!Doodads[i].is_door_closed())
+                                {
+                                    Doodads[i].close_door(this);
+                                }
+                                else
+                                {
+                                    bad_turn = true;
+                                    Doodads[i].open_door(this);
+                                }
+                            break;
+                    }
+            }
+        }
+
         #endregion
 
-        #region projectile management (includes cloud generation)
+        #region projectile management (includes cloud generation & cone attacks)
 
         public void update_all_projectiles(Player pl, float delta_time)
         {
@@ -932,18 +1244,20 @@ namespace Cronkpit
                             int cloud_size = Pew_Pews[i].get_aoe_size();
                             int cloud_duration = 1 + ((cloud_size-1)/2);
                             PersistentEffect ceffect = new PersistentEffect(Scroll.Atk_Area_Type.cloudAOE,
-                                                                            PersistentEffect.special_effect_type.None,
+                                                                            specific_effect.None,
                                                                             endCoord, cloud_duration, 
                                                                             Pew_Pews[i].is_monster_projectile(),
                                                                             dmg_type, wnd_type, cloud_size,
                                                                             min_damage, max_damage);
                             add_new_persistent_effect(ceffect);
+                            if (Pew_Pews[i].is_monster_projectile())
+                                persistent_effects[persistent_effects.Count - 1].ready_effect();
                             break;
                         case Scroll.Atk_Area_Type.randomblockAOE:
                             if (Pew_Pews[i].get_special_anim() == Projectile.special_anim.Earthquake)
                             {
                                 PersistentEffect peffect = new PersistentEffect(Scroll.Atk_Area_Type.randomblockAOE,
-                                                                                PersistentEffect.special_effect_type.Earthquake,
+                                                                                specific_effect.Earthquake,
                                                                                 endCoord, 1, Pew_Pews[i].is_monster_projectile(),
                                                                                 dmg_type, wnd_type, Pew_Pews[i].get_aoe_size(),
                                                                                 min_damage, max_damage);
@@ -985,8 +1299,8 @@ namespace Cronkpit
                             if(acceptable_destruction_coordinate(target_coordinate))
                             {
                                 Tile target_tile = floorTiles[target_coordinate.x][target_coordinate.y];
-                                target_tile.set_tile_type(7);
-                                replace_surrounding_void(target_tile);
+                                target_tile.set_tile_type(Tile.Tile_Type.Rubble_Floor, rubble_floor);
+                                replace_surrounding_void(target_tile, stone_walls, dirt_walls, rubble_wall);
                             }
                         }
                     }
@@ -1173,6 +1487,131 @@ namespace Cronkpit
             return -1;
         }
 
+        public void cone_attack(int cone_range, gridCoordinate origin, gridCoordinate.direction cone_direction,
+                                int cone_atk_max_dmg, int cone_atk_min_dmg, Attack.Damage cone_atk_dmg_type,
+                                wound.Wound_Type cone_atk_wnd_type, Player pl, bool monsterCone,
+                                specific_effect spEfx)
+        {
+            gridCoordinate target = new gridCoordinate(origin);
+            for (int i = 0; i < cone_range; i++)
+                target.shift_direction(cone_direction);
+
+            List<gridCoordinate> endPoints = new List<gridCoordinate>();
+            endPoints.Add(target);
+            switch (cone_direction)
+            {
+                case gridCoordinate.direction.Up:
+                case gridCoordinate.direction.Down:
+                    endPoints.Add(new gridCoordinate(target.x + 2, target.y));
+                    endPoints.Add(new gridCoordinate(target.x + 1, target.y));
+                    endPoints.Add(new gridCoordinate(target.x - 2, target.y));
+                    endPoints.Add(new gridCoordinate(target.x - 1, target.y));
+                    break;
+                case gridCoordinate.direction.Left:
+                case gridCoordinate.direction.Right:
+                    endPoints.Add(new gridCoordinate(target.x, target.y - 2));
+                    endPoints.Add(new gridCoordinate(target.x, target.y - 1));
+                    endPoints.Add(new gridCoordinate(target.x, target.y + 2));
+                    endPoints.Add(new gridCoordinate(target.x, target.y + 1));
+                    break;
+                case gridCoordinate.direction.UpLeft:
+                    endPoints.Add(new gridCoordinate(target.x, target.y + 2));
+                    endPoints.Add(new gridCoordinate(target.x, target.y + 1));
+                    endPoints.Add(new gridCoordinate(target.x + 2, target.y));
+                    endPoints.Add(new gridCoordinate(target.x + 1, target.y));
+                    break;
+                case gridCoordinate.direction.UpRight:
+                    endPoints.Add(new gridCoordinate(target.x, target.y + 2));
+                    endPoints.Add(new gridCoordinate(target.x, target.y + 1));
+                    endPoints.Add(new gridCoordinate(target.x - 2, target.y));
+                    endPoints.Add(new gridCoordinate(target.x - 1, target.y));
+                    break;
+                case gridCoordinate.direction.DownLeft:
+                    endPoints.Add(new gridCoordinate(target.x, target.y - 2));
+                    endPoints.Add(new gridCoordinate(target.x, target.y - 1));
+                    endPoints.Add(new gridCoordinate(target.x + 2, target.y));
+                    endPoints.Add(new gridCoordinate(target.x + 1, target.y));
+                    break;
+                case gridCoordinate.direction.DownRight:
+                    endPoints.Add(new gridCoordinate(target.x, target.y - 2));
+                    endPoints.Add(new gridCoordinate(target.x, target.y - 1));
+                    endPoints.Add(new gridCoordinate(target.x - 2, target.y));
+                    endPoints.Add(new gridCoordinate(target.x - 1, target.y));
+                    break;
+            }
+
+            List<gridCoordinate> effected_area = new List<gridCoordinate>();
+            for (int i = 0; i < endPoints.Count; i++)
+                Vision_Rc.Add(new VisionRay(origin, endPoints[i]));
+
+            while (Vision_Rc.Count > 0)
+            {
+                for (int i = 0; i < Vision_Rc.Count; i++)
+                {
+                    int x_coordinate = (int)Vision_Rc[i].my_current_position.X / 32;
+                    int y_coordinate = (int)Vision_Rc[i].my_current_position.Y / 32;
+
+                    bool add_to_area = true;
+                    for (int j = 0; j < effected_area.Count; j++)
+                    {
+                        if (effected_area[j].x == x_coordinate && effected_area[j].y == y_coordinate)
+                            add_to_area = false;
+                    }
+                    if (add_to_area)
+                        effected_area.Add(floorTiles[x_coordinate][y_coordinate].get_grid_c());
+
+                    bool remove = false;
+                    if (!is_tile_passable(new gridCoordinate(x_coordinate, y_coordinate)) ||
+                        Vision_Rc[i].is_at_end())
+                        remove = true;
+
+                    if (remove)
+                        Vision_Rc.RemoveAt(i);
+                    else
+                        Vision_Rc[i].update();
+                }
+            }
+
+            int original_size = effected_area.Count;
+            for (int i = 0; i < original_size; i++)
+                for (int j = 0; j < effected_area.Count; j++)
+                    if (effected_area[j].x == origin.x && effected_area[j].y == origin.y)
+                        effected_area.RemoveAt(j);
+
+            for (int i = 0; i < effected_area.Count; i++)
+            {
+                if (is_tile_passable(effected_area[i]))
+                    if (spEfx == specific_effect.None)
+                        add_effect(cone_atk_dmg_type, effected_area[i]);
+                    else
+                        add_specific_effect(spEfx, effected_area[i]);
+
+                int monsterID;
+                int doodadID;
+                if (is_monster_here(effected_area[i], out monsterID))
+                {
+                    int dmg = randGen.Next(cone_atk_min_dmg, cone_atk_max_dmg + 1);
+                    if (monsterCone)
+                        dmg = dmg * 2;
+                    damage_monster(dmg, monsterID, false);
+                }
+                else if (is_destroyable_Doodad_here(effected_area[i], out doodadID))
+                {
+                    int dmg = randGen.Next(cone_atk_min_dmg, cone_atk_max_dmg + 1);
+                    if (monsterCone)
+                        dmg = dmg * 2;
+                    damage_Doodad(dmg, doodadID);
+                }
+                else if (pl.get_my_grid_C().x == effected_area[i].x &&
+                        pl.get_my_grid_C().y == effected_area[i].y)
+                {
+                    if (monsterCone)
+                        pl.take_aoe_damage(cone_atk_min_dmg, cone_atk_max_dmg,
+                                           cone_atk_dmg_type, cone_atk_wnd_type, this);
+                }
+            }
+        }
+
         #endregion
 
         #region effect management
@@ -1217,6 +1656,9 @@ namespace Cronkpit
                     break;
                 case specific_effect.Earthquake:
                     eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/earthquake_spritesheet"), 7, fx_coord));
+                    break;
+                case specific_effect.Acid_Blood:
+                    eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/acidblood_spritesheet"), 11, fx_coord));
                     break;
             }
         }
@@ -1272,9 +1714,9 @@ namespace Cronkpit
                     {
                         if (is_tile_passable(effected_tiles[j]))
                         {
-                            if (persistent_effects[i].get_my_special_fx() == PersistentEffect.special_effect_type.None)
+                            if (persistent_effects[i].get_my_special_fx() == specific_effect.None)
                                 add_effect(effect_dmg_type, effected_tiles[j]);
-                            else if (persistent_effects[i].get_my_special_fx() == PersistentEffect.special_effect_type.Earthquake)
+                            else if (persistent_effects[i].get_my_special_fx() == specific_effect.Earthquake)
                                 add_specific_effect(specific_effect.Earthquake, effected_tiles[j]);
                         }
 
@@ -1501,7 +1943,7 @@ namespace Cronkpit
         }
 
         //Green text.
-        public void sound_pulse(gridCoordinate origin, int soundRange, int soundType)
+        public void sound_pulse(gridCoordinate origin, int soundRange, SoundPulse.Sound_Types soundType)
         {
             int mults = 4;
             //Do this 8 times, once for each direction.
@@ -1521,8 +1963,8 @@ namespace Cronkpit
                     for (int j = 0; j < badGuys.Count; j++)
                     {
                         if(badGuys[j].occupies_tile(Noises[i].my_coord()))
-                            if(badGuys[j].can_hear && Noises[i].my_strength() > badGuys[j].listen_threshold)
-                                badGuys[j].next_path_to_sound(Noises[i].my_path());
+                            if(badGuys[j].can_hear && badGuys[j].can_hear_sound(Noises[i].get_my_type(), Noises[i].my_strength()))
+                                badGuys[j].next_path_to_sound(Noises[i].my_path(), Noises[i].get_my_type());
                     }
 
                     if (Noises[i].my_strength() > 0)
@@ -1639,6 +2081,12 @@ namespace Cronkpit
 
                     if (floorTiles[my_grid_x_position][my_grid_y_position].isOpaque())
                         remove = true;
+
+                    for (int j = 0; j < Doodads.Count; j++)
+                        if (Doodads[j].get_g_coord().x == my_grid_x_position && 
+                            Doodads[j].get_g_coord().y == my_grid_y_position &&
+                            Doodads[j].blocks_los)
+                            remove = true;
 
                     if (Vision_Rc[i].is_at_end() &&
                        floorTiles[my_grid_x_position][my_grid_y_position].get_grid_c().x == destination.x &&
@@ -1814,7 +2262,6 @@ namespace Cronkpit
                         if (badGuys[i] is HollowKnight)
                         {
                             Doodads.Add(new Doodad(Doodad.Doodad_Type.Destroyed_ArmorSuit, cManager, badGuys[i].randomly_chosen_personal_coord(), Doodads.Count));
-                            Doodads[Doodads.Count - 1].destroy();
                         }
                         badGuys.RemoveAt(i);
                     }
@@ -1842,6 +2289,17 @@ namespace Cronkpit
         public Tile.Aura aura_of_specific_tile(gridCoordinate target_tile)
         {
             return floorTiles[target_tile.x][target_tile.y].get_my_aura();
+        }
+
+        public void open_door_here(gridCoordinate door_coord)
+        {
+            for (int i = 0; i < Doodads.Count; i++)
+            {
+                if (Doodads[i].get_g_coord().x == door_coord.x &&
+                    Doodads[i].get_g_coord().y == door_coord.y &&
+                    Doodads[i].get_my_doodad_type() == Doodad.Doodad_Type.Door)
+                    Doodads[i].open_door(this);
+            }
         }
 
         public void consume_mana(int mana)

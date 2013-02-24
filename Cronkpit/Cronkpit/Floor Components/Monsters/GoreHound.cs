@@ -26,6 +26,9 @@ namespace Cronkpit
             //SENSORY
             smell_range = 4;
             smell_threshold = 10;
+            can_hear = true;
+            sounds_i_can_hear.Add(SoundPulse.Sound_Types.Voidwraith_Scream);
+            listen_threshold.Add(1);
 
             //OTHER
             my_name = "Gorehound";
@@ -47,7 +50,7 @@ namespace Cronkpit
 
             if (has_scent)
             {
-                if(is_player_within(pl, 1))
+                if (is_player_within(pl, 1))
                     advance_towards_single_point(strongest_smell_coord, pl, fl, 1, corporeal);
                 else
                     advance_towards_single_point(strongest_smell_coord, pl, fl, 0, corporeal);
@@ -60,6 +63,8 @@ namespace Cronkpit
                     pl.take_damage(dmg, fl, "");
                 }
             }
+            else if (!has_scent && heard_something)
+                follow_path_to_sound(fl, pl);
             else
                 wander(pl, fl, corporeal);
         }

@@ -135,6 +135,7 @@ namespace Cronkpit
         int number_of_items_shown = 8;
         int index_of_mouse_selected_item;
         int index_of_c_equipped_selected_item;
+        int target_draggable_index;
         Vector2 item_start_position;
         List<Rectangle> item_icon_rects;
         List<Item> player_inv;
@@ -275,7 +276,7 @@ namespace Cronkpit
                         texture_loc += "Weapons/";
                     if (player_inv[i] is Potion)
                         texture_loc += "Consumables/";
-                    if (player_inv[i] is Scroll)
+                    if (player_inv[i] is Scroll || player_inv[i] is Talisman)
                         texture_loc += "Scrolls/";
 
                     texture_loc += player_inv[i].get_my_texture_name();
@@ -327,6 +328,9 @@ namespace Cronkpit
                 case "Falsael":
                     character_portrait = cManager.Load<Texture2D>("Player/Portraits/falsael_fine");
                     break;
+                default:
+                    character_portrait = null;
+                    break;
             }
         }
 
@@ -366,7 +370,7 @@ namespace Cronkpit
         //This actually updates a hell of a lot more than mouse info. It's the central function for
         //Clicking and dragging stuff into inventory slots / equip slots
         public void update_mouse_info(Vector2 mousePos, Player pl,
-                                            bool holdingmouse, bool clickedmouse)
+                                            bool holdingmouse, bool clickedmouse, out bool bad_turn)
         {
             mousePosition = mousePos;
             is_holding_mouse = holdingmouse;
@@ -428,12 +432,34 @@ namespace Cronkpit
                 draggable_item_rect.X = (int)mousePosition.X - 24;
                 draggable_item_rect.Y = (int)mousePosition.Y - 24;
             }
-            //On the release, try and equip the item.
+            //On the release, try and equip the item. If it's a talisman and over another item
+            //Try to add it to the item
             bool equipped_new_item = false;
             if (!is_holding_mouse && !is_click_mouse)
             {
                 if (index_of_mouse_selected_item != -1)
                 {
+                    if (player_inv[index_of_mouse_selected_item] is Talisman)
+                    {
+                        Talisman T = (Talisman)player_inv[index_of_mouse_selected_item];
+                        for (int i = 0; i < item_icon_rects.Count; i++)
+                        {
+                            if (check_overlap(item_icon_rects[i], draggable_item_rect))
+                            {
+                                if (player_inv[i] is Armor && T.armor_talisman() && player_inv[i].can_add_talisman(T))
+                                {
+                                    player_inv[i].add_talisman(T);
+                                    player_inv.RemoveAt(index_of_mouse_selected_item);
+                                }
+                                else if ((player_inv[i] is Weapon || player_inv[i] is Scroll) && !T.armor_talisman() && player_inv[i].can_add_talisman(T))
+                                {
+                                    player_inv[i].add_talisman(T);
+                                    player_inv.RemoveAt(index_of_mouse_selected_item);
+                                }
+                            }
+                        }
+                    }
+
                     if (check_overlap(main_hand_equip_slot, draggable_item_rect) && !equipped_new_item)
                         if (player_inv[index_of_mouse_selected_item] is Weapon)
                         {
@@ -565,6 +591,10 @@ namespace Cronkpit
                 index_of_mouse_selected_item = -1;
                 index_of_c_equipped_selected_item = -1;
             }
+
+            bad_turn = equipped_new_item;
+            if (String.Compare(pl.my_chara_as_string(), "Halephon") == 0)
+                bad_turn = false;
         }
 
         public bool check_overlap(Rectangle rect_A, Rectangle rect_B)
@@ -657,20 +687,23 @@ namespace Cronkpit
             }
         }
 
+        public void draw_my_wireframe_outline(ref SpriteBatch sBatch)
+        {
+            sBatch.Draw(character_wireframe, BGElement_portraitBackground, Color.White);
+        }
+
         public void draw_my_wireframe(ref SpriteBatch sBatch)
         {
             //Wireframe first.
             Vector2 w_frame_position = new Vector2(wframe_xpos, wframe_ypos);
-
-            sBatch.Draw(character_wireframe, BGElement_portraitBackground, Color.White);
             if(character_portrait != null)  
-            sBatch.Draw(character_portrait, BGElement_playerPortrait, Color.White);
+                sBatch.Draw(character_portrait, BGElement_playerPortrait, Color.White);
 
             //This suddenly became much more involved.
             for (int i = 0; i < 6; i++)
             {
                 Color part_color = Color.Blue;
-                if (wounds_by_part[i] == max_health_by_part[i])
+                if (wounds_by_part[i] >= max_health_by_part[i])
                     part_color = Color.Red;
 
                 else if (max_health_by_part[i] == 3)
@@ -794,7 +827,7 @@ namespace Cronkpit
                 }
                 if (player_inv[i] != null && i == index_of_mouse_selected_item)
                 {
-                    player_inv[i].draw_me(draggable_item_rect, ref sBatch);
+                    target_draggable_index = i;
                     //sBatch.Draw(player_inv[i].get_my_texture(), draggable_item_rect, Color.White);
                     pair_list.Add(new rect_inv_item_pair(rect_index, i));
                     rect_index++;
@@ -858,6 +891,10 @@ namespace Cronkpit
             sBatch.End();
 
             sBatch.Begin(SpriteSortMode.BackToFront, null);
+            draw_my_wireframe_outline(ref sBatch);
+            sBatch.End();
+
+            sBatch.Begin(SpriteSortMode.BackToFront, null);
             draw_my_text(ref sBatch);
             sBatch.End();
 
@@ -869,9 +906,17 @@ namespace Cronkpit
             draw_equipment_slot_borders(ref sBatch);
             sBatch.End();
 
+            target_draggable_index = -1;
             sBatch.Begin(SpriteSortMode.BackToFront, null);
             draw_item_icons(ref sBatch, pl);
             sBatch.End();
+
+            if (target_draggable_index > -1)
+            {
+                sBatch.Begin(SpriteSortMode.BackToFront, null);
+                player_inv[target_draggable_index].draw_me(draggable_item_rect, ref sBatch);
+                sBatch.End();
+            }
 
             for (int i = 0; i < pair_list.Count; i++)
                 if (item_icon_rects[i].Contains((int)mousePosition.X, (int)mousePosition.Y) &&

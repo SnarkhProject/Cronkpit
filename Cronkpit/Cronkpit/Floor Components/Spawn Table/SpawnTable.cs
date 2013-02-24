@@ -121,7 +121,7 @@ namespace Cronkpit
         private void build_sub_table(int floor)
         {
             int redKnight_Spawn = 0;
-            redKnight_Spawn = Math.Max((floor-5)*2, 0) + 1;
+            redKnight_Spawn = Math.Max((floor-4), 0);
 
             spData.Add(new SpawnData("RedKnight", redKnight_Spawn));
 

@@ -46,7 +46,8 @@ namespace Cronkpit
             //SENSORY
             sight_range = 5;
             can_hear = true;
-            listen_threshold = 5;
+            sounds_i_can_hear.Add(SoundPulse.Sound_Types.Player);
+            listen_threshold.Add(5);
             smell_range = 4;
             smell_threshold = 3;
 
@@ -123,21 +124,19 @@ namespace Cronkpit
                 if (occupies_tile(last_seen_player_at))
                     have_i_seen_player = false;
             }
-            else if(!can_see_player && !have_i_seen_player && heard_something)
+            else if (!can_see_player && !have_i_seen_player && has_scent)
             {
-                //fl.add_new_popup("The Grendel moves towards your sound!", Popup.popup_msg_color.Red, my_grid_coord);
-                follow_path_to_sound(fl, pl);
+                //fl.add_new_popup("The Grendel smells you!", Popup.popup_msg_color.Red, my_grid_coord);
+                if (is_player_within(pl, 1))
+                    advance_towards_single_point(strongest_smell_coord, pl, fl, 1, corporeal);
+                else
+                    advance_towards_single_point(strongest_smell_coord, pl, fl, 0, corporeal);
+
             }
             else
             {
-                if (has_scent)
-                {
-                    //fl.add_new_popup("The Grendel smells you!", Popup.popup_msg_color.Red, my_grid_coord);
-                    if (is_player_within(pl, 1))
-                        advance_towards_single_point(strongest_smell_coord, pl, fl, 1, corporeal);
-                    else
-                        advance_towards_single_point(strongest_smell_coord, pl, fl, 0, corporeal);
-                }
+                if (heard_something)
+                    follow_path_to_sound(fl, pl);
                 else
                 {
                     //50% chance to wander.

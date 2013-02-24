@@ -34,13 +34,30 @@ namespace Cronkpit
         {
             main_menu, select_character, mini_main_menu, normal,
             shop_screen, inv_screen, drinking_potion, ranged_attack,
-            charging_attack, msg_log, bashing_attack, casting_spell
+            charging_attack, msg_log, bashing_attack, casting_spell,
+            force_attack
+        };
+        public enum Dungeon
+        {
+            Necropolis
         };
 
         Keys[] hotbar_keymap = {Keys.F2, Keys.F3, Keys.F4, Keys.F5,
                                 Keys.F6, Keys.F7, Keys.F8, Keys.F9 };
+        Keys[] direction_keymap = {Keys.NumPad7, Keys.NumPad8, Keys.NumPad9,
+                                   Keys.NumPad4, Keys.NumPad6, Keys.NumPad1,
+                                   Keys.NumPad2, Keys.NumPad3 };
+        gridCoordinate.direction[] direction_map = { gridCoordinate.direction.UpLeft,
+                                                     gridCoordinate.direction.Up,
+                                                     gridCoordinate.direction.UpRight,
+                                                     gridCoordinate.direction.Left,
+                                                     gridCoordinate.direction.Right,
+                                                     gridCoordinate.direction.DownLeft,
+                                                     gridCoordinate.direction.Down,
+                                                     gridCoordinate.direction.DownRight };
 
         Game_State current_state;
+        Dungeon current_dungeon;
         //int gameState;
         //Menu stuff!
         MenuScreen sMenu;
@@ -61,7 +78,6 @@ namespace Cronkpit
         RACursor ra1;
         SpriteFont sfont_thesecond;
         bool bad_turn;
-        bool victory_condition;
 
         //Icon bar management stuff
         int locked_slot;
@@ -104,7 +120,6 @@ namespace Cronkpit
             cam = new Camera(GraphicsDevice.Viewport.Bounds);
             //stuff without constructors
             bad_turn = false;
-            victory_condition = false;
             current_state = Game_State.main_menu;
             locked_slot = -1;
             //gameState = 0;
@@ -304,7 +319,7 @@ namespace Cronkpit
                 if (bad_turn && !f1.projectiles_remaining_to_update())
                 {
                     f1.add_smell_to_tile(p1.get_my_grid_C(), 0, p1.total_scent);
-                    f1.sound_pulse(p1.get_my_grid_C(), p1.total_sound, 0);
+                    f1.sound_pulse(p1.get_my_grid_C(), p1.total_sound, SoundPulse.Sound_Types.Player);
                     p1.reset_sound_and_scent();
                     f1.update_dungeon_floor(p1);
 
@@ -347,26 +362,26 @@ namespace Cronkpit
         {
             bool just_changed_states = false;
 
-            #region keypresses for the hotkey bar (not implemented)
+            #region keypresses for the hotkey bar
 
             for (int i = 0; i < 8; i++)
             {
-                if (check_key_press(hotbar_keymap[i]))
+                if (check_key_press(hotbar_keymap[i]) && valid_iconbar_state())
                     use_slot_on_icoBar_full(i, out just_changed_states);
             }
 
             #endregion
 
-            #region keypresses for the main menu (GS = 0)
+            #region keypresses for the main menu (GS = main_menu)
             //gameState == 0
             if (current_state == Game_State.main_menu)
             {
-                if (check_key_release(Keys.Up))
+                if (check_key_release(Keys.Up) || check_key_release(Keys.NumPad8))
                 {
                     sMenu.selected_index_up();
                 }
 
-                if (check_key_release(Keys.Down))
+                if (check_key_release(Keys.Down) || check_key_release(Keys.NumPad2))
                 {
                     sMenu.selected_index_down();
                 }
@@ -452,74 +467,23 @@ namespace Cronkpit
 
             #endregion
 
-            #region keypresses for when the game is playing (GS = 1)
+            #region keypresses for when the game is playing (GS = normal)
             //gameState == 1
             if (current_state == Game_State.normal)
             {
-                if (p1.is_alive())
+                for (int i = 0; i < direction_keymap.Count(); i++)
+                    if (check_key_press(direction_keymap[i]) && p1.is_alive())
+                    {
+                        p1.move(direction_map[i], f1);
+                        bad_turn = true;
+                    }
+
+                if (check_mouse_left_click())
                 {
-                    //Down Left first
-                    if (check_key_press(Keys.NumPad1))
-                        if (p1.is_alive() && !victory_condition)
-                        {
-                            p1.move(gridCoordinate.direction.DownLeft, f1);
-                            bad_turn = true;
-                        }
-
-                    // Is the DOWN key down?
-                    if (check_key_press(Keys.NumPad2))
-                        if (p1.is_alive() && !victory_condition)
-                        {
-                            p1.move(gridCoordinate.direction.Down, f1);
-                            bad_turn = true;
-                        }
-
-                    // Is the DOWN RIGHT key down?
-                    if (check_key_press(Keys.NumPad3))
-                        if (p1.is_alive() && !victory_condition)
-                        {
-                            p1.move(gridCoordinate.direction.DownRight, f1);
-                            bad_turn = true;
-                        }
-
-                    // Is the UP key down?
-                    if (check_key_press(Keys.NumPad8))
-                        if (p1.is_alive() && !victory_condition)
-                        {
-                            p1.move(gridCoordinate.direction.Up, f1);
-                            bad_turn = true;
-                        }
-
-                    if (check_key_press(Keys.NumPad7))
-                        if (p1.is_alive() && !victory_condition)
-                        {
-                            p1.move(gridCoordinate.direction.UpLeft, f1);
-                            bad_turn = true;
-                        }
-
-                    if (check_key_press(Keys.NumPad9))
-                        if (p1.is_alive() && !victory_condition)
-                        {
-                            p1.move(gridCoordinate.direction.UpRight, f1);
-                            bad_turn = true;
-                        }
-
-                    // Is the LEFT key down?
-                    if (check_key_press(Keys.NumPad4))
-                        if (p1.is_alive() && !victory_condition)
-                        {
-                            p1.move(gridCoordinate.direction.Left, f1);
-                            bad_turn = true;
-                        }
-
-
-                    // Is the RIGHT key down?
-                    if (check_key_press(Keys.NumPad6))
-                        if (p1.is_alive() && !victory_condition)
-                        {
-                            p1.move(gridCoordinate.direction.Right, f1);
-                            bad_turn = true;
-                        }
+                    int x_position = (int)((-cam.viewMatrix.Translation.X + mousePosition.X) / 32);
+                    int y_position = (int)((-cam.viewMatrix.Translation.Y + mousePosition.Y) / 32);
+                    gridCoordinate click_loc = new gridCoordinate(x_position, y_position);
+                    f1.check_click(p1, click_loc, out bad_turn);
                 }
 
                 if (check_key_press(Keys.Space))
@@ -553,7 +517,7 @@ namespace Cronkpit
             //gameState == 2
             if (current_state == Game_State.inv_screen)
             {
-                invScr.update_mouse_info(mousePosition, p1, check_mouse_hold_left(), check_mouse_left_click());
+                invScr.update_mouse_info(mousePosition, p1, check_mouse_hold_left(), check_mouse_left_click(), out bad_turn);
 
                 if (check_mouse_left_click())
                 {
@@ -604,6 +568,7 @@ namespace Cronkpit
                                 break;
                             case 4:
                                 //Talismans
+                                shopScr.switch_shopping_mode(ShopScreen.Shopping_Mode.Talismans);
                                 break;
                             case 5:
                                 //Sell
@@ -877,15 +842,6 @@ namespace Cronkpit
             }
 
             #endregion
-            /*
-            if (check_mouse_left_click())
-            {
-                int x_position = (int)((-cam.viewMatrix.Translation.X + mousePosition.X) / 32);
-                int y_position = (int)((-cam.viewMatrix.Translation.Y + mousePosition.Y) / 32);
-                gridCoordinate click_loc = new gridCoordinate(x_position, y_position);
-                f1.add_new_popup("Clicked here!", Popup.popup_msg_color.Blue, click_loc);
-            }
-            */
 
             // Update saved state.            
         }
@@ -1237,6 +1193,7 @@ namespace Cronkpit
                     break;
             }
 
+            current_dungeon = Dungeon.Necropolis;
             miniMain.set_index(0);
             current_floor = 0;
             p1 = new Player(Content, new gridCoordinate(-1, -1), ref msgBuf, Player.Chara_Class.Warrior, 
@@ -1251,7 +1208,7 @@ namespace Cronkpit
         {
             Texture2D blank_texture = new Texture2D(GraphicsDevice, 1, 1);
             current_floor++;
-            f1 = new Floor(Content, ref msgBuf, blank_texture, current_floor);
+            f1 = new Floor(Content, ref msgBuf, blank_texture, current_floor, current_dungeon);
             p1.teleport(f1.random_valid_position());
             bad_turn = false;
             msgBuf.Clear();

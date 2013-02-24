@@ -129,8 +129,6 @@ namespace Cronkpit
             return "Default";
         }
 
-        //Voids here.
-        //Green text. Function here.
         public void drawMe(ref SpriteBatch sb)
         {
             if (is_alive())
@@ -139,7 +137,6 @@ namespace Cronkpit
                 sb.Draw(my_dead_texture, my_Position, Color.White);
         }
 
-        //Green text. Function here.
         public void move(gridCoordinate.direction dir, Floor fl)
         {
             //0 = up, 1 = down, 2 = left, 3 = right
@@ -160,6 +157,8 @@ namespace Cronkpit
             else
             {
                 fl.is_monster_here(test_coord, out MonsterID);
+                //Check to see if there's a door there. If there is, open it.
+                fl.open_door_here(test_coord);
                 fl.is_destroyable_Doodad_here(test_coord, out DoodadID);
             }
 
@@ -784,17 +783,23 @@ namespace Cronkpit
         
         public void set_melee_attack_aura(Floor fl)
         {
-            int whoCares = -1;
             for (int x = my_grid_coord.x - 1; x <= my_grid_coord.x + 1; x++)
                 for (int y = my_grid_coord.y - 1; y <= my_grid_coord.y + 1; y++)
                 {
                     gridCoordinate target_coord = new gridCoordinate(x, y);
-                    if (!(x == my_grid_coord.x && y == my_grid_coord.y) && fl.isWalkable(target_coord))
+                    if (!(x == my_grid_coord.x && y == my_grid_coord.y) && fl.is_tile_passable(target_coord))
                         fl.set_tile_aura(target_coord, Tile.Aura.Attack);
+                }
+        }
 
-                    if (!(x == my_grid_coord.x && y == my_grid_coord.y) && !fl.isWalkable(target_coord) &&
-                        fl.is_destroyable_Doodad_here(target_coord, out whoCares))
-                        fl.set_tile_aura(target_coord, Tile.Aura.Attack);
+        public void set_melee_interact_aura(Floor fl)
+        {
+            for (int x = my_grid_coord.x - 1; x <= my_grid_coord.x + 1; x++)
+                for (int y = my_grid_coord.y - 1; y <= my_grid_coord.y + 1; y++)
+                {
+                    gridCoordinate target_coord = new gridCoordinate(x, y);
+                    if (!(x == my_grid_coord.x && y == my_grid_coord.y) && fl.is_tile_passable(target_coord))
+                        fl.set_tile_aura(target_coord, Tile.Aura.Interact);
                 }
         }
 
@@ -1044,6 +1049,14 @@ namespace Cronkpit
                                                     scroll_thing.get_my_name(), scroll_thing);
                 inventory.Add(acquired_scroll);
             }
+            else if (thing is Talisman)
+            {
+                Talisman talisman_thing = (Talisman)thing;
+                Talisman acquired_talisman = new Talisman(talisman_thing.get_my_IDno(),
+                                                          talisman_thing.get_my_gold_value(),
+                                                          talisman_thing.get_my_name(), talisman_thing);
+                inventory.Add(acquired_talisman);
+            }
 
             //inventory.Add(thing);
         }
@@ -1072,7 +1085,355 @@ namespace Cronkpit
                 inventory.Add(pt);
         }
 
-        //Green text. Function here.
+        #region repair, heal and refill
+
+        public void heal_naturally()
+        {
+            Head.heal_random_wound();
+            L_Arm.heal_random_wound();
+            L_Leg.heal_random_wound();
+            R_Arm.heal_random_wound();
+            R_Leg.heal_random_wound();
+            Torso.heal_random_wound();
+
+            calculate_dodge_chance();
+            update_pdoll();
+        }
+
+        public void heal_via_potion(Potion pt, string bodypart, bool repair_over_armor, Floor fl)
+        {
+            double potion_potency = (double)pt.potion_potency();
+            if (my_character == Character.Ziktofel)
+                potion_potency = Math.Ceiling((double)pt.potion_potency() * 1.6);
+            int heal_value = (int)potion_potency;
+
+            if (pt.get_type() == Potion.Potion_Type.Health)
+            {
+                Limb target_limb = null;
+                switch (bodypart)
+                {
+                    case "Head":
+                        target_limb = Head;
+                        break;
+                    case "Chest":
+                        target_limb = Torso;
+                        break;
+                    case "LArm":
+                        target_limb = L_Arm;
+                        break;
+                    case "RArm":
+                        target_limb = R_Arm;
+                        break;
+                    case "LLeg":
+                        target_limb = L_Leg;
+                        break;
+                    case "RLeg":
+                        target_limb = R_Leg;
+                        break;
+                }
+
+                target_limb.heal_via_potion(heal_value);
+                fl.add_new_popup("+" + heal_value + " " + target_limb.get_shortname(), Popup.popup_msg_color.VividGreen, my_grid_coord);
+            }
+            else if (pt.get_type() == Potion.Potion_Type.Repair)
+            {
+                if (repair_over_armor)
+                    over_armor.repair_by_zone(heal_value, bodypart);
+                else
+                    under_armor.repair_by_zone(heal_value, bodypart);
+                fl.add_new_popup("+" + pt.potion_potency() + " " + bodypart, Popup.popup_msg_color.Blue, my_grid_coord);
+            }
+
+            calculate_dodge_chance();
+            update_pdoll();
+            pt.drink();
+        }
+
+        public void ingest_potion(Potion pt, Floor fl, bool repair_over_armor)
+        {
+            double base_potency = (double)pt.potion_potency() * 1.6;
+            if (my_character == Character.Ziktofel)
+                base_potency *= 1.6;
+            int potency = (int)Math.Ceiling(base_potency);
+
+            bool done = false;
+            Armor target_armor = null;
+
+            int head_tally = 0;
+            int chest_tally = 0;
+            int rarm_tally = 0;
+            int larm_tally = 0;
+            int lleg_tally = 0;
+            int rleg_tally = 0;
+
+            if (pt.get_type() == Potion.Potion_Type.Health)
+            {
+                while (!done)
+                {
+                    int target_part = rGen.Next(6);
+                    switch (target_part)
+                    {
+                        case 0:
+                            if (!Head.is_uninjured())
+                            {
+                                Head.heal_random_wound();
+                                head_tally++;
+                                potency--;
+                            }
+                            break;
+                        case 1:
+                            if (!Torso.is_uninjured())
+                            {
+                                Torso.heal_random_wound();
+                                chest_tally++;
+                                potency--;
+                            }
+                            break;
+                        case 2:
+                            if (!R_Arm.is_uninjured())
+                            {
+                                R_Arm.heal_random_wound();
+                                rarm_tally++;
+                                potency--;
+                            }
+                            break;
+                        case 3:
+                            if (!L_Arm.is_uninjured())
+                            {
+                                L_Arm.heal_random_wound();
+                                larm_tally++;
+                                potency--;
+                            }
+                            break;
+                        case 4:
+                            if (!R_Leg.is_uninjured())
+                            {
+                                R_Leg.heal_random_wound();
+                                rleg_tally++;
+                                potency--;
+                            }
+                            break;
+                        case 5:
+                            if (!L_Leg.is_uninjured())
+                            {
+                                L_Leg.heal_random_wound();
+                                lleg_tally++;
+                                potency--;
+                            }
+                            break;
+                    }
+
+                    if (potency == 0)
+                        done = true;
+
+                    if (Head.is_uninjured() && Torso.is_uninjured() &&
+                        L_Arm.is_uninjured() && L_Leg.is_uninjured() &&
+                        R_Arm.is_uninjured() && R_Leg.is_uninjured())
+                        done = true;
+                }
+
+                //display messages of how many wounds were healed for the player.
+                if (head_tally > 0)
+                    fl.add_new_popup("+" + head_tally + " Head", Popup.popup_msg_color.VividGreen, my_grid_coord);
+                if (chest_tally > 0)
+                    fl.add_new_popup("+" + chest_tally + " Chest", Popup.popup_msg_color.VividGreen, my_grid_coord);
+                if (larm_tally > 0)
+                    fl.add_new_popup("+" + larm_tally + " LArm", Popup.popup_msg_color.VividGreen, my_grid_coord);
+                if (rarm_tally > 0)
+                    fl.add_new_popup("+" + rarm_tally + " RArm", Popup.popup_msg_color.VividGreen, my_grid_coord);
+                if (lleg_tally > 0)
+                    fl.add_new_popup("+" + lleg_tally + " LLeg", Popup.popup_msg_color.VividGreen, my_grid_coord);
+                if (rleg_tally > 0)
+                    fl.add_new_popup("+" + rleg_tally + " RLeg", Popup.popup_msg_color.VividGreen, my_grid_coord);
+            }
+            else if (pt.get_type() == Potion.Potion_Type.Repair)
+            {
+                if (repair_over_armor && over_armor != null)
+                    target_armor = over_armor;
+                else if (!repair_over_armor && under_armor != null)
+                    target_armor = under_armor;
+
+                while (!done && target_armor != null)
+                {
+                    int repair_zone = rGen.Next(5);
+                    string target_zone = "";
+                    switch (repair_zone)
+                    {
+                        case 0:
+                            target_zone = "Chest";
+                            break;
+                        case 1:
+                            target_zone = "LArm";
+                            break;
+                        case 2:
+                            target_zone = "RArm";
+                            break;
+                        case 3:
+                            target_zone = "LLeg";
+                            break;
+                        case 4:
+                            target_zone = "RLeg";
+                            break;
+                    }
+
+                    if (target_armor.is_zone_damaged(target_zone))
+                    {
+                        target_armor.repair_by_zone(1, target_zone);
+                        potency--;
+
+                        switch (target_zone)
+                        {
+                            case "Chest":
+                                chest_tally++;
+                                break;
+                            case "RArm":
+                                rarm_tally++;
+                                break;
+                            case "LArm":
+                                larm_tally++;
+                                break;
+                            case "LLeg":
+                                lleg_tally++;
+                                break;
+                            case "RLeg":
+                                rleg_tally++;
+                                break;
+                        }
+                    }
+
+                    if (potency == 0 || target_armor.is_undamaged())
+                        done = true;
+                }
+
+                //Again, add messages.
+                if (chest_tally > 0)
+                    fl.add_new_popup("+" + chest_tally + " Chest", Popup.popup_msg_color.Blue, my_grid_coord);
+                if (larm_tally > 0)
+                    fl.add_new_popup("+" + larm_tally + " LArm", Popup.popup_msg_color.Blue, my_grid_coord);
+                if (rarm_tally > 0)
+                    fl.add_new_popup("+" + rarm_tally + " RArm", Popup.popup_msg_color.Blue, my_grid_coord);
+                if (lleg_tally > 0)
+                    fl.add_new_popup("+" + lleg_tally + " LLeg", Popup.popup_msg_color.Blue, my_grid_coord);
+                if (rleg_tally > 0)
+                    fl.add_new_popup("+" + rleg_tally + " RLeg", Popup.popup_msg_color.Blue, my_grid_coord);
+            }
+
+            calculate_dodge_chance();
+            update_pdoll();
+
+            if (pt.get_type() == Potion.Potion_Type.Repair && target_armor != null)
+                pt.drink();
+
+            if (pt.get_type() == Potion.Potion_Type.Health)
+                pt.drink();
+        }
+
+        public void repair_all_armor()
+        {
+            if (over_armor != null)
+                over_armor.full_repair();
+            if (under_armor != null)
+                under_armor.full_repair();
+        }
+
+        public void refill_all_potions()
+        {
+            List<Potion> temporary_PTs = new List<Potion>();
+
+            for (int i = 0; i < inventory.Count; i++)
+            {
+                if (inventory[i] is Potion)
+                {
+                    Potion oldPT = (Potion)inventory[i];
+                    if (oldPT.is_potion_empty())
+                    {
+                        int nPTID = oldPT.get_my_IDno();
+                        int nPTco = oldPT.get_my_gold_value();
+                        string nPTnm = oldPT.get_my_name();
+                        Potion nextPT = new Potion(nPTID, nPTco, nPTnm, oldPT);
+                        nextPT.refill();
+                        temporary_PTs.Add(nextPT);
+                    }
+                }
+            }
+
+            for (int i = inventory.Count - 1; i >= 0; i--)
+                if (inventory[i] is Potion)
+                {
+                    Potion P = (Potion)inventory[i];
+                    if (P.is_potion_empty())
+                        inventory.RemoveAt(i);
+                }
+
+            for (int i = 0; i < temporary_PTs.Count; i++)
+                acquire_potion(temporary_PTs[i]);
+            temporary_PTs.Clear();
+        }
+
+        public bool is_alive()
+        {
+            return !Head.is_disabled() && !Torso.is_disabled();
+        }
+
+        //Wounding stuff
+        public void wound_report(out int[] wounds_by_part, out int[] max_health_by_part)
+        {
+            wounds_by_part = new int[6];
+            wounds_by_part[0] = Head.count_debilitating_injuries();
+            wounds_by_part[1] = Torso.most_prevalent_injury_type_div5();
+            wounds_by_part[2] = L_Arm.most_prevalent_injury_type_div5();
+            wounds_by_part[3] = R_Arm.most_prevalent_injury_type_div5();
+            wounds_by_part[4] = L_Leg.most_prevalent_injury_type_div5();
+            wounds_by_part[5] = R_Leg.most_prevalent_injury_type_div5();
+
+            max_health_by_part = new int[6];
+            max_health_by_part[0] = Head.get_max_health();
+            max_health_by_part[1] = Torso.get_max_health();
+            max_health_by_part[2] = L_Arm.get_max_health();
+            max_health_by_part[3] = R_Arm.get_max_health();
+            max_health_by_part[4] = L_Leg.get_max_health();
+            max_health_by_part[5] = R_Leg.get_max_health();
+        }
+
+        public List<string> detailed_wound_report()
+        {
+            List<string> wRep = new List<string>();
+
+            wRep.Add("Chance to dodge attacks: " + dodge_chance + "%");
+            wRep.Add(" ");
+            //Head
+            wRep.Add("Your head has:");
+            wound_by_section(Head, ref wRep);
+            //Torso
+            wRep.Add("Your chest has:");
+            wound_by_section(Torso, ref wRep);
+            //Left Arm
+            wRep.Add("Your left arm has:");
+            wound_by_section(L_Arm, ref wRep);
+            //Right Arm
+            wRep.Add("Your right arm has:");
+            wound_by_section(R_Arm, ref wRep);
+            //Left Leg
+            wRep.Add("Your left leg has:");
+            wound_by_section(L_Leg, ref wRep);
+            //Right leg
+            wRep.Add("Your right leg has:");
+            wound_by_section(R_Leg, ref wRep);
+
+            return wRep;
+        }
+
+        public void wound_by_section(Limb bodyPart, ref List<string> wReport)
+        {
+            if (bodyPart.is_uninjured())
+                wReport.Add(" - No injuries");
+            bodyPart.consolidate_injury_report(ref wReport);
+            if (bodyPart.is_disabled())
+                wReport.Add("It is useless");
+        }
+
+        #endregion
+
         public void take_damage(Attack atk, Floor fl, string specific_part)
         {
             //OKAY THIS IS GONNA BE COMPLICATED.
@@ -1269,295 +1630,13 @@ namespace Cronkpit
                     fl.add_new_popup("-" + next_wnd.severity + " " + target_limbs[i].get_shortname(), Popup.popup_msg_color.Red, my_grid_coord);
                 message_buffer.Add("Your " + target_limbs[i].get_longname() + " takes " + next_wnd.severity + " " + w_type + " wounds!");
             }
+            update_pdoll();
         }
 
         public void teleport(gridCoordinate gc)
         {
             my_grid_coord = new gridCoordinate(gc);
             reset_my_drawing_position();
-        }
-
-        public void heal_naturally()
-        {
-            Head.heal_random_wound();
-            L_Arm.heal_random_wound();
-            L_Leg.heal_random_wound();
-            R_Arm.heal_random_wound();
-            R_Leg.heal_random_wound();
-            Torso.heal_random_wound();
-
-            calculate_dodge_chance();
-            update_pdoll();
-        }
-
-        public void heal_via_potion(Potion pt, string bodypart, bool repair_over_armor, Floor fl)
-        {
-            double potion_potency = (double)pt.potion_potency();
-            if (my_character == Character.Ziktofel)
-                potion_potency = Math.Ceiling((double)pt.potion_potency() * 1.6);
-            int heal_value = (int)potion_potency;
-
-            if (pt.get_type() == Potion.Potion_Type.Health)
-            {
-                Limb target_limb = null;
-                switch (bodypart)
-                {
-                    case "Head":
-                        target_limb = Head;
-                        break;
-                    case "Chest":
-                        target_limb = Torso;
-                        break;
-                    case "LArm":
-                        target_limb = L_Arm;
-                        break;
-                    case "RArm":
-                        target_limb = R_Arm;
-                        break;
-                    case "LLeg":
-                        target_limb = L_Leg;
-                        break;
-                    case "RLeg":
-                        target_limb = R_Leg;
-                        break;
-                }
-
-                target_limb.heal_via_potion(heal_value);
-                fl.add_new_popup("+" + heal_value + " RLeg", Popup.popup_msg_color.VividGreen, my_grid_coord);
-            }
-            else if (pt.get_type() == Potion.Potion_Type.Repair)
-            {
-                if (repair_over_armor)
-                    over_armor.repair_by_zone(heal_value, bodypart);
-                else
-                    under_armor.repair_by_zone(heal_value, bodypart);
-                fl.add_new_popup("+" + pt.potion_potency() + " " + bodypart, Popup.popup_msg_color.Blue, my_grid_coord);
-            }
-
-            calculate_dodge_chance();
-            update_pdoll();
-            pt.drink();
-        }
-
-        public void ingest_potion(Potion pt, Floor fl, bool repair_over_armor)
-        {
-            double base_potency = (double)pt.potion_potency() * 1.6;
-            if (my_character == Character.Ziktofel)
-                base_potency *= 1.6;
-            int potency = (int)Math.Ceiling(base_potency);
-
-            bool done = false;
-            Armor target_armor = null;
-
-            int head_tally = 0;
-            int chest_tally = 0;
-            int rarm_tally = 0;
-            int larm_tally = 0;
-            int lleg_tally = 0;
-            int rleg_tally = 0;
-
-            if (pt.get_type() == Potion.Potion_Type.Health)
-            {
-                while (!done)
-                {
-                    int target_part = rGen.Next(6);
-                    switch (target_part)
-                    {
-                        case 0:
-                            if (!Head.is_uninjured())
-                            {
-                                Head.heal_random_wound();
-                                head_tally++;
-                                potency--;
-                            }
-                            break;
-                        case 1:
-                            if (!Torso.is_uninjured())
-                            {
-                                Torso.heal_random_wound();
-                                chest_tally++;
-                                potency--;
-                            }
-                            break;
-                        case 2:
-                            if (!R_Arm.is_uninjured())
-                            {
-                                R_Arm.heal_random_wound();
-                                rarm_tally++;
-                                potency--;
-                            }
-                            break;
-                        case 3:
-                            if (!L_Arm.is_uninjured())
-                            {
-                                L_Arm.heal_random_wound();
-                                larm_tally++;
-                                potency--;
-                            }
-                            break;
-                        case 4:
-                            if (!R_Leg.is_uninjured())
-                            {
-                                R_Leg.heal_random_wound();
-                                rleg_tally++;
-                                potency--;
-                            }
-                            break;
-                        case 5:
-                            if (!L_Leg.is_uninjured())
-                            {
-                                L_Leg.heal_random_wound();
-                                lleg_tally++;
-                                potency--;
-                            }
-                            break;
-                    }
-
-                    if (potency == 0)
-                        done = true;
-
-                    if (Head.is_uninjured() && Torso.is_uninjured() &&
-                        L_Arm.is_uninjured() && L_Leg.is_uninjured() &&
-                        R_Arm.is_uninjured() && R_Leg.is_uninjured())
-                        done = true;
-                }
-
-                //display messages of how many wounds were healed for the player.
-                if (head_tally > 0)
-                    fl.add_new_popup("+" + head_tally + " Head", Popup.popup_msg_color.VividGreen, my_grid_coord);
-                if(chest_tally > 0)
-                    fl.add_new_popup("+" + chest_tally + " Chest", Popup.popup_msg_color.VividGreen, my_grid_coord);
-                if (larm_tally > 0)
-                    fl.add_new_popup("+" + larm_tally + " LArm", Popup.popup_msg_color.VividGreen, my_grid_coord);
-                if (rarm_tally > 0)
-                    fl.add_new_popup("+" + rarm_tally + " RArm", Popup.popup_msg_color.VividGreen, my_grid_coord);
-                if (lleg_tally > 0)
-                    fl.add_new_popup("+" + lleg_tally + " LLeg", Popup.popup_msg_color.VividGreen, my_grid_coord);
-                if (rleg_tally > 0)
-                    fl.add_new_popup("+" + rleg_tally + " RLeg", Popup.popup_msg_color.VividGreen, my_grid_coord);
-            }
-            else if (pt.get_type() == Potion.Potion_Type.Repair)
-            {
-                if (repair_over_armor && over_armor != null)
-                    target_armor = over_armor;
-                else if (!repair_over_armor && under_armor != null)
-                    target_armor = under_armor;
-
-                while (!done && target_armor != null)
-                {
-                    int repair_zone = rGen.Next(5);
-                    string target_zone = "";
-                    switch (repair_zone)
-                    {
-                        case 0:
-                            target_zone = "Chest";
-                            break;
-                        case 1:
-                            target_zone = "LArm";
-                            break;
-                        case 2:
-                            target_zone = "RArm";
-                            break;
-                        case 3:
-                            target_zone = "LLeg";
-                            break;
-                        case 4:
-                            target_zone = "RLeg";
-                            break;
-                    }
-
-                    if (target_armor.is_zone_damaged(target_zone))
-                    {
-                        target_armor.repair_by_zone(1, target_zone);
-                        potency--;
-
-                        switch (target_zone)
-                        {
-                            case "Chest":
-                                chest_tally++;
-                                break;
-                            case "RArm":
-                                rarm_tally++;
-                                break;
-                            case "LArm":
-                                larm_tally++;
-                                break;
-                            case "LLeg":
-                                lleg_tally++;
-                                break;
-                            case "RLeg":
-                                rleg_tally++;
-                                break;
-                        }
-                    }
-
-                    if (potency == 0 || target_armor.is_undamaged())
-                        done = true;
-                }
-
-                //Again, add messages.
-                if (chest_tally > 0)
-                    fl.add_new_popup("+" + chest_tally + " Chest", Popup.popup_msg_color.Blue, my_grid_coord);
-                if (larm_tally > 0)
-                    fl.add_new_popup("+" + larm_tally + " LArm", Popup.popup_msg_color.Blue, my_grid_coord);
-                if (rarm_tally > 0)
-                    fl.add_new_popup("+" + rarm_tally + " RArm", Popup.popup_msg_color.Blue, my_grid_coord);
-                if (lleg_tally > 0)
-                    fl.add_new_popup("+" + lleg_tally + " LLeg", Popup.popup_msg_color.Blue, my_grid_coord);
-                if (rleg_tally > 0)
-                    fl.add_new_popup("+" + rleg_tally + " RLeg", Popup.popup_msg_color.Blue, my_grid_coord);
-            }
-
-            calculate_dodge_chance();
-            update_pdoll();
-
-            if(pt.get_type() == Potion.Potion_Type.Repair && target_armor != null)
-                pt.drink();
-
-            if (pt.get_type() == Potion.Potion_Type.Health)
-                pt.drink();
-        }
-
-        public void repair_all_armor()
-        {
-            if (over_armor != null)
-                over_armor.full_repair();
-            if (under_armor != null)
-                under_armor.full_repair();
-        }
-
-        public void refill_all_potions()
-        {
-            List<Potion> temporary_PTs = new List<Potion>();
-
-            for (int i = 0; i < inventory.Count; i++)
-            {
-                if (inventory[i] is Potion)
-                {
-                    Potion oldPT = (Potion)inventory[i];
-                    if (oldPT.is_potion_empty())
-                    {
-                        int nPTID = oldPT.get_my_IDno();
-                        int nPTco = oldPT.get_my_gold_value();
-                        string nPTnm = oldPT.get_my_name();
-                        Potion nextPT = new Potion(nPTID, nPTco, nPTnm, oldPT);
-                        nextPT.refill();
-                        temporary_PTs.Add(nextPT);
-                    }
-                }
-            }
-
-            for(int i = inventory.Count-1; i >= 0; i--)
-                if (inventory[i] is Potion)
-                {
-                    Potion P = (Potion)inventory[i];
-                    if (P.is_potion_empty())
-                        inventory.RemoveAt(i);
-                }
-
-            for (int i = 0; i < temporary_PTs.Count; i++)
-                acquire_potion(temporary_PTs[i]);
-            temporary_PTs.Clear();
         }
 
         public void clear_inv_nulls()
@@ -1590,11 +1669,7 @@ namespace Cronkpit
         }
 
         //Green text. Function here.
-        public bool is_alive()
-        {
-            return !Head.is_disabled() && !Torso.is_disabled();
-        }
-
+        
         //Green text. Function here.
         public bool is_spot_exit(Floor fl)
         {
@@ -1611,7 +1686,23 @@ namespace Cronkpit
         //Green text. Function here.
         public int my_scent_value()
         {
-            return base_smell_value; //+1/2 armor + wounds
+            List<wound> All_wounds = new List<wound>();
+            All_wounds.AddRange(Head.get_all_injuries());
+            All_wounds.AddRange(L_Arm.get_all_injuries());
+            All_wounds.AddRange(R_Arm.get_all_injuries());
+            All_wounds.AddRange(L_Leg.get_all_injuries());
+            All_wounds.AddRange(Torso.get_all_injuries());
+            int total_open_wounds = 0;
+            int total_burn_wounds = 0;
+            for (int i = 0; i < All_wounds.Count; i++)
+            {
+                if (All_wounds[i].type == wound.Wound_Type.Open)
+                    total_open_wounds++;
+                else if (All_wounds[i].type == wound.Wound_Type.Burn)
+                    total_burn_wounds++;
+            }
+
+            return base_smell_value + total_burn_wounds + (total_open_wounds/2);
         }
 
         public int my_sound_value()
@@ -1625,63 +1716,7 @@ namespace Cronkpit
             total_scent = 0;
         }
 
-        //Wounding stuff
-        public void wound_report(out int[] wounds_by_part, out int[] max_health_by_part)
-        {
-            wounds_by_part = new int[6];
-            wounds_by_part[0] = Head.count_debilitating_injuries();
-            wounds_by_part[1] = Torso.count_debilitating_injuries();
-            wounds_by_part[2] = L_Arm.count_debilitating_injuries();
-            wounds_by_part[3] = R_Arm.count_debilitating_injuries();
-            wounds_by_part[4] = L_Leg.count_debilitating_injuries();
-            wounds_by_part[5] = R_Leg.count_debilitating_injuries();
-
-            max_health_by_part = new int[6];
-            max_health_by_part[0] = Head.get_max_health();
-            max_health_by_part[1] = Torso.get_max_health();
-            max_health_by_part[2] = L_Arm.get_max_health();
-            max_health_by_part[3] = R_Arm.get_max_health();
-            max_health_by_part[4] = L_Leg.get_max_health();
-            max_health_by_part[5] = R_Leg.get_max_health();
-        }
-
-        public List<string> detailed_wound_report()
-        {
-            List<string> wRep = new List<string>();
-
-            wRep.Add("Chance to dodge attacks: " + dodge_chance + "%");
-            wRep.Add(" ");
-            //Head
-            wRep.Add("Your head has:");
-            wound_by_section(Head, ref wRep);
-            //Torso
-            wRep.Add("Your chest has:");
-            wound_by_section(Torso, ref wRep);
-            //Left Arm
-            wRep.Add("Your left arm has:");
-            wound_by_section(L_Arm, ref wRep);
-            //Right Arm
-            wRep.Add("Your right arm has:");
-            wound_by_section(R_Arm, ref wRep);
-            //Left Leg
-            wRep.Add("Your left leg has:");
-            wound_by_section(L_Leg, ref wRep);
-            //Right leg
-            wRep.Add("Your right leg has:");
-            wound_by_section(R_Leg, ref wRep);
-
-            return wRep;
-        }
-
-        public void wound_by_section(Limb bodyPart, ref List<string> wReport)
-        {
-            if (bodyPart.is_uninjured())
-                wReport.Add(" - No injuries");
-            bodyPart.consolidate_injury_report(ref wReport);
-            if(bodyPart.is_disabled())
-                wReport.Add("It is useless");
-        }
-
+        
         //Inventory stuff
         public int calc_absorb_chance(int primary_resist, int secondary_resist)
         {
@@ -1692,6 +1727,7 @@ namespace Cronkpit
         {
             List<string> eRep = new List<string>();
 
+            int oa_ab_all;
             int oa_ab_val;
             int oa_in_val;
             int oa_pa_val;
@@ -1706,11 +1742,12 @@ namespace Cronkpit
 
             if (over_armor != null)
             {
-                oa_ab_val = over_armor.get_ab_val();
-                oa_in_val = over_armor.get_ins_val();
-                oa_pa_val = over_armor.get_pad_val();
-                oa_ha_val = over_armor.get_hard_val();
-                oa_rg_val = over_armor.get_rigid_val();
+                oa_ab_all = over_armor.get_armor_value(Armor.Armor_Value.Absorb_All);
+                oa_ab_val = over_armor.get_armor_value(Armor.Armor_Value.Ablative);
+                oa_in_val = over_armor.get_armor_value(Armor.Armor_Value.Insulative);
+                oa_pa_val = over_armor.get_armor_value(Armor.Armor_Value.Padding);
+                oa_ha_val = over_armor.get_armor_value(Armor.Armor_Value.Hardness);
+                oa_rg_val = over_armor.get_armor_value(Armor.Armor_Value.Rigidness);
 
                 oa_chest_integ = over_armor.get_chest_integ();
                 oa_rarm_integ = over_armor.get_rarm_integ();
@@ -1727,13 +1764,13 @@ namespace Cronkpit
                 eRep.Add("Hardness: " + oa_ha_val);
                 eRep.Add("Rigidity: " + oa_rg_val);
                 eRep.Add(" ");
-                eRep.Add("Chance to absorb slashing attack: " + calc_absorb_chance(oa_ha_val, oa_rg_val) + "%");
-                eRep.Add("Chance to absorb crushing attack: " + calc_absorb_chance(oa_rg_val, oa_pa_val) + "%");
-                eRep.Add("Chance to absorb piercing attack: " + calc_absorb_chance(oa_ha_val, oa_pa_val) + "%");
-                eRep.Add("Chance to absorb fire attack: " + calc_absorb_chance(oa_ab_val, oa_rg_val) + "%");
-                eRep.Add("Chance to absorb frost attack: " + calc_absorb_chance(oa_pa_val, oa_in_val) + "%");
-                eRep.Add("Chance to absorb electric attack: " + calc_absorb_chance(oa_in_val, oa_pa_val) + "%");
-                eRep.Add("Chance to absorb acid attack: " + calc_absorb_chance(oa_in_val, oa_ab_val) + "%");
+                eRep.Add("Chance to absorb slashing attack: " + (calc_absorb_chance(oa_ha_val, oa_rg_val)+oa_ab_all) + "%");
+                eRep.Add("Chance to absorb crushing attack: " + (calc_absorb_chance(oa_rg_val, oa_pa_val)+oa_ab_all) + "%");
+                eRep.Add("Chance to absorb piercing attack: " + (calc_absorb_chance(oa_ha_val, oa_pa_val)+oa_ab_all) + "%");
+                eRep.Add("Chance to absorb fire attack: " + (calc_absorb_chance(oa_ab_val, oa_rg_val)+oa_ab_all) + "%");
+                eRep.Add("Chance to absorb frost attack: " + (calc_absorb_chance(oa_pa_val, oa_in_val)+oa_ab_all) + "%");
+                eRep.Add("Chance to absorb electric attack: " + (calc_absorb_chance(oa_in_val, oa_pa_val)+oa_ab_all) + "%");
+                eRep.Add("Chance to absorb acid attack: " + (calc_absorb_chance(oa_in_val, oa_ab_val)+oa_ab_all) + "%");
                 eRep.Add(" ");
                 eRep.Add("Integrity:");
                 eRep.Add("Chest integrity: " + oa_chest_integ);
@@ -1742,6 +1779,7 @@ namespace Cronkpit
                 eRep.Add(" ");
             }
 
+            int ua_ab_all;
             int ua_ab_val;
             int ua_in_val;
             int ua_pa_val;
@@ -1756,11 +1794,12 @@ namespace Cronkpit
 
             if (under_armor != null)
             {
-                ua_ab_val = under_armor.get_ab_val();
-                ua_in_val = under_armor.get_ins_val();
-                ua_pa_val = under_armor.get_pad_val();
-                ua_ha_val = under_armor.get_hard_val();
-                ua_rg_val = under_armor.get_rigid_val();
+                ua_ab_all = under_armor.get_armor_value(Armor.Armor_Value.Absorb_All);
+                ua_ab_val = under_armor.get_armor_value(Armor.Armor_Value.Ablative);
+                ua_in_val = under_armor.get_armor_value(Armor.Armor_Value.Insulative);
+                ua_pa_val = under_armor.get_armor_value(Armor.Armor_Value.Padding);
+                ua_ha_val = under_armor.get_armor_value(Armor.Armor_Value.Hardness);
+                ua_rg_val = under_armor.get_armor_value(Armor.Armor_Value.Rigidness);
 
                 ua_chest_integ = under_armor.get_chest_integ();
                 ua_rarm_integ = under_armor.get_rarm_integ();
@@ -1777,13 +1816,13 @@ namespace Cronkpit
                 eRep.Add("Hardness: " + ua_ha_val);
                 eRep.Add("Rigidity: " + ua_rg_val);
                 eRep.Add(" ");
-                eRep.Add("Chance to absorb slashing attack: " + calc_absorb_chance(ua_ha_val, ua_rg_val) + "%");
-                eRep.Add("Chance to absorb crushing attack: " + calc_absorb_chance(ua_rg_val, ua_pa_val) + "%");
-                eRep.Add("Chance to absorb piercing attack: " + calc_absorb_chance(ua_ha_val, ua_pa_val) + "%");
-                eRep.Add("Chance to absorb fire attack: " + calc_absorb_chance(ua_ab_val, ua_rg_val) + "%");
-                eRep.Add("Chance to absorb frost attack: " + calc_absorb_chance(ua_pa_val, ua_in_val) + "%");
-                eRep.Add("Chance to absorb electric attack: " + calc_absorb_chance(ua_in_val, ua_pa_val) + "%");
-                eRep.Add("Chance to absorb acid attack: " + calc_absorb_chance(ua_in_val, ua_ab_val) + "%");
+                eRep.Add("Chance to absorb slashing attack: " + (calc_absorb_chance(ua_ha_val, ua_rg_val)+ua_ab_all) + "%");
+                eRep.Add("Chance to absorb crushing attack: " + (calc_absorb_chance(ua_rg_val, ua_pa_val)+ua_ab_all) + "%");
+                eRep.Add("Chance to absorb piercing attack: " + (calc_absorb_chance(ua_ha_val, ua_pa_val)+ua_ab_all) + "%");
+                eRep.Add("Chance to absorb fire attack: " + (calc_absorb_chance(ua_ab_val, ua_rg_val)+ua_ab_all) + "%");
+                eRep.Add("Chance to absorb frost attack: " + (calc_absorb_chance(ua_pa_val, ua_in_val)+ua_ab_all) + "%");
+                eRep.Add("Chance to absorb electric attack: " + (calc_absorb_chance(ua_in_val, ua_pa_val)+ua_ab_all) + "%");
+                eRep.Add("Chance to absorb acid attack: " + (calc_absorb_chance(ua_in_val, ua_ab_val)+ua_ab_all) + "%");
                 eRep.Add(" ");
                 eRep.Add("Integrity:");
                 eRep.Add("Chest integrity: " + ua_chest_integ);
@@ -1874,6 +1913,7 @@ namespace Cronkpit
             over_armor = oa;
 
             remove_item_from_inventory(over_armor.get_my_IDno());
+            calculate_dodge_chance();
         }
 
         public void equip_under_armor(Armor ua)
@@ -1883,6 +1923,7 @@ namespace Cronkpit
             under_armor = ua;
 
             remove_item_from_inventory(under_armor.get_my_IDno());
+            calculate_dodge_chance();
         }
 
         public void remove_item_from_inventory(int itemID)
@@ -2122,6 +2163,23 @@ namespace Cronkpit
                 dodge_chance += 10;
             if (!L_Leg.is_disabled())
                 dodge_chance += 10;
+
+            List<Talisman> full_talisman_list = new List<Talisman>();
+            if (over_armor != null)
+                full_talisman_list.AddRange(over_armor.get_my_equipped_talismans());
+            if (under_armor != null)
+                full_talisman_list.AddRange(under_armor.get_my_equipped_talismans());
+            if (helm != null)
+                full_talisman_list.AddRange(helm.get_my_equipped_talismans());
+
+            for (int i = 0; i < full_talisman_list.Count; i++)
+            {
+                if (full_talisman_list[i].get_my_type() == Talisman.Talisman_Type.Skill)
+                {
+                    dodge_chance++;
+                    dodge_chance += (int)full_talisman_list[i].get_my_prefix();
+                }
+            }
         }
 
         public void deincrement_cooldowns()

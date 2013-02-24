@@ -7,18 +7,20 @@ namespace Cronkpit
 {
     class SoundPulse
     {
+        public enum Sound_Types { None, Player, Fanatic_Scream, Voidwraith_Scream };
         gridCoordinate my_grid_position;
         gridCoordinate sound_origin;
         Random rGen;
         int my_direction;
         int strength;
         int multiplications_remaining;
-        int my_type;
+        Sound_Types my_type;
 
         List<gridCoordinate> my_path_taken;
 
         public SoundPulse(gridCoordinate start_grid_C, gridCoordinate sOrigin, 
-                            int sDirection, int sStr, ref Random srGen, int sMultiplications, int sType)
+                          int sDirection, int sStr, ref Random srGen, int sMultiplications, 
+                          Sound_Types sType)
         {
             my_grid_position = new gridCoordinate(start_grid_C);
             my_direction = sDirection;
@@ -32,8 +34,8 @@ namespace Cronkpit
         }
 
         public SoundPulse(gridCoordinate start_grid_C, gridCoordinate sOrigin,
-                            int sDirection, int sStr, ref Random srGen, int sMultiplications, int sType,
-                            List<gridCoordinate> sPath)
+                          int sDirection, int sStr, ref Random srGen, int sMultiplications, 
+                          Sound_Types sType, List<gridCoordinate> sPath)
         {
             my_grid_position = new gridCoordinate(start_grid_C);
             my_direction = sDirection;
@@ -58,6 +60,11 @@ namespace Cronkpit
         public List<gridCoordinate> my_path()
         {
             return my_path_taken;
+        }
+
+        public Sound_Types get_my_type()
+        {
+            return my_type;
         }
 
         public void update(Floor fl)

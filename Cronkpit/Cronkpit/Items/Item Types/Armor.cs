@@ -8,6 +8,8 @@ namespace Cronkpit
     class Armor: Item
     {
         public enum Armor_Type { UnderArmor, OverArmor, Helmet };
+        public enum Armor_Value { Ablative, Insulative, Padding, Rigidness, Hardness,
+                                  Absorb_All };
 
         Armor_Type my_armor_type;
         int ablative_value;
@@ -15,6 +17,13 @@ namespace Cronkpit
         int padding_value;
         int rigidness_value;
         int hardness_value;
+
+        int modified_ablative_value;
+        int modified_insulative_value;
+        int modified_padding_value;
+        int modified_rigidness_value;
+        int modified_hardness_value;
+        int absorb_all;
 
         public enum Attack_Zone { Chest, R_Arm, R_Leg, L_Arm, L_Leg };
         int max_integrity;
@@ -45,16 +54,17 @@ namespace Cronkpit
             c_lleg_integ = max_integrity;
 
             my_armor_type = a_type;
+            talismans_equipped = new List<Talisman>();
         }
 
         public Armor(int IDno, int goldVal, string myName, Armor a)
             : base(IDno, goldVal, myName)
         {
-            ablative_value = a.get_ab_val();
-            insulative_value = a.get_ins_val();
-            padding_value = a.get_pad_val();
-            rigidness_value = a.get_rigid_val();
-            hardness_value = a.get_hard_val();
+            ablative_value = a.get_armor_value(Armor.Armor_Value.Ablative);
+            insulative_value = a.get_armor_value(Armor.Armor_Value.Insulative);
+            padding_value = a.get_armor_value(Armor.Armor_Value.Padding);
+            hardness_value = a.get_armor_value(Armor.Armor_Value.Hardness);
+            rigidness_value = a.get_armor_value(Armor.Armor_Value.Rigidness);
 
             max_integrity = a.get_max_integ();
             max_chest_integrity = a.get_max_c_integ();
@@ -65,11 +75,68 @@ namespace Cronkpit
             c_lleg_integ = max_integrity;
 
             my_armor_type = a.what_armor_type();
+            talismans_equipped = a.get_my_equipped_talismans();
+        }
+
+        private void calculate_modified_values()
+        {
+            modified_ablative_value = ablative_value;
+            modified_padding_value = padding_value;
+            modified_insulative_value = insulative_value;
+            modified_hardness_value = hardness_value;
+            modified_rigidness_value = rigidness_value;
+            absorb_all = 0;
+
+            for (int i = 0; i < talismans_equipped.Count; i++)
+            {
+                int base_value = 0;
+                switch (talismans_equipped[i].get_my_prefix())
+                {
+                    case Talisman.Talisman_Prefix.Rough:
+                        base_value = 2;
+                        break;
+                    case Talisman.Talisman_Prefix.Flawed:
+                        base_value = 4;
+                        break;
+                    case Talisman.Talisman_Prefix.Average:
+                        base_value = 6;
+                        break;
+                    case Talisman.Talisman_Prefix.Great:
+                        base_value = 8;
+                        break;
+                    case Talisman.Talisman_Prefix.Perfect:
+                        base_value = 10;
+                        break;
+                }
+
+                switch (talismans_equipped[i].get_my_type())
+                {
+                    case Talisman.Talisman_Type.Asbestos:
+                        modified_ablative_value += base_value;
+                        break;
+                    case Talisman.Talisman_Type.Down:
+                        modified_padding_value += base_value;
+                        break;
+                    case Talisman.Talisman_Type.Ebonite:
+                        modified_hardness_value += base_value;
+                        break;
+                    case Talisman.Talisman_Type.Wool:
+                        modified_insulative_value += base_value;
+                        break;
+                    case Talisman.Talisman_Type.Diamond:
+                        modified_rigidness_value += base_value;
+                        break;
+                    case Talisman.Talisman_Type.Absorption:
+                        absorb_all += base_value;
+                        break;
+                }
+            }
         }
 
         public override List<string> get_my_information()
         {
             List<string> return_array = new List<string>();
+            calculate_modified_values();
 
             return_array.Add(name);
             return_array.Add("Price: " + cost.ToString());
@@ -83,12 +150,28 @@ namespace Cronkpit
                 is_over_armor += "Helmet";
             return_array.Add(is_over_armor);
             return_array.Add(" ");
+            switch (talismans_equipped.Count)
+            {
+                case 0:
+                    return_array.Add("[ ] - No Talisman");
+                    return_array.Add("[ ] - No Talisman");
+                    break;
+                case 1:
+                    return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
+                    return_array.Add("[ ] - No Talisman");
+                    break;
+                case 2:
+                    return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
+                    return_array.Add("[X] - " + talismans_equipped[1].get_my_name());
+                    break;
+            }
+            return_array.Add(" ");
             return_array.Add("Protective values:");
-            return_array.Add("Ablative: " + ablative_value.ToString());
-            return_array.Add("Insulative: " + insulative_value.ToString());
-            return_array.Add("Padding: " + padding_value.ToString());
-            return_array.Add("Rigidity: " + rigidness_value.ToString());
-            return_array.Add("Hardness: " + hardness_value.ToString());
+            return_array.Add("Ablative: " + modified_ablative_value.ToString());
+            return_array.Add("Insulative: " + modified_insulative_value.ToString());
+            return_array.Add("Padding: " + modified_padding_value.ToString());
+            return_array.Add("Rigidity: " + modified_rigidness_value.ToString());
+            return_array.Add("Hardness: " + modified_hardness_value.ToString());
             return_array.Add("Integrity: " + max_integrity.ToString());
 
             return return_array;
@@ -105,31 +188,34 @@ namespace Cronkpit
             Attack.Damage atkdmg = atk.get_dmg_type();
             int absorb_threshold = 0;
             int attacks_absorbed = 0;
+            calculate_modified_values();
+
             switch (atkdmg)
             {
                 case Attack.Damage.Slashing:
-                    absorb_threshold = (hardness_value * 4) + (rigidness_value * 2);
+                    absorb_threshold = (modified_hardness_value * 4) + (modified_rigidness_value * 2);
                     break;
                 case Attack.Damage.Piercing:
-                    absorb_threshold = (hardness_value * 4) + (padding_value * 2);
+                    absorb_threshold = (modified_hardness_value * 4) + (modified_padding_value * 2);
                     break;
                 case Attack.Damage.Crushing:
-                    absorb_threshold = (rigidness_value * 4) + (padding_value * 2);
+                    absorb_threshold = (modified_rigidness_value * 4) + (modified_padding_value * 2);
                     break;
                 case Attack.Damage.Fire:
-                    absorb_threshold = (ablative_value * 4) + (rigidness_value * 2);
+                    absorb_threshold = (modified_ablative_value * 4) + (modified_rigidness_value * 2);
                     break;
                 case Attack.Damage.Frost:
-                    absorb_threshold = (padding_value * 4) + (insulative_value * 2);
+                    absorb_threshold = (modified_padding_value * 4) + (modified_insulative_value * 2);
                     break;
                 case Attack.Damage.Acid:
-                    absorb_threshold = (insulative_value * 4) + (ablative_value * 2);
+                    absorb_threshold = (modified_insulative_value * 4) + (modified_ablative_value * 2);
                     break;
                 case Attack.Damage.Electric:
-                    absorb_threshold = (insulative_value * 4) + (padding_value * 2);
+                    absorb_threshold = (modified_insulative_value * 4) + (modified_padding_value * 2);
                     break;
             }
 
+            absorb_threshold += absorb_all;
             wound atk_wound = atk.get_assoc_wound();
             int total_wounds = atk_wound.severity;
             for (int i = 0; i < total_wounds; i++)
@@ -298,29 +384,26 @@ namespace Cronkpit
 
         #region various return values
 
-        public int get_ab_val()
+        public int get_armor_value(Armor_Value val)
         {
-            return ablative_value;
-        }
+            calculate_modified_values();
+            switch (val)
+            {
+                case Armor_Value.Ablative:
+                    return modified_ablative_value;
+                case Armor_Value.Insulative:
+                    return modified_insulative_value;
+                case Armor_Value.Padding:
+                    return modified_padding_value;
+                case Armor_Value.Hardness:
+                    return modified_hardness_value;
+                case Armor_Value.Rigidness:
+                    return modified_rigidness_value;
+                case Armor_Value.Absorb_All:
+                    return absorb_all;
+            }
 
-        public int get_ins_val()
-        {
-            return insulative_value;
-        }
-
-        public int get_pad_val()
-        {
-            return padding_value;
-        }
-
-        public int get_hard_val()
-        {
-            return hardness_value;
-        }
-
-        public int get_rigid_val()
-        {
-            return rigidness_value;
+            return -1;
         }
 
         public int get_chest_integ()

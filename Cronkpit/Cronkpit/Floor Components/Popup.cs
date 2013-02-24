@@ -11,7 +11,7 @@ namespace Cronkpit
 {
     class Popup
     {
-        public enum popup_msg_color { Red, Blue, Yellow, Purple, LimeGreen, VividGreen };
+        public enum popup_msg_color { Red, Blue, Yellow, Purple, LimeGreen, VividGreen, Orange };
         Color my_color;
         string my_text;
         public float time_until_vanish = 150f;
@@ -51,6 +51,9 @@ namespace Cronkpit
                     break;
                 case popup_msg_color.VividGreen:
                     my_color = new Color(50, 255, 30);
+                    break;
+                case popup_msg_color.Orange:
+                    my_color = Color.Orange;
                     break;
             }
         }

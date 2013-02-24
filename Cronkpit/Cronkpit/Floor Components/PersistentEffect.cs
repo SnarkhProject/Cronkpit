@@ -7,13 +7,11 @@ namespace Cronkpit
 {
     class PersistentEffect
     {
-        public enum special_effect_type { None, Earthquake };
-
         gridCoordinate effect_center;
         int turns_remaining;
         int effect_size;
         Scroll.Atk_Area_Type my_effect_type;
-        special_effect_type my_special_fx;
+        Floor.specific_effect my_special_fx;
 
         Attack.Damage effect_damage_type;
         wound.Wound_Type effect_wound_type;
@@ -23,7 +21,7 @@ namespace Cronkpit
         bool monster_effect;
         bool effect_ready;
 
-        public PersistentEffect(Scroll.Atk_Area_Type etyp, special_effect_type setyp, 
+        public PersistentEffect(Scroll.Atk_Area_Type etyp, Floor.specific_effect setyp, 
                                 gridCoordinate ectr, int turnsr, bool m_effect,
                                 Attack.Damage fx_dmg_type, wound.Wound_Type fx_wnd_type,
                                 int aoe_size, int min_dmg, int max_dmg)
@@ -63,7 +61,7 @@ namespace Cronkpit
             return my_effect_type;
         }
 
-        public special_effect_type get_my_special_fx()
+        public Floor.specific_effect get_my_special_fx()
         {
             return my_special_fx;
         }

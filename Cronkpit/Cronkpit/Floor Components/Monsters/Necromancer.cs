@@ -79,8 +79,10 @@ namespace Cronkpit
             acidsplash_range = 5;
             can_create_major = createMajor;
 
+            //Sensory
             sight_range = 2;
-            listen_threshold = 8;
+            sounds_i_can_hear.Add(SoundPulse.Sound_Types.Player);
+            listen_threshold.Add(8);
 
             melee_dodge = 5;
             ranged_dodge = 5;
@@ -202,7 +204,7 @@ namespace Cronkpit
                 if (heard_something || can_see_player)
                 {
                     active = true;
-                    listen_threshold = 4;
+                    listen_threshold[0] = 4;
                     sight_range = 6;
                     fl.addmsg("The Necromancer stops mumbling arcane phrases to " + pronoun + "self!");
                     fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coords[0]);
@@ -231,7 +233,7 @@ namespace Cronkpit
                         else
                         {
                             if (acid_splash_cooldown == 0 && is_player_within_diamond(pl, acidsplash_range) &&
-                                fl.check_mana() >= acidsplash_manacost)
+                                fl.check_mana() >= acidsplash_manacost && !is_player_within(pl, 1))
                             {
                                 fl.addmsg("The Necromancer tosses a glob of acid at you!");
                                 Projectile prj = new Projectile(randomly_chosen_personal_coord(), pl.get_my_grid_C(), Projectile.projectile_type.AcidCloud, ref cont, true, Scroll.Atk_Area_Type.smallfixedAOE);
@@ -258,7 +260,7 @@ namespace Cronkpit
                                 }
                                 else
                                 {
-                                    advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 0, true);
+                                    advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 0, corporeal);
                                     if(!has_moved)
                                         if(is_player_within(pl, 1))
                                         {

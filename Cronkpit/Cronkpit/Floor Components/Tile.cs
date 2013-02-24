@@ -11,7 +11,9 @@ namespace Cronkpit
 {
     class Tile
     {
-        public enum Aura { None, Attack, SmellTarget };
+        public enum Aura { None, Attack, SmellTarget, Interact };
+        public enum Tile_Type { StoneWall, DirtWall, StoneFloor, DirtFloor,
+                                Rubble_Wall, Rubble_Floor, Exit, Void };
 
         private Texture2D my_Texture;
         private Texture2D my_blank_texture;
@@ -20,7 +22,7 @@ namespace Cronkpit
         private ContentManager cont;
         private gridCoordinate grid_coord;
         private List<Scent> smells;
-        private int tile_type;
+        private Tile_Type tile_typ;
         private int random_variation;
         bool opaque;
         bool passable;
@@ -32,14 +34,15 @@ namespace Cronkpit
         private Vector2 corner_3; //Lower left
         private Vector2 corner_4; //Lower right
 
-        public Tile(int sType, int sVari, ContentManager sCont, Texture2D bText, Vector2 sPos, gridCoordinate sgCoord)
+        public Tile(Tile_Type sType, int sVari, ContentManager sCont, Texture2D bText, Vector2 sPos, gridCoordinate sgCoord,
+                    Texture2D[] textures)
         {
             cont = sCont;
             my_Position = sPos;
             grid_coord = sgCoord;
-            tile_type = sType;
+            tile_typ = sType;
             random_variation = sVari;
-            set_tile_type(sType);
+            set_tile_type(sType, textures);
             smells = new List<Scent>();
             my_Aura = Aura.None;
             my_blank_texture = bText;
@@ -50,111 +53,100 @@ namespace Cronkpit
             corner_4 = new Vector2(sPos.X + 19, sPos.Y + 16);
         }
 
-        public void set_tile_type(int sType)
+        public void set_tile_type(Tile_Type sType, Texture2D[] textures)
         {
-            tile_type = sType;
-            /*
-             * Brief guide to tile types:
-             * 
-             * 0 = Void
-             * 1 = stone floor
-             * 2 = Wall
-             * 4 = Exit
-             * 5 = dirt floor
-             * 6 = dirt wall
-             * 7 = rubble
-             * 8 = harsh rock
-             */
+            tile_typ = sType;
             switch(sType)
             {
-                case 1:
+                case Tile_Type.StoneFloor:
                     opaque = false;
                     deflect_sound = false;
                     passable = true;
                     sound_absorbtion_value = 1;
                     if (random_variation < 5)
-                        my_Texture = cont.Load<Texture2D>("Background/stonefloorwcrack");
+                        my_Texture = textures[1];
                     else
-                        my_Texture = cont.Load<Texture2D>("Background/stonefloor");
+                        my_Texture = textures[0];
                     break;
-                case 2:
+                case Tile_Type.StoneWall:
                     opaque = true;
                     deflect_sound = true;
                     passable = false;
                     sound_absorbtion_value = 1;
                     if (random_variation < 15)
-                        my_Texture = cont.Load<Texture2D>("Background/stonebrickwtorch");
+                        my_Texture = textures[1];
                     else
-                        my_Texture = cont.Load<Texture2D>("Background/stonebrick");
+                        my_Texture = textures[0];
                     break;
-                case 4:
+                case Tile_Type.Exit:
                     opaque = false;
                     deflect_sound = false;
                     passable = true;
                     sound_absorbtion_value = 1;
-                    my_Texture = cont.Load<Texture2D>("Background/exit");
+                    my_Texture = textures[0];
                     break;
-                case 5:
+                case Tile_Type.DirtFloor:
                     opaque = false;
                     deflect_sound = false;
                     passable = true;
                     sound_absorbtion_value = 2;
-                    my_Texture = cont.Load<Texture2D>("Background/dirtfloor");
+                    my_Texture = textures[0];
                     break;
-                case 6:
+                case Tile_Type.DirtWall:
                     opaque = true;
                     deflect_sound = true;
                     passable = false;
                     sound_absorbtion_value = 3;
                     if (random_variation < 15)
-                        my_Texture = cont.Load<Texture2D>("Background/dirtwallwtorch");
+                        my_Texture = textures[1];
                     else
-                        my_Texture = cont.Load<Texture2D>("Background/dirtwall");
+                        my_Texture = textures[0];
                     break;
-                case 7:
+                case Tile_Type.Rubble_Floor:
                     opaque = false;
                     deflect_sound = false;
                     passable = true;
                     sound_absorbtion_value = 1;
-                    my_Texture = cont.Load<Texture2D>("Background/rubble_floor");
+                    my_Texture = textures[0];
                     break;
-                case 8:
+                case Tile_Type.Rubble_Wall:
                     opaque = true;
                     deflect_sound = true;
                     passable = false;
                     sound_absorbtion_value = 2;
-                    my_Texture = cont.Load<Texture2D>("Background/rubble_wall");
+                    my_Texture = textures[0];
                     break;
+                case Tile_Type.Void:
                 default:
                     opaque = true;
                     deflect_sound = false;
                     passable = false;
                     sound_absorbtion_value = 1000;
-                    my_Texture = cont.Load<Texture2D>("Background/badvoidtile");
+                    my_Texture = textures[0];
                     break;
             }
         }
 
-        public void mossify()
+        public void mossify(Texture2D[] textures)
         {
-            switch (tile_type)
+            switch (tile_typ)
             {
-                case 1:
+                case Tile_Type.StoneFloor:
                     if (random_variation < 5)
-                        my_Texture = cont.Load<Texture2D>("Background/Moss Tiles/mossy_stonefloorwcrack");
+                        my_Texture = textures[1];
                     else
-                        my_Texture = cont.Load<Texture2D>("Background/Moss Tiles/mossy_stonefloor");
+                        my_Texture = textures[0];
                     break;
-                case 2:
+                case Tile_Type.StoneWall:
                     if (random_variation >= 15)
-                        my_Texture = cont.Load<Texture2D>("Background/Moss Tiles/mossy_stonebrick");
+                        my_Texture = textures[0];
                     break;
-                case 5:
-                    my_Texture = cont.Load<Texture2D>("Background/Moss Tiles/mossy_dirtfloor");
+                case Tile_Type.DirtFloor:
+                    my_Texture = textures[0];
                     break;
-                case 6:
+                case Tile_Type.DirtWall:
                     if (random_variation >= 15)
-                        my_Texture = cont.Load<Texture2D>("Background/Moss Tiles/mossy_dirtwall");
+                        my_Texture = textures[0];
                     break;
             }
 
@@ -164,7 +156,7 @@ namespace Cronkpit
 
         public bool isVoid()
         {
-            return tile_type == 0;
+            return tile_typ == Tile_Type.Void;
         }
 
         public bool isPassable()
@@ -174,7 +166,7 @@ namespace Cronkpit
 
         public bool isExit()
         {
-            return tile_type == 4;
+            return tile_typ == Tile_Type.Exit;
         }
 
         public gridCoordinate get_grid_c()
@@ -300,9 +292,9 @@ namespace Cronkpit
                 sb.Draw(my_blank_texture, my_rect, my_color);
         }
 
-        public int get_my_tile_type()
+        public Tile_Type get_my_tile_type()
         {
-            return tile_type;
+            return tile_typ;
         }
     }
 }

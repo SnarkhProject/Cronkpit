@@ -25,6 +25,9 @@ namespace Cronkpit
 
             //SENSORY
             sight_range = 4;
+            can_hear = true;
+            sounds_i_can_hear.Add(SoundPulse.Sound_Types.Voidwraith_Scream);
+            listen_threshold.Add(1);
 
             //OTHER
             my_name = "Ghost";
@@ -40,15 +43,7 @@ namespace Cronkpit
             else
                 can_see_player = false;
 
-            if (!can_see_player)
-            {
-                int should_i_wander = rGen.Next(5);
-                if (should_i_wander == 1)
-                {
-                    wander(pl, fl, corporeal);
-                }
-            }
-            else
+            if (can_see_player)
             {
                 //the monster is aggroed!
                 advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
@@ -58,6 +53,18 @@ namespace Cronkpit
                     Attack dmg = dealDamage();
                     fl.add_effect(dmg_type, pl.get_my_grid_C());
                     pl.take_damage(dmg, fl, "");
+                }
+            }
+            else if(!can_see_player && heard_something)
+            {
+                follow_path_to_sound(fl, pl);
+            }
+            else
+            {
+                int should_i_wander = rGen.Next(5);
+                if (should_i_wander == 1)
+                {
+                    wander(pl, fl, corporeal);
                 }
             }
         }

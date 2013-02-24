@@ -68,10 +68,6 @@ Content\Projectiles\powerstrike_spritesheet.xnb
 Content\Projectiles\cleave_spritesheet.xnb
 Content\Icons\Armors\obsidianplate_icon.xnb
 Content\Player\falsael_sprite.xnb
-Content\Background\Moss Tiles\mossy_dirtfloor.xnb
-Content\Background\Moss Tiles\mossy_dirtwall.xnb
-Content\Background\Moss Tiles\mossy_stonebrick.xnb
-Content\Background\Moss Tiles\mossy_stonefloor.xnb
 Content\Player\Portraits\falsael_fine.xnb
 Content\Icons\Consumables\majorhealthpotion_icon.xnb
 Content\Icons\Consumables\majorrepairpotion_icon.xnb
@@ -90,7 +86,6 @@ Content\Icons\Weapons\reaver_icon.xnb
 Content\Icons\Weapons\flangedmace_icon.xnb
 Content\Icons\Weapons\pitsteelwarhammer_icon.xnb
 Content\Player\bash attack cursor.xnb
-Content\Background\Moss Tiles\mossy_stonefloorwcrack.xnb
 Content\Entities\broken_armor.xnb
 Content\Icons\Scrolls\tier1scroll_icon.xnb
 Content\Icons\Scrolls\tier2scroll_icon.xnb
@@ -173,6 +168,22 @@ Content\Fonts\popup_msg.xnb
 Content\Fonts\mfont.xnb
 Content\Fonts\smallfont_bold.xnb
 Content\Fonts\smaller_sfont.xnb
+Content\Icons\Scrolls\talisman_icon.xnb
+Content\Projectiles\acidblood_spritesheet.xnb
+Content\Background\Necropolis\Necro_Dirtfloor.xnb
+Content\Background\Necropolis\Necro_DirtWall.xnb
+Content\Background\Necropolis\Necro_DirtWallTorch.xnb
+Content\Background\Necropolis\Necro_MossDirtFloor.xnb
+Content\Background\Necropolis\Necro_MossDirtWall.xnb
+Content\Background\Necropolis\Necro_StoneFloor.xnb
+Content\Background\Necropolis\Necro_StoneFloorCracked.xnb
+Content\Background\Necropolis\Necro_StoneFloorCrackedMoss.xnb
+Content\Background\Necropolis\Necro_StoneFloorMoss.xnb
+Content\Background\Necropolis\Necro_StoneWall.xnb
+Content\Background\Necropolis\Necro_StoneWallMoss.xnb
+Content\Background\Necropolis\Necro_StoneWallTorch.xnb
+Content\Background\Doodads\altar.xnb
+Content\Background\Doodads\corpsepile.xnb
 Content\Entities\alilmoreGold.png
 Content\Entities\lowGold.png
 Content\Entities\someGold.png

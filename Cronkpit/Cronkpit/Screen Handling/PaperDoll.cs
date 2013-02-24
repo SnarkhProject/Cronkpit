@@ -45,14 +45,10 @@ namespace Cronkpit
         public void draw_me(ref SpriteBatch sBatch)
         {
             sBatch.Begin(SpriteSortMode.BackToFront, null);
-            sBatch.Draw(wireFrame, my_size, Color.White);
-            sBatch.End();
-
-            sBatch.Begin(SpriteSortMode.BackToFront, null);
             for (int i = 0; i < 6; i++)
             {
                 Color part_color = Color.Blue;
-                if (wounds_by_part[i] == max_health_by_part[i])
+                if (wounds_by_part[i] >= max_health_by_part[i])
                     part_color = Color.Red;
 
                 else if (max_health_by_part[i] == 3)
@@ -65,6 +61,10 @@ namespace Cronkpit
 
                 sBatch.Draw(texture_masks[i], my_size, part_color);
             }
+            sBatch.End();
+
+            sBatch.Begin(SpriteSortMode.BackToFront, null);
+            sBatch.Draw(wireFrame, my_size, Color.White);
             sBatch.End();
         }
     }

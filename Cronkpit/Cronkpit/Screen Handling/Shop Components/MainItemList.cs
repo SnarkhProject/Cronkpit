@@ -9,12 +9,17 @@ namespace Cronkpit
     {
         Random rGen;
         List<Item> shared_items;
+        List<Talisman.Talisman_Type> available_talisman_types;
+        List<Talisman.Talisman_Prefix> talisman_prefixes;
 
         public MainItemList()
         {
             rGen = new Random();
             shared_items = new List<Item>();
+            available_talisman_types = new List<Talisman.Talisman_Type>();
+            talisman_prefixes = new List<Talisman.Talisman_Prefix>();
             add_all_shared_items();
+            build_universal_talisman_list();
         }
 
         public void add_all_shared_items()
@@ -62,6 +67,38 @@ namespace Cronkpit
             shared_items.Add(new Weapon(41, 250, "Training Staff", Weapon.Type.Staff, 2, 2, 3, 2));
             shared_items.Add(new Weapon(42, 1750, "Quarterstaff", Weapon.Type.Staff, 2, 4, 8, 2));
             shared_items.Add(new Weapon(43, 3500, "Mockernut Staff", Weapon.Type.Staff, 2, 5, 12, 3));
+        }
+
+        public void build_universal_talisman_list()
+        {
+            available_talisman_types.Add(Talisman.Talisman_Type.Absorption);
+            available_talisman_types.Add(Talisman.Talisman_Type.Asbestos);
+            available_talisman_types.Add(Talisman.Talisman_Type.Bouyancy);
+            available_talisman_types.Add(Talisman.Talisman_Type.Diamond);
+            available_talisman_types.Add(Talisman.Talisman_Type.Distruption);
+            available_talisman_types.Add(Talisman.Talisman_Type.Down);
+            available_talisman_types.Add(Talisman.Talisman_Type.Ebonite);
+            available_talisman_types.Add(Talisman.Talisman_Type.Endurance);
+            available_talisman_types.Add(Talisman.Talisman_Type.Expediency);
+            available_talisman_types.Add(Talisman.Talisman_Type.Grasping);
+            available_talisman_types.Add(Talisman.Talisman_Type.Heartsblood);
+            available_talisman_types.Add(Talisman.Talisman_Type.Heat);
+            available_talisman_types.Add(Talisman.Talisman_Type.Pressure);
+            available_talisman_types.Add(Talisman.Talisman_Type.Razors);
+            available_talisman_types.Add(Talisman.Talisman_Type.Reach);
+            available_talisman_types.Add(Talisman.Talisman_Type.Skill);
+            available_talisman_types.Add(Talisman.Talisman_Type.Snow);
+            available_talisman_types.Add(Talisman.Talisman_Type.Sparks);
+            available_talisman_types.Add(Talisman.Talisman_Type.Tenacity);
+            available_talisman_types.Add(Talisman.Talisman_Type.Thunder);
+            available_talisman_types.Add(Talisman.Talisman_Type.Toxicity);
+            available_talisman_types.Add(Talisman.Talisman_Type.Wool);
+
+            talisman_prefixes.Add(Talisman.Talisman_Prefix.Rough);
+            talisman_prefixes.Add(Talisman.Talisman_Prefix.Flawed);
+            talisman_prefixes.Add(Talisman.Talisman_Prefix.Average);
+            talisman_prefixes.Add(Talisman.Talisman_Prefix.Great);
+            talisman_prefixes.Add(Talisman.Talisman_Prefix.Perfect);
         }
 
         public List<Armor> retrieve_random_shared_armors(int number)
@@ -145,6 +182,31 @@ namespace Cronkpit
                         done = true;
                     }
                 }
+            }
+            return fetched_list;
+        }
+
+        public List<Talisman> retrieve_random_shared_talismans(int number)
+        {
+            List<Talisman> fetched_list = new List<Talisman>();
+            for (int i = 0; i < number; i++)
+            {
+                Talisman.Talisman_Type T_Type = available_talisman_types[rGen.Next(available_talisman_types.Count)];
+                Talisman.Talisman_Prefix T_Prefix = 0;
+                if (T_Type == Talisman.Talisman_Type.Endurance || T_Type == Talisman.Talisman_Type.Tenacity)
+                {
+                    if (rGen.Next(2) == 0)
+                        T_Prefix = Talisman.Talisman_Prefix.Average;
+                    else
+                        T_Prefix = Talisman.Talisman_Prefix.Perfect;
+                }
+                else if (T_Type == Talisman.Talisman_Type.Bouyancy)
+                {
+                    T_Prefix = Talisman.Talisman_Prefix.Perfect;
+                }
+                else
+                    T_Prefix = talisman_prefixes[rGen.Next(talisman_prefixes.Count)];
+                fetched_list.Add(new Talisman(0, 1000, "Talisman", T_Type, T_Prefix));
             }
             return fetched_list;
         }

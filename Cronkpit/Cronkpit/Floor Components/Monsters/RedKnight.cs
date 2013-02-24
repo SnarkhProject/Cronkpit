@@ -39,7 +39,8 @@ namespace Cronkpit
             active = false;
 
             //SENSORY
-            listen_threshold = 5;
+            sounds_i_can_hear.Add(SoundPulse.Sound_Types.Player);
+            listen_threshold.Add(5);
             sight_range = 2;
 
             //OTHER
@@ -144,7 +145,7 @@ namespace Cronkpit
                             fl.damage_monster(dmg_value, mon_ID, true);
                         }
                     }
-                    if (!fl.is_tile_opaque(target_location))
+                    if (!fl.is_tile_passable(target_location))
                         fl.add_specific_effect(Floor.specific_effect.Power_Strike, target_location);
                 }
             }
@@ -237,7 +238,7 @@ namespace Cronkpit
             if (is_player_within_diamond(pl, javelin_range))
             {
                 bool temp_sight = can_see_player;
-                if (is_player_within(pl, sight_range))
+                if (is_player_within(pl, javelin_range))
                     can_see_player = can_i_see_point(fl, pl.get_my_grid_C());
                 else
                     can_see_player = false;
@@ -342,7 +343,7 @@ namespace Cronkpit
             {
                 if (heard_something)
                 {
-                    listen_threshold = 2;
+                    listen_threshold[0] = 2;
                     active = true;
                     fl.addmsg("The Red Knight awakens with an unearthly moan!");
                     set_to_activeTexture();

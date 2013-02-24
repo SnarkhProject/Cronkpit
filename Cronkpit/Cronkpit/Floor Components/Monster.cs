@@ -22,8 +22,8 @@ namespace Cronkpit
         protected List<gridCoordinate> my_grid_coords;
         public Random rGen;
         //Strictly for movement purposes
-        List<int[]> movement_indexes;
-        List<gridCoordinate.direction> direction_indexes;
+        protected List<int[]> movement_indexes;
+        protected List<gridCoordinate.direction> direction_indexes;
 
         //Sight
         public bool can_see_player;
@@ -38,11 +38,9 @@ namespace Cronkpit
         public bool heard_something;
         public List<gridCoordinate> shortest_path_to_sound;
         public List<gridCoordinate> last_path_to_sound;
-        public List<int> sounds_i_can_hear;
-        /*
-         * For reference: 0 = player sound, 1 = zombie scream, 2 = voidwraith scream
-         */
-        public int listen_threshold;
+        protected SoundPulse.Sound_Types last_sound_i_heard;
+        protected List<SoundPulse.Sound_Types> sounds_i_can_hear;
+        public List<int> listen_threshold;
 
         //Other stuff
         public bool can_melee_attack;
@@ -106,8 +104,9 @@ namespace Cronkpit
             heard_something = false;
             shortest_path_to_sound = new List<gridCoordinate>();
             last_path_to_sound = new List<gridCoordinate>();
-            sounds_i_can_hear = new List<int>();
-            listen_threshold = 0;
+            sounds_i_can_hear = new List<SoundPulse.Sound_Types>();
+            listen_threshold = new List<int>();
+            last_sound_i_heard = SoundPulse.Sound_Types.None;
             
             //Damage stuff
             can_melee_attack = false;
@@ -170,7 +169,7 @@ namespace Cronkpit
         }
 
         //overidden on a per-monster basis. The goal is to ONLY have this function
-        //in each monster class.
+        //in each monster class, along with other monster-specific functions
         public virtual void Update_Monster(Player pl, Floor fl)
         {
         }
@@ -331,7 +330,10 @@ namespace Cronkpit
                 walked = true;
                 for (int i = 0; i < my_grid_coords.Count; i++)
                     if (!is_spot_free(test_coordinates[i], fl, pl, corporeal))
+                    {
                         walked = false;
+                        tries++;
+                    }
 
                 if (walked)
                     my_grid_coords = test_coordinates;
@@ -356,6 +358,10 @@ namespace Cronkpit
                 tiles_to_check.Add(new gridCoordinate(target_point.x + 1, target_point.y));
                 tiles_to_check.Add(new gridCoordinate(target_point.x, target_point.y - 1));
                 tiles_to_check.Add(new gridCoordinate(target_point.x, target_point.y + 1));
+                tiles_to_check.Add(new gridCoordinate(target_point.x - 1, target_point.y - 1));
+                tiles_to_check.Add(new gridCoordinate(target_point.x + 1, target_point.y - 1));
+                tiles_to_check.Add(new gridCoordinate(target_point.x + 1, target_point.y + 1));
+                tiles_to_check.Add(new gridCoordinate(target_point.x - 1, target_point.y + 1));
                 bool at_coordinate = false;
                 for (int i = 0; i < tiles_to_check.Count; i++)
                     if (occupies_tile(tiles_to_check[i]))
@@ -407,21 +413,28 @@ namespace Cronkpit
             else if (top_left_edge.y > target_point.y && bottom_left_edge.y > target_point.y)
                 y_move = -1;
 
-            gridCoordinate.direction desired_direction = 0;
+            int target_index = 0;
             for(int i = 0; i < 8; i++)
             {
                 if(movement_indexes[i][0] == x_move && movement_indexes[i][1] == y_move)
-                    desired_direction = direction_indexes[i];
+                    target_index = i;
             }
+            //Slightly less efficient than just delcaring these in the gridCoord arrays, but
+            //It's way, way easier to debug like this, since you can tell what it's doing before it
+            //actually gets into those sections.
+            gridCoordinate.direction desired_direction = direction_indexes[target_index];
+            gridCoordinate.direction diagonal_1_direction = direction_indexes[(target_index + 1) % 8];
+            gridCoordinate.direction diagonal_2_direction = direction_indexes[(target_index + 7) % 8];
 
             List<gridCoordinate> desired_grid_coords = new List<gridCoordinate>();
             List<gridCoordinate> diagonal_1_grid_coords = new List<gridCoordinate>();
             List<gridCoordinate> diagonal_2_grid_coords = new List<gridCoordinate>();
+            
             for (int i = 0; i < my_grid_coords.Count; i++)
             {
                 desired_grid_coords.Add(new gridCoordinate(my_grid_coords[i], desired_direction));
-                diagonal_1_grid_coords.Add(new gridCoordinate(my_grid_coords[i], (desired_direction) + 1 % 8));
-                diagonal_2_grid_coords.Add(new gridCoordinate(my_grid_coords[i], (desired_direction) + 7 % 8));
+                diagonal_1_grid_coords.Add(new gridCoordinate(my_grid_coords[i], diagonal_1_direction));
+                diagonal_2_grid_coords.Add(new gridCoordinate(my_grid_coords[i], diagonal_2_direction));
             }
 
             bool desired_direction_valid = true;
@@ -456,7 +469,7 @@ namespace Cronkpit
                     my_grid_coords = diagonal_2_grid_coords;
                     has_moved = true;
                 }
-                else
+                else if (diagonal_1_valid && diagonal_2_valid)
                 {
                     int use_diagonal_1 = rGen.Next(2);
                     if (use_diagonal_1 == 1)
@@ -495,9 +508,8 @@ namespace Cronkpit
                     }
                     else
                     {
-                        fl.add_new_popup("-" + armorPoints, Popup.popup_msg_color.Blue, my_center_coordinate());
+                        fl.add_new_popup("-" + dmg, Popup.popup_msg_color.Purple, my_center_coordinate());
                         dmg -= armorPoints;
-                        fl.add_new_popup("-" + dmg, Popup.popup_msg_color.Red, my_center_coordinate());
                         msg_buf.Add("The " + my_name + "'s armor absorbs " + armorPoints + " damage!");
                         msg_buf.Add("The " + my_name + " takes " + dmg + " damage!");
                         armorPoints = 0;
@@ -627,13 +639,41 @@ namespace Cronkpit
             return can_see_target;
         }
 
+        public bool can_hear_sound(SoundPulse.Sound_Types soundID, int soundStrength)
+        {
+            for (int i = 0; i < sounds_i_can_hear.Count; i++)
+                if (sounds_i_can_hear[i] == soundID && soundStrength > listen_threshold[i])
+                    return true;
+
+            return false;
+        }
+
+        private bool sound_has_priority(SoundPulse.Sound_Types soundID)
+        {
+            int current_sound_priority = sounds_i_can_hear.Count+1;
+            int soundID_priority = 0;
+            for (int i = 0; i < sounds_i_can_hear.Count; i++)
+            {
+                if (sounds_i_can_hear[i] == last_sound_i_heard)
+                    current_sound_priority = i;
+                if (sounds_i_can_hear[i] == soundID)
+                    soundID_priority = i;
+            }
+
+            return soundID_priority <= current_sound_priority;
+        }
+
         //Get a new path to the sound
-        public void next_path_to_sound(List<gridCoordinate> path)
+        public void next_path_to_sound(List<gridCoordinate> path, SoundPulse.Sound_Types soundID)
         {
             if (!heard_something)
             {
-                shortest_path_to_sound = new List<gridCoordinate>(path);
-                heard_something = true;
+                if (sound_has_priority(soundID))
+                {
+                    shortest_path_to_sound = new List<gridCoordinate>(path);
+                    heard_something = true;
+                    last_sound_i_heard = soundID;
+                }
             }
             else if (heard_something && path.Count < shortest_path_to_sound.Count)
             {
@@ -650,6 +690,7 @@ namespace Cronkpit
                 last_path_to_sound = new List<gridCoordinate>(shortest_path_to_sound);
                 shortest_path_to_sound.Clear();
                 heard_something = false;
+                last_sound_i_heard = SoundPulse.Sound_Types.None;
             }
             int path_length = last_path_to_sound.Count - 1;
              
@@ -661,6 +702,14 @@ namespace Cronkpit
                     last_path_to_sound.RemoveAt(path_length);
                 }
             }
+        }
+
+        protected int positive_difference(int i1, int i2)
+        {
+            if (i1 > i2)
+                return i1 - i2;
+            else
+                return i2 - i1;
         }
     }
 }

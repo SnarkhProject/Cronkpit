@@ -93,14 +93,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Cronkpit.exe" size="201216">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Cronkpit.exe" size="224256">
       <assemblyIdentity name="Cronkpit" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>Wgs9rP3ZtyCaKZr0R/gMR66jrR4=</dsig:DigestValue>
+        <dsig:DigestValue>kjzyjr/yae7NZUMhRJ9X5UU+MmM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -147,6 +147,24 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>XDQEOOM3EBl6d/NQVXBVMbCZKO8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Background\Doodads\altar.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>oedFciZNxqrDAn0NH8//HLboKT8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Background\Doodads\corpsepile.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>Y0cezxRaPFozlomn5M9Xr6wWnBY=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Background\Doodads\stonewall_woodendoor.xnb" size="4283">
@@ -221,49 +239,112 @@
       <dsig:DigestValue>AzWb+1F60DZtfnsUw9yxnk9xsZg=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Content\Background\Moss Tiles\mossy_dirtfloor.xnb" size="4283">
+  <file name="Content\Background\Necropolis\Necro_Dirtfloor.xnb" size="4283">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>tqx1cmzNxvepUnvcsuGVJhYBOMw=</dsig:DigestValue>
+      <dsig:DigestValue>o5L0rilZTu/bI47vuNgcvQmKPq8=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Content\Background\Moss Tiles\mossy_dirtwall.xnb" size="4283">
+  <file name="Content\Background\Necropolis\Necro_DirtWall.xnb" size="4283">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>7JdE9DujqYZauM8RGWCp6A3PwDY=</dsig:DigestValue>
+      <dsig:DigestValue>jjRioky62k3+MBUldXDbPgS96OY=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Content\Background\Moss Tiles\mossy_stonebrick.xnb" size="4283">
+  <file name="Content\Background\Necropolis\Necro_DirtWallTorch.xnb" size="4283">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>S+19ATi7UlxGU/+PP5xG9tRppW4=</dsig:DigestValue>
+      <dsig:DigestValue>o4zCHtVu88sTe3r40SdcSRZRD9I=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Content\Background\Moss Tiles\mossy_stonefloor.xnb" size="4283">
+  <file name="Content\Background\Necropolis\Necro_MossDirtFloor.xnb" size="4283">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>PNcMHOrDty4jNgVMmseVQB8sCTE=</dsig:DigestValue>
+      <dsig:DigestValue>gVYia5pl38wSpMXfqWdRC6wGahw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Content\Background\Moss Tiles\mossy_stonefloorwcrack.xnb" size="4283">
+  <file name="Content\Background\Necropolis\Necro_MossDirtWall.xnb" size="4283">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>kbgH8S/5LVZd/awLhEXw1Pgwmus=</dsig:DigestValue>
+      <dsig:DigestValue>YYnvxeCiDn4m8qJ/NXucPnrT1Gc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Background\Necropolis\Necro_StoneFloor.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>XjWu7UOB3NWhEI+cYE6zao8NdpE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Background\Necropolis\Necro_StoneFloorCracked.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>VsUVffDKlmzA/ETFyhTjge1ETa4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Background\Necropolis\Necro_StoneFloorCrackedMoss.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>CkP1m/E/N5aS28Tm4nYjKhPziQc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Background\Necropolis\Necro_StoneFloorMoss.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>FA73xMiG1Ayv3SHUs40k+ntrSJ8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Background\Necropolis\Necro_StoneWall.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>oyl78iWgt91NivFdRuaqQQNf+Dk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Background\Necropolis\Necro_StoneWallMoss.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>JkydRqqKOvHXRG8tZtIgit3VMMI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Background\Necropolis\Necro_StoneWallTorch.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>2TZjQTP4E88u+iX06fymzM/qYb4=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Background\rubble_floor.xnb" size="4283">
@@ -686,7 +767,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>g8afM9WrWNLKkhUL6ChaJeCwzkk=</dsig:DigestValue>
+      <dsig:DigestValue>WO5QaXDAhdSNnB0+EUqu742lVyw=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Enemies\zombie_fanatic.xnb" size="4283">
@@ -1074,6 +1155,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>BkweaqSKQhcYMwRyyG4GydY3vZ0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Icons\Scrolls\talisman_icon.xnb" size="9403">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>7+gaCQLPnPD+n0pCfNpblH0F0Jg=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Icons\Scrolls\tier1scroll_icon.xnb" size="9403">
@@ -1533,6 +1623,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>vhHUfOAK6ji8ojlVQp1z9QN8aJs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Projectiles\acidblood_spritesheet.xnb" size="45243">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>Qg8id768+poJPpTCSbwkFfije2E=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Projectiles\arrow.png" size="292">

@@ -174,6 +174,34 @@ namespace Cronkpit
             return wound_count;
         }
 
+        public int most_prevalent_injury_type_div5()
+        {
+            List<int> t_wounds = new List<int>();
+            t_wounds.Add(0);
+            t_wounds.Add(0);
+            t_wounds.Add(0);
+            t_wounds.Add(0);
+
+            for (int i = 0; i < injuries.Count; i++)
+            {
+                if (injuries[i].type == wound.Wound_Type.Burn)
+                    t_wounds[0] += injuries[i].severity;
+                else if (injuries[i].type == wound.Wound_Type.Frostburn)
+                    t_wounds[1] += injuries[i].severity;
+                else if (injuries[i].type == wound.Wound_Type.Impact)
+                    t_wounds[2] += injuries[i].severity;
+                else if (injuries[i].type == wound.Wound_Type.Open)
+                    t_wounds[3] += injuries[i].severity;
+            }
+
+            int worst_wound = 0;
+            for (int i = 0; i < t_wounds.Count; i++)
+                if (t_wounds[i] > worst_wound)
+                    worst_wound = t_wounds[i];
+
+            return worst_wound / 5;
+        }
+
         public void consolidate_injury_report(ref List<string> wReport)
         {
             for (int i = 0; i < injuries.Count; i++)
@@ -207,6 +235,11 @@ namespace Cronkpit
         public int get_max_health()
         {
             return max_health;
+        }
+
+        public List<wound> get_all_injuries()
+        {
+            return injuries;
         }
     }
 }

@@ -28,6 +28,9 @@ namespace Cronkpit
             //SENSORY
             smell_range = 5;
             smell_threshold = 5;
+            can_hear = true;
+            sounds_i_can_hear.Add(SoundPulse.Sound_Types.Voidwraith_Scream);
+            listen_threshold.Add(1);
 
             //OTHER
             my_name = "Gorewolf";
@@ -78,6 +81,8 @@ namespace Cronkpit
                     }
                 }
             }
+            else if (!has_scent && heard_something)
+                follow_path_to_sound(fl, pl);
             else
                 wander(pl, fl, corporeal);
         }

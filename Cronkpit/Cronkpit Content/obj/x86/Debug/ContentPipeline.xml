@@ -632,42 +632,6 @@
       <Time>2013-01-20T23:59:12.9204514-05:00</Time>
     </Item>
     <Item>
-      <Source>Background\Moss Tiles\mossy_dirtfloor.png</Source>
-      <Name>Background\Moss Tiles\mossy_dirtfloor</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_dirtfloor.xnb</Output>
-      <Time>2012-12-30T13:18:24.5755217-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Background\Moss Tiles\mossy_dirtwall.png</Source>
-      <Name>Background\Moss Tiles\mossy_dirtwall</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_dirtwall.xnb</Output>
-      <Time>2012-12-22T21:09:03-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Background\Moss Tiles\mossy_stonebrick.png</Source>
-      <Name>Background\Moss Tiles\mossy_stonebrick</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_stonebrick.xnb</Output>
-      <Time>2012-12-27T14:05:50.3638995-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Background\Moss Tiles\mossy_stonefloor.png</Source>
-      <Name>Background\Moss Tiles\mossy_stonefloor</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_stonefloor.xnb</Output>
-      <Time>2012-12-22T21:09:10-05:00</Time>
-    </Item>
-    <Item>
       <Source>Player\Portraits\falsael_fine.png</Source>
       <Name>Player\Portraits\falsael_fine</Name>
       <Importer>TextureImporter</Importer>
@@ -828,15 +792,6 @@
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Player\bash attack cursor.xnb</Output>
       <Time>2012-12-31T00:14:54.9105199-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Background\Moss Tiles\mossy_stonefloorwcrack.png</Source>
-      <Name>Background\Moss Tiles\mossy_stonefloorwcrack</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_stonefloorwcrack.xnb</Output>
-      <Time>2013-01-02T12:02:46.0963275-05:00</Time>
     </Item>
     <Item>
       <Source>Entities\broken_armor.png</Source>
@@ -1484,7 +1439,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\voidwraith.xnb</Output>
-      <Time>2013-02-03T18:19:03.8556538-05:00</Time>
+      <Time>2013-02-17T03:21:58.9462017-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\zombie_fanatic.png</Source>
@@ -1575,6 +1530,150 @@
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smaller_sfont.xnb</Output>
       <Time>2012-12-30T14:53:01.8632439-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Scrolls\talisman_icon.png</Source>
+      <Name>Icons\Scrolls\talisman_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\talisman_icon.xnb</Output>
+      <Time>2013-02-10T05:41:39.738431-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\acidblood_spritesheet.png</Source>
+      <Name>Projectiles\acidblood_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\acidblood_spritesheet.xnb</Output>
+      <Time>2013-02-16T18:26:53.7708907-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_Dirtfloor.png</Source>
+      <Name>Background\Necropolis\Necro_Dirtfloor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_Dirtfloor.xnb</Output>
+      <Time>2013-02-18T04:55:06.8186071-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_DirtWall.png</Source>
+      <Name>Background\Necropolis\Necro_DirtWall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_DirtWall.xnb</Output>
+      <Time>2013-02-18T04:55:06.8206072-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_DirtWallTorch.png</Source>
+      <Name>Background\Necropolis\Necro_DirtWallTorch</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_DirtWallTorch.xnb</Output>
+      <Time>2013-02-18T04:55:06.9536148-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_MossDirtFloor.png</Source>
+      <Name>Background\Necropolis\Necro_MossDirtFloor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_MossDirtFloor.xnb</Output>
+      <Time>2013-02-18T04:55:06.9956172-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_MossDirtWall.png</Source>
+      <Name>Background\Necropolis\Necro_MossDirtWall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_MossDirtWall.xnb</Output>
+      <Time>2013-02-18T04:55:07.0076179-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneFloor.png</Source>
+      <Name>Background\Necropolis\Necro_StoneFloor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneFloor.xnb</Output>
+      <Time>2013-02-18T04:55:07.009618-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneFloorCracked.png</Source>
+      <Name>Background\Necropolis\Necro_StoneFloorCracked</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneFloorCracked.xnb</Output>
+      <Time>2013-02-18T04:55:07.0366196-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneFloorCrackedMoss.png</Source>
+      <Name>Background\Necropolis\Necro_StoneFloorCrackedMoss</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneFloorCrackedMoss.xnb</Output>
+      <Time>2013-02-18T04:55:07.0386197-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneFloorMoss.png</Source>
+      <Name>Background\Necropolis\Necro_StoneFloorMoss</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneFloorMoss.xnb</Output>
+      <Time>2013-02-18T04:55:07.0406198-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneWall.png</Source>
+      <Name>Background\Necropolis\Necro_StoneWall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneWall.xnb</Output>
+      <Time>2013-02-18T04:55:07.0556206-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneWallMoss.png</Source>
+      <Name>Background\Necropolis\Necro_StoneWallMoss</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneWallMoss.xnb</Output>
+      <Time>2013-02-18T04:55:07.0576208-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneWallTorch.png</Source>
+      <Name>Background\Necropolis\Necro_StoneWallTorch</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneWallTorch.xnb</Output>
+      <Time>2013-02-18T04:55:07.0596209-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Doodads\altar.png</Source>
+      <Name>Background\Doodads\altar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\altar.xnb</Output>
+      <Time>2013-02-19T02:56:11.6602967-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Doodads\corpsepile.png</Source>
+      <Name>Background\Doodads\corpsepile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\corpsepile.xnb</Output>
+      <Time>2013-02-19T02:56:11.6932986-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

@@ -306,11 +306,6 @@ C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Armors\obsidianplate_icon.xnb
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Player\falsael_sprite.xnb
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Inventory Screen\falsael_wires\fal_wireframe.xnb
-C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_dirtfloor.xnb
-C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_dirtwall.xnb
-C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_stonebrick.xnb
-C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_stonefloor.xnb
-C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Moss Tiles\mossy_stonefloorwcrack.xnb
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Player\Portraits\falsael_fine.xnb
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\mfont.xnb
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Consumables\majorhealthpotion_icon.xnb
@@ -631,3 +626,19 @@ C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\zombie_fanatic.xnb
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\gorewolf.xnb
 C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Player\halephon_dead.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Scrolls\talisman_icon.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\acidblood_spritesheet.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_Dirtfloor.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_DirtWall.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_DirtWallTorch.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_MossDirtFloor.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_MossDirtWall.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneFloor.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneFloorCracked.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneFloorCrackedMoss.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneFloorMoss.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneWall.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneWallMoss.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneWallTorch.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\altar.xnb
+C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\corpsepile.xnb

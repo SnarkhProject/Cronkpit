@@ -73,6 +73,9 @@ namespace Cronkpit
 
             //SENSORY
             sight_range = 5;
+            can_hear = true;
+            sounds_i_can_hear.Add(SoundPulse.Sound_Types.Voidwraith_Scream);
+            listen_threshold.Add(1);
 
             //OTHER
             my_name = "Skeleton";
@@ -155,13 +158,18 @@ namespace Cronkpit
                 if (occupies_tile(last_seen_player_at))
                     have_i_seen_player = false;
             }
+
+            if (!can_see_player && !have_i_seen_player && heard_something)
+            {
+                follow_path_to_sound(fl, pl);
+            }
             
-            if(!can_see_player && !have_i_seen_player && !has_moved)
+            if(!can_see_player && !have_i_seen_player &&!heard_something && !has_moved)
             {
                 int should_i_wander = rGen.Next(6);
                 if (should_i_wander == 1)
                     wander(pl, fl, corporeal);
-            } 
+            }
         }
     }
 }

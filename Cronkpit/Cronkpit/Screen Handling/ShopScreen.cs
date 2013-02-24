@@ -67,6 +67,7 @@ namespace Cronkpit
         List<Weapon> weapons_in_stock;
         List<Scroll> scrolls_in_stock;
         List<Item> consumables_in_stock;
+        List<Talisman> talismans_in_stock;
         List<Item> items_to_sell;
         List<Item> sold_items;
         List<string> current_item_info;
@@ -226,6 +227,16 @@ namespace Cronkpit
                     if (selected_item_index < consumables_in_stock.Count)
                         current_item_info = consumables_in_stock[selected_item_index].get_my_information();
                     break;
+                case Shopping_Mode.Talismans:
+                    selectedIndex = 0;
+                    selected_item_index += scroll;
+                    if (selected_item_index < 0)
+                        selected_item_index = talismans_in_stock.Count;
+                    if (selected_item_index > talismans_in_stock.Count)
+                        selected_item_index = 0;
+                    if (selected_item_index < talismans_in_stock.Count)
+                        current_item_info = talismans_in_stock[selected_item_index].get_my_information();
+                    break;
                 case Shopping_Mode.Sell:
                     selectedIndex = 0;
                     selected_item_index += scroll;
@@ -296,6 +307,10 @@ namespace Cronkpit
                     set_descriptive_scroll_shopping(scroll_shopping_used);
                     scroll_menu(0);
                     break;
+                case Shopping_Mode.Talismans:
+                    set_descriptive_talisman_shopping(talisman_shopping_used);
+                    scroll_menu(0);
+                    break;
             }
         }
 
@@ -320,6 +335,8 @@ namespace Cronkpit
                     return selected_item_index == sold_items.Count;
                 case Shopping_Mode.Scrolls:
                     return selected_item_index == scrolls_in_stock.Count;
+                case Shopping_Mode.Talismans:
+                    return selected_item_index == talismans_in_stock.Count;
                 default:
                     return false;
             }
@@ -363,6 +380,15 @@ namespace Cronkpit
                             pl.acquire_potion(pt);
                         }
                         consumables_in_stock.RemoveAt(selected_item_index);
+                    }
+                    break;
+                case Shopping_Mode.Talismans:
+                    item_gold_value = talismans_in_stock[selected_item_index].get_my_gold_value();
+                    if (pl.get_my_gold() >= item_gold_value)
+                    {
+                        pl.pay_gold(item_gold_value);
+                        pl.acquire_item((Item)talismans_in_stock[selected_item_index]);
+                        talismans_in_stock.RemoveAt(selected_item_index);
                     }
                     break;
                 case Shopping_Mode.Sell:
@@ -461,6 +487,7 @@ namespace Cronkpit
             weapons_in_stock = all_items.retrieve_random_shared_weapons(4);
             consumables_in_stock = all_items.retrieve_random_shared_consumables(2);
             scrolls_in_stock = all_items.retrieve_random_shared_scrolls(3);
+            talismans_in_stock = all_items.retrieve_random_shared_talismans(4);
             items_to_sell = pl.retrieve_inventory();
             sold_items = new List<Item>();
 
@@ -610,6 +637,8 @@ namespace Cronkpit
             switch (choice)
             {
                 case 0:
+                    descriptive_text = "You look at talismans.";
+                    blurb_height = ((1 + 3) * sFont.LineSpacing);
                     break;
             }
         }
@@ -740,6 +769,24 @@ namespace Cronkpit
                         position2.Y += sFont.LineSpacing;
                     }
                     if (selected_item_index == consumables_in_stock.Count)
+                        exit_submenu_tint = highlighted;
+                    else
+                        exit_submenu_tint = normal;
+                    sBatch.DrawString(sFont, sub_menu_exit, position2, exit_submenu_tint);
+                    break;
+                case Shopping_Mode.Talismans:
+                    take_item_menu_measurements(im_shopping_for);
+                    position2 = new Vector2(item_menu_position.X, item_menu_position.Y);
+                    for (int i = 0; i < talismans_in_stock.Count; i++)
+                    {
+                        if (i == selected_item_index)
+                            tint = highlighted;
+                        else
+                            tint = normal;
+                        sBatch.DrawString(sFont, talismans_in_stock[i].get_my_name(), position2, tint);
+                        position2.Y += sFont.LineSpacing;
+                    }
+                    if (selected_item_index == talismans_in_stock.Count)
                         exit_submenu_tint = highlighted;
                     else
                         exit_submenu_tint = normal;

@@ -560,28 +560,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Background\Moss Tiles\mossy_dirtfloor.png">
-      <Name>mossy_dirtfloor</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Background\Moss Tiles\mossy_dirtwall.png">
-      <Name>mossy_dirtwall</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Background\Moss Tiles\mossy_stonebrick.png">
-      <Name>mossy_stonebrick</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Background\Moss Tiles\mossy_stonefloor.png">
-      <Name>mossy_stonefloor</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Player\Portraits\falsael_fine.png">
       <Name>falsael_fine</Name>
       <Importer>TextureImporter</Importer>
@@ -726,13 +704,6 @@
   <ItemGroup>
     <Compile Include="Player\bash attack cursor.png">
       <Name>bash attack cursor</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Background\Moss Tiles\mossy_stonefloorwcrack.png">
-      <Name>mossy_stonefloorwcrack</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1164,6 +1135,116 @@
   <ItemGroup>
     <Compile Include="Player\halephon_dead.png">
       <Name>halephon_dead</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Icons\Scrolls\talisman_icon.png">
+      <Name>talisman_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Projectiles\acidblood_spritesheet.png">
+      <Name>acidblood_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Background\Doodads\altar.png">
+      <Name>altar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Doodads\corpsepile.png">
+      <Name>corpsepile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Background\Necropolis\Necro_Dirtfloor.png">
+      <Name>Necro_Dirtfloor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_DirtWall.png">
+      <Name>Necro_DirtWall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_DirtWallTorch.png">
+      <Name>Necro_DirtWallTorch</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_MossDirtFloor.png">
+      <Name>Necro_MossDirtFloor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_MossDirtWall.png">
+      <Name>Necro_MossDirtWall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneFloor.png">
+      <Name>Necro_StoneFloor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneFloorCracked.png">
+      <Name>Necro_StoneFloorCracked</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneFloorCrackedMoss.png">
+      <Name>Necro_StoneFloorCrackedMoss</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneFloorMoss.png">
+      <Name>Necro_StoneFloorMoss</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneWall.png">
+      <Name>Necro_StoneWall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneWallMoss.png">
+      <Name>Necro_StoneWallMoss</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneWallTorch.png">
+      <Name>Necro_StoneWallTorch</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Icons\Armors\clothhood_icon.png">
+      <Name>clothhood_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Armors\cobalthelmet_icon.png">
+      <Name>cobalthelmet_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Armors\pitsteelwarhelm_icon.png">
+      <Name>pitsteelwarhelm_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Armors\steelhelmet_icon.png">
+      <Name>steelhelmet_icon</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

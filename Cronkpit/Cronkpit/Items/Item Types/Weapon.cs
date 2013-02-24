@@ -148,6 +148,22 @@ namespace Cronkpit
             }
             return_array.Add(d_type);
             return_array.Add(" ");
+            switch (talismans_equipped.Count)
+            {
+                case 0:
+                    return_array.Add("[ ] - No Talisman");
+                    return_array.Add("[ ] - No Talisman");
+                    break;
+                case 1:
+                    return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
+                    return_array.Add("[ ] - No Talisman");
+                    break;
+                case 2:
+                    return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
+                    return_array.Add("[X] - " + talismans_equipped[1].get_my_name());
+                    break;
+            }
+            return_array.Add(" ");
             return_array.Add("Minimum Damage: " + min_damage*hands);
             return_array.Add("Maximum Damage: " + max_damage*hands);
             return_array.Add("Range: " + weapon_range);
@@ -175,6 +191,37 @@ namespace Cronkpit
 
         public int damage(ref Random rGen)
         {
+            int modified_min_damage = min_damage;
+            int modified_max_damage = max_damage;
+            int modifier_value = 0;
+
+            for (int i = 0; i < talismans_equipped.Count; i++)
+            {
+                if (talismans_equipped[i].get_my_type() == Talisman.Talisman_Type.Expediency)
+                {
+                    switch (talismans_equipped[i].get_my_prefix())
+                    {
+                        case Talisman.Talisman_Prefix.Rough:
+                            modifier_value = 2;
+                            break;
+                        case Talisman.Talisman_Prefix.Flawed:
+                            modifier_value = 3;
+                            break;
+                        case Talisman.Talisman_Prefix.Average:
+                            modifier_value = 4;
+                            break;
+                        case Talisman.Talisman_Prefix.Great:
+                            modifier_value = 5;
+                            break;
+                        case Talisman.Talisman_Prefix.Perfect:
+                            modifier_value = 6;
+                            break;
+                    }
+                    modified_min_damage += modifier_value;
+                    modified_max_damage += (modifier_value * 2);
+                }
+            }
+
             return rGen.Next(min_damage, max_damage + 1);
         }
 
