@@ -8,13 +8,13 @@ namespace Cronkpit
     class Attack
     {
         public enum Damage { Slashing, Piercing, Crushing, Fire, Frost, Acid, Electric };
-        wound assoc_wound;
+        int attack_damage;
         Damage damage_type;
 
-        public Attack(Damage dmg_type, wound harm)
+        public Attack(Damage dmg_type, int damage)
         {
             damage_type = dmg_type;
-            assoc_wound = new wound(harm);
+            attack_damage = damage;
         }
 
         public Damage get_dmg_type()
@@ -22,9 +22,14 @@ namespace Cronkpit
             return damage_type;
         }
 
-        public wound get_assoc_wound()
+        public int get_damage_amt()
         {
-            return assoc_wound;
+            return attack_damage;
+        }
+
+        public void decrease_severity(int dec)
+        {
+            attack_damage -= dec;
         }
     }
 }

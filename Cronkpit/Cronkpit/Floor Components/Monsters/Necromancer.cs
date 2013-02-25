@@ -15,9 +15,7 @@ namespace Cronkpit
         int create_major_undead_cooldown = 0;
         int acid_splash_cooldown = 0;
         Attack.Damage acid_splash_dmgtyp;
-        wound.Wound_Type acid_splash_wndtyp;
         Attack.Damage melee_damage_type;
-        wound.Wound_Type melee_wound_type;
 
         bool female;
         string pronoun;
@@ -47,7 +45,6 @@ namespace Cronkpit
                 min_melee_damage = 1;
                 max_melee_damage = 3;
                 melee_damage_type = Attack.Damage.Crushing;
-                melee_wound_type = wound.Wound_Type.Impact;
             }
             else
             {
@@ -57,7 +54,6 @@ namespace Cronkpit
                 min_melee_damage = 1;
                 max_melee_damage = 4;
                 melee_damage_type = Attack.Damage.Slashing;
-                melee_wound_type = wound.Wound_Type.Open;
             }
 
             hitPoints = 34;
@@ -66,12 +62,10 @@ namespace Cronkpit
             min_acidsplash_dmg = 1;
             max_acidsplash_dmg = 2;
             acid_splash_dmgtyp = Attack.Damage.Acid;
-            acid_splash_wndtyp = wound.Wound_Type.Burn;
 
             min_damage = 2;
             max_damage = 6;
             dmg_type = Attack.Damage.Frost;
-            wound_type = wound.Wound_Type.Frostburn;
             can_melee_attack = true;
             can_hear = true;
 
@@ -240,7 +234,6 @@ namespace Cronkpit
                                 prj.set_small_AOE_matrix(acid_splash_matrix(pl.get_my_grid_C()));
                                 prj.set_damage_range(min_acidsplash_dmg, max_acidsplash_dmg);
                                 prj.set_damage_type(acid_splash_dmgtyp);
-                                prj.set_wound_type(acid_splash_wndtyp);
                                 fl.create_new_projectile(prj);
                                 acid_splash_cooldown = 5;
                                 fl.consume_mana(acidsplash_manacost);
@@ -254,7 +247,6 @@ namespace Cronkpit
                                     Projectile prj = new Projectile(randomly_chosen_personal_coord(), pl.get_my_grid_C(), Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
                                     prj.set_damage_range(min_damage, max_damage);
                                     prj.set_damage_type(dmg_type);
-                                    prj.set_wound_type(wound_type);
                                     fl.create_new_projectile(prj);
                                     fl.consume_mana(frostbolt_manacost);
                                 }
@@ -265,7 +257,7 @@ namespace Cronkpit
                                         if(is_player_within(pl, 1))
                                         {
                                             int wounds = rGen.Next(min_melee_damage, max_melee_damage + 1);
-                                            Attack dmg = new Attack(melee_damage_type, new wound(melee_wound_type, wounds));
+                                            Attack dmg = new Attack(melee_damage_type, wounds);
                                             pl.take_damage(dmg, fl, "");
                                             fl.add_effect(melee_damage_type, pl.get_my_grid_C());
                                             if(female)

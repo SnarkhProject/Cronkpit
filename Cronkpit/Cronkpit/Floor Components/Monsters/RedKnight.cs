@@ -34,7 +34,6 @@ namespace Cronkpit
             min_damage = 2;
             max_damage = 5;
             dmg_type = Attack.Damage.Slashing;
-            wound_type = wound.Wound_Type.Open;
             can_melee_attack = true;
             active = false;
 
@@ -71,13 +70,13 @@ namespace Cronkpit
         public Attack generate_cleave_attack()
         {
             int dmgVal = rGen.Next(cleave_min_dmg, (cleave_max_dmg + 1));
-            return new Attack(dmg_type, new wound(wound_type, dmgVal));
+            return new Attack(dmg_type, dmgVal);
         }
 
         public Attack generate_power_strike_attack()
         {
             int dmgVal = rGen.Next(pwr_strike_min_dmg, (pwr_strike_max_dmg + 1));
-            return new Attack(dmg_type, new wound(wound_type, dmgVal));
+            return new Attack(dmg_type, dmgVal);
         }
 
         public void execute_power_strike(Player pl, Floor fl, int x_difference, int y_difference)
@@ -106,9 +105,9 @@ namespace Cronkpit
                         fl.is_monster_here(target_location, out mon_ID);
                         if (mon_ID != -1)
                         {
-                            int dmg_value = generate_power_strike_attack().get_assoc_wound().severity * 2;
+                            int dmg_value = generate_power_strike_attack().get_damage_amt() * 2;
                             fl.add_new_popup("- " + dmg_value.ToString(), Popup.popup_msg_color.Red, target_location);
-                            fl.damage_monster(dmg_value, mon_ID, true);
+                            fl.damage_monster_single_atk(new Attack(dmg_type, dmg_value), mon_ID, true, true);
                         }
                     }
                     if(!fl.is_tile_opaque(target_location))
@@ -140,9 +139,9 @@ namespace Cronkpit
                         fl.is_monster_here(target_location, out mon_ID);
                         if (mon_ID != -1)
                         {
-                            int dmg_value = generate_power_strike_attack().get_assoc_wound().severity * 2;
+                            int dmg_value = generate_power_strike_attack().get_damage_amt() * 2;
                             fl.add_new_popup("- " + dmg_value.ToString(), Popup.popup_msg_color.Red, target_location);
-                            fl.damage_monster(dmg_value, mon_ID, true);
+                            fl.damage_monster_single_atk(new Attack(dmg_type, dmg_value), mon_ID, true, true);
                         }
                     }
                     if (!fl.is_tile_passable(target_location))
@@ -211,9 +210,9 @@ namespace Cronkpit
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    int dmg_value = generate_cleave_attack().get_assoc_wound().severity * 2;
+                    int dmg_value = generate_cleave_attack().get_damage_amt() * 2;
                     fl.add_new_popup("- " + dmg_value.ToString(), Popup.popup_msg_color.Red, target_location);
-                    fl.damage_monster(dmg_value, mon_ID, true);
+                    fl.damage_monster_single_atk(new Attack(dmg_type, dmg_value), mon_ID, true, true);
                 }
             }
             if (!fl.is_tile_opaque(target_location))

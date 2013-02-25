@@ -28,14 +28,12 @@ namespace Cronkpit
                     min_damage = 3;
                     max_damage = 5;
                     dmg_type = Attack.Damage.Crushing;
-                    wound_type = wound.Wound_Type.Impact;
                     break;
                 case Grendel_Weapon_Type.Frostbolt:
                     my_Texture = cont.Load<Texture2D>("Enemies/Grendel_frostmage");
                     min_damage = 2;
                     max_damage = 6;
                     dmg_type = Attack.Damage.Frost;
-                    wound_type = wound.Wound_Type.Frostburn;
                     break;
             }
 
@@ -92,7 +90,6 @@ namespace Cronkpit
                         Projectile prj = new Projectile(randomly_chosen_personal_coord(), last_seen_player_at, Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
                         prj.set_damage_range(min_damage, max_damage);
                         prj.set_damage_type(dmg_type);
-                        prj.set_wound_type(wound_type);
                         fl.create_new_projectile(prj);
                     }
                 }
@@ -103,7 +100,6 @@ namespace Cronkpit
                         min_damage = 3;
                         max_damage = 5;
                         dmg_type = Attack.Damage.Crushing;
-                        wound_type = wound.Wound_Type.Impact;
                     }
 
                     if(!is_player_within(pl, 1))

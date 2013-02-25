@@ -189,8 +189,9 @@ namespace Cronkpit
                 return min_damage;
         }
 
-        public int damage(ref Random rGen)
+        public List<Attack> damage(ref Random rGen)
         {
+            List<Attack> list_of_attacks = new List<Attack>();
             int modified_min_damage = min_damage;
             int modified_max_damage = max_damage;
             int modifier_value = 0;
@@ -199,30 +200,48 @@ namespace Cronkpit
             {
                 if (talismans_equipped[i].get_my_type() == Talisman.Talisman_Type.Expediency)
                 {
-                    switch (talismans_equipped[i].get_my_prefix())
-                    {
-                        case Talisman.Talisman_Prefix.Rough:
-                            modifier_value = 2;
-                            break;
-                        case Talisman.Talisman_Prefix.Flawed:
-                            modifier_value = 3;
-                            break;
-                        case Talisman.Talisman_Prefix.Average:
-                            modifier_value = 4;
-                            break;
-                        case Talisman.Talisman_Prefix.Great:
-                            modifier_value = 5;
-                            break;
-                        case Talisman.Talisman_Prefix.Perfect:
-                            modifier_value = 6;
-                            break;
-                    }
+                    int base_val = (int)talismans_equipped[i].get_my_prefix() + 2;
                     modified_min_damage += modifier_value;
                     modified_max_damage += (modifier_value * 2);
                 }
             }
+            list_of_attacks.Add(new Attack(damageType, rGen.Next(modified_min_damage, modified_max_damage+1)));
 
-            return rGen.Next(min_damage, max_damage + 1);
+            for (int i = 0; i < talismans_equipped.Count; i++)
+            {
+                if (talismans_equipped[i].extra_damage_specific_type_talisman())
+                {
+                    int base_val = (int)talismans_equipped[i].get_my_prefix() + 1;
+                    Attack.Damage dmg_typ = 0;
+                    switch (talismans_equipped[i].get_my_type())
+                    {
+                        case Talisman.Talisman_Type.Pressure:
+                            dmg_typ = Attack.Damage.Crushing;
+                            break;
+                        case Talisman.Talisman_Type.Heat:
+                            dmg_typ = Attack.Damage.Fire;
+                            break;
+                        case Talisman.Talisman_Type.Snow:
+                            dmg_typ = Attack.Damage.Frost;
+                            break;
+                        case Talisman.Talisman_Type.Razors:
+                            dmg_typ = Attack.Damage.Slashing;
+                            break;
+                        case Talisman.Talisman_Type.Heartsblood:
+                            dmg_typ = Attack.Damage.Piercing;
+                            break;
+                        case Talisman.Talisman_Type.Toxicity:
+                            dmg_typ = Attack.Damage.Acid;
+                            break;
+                        case Talisman.Talisman_Type.Sparks:
+                            dmg_typ = Attack.Damage.Electric;
+                            break;
+                    }
+                    list_of_attacks.Add(new Attack(dmg_typ, rGen.Next(base_val, (base_val * 2) + 1)));
+                }
+            }
+
+            return list_of_attacks;
         }
 
         public int get_hand_count()

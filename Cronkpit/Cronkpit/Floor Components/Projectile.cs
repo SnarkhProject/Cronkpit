@@ -23,7 +23,6 @@ namespace Cronkpit
         int bounce_range;
         int bounces_left;
         Attack.Damage damage_type;
-        wound.Wound_Type wound_type;
         special_anim my_special_animation;
         Texture2D my_texture;
         Rectangle my_rectangle;
@@ -146,11 +145,6 @@ namespace Cronkpit
             damage_type = dmg_typ;
         }
 
-        public void set_wound_type(wound.Wound_Type wnd_typ)
-        {
-            wound_type = wnd_typ;
-        }
-
         public void set_AOE_size(int ae_size)
         {
             AoE_size = ae_size;
@@ -208,11 +202,6 @@ namespace Cronkpit
         public Attack.Damage get_dmg_type()
         {
             return damage_type;
-        }
-
-        public wound.Wound_Type get_wound_type()
-        {
-            return wound_type;
         }
 
         public Scroll.Atk_Area_Type get_atk_area_type()

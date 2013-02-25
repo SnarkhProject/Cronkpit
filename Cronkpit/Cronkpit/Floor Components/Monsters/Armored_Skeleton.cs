@@ -22,7 +22,6 @@ namespace Cronkpit
         int acidcloud_max_damage = 2;
         int acid_cloud_cooldown;
         int attack_range = 4;
-        wound.Wound_Type acidcloud_wnd_type = wound.Wound_Type.Burn;
         Attack.Damage acidcloud_dmg_type = Attack.Damage.Acid;
 
         public Armored_Skeleton(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, Armor_Skeleton_Weapon wType)
@@ -36,28 +35,24 @@ namespace Cronkpit
                     min_damage = 3;
                     max_damage = 5;
                     dmg_type = Attack.Damage.Slashing;
-                    wound_type = wound.Wound_Type.Open;
                     break;
                 case Armor_Skeleton_Weapon.Crossbow:
                     my_Texture = cont.Load<Texture2D>("Enemies/armored_skeleton_crossbowman");
                     min_damage = 2;
                     max_damage = 5;
                     dmg_type = Attack.Damage.Piercing;
-                    wound_type = wound.Wound_Type.Open;
                     break;
                 case Armor_Skeleton_Weapon.Halberd:
                     my_Texture = cont.Load<Texture2D>("Enemies/armored_skeleton_halberdier");
                     min_damage = 2;
                     max_damage = 4;
                     dmg_type = Attack.Damage.Piercing;
-                    wound_type = wound.Wound_Type.Open;
                     break;
                 case Armor_Skeleton_Weapon.Magic:
                     my_Texture = cont.Load<Texture2D>("Enemies/armored_skeleton_elementalmage");
                     min_damage = 2;
                     max_damage = 7;
                     dmg_type = Attack.Damage.Fire;
-                    wound_type = wound.Wound_Type.Burn;
                     break;
             }
             
@@ -101,7 +96,7 @@ namespace Cronkpit
                     {
                         fl.addmsg("The Skeleton thrusts its spear forward in a heavy stab!");
                         int dmgVal = rGen.Next(min_damage, (max_damage + 1));
-                        Attack dmg = new Attack(dmg_type, new wound(wound_type, dmgVal));
+                        Attack dmg = new Attack(dmg_type, dmgVal);
                         pl.take_damage(dmg, fl, "");
                     }
                     else
@@ -112,7 +107,7 @@ namespace Cronkpit
                         {
                             int dmg_value = rGen.Next(min_damage, (max_damage + 1)) * 2;
                             fl.add_new_popup("- " + dmg_value.ToString(), Popup.popup_msg_color.Red, target_location);
-                            fl.damage_monster(dmg_value, mon_ID, true);
+                            fl.damage_monster_single_atk(new Attack(dmg_type, dmg_value), mon_ID, true, true);
                         }
                     }
                     if (fl.is_tile_passable(target_location))
@@ -137,7 +132,7 @@ namespace Cronkpit
                     {
                         fl.addmsg("The Skeleton thrusts its spear forward in a heavy stab!");
                         int dmgVal = rGen.Next(min_damage, (max_damage + 1));
-                        Attack dmg = new Attack(dmg_type, new wound(wound_type, dmgVal));
+                        Attack dmg = new Attack(dmg_type, dmgVal);
                         pl.take_damage(dmg, fl, "");
                     }
                     else
@@ -148,7 +143,7 @@ namespace Cronkpit
                         {
                             int dmg_value = rGen.Next(min_damage, (max_damage + 1)) * 2;
                             fl.add_new_popup("- " + dmg_value.ToString(), Popup.popup_msg_color.Red, target_location);
-                            fl.damage_monster(dmg_value, mon_ID, true);
+                            fl.damage_monster_single_atk(new Attack(dmg_type, dmg_value), mon_ID, true, true);
                         }
                     }
                     if (fl.is_tile_passable(target_location))
@@ -194,7 +189,7 @@ namespace Cronkpit
                             {
                                 //slash!
                                 int wounds = rGen.Next(min_damage, max_damage + 1);
-                                Attack dmg = new Attack(dmg_type, new wound(wound_type, wounds));
+                                Attack dmg = new Attack(dmg_type, wounds);
                                 pl.take_damage(dmg, fl, "");
                                 fl.add_effect(dmg_type, pl.get_my_grid_C());
                                 fl.addmsg("The Skeleton slashes its halberd at you!");
@@ -208,7 +203,7 @@ namespace Cronkpit
                         if (is_player_within(pl, 1))
                         {
                             int wounds = rGen.Next(min_damage, max_damage + 1);
-                            Attack dmg = new Attack(dmg_type, new wound(wound_type, wounds));
+                            Attack dmg = new Attack(dmg_type, wounds);
                             pl.take_damage(dmg, fl, "");
                             fl.add_effect(dmg_type, pl.get_my_grid_C());
                             if(my_weapon_type == Armor_Skeleton_Weapon.Greatsword)
@@ -265,7 +260,6 @@ namespace Cronkpit
                                                             ref cont, true, Scroll.Atk_Area_Type.singleTile);
                             prj.set_damage_range(min_damage, max_damage);
                             prj.set_damage_type(dmg_type);
-                            prj.set_wound_type(wound_type);
                             fl.create_new_projectile(prj);
                         }
                         break;
@@ -273,7 +267,6 @@ namespace Cronkpit
                         if (fl.check_mana() < acidcloud_mana_cost && fl.check_mana() < flamebolt_mana_cost)
                         {
                             my_weapon_type = Armor_Skeleton_Weapon.Fist;
-                            wound_type = wound.Wound_Type.Impact;
                             dmg_type = Attack.Damage.Crushing;
                             min_damage = 1;
                             max_damage = 1;
@@ -290,7 +283,6 @@ namespace Cronkpit
                                 prj.set_AOE_size(3);
                                 prj.set_damage_range(acidcloud_min_damage, acidcloud_max_damage);
                                 prj.set_damage_type(acidcloud_dmg_type);
-                                prj.set_wound_type(acidcloud_wnd_type);
                                 fl.create_new_projectile(prj);
                                 fl.consume_mana(acidcloud_mana_cost);
                                 acid_cloud_cooldown = 5;
@@ -305,7 +297,6 @@ namespace Cronkpit
                                                                 ref cont, true, Scroll.Atk_Area_Type.singleTile);
                                     prj.set_damage_range(min_damage, max_damage);
                                     prj.set_damage_type(dmg_type);
-                                    prj.set_wound_type(wound_type);
                                     fl.create_new_projectile(prj);
                                     fl.consume_mana(flamebolt_mana_cost);
                                 }

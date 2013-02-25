@@ -197,6 +197,17 @@ namespace Cronkpit
                    my_talisman_type == Talisman_Type.Skill;
         }
 
+        public bool extra_damage_specific_type_talisman()
+        {
+            return my_talisman_type == Talisman_Type.Heat ||
+                   my_talisman_type == Talisman_Type.Sparks ||
+                   my_talisman_type == Talisman_Type.Snow ||
+                   my_talisman_type == Talisman_Type.Toxicity ||
+                   my_talisman_type == Talisman_Type.Razors ||
+                   my_talisman_type == Talisman_Type.Heartsblood ||
+                   my_talisman_type == Talisman_Type.Pressure;
+        }
+
         public override string get_my_texture_name()
         {
             return "talisman_icon";

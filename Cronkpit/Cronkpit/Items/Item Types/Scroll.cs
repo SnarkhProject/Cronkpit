@@ -12,7 +12,6 @@ namespace Cronkpit
         int scroll_tier;
         Atk_Area_Type my_sType;
         Attack.Damage spell_dmg_type;
-        wound.Wound_Type spell_wnd_type;
         int aoe_size;
         int max_range;
         int min_damage;
@@ -37,8 +36,6 @@ namespace Cronkpit
             total_impacts = 0;
             destroys_walls = destroyWalls;
             mana_cost = smana;
-
-            assign_wound_type();
         }
 
         public Scroll(int IDno, int goldVal, string myName, Scroll s)
@@ -55,35 +52,6 @@ namespace Cronkpit
             total_impacts = s.get_t_impacts();
             destroys_walls = s.spell_destroys_walls();
             mana_cost = s.get_manaCost();
-
-            assign_wound_type();
-        }
-
-        void assign_wound_type()
-        {
-            switch (spell_dmg_type)
-            {
-                case Attack.Damage.Acid:
-                    spell_wnd_type = wound.Wound_Type.Burn;
-                    break;
-                case Attack.Damage.Crushing:
-                    spell_wnd_type = wound.Wound_Type.Impact;
-                    break;
-                case Attack.Damage.Electric:
-                    break;
-                case Attack.Damage.Fire:
-                    spell_wnd_type = wound.Wound_Type.Burn;
-                    break;
-                case Attack.Damage.Frost:
-                    spell_wnd_type = wound.Wound_Type.Frostburn;
-                    break;
-                case Attack.Damage.Piercing:
-                    spell_wnd_type = wound.Wound_Type.Open;
-                    break;
-                case Attack.Damage.Slashing:
-                    spell_wnd_type = wound.Wound_Type.Open;
-                    break;
-            }
         }
 
         public int get_tier()
@@ -117,11 +85,6 @@ namespace Cronkpit
         public Attack.Damage get_damage_type()
         {
             return spell_dmg_type;
-        }
-
-        public wound.Wound_Type get_wound_type()
-        {
-            return spell_wnd_type;
         }
 
         public Atk_Area_Type get_spell_type()

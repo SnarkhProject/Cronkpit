@@ -93,14 +93,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Cronkpit.exe" size="224256">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Cronkpit.exe" size="221696">
       <assemblyIdentity name="Cronkpit" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>kjzyjr/yae7NZUMhRJ9X5UU+MmM=</dsig:DigestValue>
+        <dsig:DigestValue>MS419+Xn5SAJZHoBCS1JlKbaEQ0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -959,6 +959,24 @@
       <dsig:DigestValue>jpbZamD15qyATldCMATsvVCLp0s=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="Content\Icons\Armors\clothhood_icon.xnb" size="9403">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>4huQ7RdOrEL8lNowbUDMBZUzc+g=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Icons\Armors\cobalthelmet_icon.xnb" size="9403">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>SH/on4NgxGMTJAaobg4jOYa2+6w=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Content\Icons\Armors\enchantedrags_icon.png" size="838">
     <hash>
       <dsig:Transforms>
@@ -1011,6 +1029,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>MS6aK3CUVeCMoLkimg8jJGQPW+w=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Icons\Armors\pitsteelwarhelm_icon.xnb" size="9403">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>N1svQ8YGyTmgogRECCjYoXom3EE=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Icons\Armors\platemail_icon.png" size="702">
@@ -1083,6 +1110,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>xE0LQwE6omfzsD68snY9Jr1g+sI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Icons\Armors\steelhelmet_icon.xnb" size="9403">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>sFDx8LgxVT+S5Kk8OIyNXRW56Zc=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Icons\Consumables\emptymajorhealthpotion_icon.xnb" size="9403">

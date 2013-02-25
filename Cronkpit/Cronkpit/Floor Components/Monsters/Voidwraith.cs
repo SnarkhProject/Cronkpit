@@ -16,7 +16,6 @@ namespace Cronkpit
         int blood_vomit_max_dmg = 3;
         int blood_vomit_range = 4;
         Attack.Damage blood_vomit_dmgtyp = Attack.Damage.Acid;
-        wound.Wound_Type blood_vomit_wndtyp = wound.Wound_Type.Burn;
 
         int half_HP = 7;
 
@@ -28,7 +27,6 @@ namespace Cronkpit
             min_damage = 1;
             max_damage = 2;
             dmg_type = Attack.Damage.Acid;
-            wound_type = wound.Wound_Type.Burn;
             can_melee_attack = true;
             corporeal = false;
 
@@ -72,8 +70,8 @@ namespace Cronkpit
                         }
                         gridCoordinate.direction vomit_direction = direction_indexes[target_index];
                         fl.cone_attack(blood_vomit_range, my_grid_coords[0], vomit_direction,
-                                       blood_vomit_max_dmg, blood_vomit_min_dmg, blood_vomit_dmgtyp,
-                                       blood_vomit_wndtyp, pl, true, Floor.specific_effect.Acid_Blood);
+                                       blood_vomit_max_dmg+1, blood_vomit_min_dmg, blood_vomit_dmgtyp,
+                                       pl, true, Floor.specific_effect.Acid_Blood);
                         blood_vomit_cooldown = 5;
                     }
                     else

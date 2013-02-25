@@ -184,6 +184,10 @@ Content\Background\Necropolis\Necro_StoneWallMoss.xnb
 Content\Background\Necropolis\Necro_StoneWallTorch.xnb
 Content\Background\Doodads\altar.xnb
 Content\Background\Doodads\corpsepile.xnb
+Content\Icons\Armors\clothhood_icon.xnb
+Content\Icons\Armors\cobalthelmet_icon.xnb
+Content\Icons\Armors\pitsteelwarhelm_icon.xnb
+Content\Icons\Armors\steelhelmet_icon.xnb
 Content\Entities\alilmoreGold.png
 Content\Entities\lowGold.png
 Content\Entities\someGold.png

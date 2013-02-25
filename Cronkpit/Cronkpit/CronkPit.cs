@@ -713,7 +713,8 @@ namespace Cronkpit
                 {
                     if(check_key_press(Keys.Enter))
                     {
-                        charge_attack_via_cursor(selected_lance, ra1.my_grid_coord);
+                        Weapon lance = p1.get_weapon_by_ID(selected_lance);
+                        charge_attack_via_cursor(lance, ra1.my_grid_coord);
                     }
 
                     if (check_mouse_left_click())
@@ -721,7 +722,8 @@ namespace Cronkpit
                         int gc_xloc = (int)((mousePosition.X - cam.viewMatrix.Translation.X) / 32);
                         int gc_yloc = (int)((mousePosition.Y - cam.viewMatrix.Translation.Y) / 32);
                         gridCoordinate click_location = new gridCoordinate(gc_xloc, gc_yloc);
-                        charge_attack_via_cursor(selected_lance, click_location);
+                        Weapon lance = p1.get_weapon_by_ID(selected_lance);
+                        charge_attack_via_cursor(lance, ra1.my_grid_coord);
                         cancel_all_specials();
                     }
                 }
@@ -886,7 +888,7 @@ namespace Cronkpit
             ra1.reset_drawing_position();
         }
 
-        private void charge_attack_via_cursor(int lanceID, gridCoordinate click_location)
+        private void charge_attack_via_cursor(Weapon lance, gridCoordinate click_location)
         {
             int monster_no = -1;
             int Doodad_no = -1;
@@ -900,7 +902,7 @@ namespace Cronkpit
                 else
                     effect_coord = f1.Doodad_by_index(Doodad_no).get_g_coord();
                 f1.add_effect(Attack.Damage.Piercing, effect_coord);
-                p1.charge_attack(f1, lanceID, click_location, monster_no, Doodad_no);
+                p1.charge_attack(f1, lance, click_location, monster_no, Doodad_no);
                 bad_turn = true;
             }
 

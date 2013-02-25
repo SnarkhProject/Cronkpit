@@ -216,8 +216,7 @@ namespace Cronkpit
             }
 
             absorb_threshold += absorb_all;
-            wound atk_wound = atk.get_assoc_wound();
-            int total_wounds = atk_wound.severity;
+            int total_wounds = atk.get_damage_amt();
             for (int i = 0; i < total_wounds; i++)
             {
                 int r_chance = rgen.Next(1, 101);
@@ -229,7 +228,7 @@ namespace Cronkpit
                             if (c_chest_integ > 0)
                             {
                                 c_chest_integ--;
-                                atk_wound.severity--;
+                                atk.decrease_severity(1);
                                 attacks_absorbed++;
                             }
                             break;
@@ -237,7 +236,7 @@ namespace Cronkpit
                             if (c_rarm_integ > 0)
                             {
                                 c_rarm_integ--;
-                                atk_wound.severity--;
+                                atk.decrease_severity(1);
                                 attacks_absorbed++;
                             }
                             break;
@@ -245,7 +244,7 @@ namespace Cronkpit
                             if (c_larm_integ > 0)
                             {
                                 c_larm_integ--;
-                                atk_wound.severity--;
+                                atk.decrease_severity(1);
                                 attacks_absorbed++;
                             }
                             break;
@@ -253,7 +252,7 @@ namespace Cronkpit
                             if (c_lleg_integ > 0)
                             {
                                 c_lleg_integ--;
-                                atk_wound.severity--;
+                                atk.decrease_severity(1);
                                 attacks_absorbed++;
                             }
                             break;
@@ -261,7 +260,7 @@ namespace Cronkpit
                             if (c_rleg_integ > 0)
                             {
                                 c_rleg_integ--;
-                                atk_wound.severity--;
+                                atk.decrease_severity(1);
                                 attacks_absorbed++;
                             }
                             break;
@@ -307,7 +306,7 @@ namespace Cronkpit
                                 Popup.popup_msg_color.Blue, atk_origin);
             }
 
-            return new Attack(atk.get_dmg_type(), new wound(atk_wound));
+            return new Attack(atk.get_dmg_type(), atk.get_damage_amt());
         }
 
         public void full_repair()

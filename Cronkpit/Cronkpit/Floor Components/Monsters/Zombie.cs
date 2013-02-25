@@ -19,7 +19,6 @@ namespace Cronkpit
             min_damage = 1;
             max_damage = 1;
             dmg_type = Attack.Damage.Crushing;
-            wound_type = wound.Wound_Type.Impact;
             can_melee_attack = true;
 
             //SENSORY

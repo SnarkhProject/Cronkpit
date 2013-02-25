@@ -14,7 +14,6 @@ namespace Cronkpit
         Floor.specific_effect my_special_fx;
 
         Attack.Damage effect_damage_type;
-        wound.Wound_Type effect_wound_type;
         int min_damage;
         int max_damage;
 
@@ -23,8 +22,7 @@ namespace Cronkpit
 
         public PersistentEffect(Scroll.Atk_Area_Type etyp, Floor.specific_effect setyp, 
                                 gridCoordinate ectr, int turnsr, bool m_effect,
-                                Attack.Damage fx_dmg_type, wound.Wound_Type fx_wnd_type,
-                                int aoe_size, int min_dmg, int max_dmg)
+                                Attack.Damage fx_dmg_type, int aoe_size, int min_dmg, int max_dmg)
         {
             my_effect_type = etyp;
             my_special_fx = setyp;
@@ -35,7 +33,6 @@ namespace Cronkpit
             effect_size = aoe_size;
 
             effect_damage_type = fx_dmg_type;
-            effect_wound_type = fx_wnd_type;
 
             min_damage = min_dmg;
             max_damage = max_dmg;
@@ -69,11 +66,6 @@ namespace Cronkpit
         public Attack.Damage get_my_damage_type()
         {
             return effect_damage_type;
-        }
-
-        public wound.Wound_Type get_my_wound_type()
-        {
-            return effect_wound_type;
         }
 
         public int get_specific_damage(bool maxdamage)

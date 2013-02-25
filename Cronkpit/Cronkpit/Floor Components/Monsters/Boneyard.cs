@@ -21,12 +21,10 @@ namespace Cronkpit
         int bone_spear_mindmg;
         int bone_spear_maxdmg;
         Attack.Damage bone_spear_dmgtyp = Attack.Damage.Piercing;
-        wound.Wound_Type bone_spear_wndtyp = wound.Wound_Type.Open;
 
         int blood_spray_mindmg;
         int blood_spray_maxdmg;
         Attack.Damage blood_spray_dmgtyp = Attack.Damage.Acid;
-        wound.Wound_Type blood_spray_wndtyp = wound.Wound_Type.Burn;
 
 
         public Boneyard(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, bool bossmonster)

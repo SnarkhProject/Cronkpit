@@ -248,29 +248,11 @@ namespace Cronkpit
                 int c_monsterID;
                 int c_DoodadID;
 
-                string w_name = "";
-                int dmg_val = 0;
-
-                if (main_hand != null)
-                {
-                    dmg_val = main_hand.damage(ref rGen);
-                    w_name = main_hand.get_my_name();
-                }
-                else
-                {
-                    dmg_val = rGen.Next(1, 4);
-                    w_name = "fists";
-                }
-
-                //Damage penalty of 50% for lances.
-                if (main_hand != null && main_hand.get_my_weapon_type() == Weapon.Type.Lance)
-                    dmg_val /= 4;
-
                 if (fl.is_monster_here(squares_to_attack_mh[i], out c_monsterID))
-                    attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_mh[i], w_name, true);
+                    attack_monster_in_grid(fl, main_hand, c_monsterID, squares_to_attack_mh[i], 1.0);
 
                 if (fl.is_destroyable_Doodad_here(squares_to_attack_mh[i], out c_DoodadID))
-                    attack_Doodad_in_grid(fl, dmg_val, c_DoodadID, squares_to_attack_mh[i], w_name);
+                    attack_Doodad_in_grid(fl, main_hand, c_DoodadID, squares_to_attack_mh[i], 1.0);
 
                 if (main_hand != null)
                     fl.add_effect(main_hand.get_my_damage_type(), squares_to_attack_mh[i]);
@@ -283,18 +265,11 @@ namespace Cronkpit
                 int c_monsterID;
                 int c_DoodadID;
 
-                string w_name = off_hand.get_my_name();
-                int dmg_val = off_hand.damage(ref rGen);
-
-                //Damage penalty of 50% for lances.
-                if (off_hand.get_my_weapon_type() == Weapon.Type.Lance)
-                    dmg_val /= 4;
-
                 if (fl.is_monster_here(squares_to_attack_oh[i], out c_monsterID))
-                    attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_oh[i], w_name, true);
+                    attack_monster_in_grid(fl, off_hand, c_monsterID, squares_to_attack_oh[i], 1.0);
 
                 if (fl.is_destroyable_Doodad_here(squares_to_attack_oh[i], out c_DoodadID))
-                    attack_Doodad_in_grid(fl, dmg_val, c_DoodadID, squares_to_attack_oh[i], w_name);
+                    attack_Doodad_in_grid(fl, off_hand, c_DoodadID, squares_to_attack_oh[i], 1.0);
 
                 fl.add_effect(off_hand.get_my_damage_type(), squares_to_attack_oh[i]);
             }
@@ -304,29 +279,19 @@ namespace Cronkpit
                 int c_monsterID;
                 int c_DoodadID;
 
-                string w_name = "";
-
-                if (off_hand == main_hand)
-                    w_name = main_hand.get_my_name();
-                else
-                    w_name = main_hand.get_my_name() + " and your " + off_hand.get_my_name();
-
-                //Both of these have a 50% damage penalty for lances.
-                int mh_dmg = main_hand.damage(ref rGen);
-                if (main_hand.get_my_weapon_type() == Weapon.Type.Lance)
-                    mh_dmg /= 4;
-
-                int oh_dmg = off_hand.damage(ref rGen);
-                if (off_hand.get_my_weapon_type() == Weapon.Type.Lance)
-                    oh_dmg /= 4;
-
-                int dmg_val = mh_dmg + oh_dmg;
-
                 if (fl.is_monster_here(squares_to_attack_both[i], out c_monsterID))
-                    attack_monster_in_grid(fl, dmg_val, c_monsterID, squares_to_attack_both[i], w_name, true);
-                
+                {
+                    attack_monster_in_grid(fl, main_hand, c_monsterID, squares_to_attack_both[i], 1.0);
+                    if (main_hand.get_hand_count() != 2)
+                        attack_monster_in_grid(fl, off_hand, c_monsterID, squares_to_attack_both[i], 1.0);
+                }
+
                 if (fl.is_destroyable_Doodad_here(squares_to_attack_both[i], out c_DoodadID))
-                    attack_Doodad_in_grid(fl, dmg_val, c_DoodadID, squares_to_attack_both[i], w_name);
+                {
+                    attack_Doodad_in_grid(fl, main_hand, c_DoodadID, squares_to_attack_both[i], 1.0);
+                    if (main_hand.get_hand_count() != 2)
+                        attack_Doodad_in_grid(fl, off_hand, c_DoodadID, squares_to_attack_both[i], 1.0);
+                }
 
                 if (off_hand == main_hand)
                     fl.add_effect(main_hand.get_my_damage_type(), squares_to_attack_both[i]);
@@ -439,28 +404,78 @@ namespace Cronkpit
                         L2.RemoveAt(j);
         }
 
-        public void attack_monster_in_grid(Floor fl, int dmg_val, int c_monsterID, gridCoordinate current_gc, string weapon_name, bool melee_attack)
+        public void attack_monster_in_grid(Floor fl, Weapon w, int c_monsterID, gridCoordinate current_gc, double multiplier)
         {
-            double base_dmg_val = (double)dmg_val;
-            int modified_dmg_val = (int)base_dmg_val;
-            if (my_character == Character.Falsael)
-                modified_dmg_val = (int)Math.Ceiling(base_dmg_val * 1.2);
+            List<Attack> modified_attacks = new List<Attack>();
+            if (w != null)
+            {
+                string attack_msg = "You attack the " + fl.badguy_by_monster_id(c_monsterID).my_name + " with your " + w.get_my_name() + "!";
+                message_buffer.Add(attack_msg);
+                List<Attack> attacks = w.damage(ref rGen);
 
-            string attack_msg = "You attack the " + fl.badguy_by_monster_id(c_monsterID).my_name + " with your " + weapon_name + "!";
-            message_buffer.Add(attack_msg);
-            fl.damage_monster(modified_dmg_val, c_monsterID, melee_attack);
+                bool aoe_effect = false;
+                if (w.get_my_weapon_type() == Weapon.Type.Axe || w.get_my_weapon_type() == Weapon.Type.Lance)
+                    aoe_effect = true;
+
+                for (int i = 0; i < attacks.Count; i++)
+                {
+                    double base_dmg_val = (double)attacks[i].get_damage_amt()*multiplier;
+                    int modified_dmg_val = (int)base_dmg_val;
+                    if (my_character == Character.Falsael)
+                        modified_dmg_val = (int)Math.Ceiling(base_dmg_val * 1.2);
+                    
+                    if (w.get_my_weapon_type() == Weapon.Type.Lance)
+                        modified_dmg_val = modified_dmg_val / 4;
+
+                    modified_attacks.Add(new Attack(w.get_my_damage_type(), modified_dmg_val));
+                }
+                fl.damage_monster(modified_attacks, c_monsterID, true, aoe_effect);
+            }
+            else
+            {
+                double base_dmg_val = (double)rGen.Next(1,4)*multiplier;
+                int modified_dmg_val = (int)base_dmg_val;
+                if (my_character == Character.Falsael)
+                    modified_dmg_val = (int)Math.Ceiling(base_dmg_val * 1.2);
+
+                modified_attacks.Add(new Attack(w.get_my_damage_type(), modified_dmg_val));
+                string attack_msg = "You attack the " + fl.badguy_by_monster_id(c_monsterID).my_name + " with your fists!";
+                message_buffer.Add(attack_msg);
+                fl.damage_monster(modified_attacks, c_monsterID, true, false);
+            }
         }
 
-        public void attack_Doodad_in_grid(Floor fl, int dmg_val, int c_DoodadID, gridCoordinate current_gc, string weapon_name)
+        public void attack_Doodad_in_grid(Floor fl, Weapon w, int c_DoodadID, gridCoordinate current_gc, double multiplier)
         {
-            double base_dmg_val = (double)dmg_val;
-            int modified_dmg_val = (int)base_dmg_val;
-            if (my_character == Character.Falsael)
-                modified_dmg_val = (int)Math.Ceiling(base_dmg_val * 1.2);
+            if (w != null)
+            {
+                string attack_msg = "You attack the " + fl.Doodad_by_index(c_DoodadID).my_name() + " with your " + w.get_my_name() + "!";
+                message_buffer.Add(attack_msg);
+                List<Attack> attacks = w.damage(ref rGen);
+                for (int i = 0; i < attacks.Count; i++)
+                {
+                    double base_dmg_val = (double)attacks[i].get_damage_amt() * multiplier;
+                    int modified_dmg_val = (int)base_dmg_val;
+                    if (my_character == Character.Falsael)
+                        modified_dmg_val = (int)Math.Ceiling(base_dmg_val * 1.2);
 
-            string attack_msg = "You attack the " + fl.Doodad_by_index(c_DoodadID).my_name() + " with your " + weapon_name + "!";
-            message_buffer.Add(attack_msg);
-            fl.damage_Doodad(modified_dmg_val, c_DoodadID);
+                    if (w.get_my_weapon_type() == Weapon.Type.Lance)
+                        modified_dmg_val = modified_dmg_val / 4;
+
+                    fl.damage_Doodad(modified_dmg_val, c_DoodadID);
+                }
+            }
+            else
+            {
+                double base_dmg_val = (double)rGen.Next(1, 4) * multiplier;
+                int modified_dmg_val = (int)base_dmg_val;
+                if (my_character == Character.Falsael)
+                    modified_dmg_val = (int)Math.Ceiling(base_dmg_val * 1.2);
+
+                string attack_msg = "You attack the " + fl.Doodad_by_index(c_DoodadID).my_name() + " with your fists!";
+                message_buffer.Add(attack_msg);
+                fl.damage_Doodad(modified_dmg_val, c_DoodadID);
+            }
         }
 
         public void set_ranged_attack_aura(Floor fl, gridCoordinate pl_gc, Scroll s)
@@ -653,18 +668,11 @@ namespace Cronkpit
             }
         }
 
-        public void charge_attack(Floor fl, int lanceID, gridCoordinate charge_coordinate, int monsterID, int DoodadID)
+        public void charge_attack(Floor fl, Weapon lance, gridCoordinate charge_coordinate, int monsterID, int DoodadID)
         {
             bool attacked_Doodad = false;
             gridCoordinate my_original_position = new gridCoordinate(my_grid_coord);
-            Weapon c_lance = null;
-            for (int i = 0; i < inventory.Count; i++)
-            {
-                if (inventory[i].get_my_IDno() == lanceID)
-                    c_lance = (Weapon)inventory[i];
-            }
-            int dmg_val = c_lance.damage(ref rGen);
-            string wName = c_lance.get_my_name();
+            Weapon c_lance = lance;
 
             VisionRay attack_ray = null;
             if(fl.badguy_by_monster_id(monsterID) == null)
@@ -698,7 +706,7 @@ namespace Cronkpit
                 {
                     monster_coord = new gridCoordinate(charge_coordinate);
                     teleport(previous_ray_position);
-                    attack_monster_in_grid(fl, dmg_val, monsterID, charge_coordinate, wName, true);
+                    attack_monster_in_grid(fl, lance, monsterID, charge_coordinate, 1.0);
                     done = true;
                 }
 
@@ -707,7 +715,7 @@ namespace Cronkpit
                     attacked_Doodad = true;
                     Doodad_coord = new gridCoordinate(fl.Doodad_by_index(DoodadID).get_g_coord());
                     teleport(previous_ray_position);
-                    attack_Doodad_in_grid(fl, dmg_val, DoodadID, fl.Doodad_by_index(DoodadID).get_g_coord(), wName);
+                    attack_Doodad_in_grid(fl, lance, DoodadID, fl.Doodad_by_index(DoodadID).get_g_coord(), 1.0);
                     done = true;
                 }
             }
@@ -818,9 +826,9 @@ namespace Cronkpit
                 ydif = d.get_g_coord().y - my_grid_coord.y;
             }
 
-            int damage_value = (int)(wp.damage(ref rGen) * 1.4);
+            double multiplier = 1.4;
             if (wp.get_hand_count() == 2)
-                damage_value = (int)((wp.damage(ref rGen)*2) * 1.6);
+                multiplier = 1.6;
 
             int m_hp = 0;
             if(m!= null)
@@ -834,17 +842,16 @@ namespace Cronkpit
 
             fl.add_effect(wp.get_my_damage_type(), opposition_coord);
             if (m != null)
-                attack_monster_in_grid(fl, damage_value, m.my_Index, target_coord, wp.get_my_name(), true);
+                attack_monster_in_grid(fl, wp, m.my_Index, target_coord, multiplier);
             else
-                attack_Doodad_in_grid(fl, damage_value, d.get_my_index(), d.get_g_coord(), wp.get_my_name());
+                attack_Doodad_in_grid(fl, wp, d.get_my_index(), d.get_g_coord(), multiplier);
 
             if (m!= null && m.hitPoints > 0 && m_hp > m.hitPoints)
             {
                 if(!m.shove(xdif, ydif, this, fl))
                 {
-                    int secondary_damage_value = wp.damage(ref rGen) / 2;
                     fl.add_effect(wp.get_my_damage_type(), target_coord);
-                    attack_monster_in_grid(fl, damage_value, m.my_Index, target_coord, wp.get_my_name(), true);
+                    attack_monster_in_grid(fl, wp, m.my_Index, target_coord, 0.5);
                 }
             }
             wp.set_cooldown(standard_wpn_cooldown);
@@ -862,17 +869,15 @@ namespace Cronkpit
             int Doodad_ID = -1;
             for (int i = 0; i < target_coordinates.Count; i++)
             {
-                int attack_dmg = (int)(target_weapon.damage(ref rGen) * .8);
+                double multiplier = .8;
                 if (target_weapon.get_hand_count() == 2)
-                    attack_dmg = (int)((target_weapon.damage(ref rGen) * 2) * .9);
+                    multiplier = .9;
 
                 if (fl.is_monster_here(target_coordinates[i], out monster_ID))
-                    attack_monster_in_grid(fl, attack_dmg, monster_ID, target_coordinates[i],
-                                            target_weapon.get_my_name(), true);
+                    attack_monster_in_grid(fl, target_weapon, monster_ID, target_coordinates[i], multiplier);
 
                 if (fl.is_destroyable_Doodad_here(target_coordinates[i], out Doodad_ID))
-                    attack_Doodad_in_grid(fl, attack_dmg, Doodad_ID, target_coordinates[i],
-                                            target_weapon.get_my_name());
+                    attack_Doodad_in_grid(fl, target_weapon, Doodad_ID, target_coordinates[i], multiplier);
 
                 if (fl.isWalkable(target_coordinates[i]))
                     fl.add_effect(target_weapon.get_my_damage_type(), target_coordinates[i]);
@@ -885,7 +890,6 @@ namespace Cronkpit
             string spell_name = s.get_my_name();
             Projectile.projectile_type prj_type = 0;
             Attack.Damage spell_dmg_type = s.get_damage_type();
-            wound.Wound_Type spell_wnd_type = s.get_wound_type();
             gridCoordinate starting_coord = my_grid_coord;
 
             switch(spell_dmg_type)
@@ -937,7 +941,6 @@ namespace Cronkpit
 
                 prj.set_damage_range(spell_min_damage, spell_max_damage);
                 prj.set_damage_type(spell_dmg_type);
-                prj.set_wound_type(spell_wnd_type);
                 prj.set_wall_destroying(s.spell_destroys_walls());
 
                 if (s.get_spell_type() == Scroll.Atk_Area_Type.cloudAOE ||
@@ -1089,12 +1092,12 @@ namespace Cronkpit
 
         public void heal_naturally()
         {
-            Head.heal_random_wound();
-            L_Arm.heal_random_wound();
-            L_Leg.heal_random_wound();
-            R_Arm.heal_random_wound();
-            R_Leg.heal_random_wound();
-            Torso.heal_random_wound();
+            Head.heal_via_potion(1);
+            L_Arm.heal_via_potion(1);
+            L_Leg.heal_via_potion(1);
+            R_Arm.heal_via_potion(1);
+            R_Leg.heal_via_potion(1);
+            Torso.heal_via_potion(1);
 
             calculate_dodge_chance();
             update_pdoll();
@@ -1176,7 +1179,7 @@ namespace Cronkpit
                         case 0:
                             if (!Head.is_uninjured())
                             {
-                                Head.heal_random_wound();
+                                Head.heal_via_potion(1);
                                 head_tally++;
                                 potency--;
                             }
@@ -1184,7 +1187,7 @@ namespace Cronkpit
                         case 1:
                             if (!Torso.is_uninjured())
                             {
-                                Torso.heal_random_wound();
+                                Torso.heal_via_potion(1);
                                 chest_tally++;
                                 potency--;
                             }
@@ -1192,7 +1195,7 @@ namespace Cronkpit
                         case 2:
                             if (!R_Arm.is_uninjured())
                             {
-                                R_Arm.heal_random_wound();
+                                R_Arm.heal_via_potion(1);
                                 rarm_tally++;
                                 potency--;
                             }
@@ -1200,7 +1203,7 @@ namespace Cronkpit
                         case 3:
                             if (!L_Arm.is_uninjured())
                             {
-                                L_Arm.heal_random_wound();
+                                L_Arm.heal_via_potion(1);
                                 larm_tally++;
                                 potency--;
                             }
@@ -1208,7 +1211,7 @@ namespace Cronkpit
                         case 4:
                             if (!R_Leg.is_uninjured())
                             {
-                                R_Leg.heal_random_wound();
+                                R_Leg.heal_via_potion(1);
                                 rleg_tally++;
                                 potency--;
                             }
@@ -1216,7 +1219,7 @@ namespace Cronkpit
                         case 5:
                             if (!L_Leg.is_uninjured())
                             {
-                                L_Leg.heal_random_wound();
+                                L_Leg.heal_via_potion(1);
                                 lleg_tally++;
                                 potency--;
                             }
@@ -1379,12 +1382,12 @@ namespace Cronkpit
         public void wound_report(out int[] wounds_by_part, out int[] max_health_by_part)
         {
             wounds_by_part = new int[6];
-            wounds_by_part[0] = Head.count_debilitating_injuries();
-            wounds_by_part[1] = Torso.most_prevalent_injury_type_div5();
-            wounds_by_part[2] = L_Arm.most_prevalent_injury_type_div5();
-            wounds_by_part[3] = R_Arm.most_prevalent_injury_type_div5();
-            wounds_by_part[4] = L_Leg.most_prevalent_injury_type_div5();
-            wounds_by_part[5] = R_Leg.most_prevalent_injury_type_div5();
+            wounds_by_part[0] = Head.count_inj_severity_factor();
+            wounds_by_part[1] = Torso.count_inj_severity_factor();
+            wounds_by_part[2] = L_Arm.count_inj_severity_factor();
+            wounds_by_part[3] = R_Arm.count_inj_severity_factor();
+            wounds_by_part[4] = L_Leg.count_inj_severity_factor();
+            wounds_by_part[5] = R_Leg.count_inj_severity_factor();
 
             max_health_by_part = new int[6];
             max_health_by_part[0] = Head.get_max_health();
@@ -1425,8 +1428,6 @@ namespace Cronkpit
 
         public void wound_by_section(Limb bodyPart, ref List<string> wReport)
         {
-            if (bodyPart.is_uninjured())
-                wReport.Add(" - No injuries");
             bodyPart.consolidate_injury_report(ref wReport);
             if (bodyPart.is_disabled())
                 wReport.Add("It is useless");
@@ -1464,20 +1465,6 @@ namespace Cronkpit
 
             int dodge_roll = rGen.Next(100);
             bool dodged = false;
-
-            string w_type = "";
-            switch (atk.get_assoc_wound().type)
-            {
-                case wound.Wound_Type.Burn:
-                    w_type = "burn";
-                    break;
-                case wound.Wound_Type.Impact:
-                    w_type = "impact";
-                    break;
-                case wound.Wound_Type.Open:
-                    w_type = "open";
-                    break;
-            }
 
             if (dodge_roll < dodge_chance)
             {
@@ -1530,11 +1517,11 @@ namespace Cronkpit
                     if (under_armor != null)
                         atk = under_armor.absorb_damage(atk, atkzone, my_grid_coord, ref rGen, ref message_buffer, ref fl);
                 }
-                wound dmg = new wound(atk.get_assoc_wound());
+                int dmg = atk.get_damage_amt();
                 target_limb.add_injury(dmg);
-                if (dmg.severity > 0)
-                        fl.add_new_popup("-" + dmg.severity + " " + target_limb.get_shortname(), Popup.popup_msg_color.Red, my_grid_coord);
-                    message_buffer.Add("Your " + target_limb.get_longname() + " takes " + dmg.severity + " " + w_type + " wounds!");
+                if (dmg > 0)
+                        fl.add_new_popup("-" + dmg + " " + target_limb.get_shortname(), Popup.popup_msg_color.Red, my_grid_coord);
+                    message_buffer.Add("Your " + target_limb.get_longname() + " takes " + dmg + " wounds!");
 
                 calculate_dodge_chance();
                 update_pdoll();
@@ -1551,24 +1538,10 @@ namespace Cronkpit
         }
 
         public void take_aoe_damage(int min_dmg, int max_dmg, 
-                                    Attack.Damage dmg_type, wound.Wound_Type wnd_type, Floor fl)
+                                    Attack.Damage dmg_type, Floor fl)
         {
             List<Limb> target_limbs = new List<Limb>();
             List<Armor.Attack_Zone> target_zones = new List<Armor.Attack_Zone>();
-
-            string w_type = "";
-            switch (wnd_type)
-            {
-                case wound.Wound_Type.Burn:
-                    w_type = "burn";
-                    break;
-                case wound.Wound_Type.Impact:
-                    w_type = "impact";
-                    break;
-                case wound.Wound_Type.Open:
-                    w_type = "open";
-                    break;
-            }
 
             //Head and chest
             int hc_dodge_roll = rGen.Next(100);
@@ -1579,7 +1552,7 @@ namespace Cronkpit
             }
             else
             {
-                wound h_wnd = new wound(wnd_type, rGen.Next(min_dmg, max_dmg));
+                int h_wnd = rGen.Next(min_dmg, max_dmg);
                 Head.add_injury(h_wnd);
 
                 target_limbs.Add(Torso);
@@ -1618,17 +1591,16 @@ namespace Cronkpit
 
             for (int i = 0; i < target_limbs.Count; i++)
             {
-                Attack next_attack = new Attack(dmg_type, new wound(wnd_type, rGen.Next(min_dmg, max_dmg)));
+                Attack next_attack = new Attack(dmg_type, rGen.Next(min_dmg, max_dmg));
                 if (over_armor != null)
                     next_attack = over_armor.absorb_damage(next_attack, target_zones[i], my_grid_coord, ref rGen, ref message_buffer, ref fl);
                 if (under_armor != null)
                     next_attack = under_armor.absorb_damage(next_attack, target_zones[i], my_grid_coord, ref rGen, ref message_buffer, ref fl);
 
-                wound next_wnd = new wound(next_attack.get_assoc_wound());
-                target_limbs[i].add_injury(next_wnd);
-                if (next_wnd.severity > 0)
-                    fl.add_new_popup("-" + next_wnd.severity + " " + target_limbs[i].get_shortname(), Popup.popup_msg_color.Red, my_grid_coord);
-                message_buffer.Add("Your " + target_limbs[i].get_longname() + " takes " + next_wnd.severity + " " + w_type + " wounds!");
+                target_limbs[i].add_injury(next_attack.get_damage_amt());
+                if (next_attack.get_damage_amt() > 0)
+                    fl.add_new_popup("-" + next_attack.get_damage_amt() + " " + target_limbs[i].get_shortname(), Popup.popup_msg_color.Red, my_grid_coord);
+                message_buffer.Add("Your " + target_limbs[i].get_longname() + " takes " + next_attack.get_damage_amt() + " wounds!");
             }
             update_pdoll();
         }
@@ -1686,21 +1658,8 @@ namespace Cronkpit
         //Green text. Function here.
         public int my_scent_value()
         {
-            List<wound> All_wounds = new List<wound>();
-            All_wounds.AddRange(Head.get_all_injuries());
-            All_wounds.AddRange(L_Arm.get_all_injuries());
-            All_wounds.AddRange(R_Arm.get_all_injuries());
-            All_wounds.AddRange(L_Leg.get_all_injuries());
-            All_wounds.AddRange(Torso.get_all_injuries());
-            int total_open_wounds = 0;
             int total_burn_wounds = 0;
-            for (int i = 0; i < All_wounds.Count; i++)
-            {
-                if (All_wounds[i].type == wound.Wound_Type.Open)
-                    total_open_wounds++;
-                else if (All_wounds[i].type == wound.Wound_Type.Burn)
-                    total_burn_wounds++;
-            }
+            int total_open_wounds = 0;
 
             return base_smell_value + total_burn_wounds + (total_open_wounds/2);
         }

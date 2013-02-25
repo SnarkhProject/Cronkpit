@@ -1675,6 +1675,42 @@
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\corpsepile.xnb</Output>
       <Time>2013-02-19T02:56:11.6932986-05:00</Time>
     </Item>
+    <Item>
+      <Source>Icons\Armors\clothhood_icon.png</Source>
+      <Name>Icons\Armors\clothhood_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Armors\clothhood_icon.xnb</Output>
+      <Time>2013-02-24T04:22:23.199909-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Armors\cobalthelmet_icon.png</Source>
+      <Name>Icons\Armors\cobalthelmet_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Armors\cobalthelmet_icon.xnb</Output>
+      <Time>2013-02-24T04:22:23.2539121-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Armors\pitsteelwarhelm_icon.png</Source>
+      <Name>Icons\Armors\pitsteelwarhelm_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Armors\pitsteelwarhelm_icon.xnb</Output>
+      <Time>2013-02-24T04:22:23.2599124-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Armors\steelhelmet_icon.png</Source>
+      <Name>Icons\Armors\steelhelmet_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Armors\steelhelmet_icon.xnb</Output>
+      <Time>2013-02-24T04:22:23.2609125-05:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

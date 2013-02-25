@@ -1207,7 +1207,6 @@ namespace Cronkpit
                 int min_damage = Pew_Pews[i].get_damage_range(false);
                 int max_damage = Pew_Pews[i].get_damage_range(true);
                 Attack.Damage dmg_type = Pew_Pews[i].get_dmg_type();
-                wound.Wound_Type wnd_type = Pew_Pews[i].get_wound_type();
 
                 //Do all this if it's at the end of the line
                 if (check_overlap(Pew_Pews[i].my_rect(), new Rectangle((int)Pew_Pews[i].get_my_end_coord().x * 32, 
@@ -1235,7 +1234,6 @@ namespace Cronkpit
                                     p.set_bounce(Pew_Pews[i].get_bounce());
                                     p.set_bounces_left(Pew_Pews[i].get_remaining_bounces() - 1);
                                     p.set_damage_type(Pew_Pews[i].get_dmg_type());
-                                    p.set_wound_type(Pew_Pews[i].get_wound_type());
                                     create_new_projectile(p);
                                 }
                             }
@@ -1247,7 +1245,7 @@ namespace Cronkpit
                                                                             specific_effect.None,
                                                                             endCoord, cloud_duration, 
                                                                             Pew_Pews[i].is_monster_projectile(),
-                                                                            dmg_type, wnd_type, cloud_size,
+                                                                            dmg_type, cloud_size,
                                                                             min_damage, max_damage);
                             add_new_persistent_effect(ceffect);
                             if (Pew_Pews[i].is_monster_projectile())
@@ -1259,7 +1257,7 @@ namespace Cronkpit
                                 PersistentEffect peffect = new PersistentEffect(Scroll.Atk_Area_Type.randomblockAOE,
                                                                                 specific_effect.Earthquake,
                                                                                 endCoord, 1, Pew_Pews[i].is_monster_projectile(),
-                                                                                dmg_type, wnd_type, Pew_Pews[i].get_aoe_size(),
+                                                                                dmg_type, Pew_Pews[i].get_aoe_size(),
                                                                                 min_damage, max_damage);
                                 add_new_persistent_effect(peffect);
                             }
@@ -1314,12 +1312,11 @@ namespace Cronkpit
                             if (aoe_effect)
                             {
                                 pl.take_aoe_damage(min_damage, max_damage,
-                                                   dmg_type, wnd_type, this);
+                                                   dmg_type, this);
                             }
                             else
                             {
-                                wound w = new wound(wnd_type, dmg_val);
-                                Attack atk = new Attack(dmg_type, w);
+                                Attack atk = new Attack(dmg_type, dmg_val);
                                 pl.take_damage(atk, this, "");
                             }
                         }
@@ -1328,7 +1325,7 @@ namespace Cronkpit
                         //Silver lining
                         int mon_on_mon_ID = -1;
                         if(is_monster_here(attacked_coordinates[j], out mon_on_mon_ID))
-                            damage_monster(dmg_val*2, mon_on_mon_ID, false);
+                            damage_monster_single_atk(new Attack(Pew_Pews[i].get_dmg_type(), dmg_val * 2), mon_on_mon_ID, false, aoe_effect);
 
                         int mon_on_Doodad_ID = -1;
                         if (is_destroyable_Doodad_here(attacked_coordinates[j], out mon_on_Doodad_ID))
@@ -1337,7 +1334,7 @@ namespace Cronkpit
                     else
                     {
                         if (is_monster_here(attacked_coordinates[j], out monsterID))
-                            damage_monster(dmg_val, monsterID, false);
+                            damage_monster_single_atk(new Attack(Pew_Pews[i].get_dmg_type(), dmg_val * 2), monsterID, false, aoe_effect);
 
                         if (is_destroyable_Doodad_here(attacked_coordinates[j], out DoodadID))
                             damage_Doodad(dmg_val, DoodadID);
@@ -1347,7 +1344,7 @@ namespace Cronkpit
                         {
                             int aoe_dmg_to_player = dmg_val / 2;
                             for (int k = 0; k < aoe_dmg_to_player; k++)
-                                pl.take_damage(new Attack(dmg_type, new wound(wnd_type, 1)), this, "");
+                                pl.take_damage(new Attack(dmg_type, 1), this, "");
                         }
                     }
                 }
@@ -1489,8 +1486,7 @@ namespace Cronkpit
 
         public void cone_attack(int cone_range, gridCoordinate origin, gridCoordinate.direction cone_direction,
                                 int cone_atk_max_dmg, int cone_atk_min_dmg, Attack.Damage cone_atk_dmg_type,
-                                wound.Wound_Type cone_atk_wnd_type, Player pl, bool monsterCone,
-                                specific_effect spEfx)
+                                Player pl, bool monsterCone, specific_effect spEfx)
         {
             gridCoordinate target = new gridCoordinate(origin);
             for (int i = 0; i < cone_range; i++)
@@ -1593,7 +1589,7 @@ namespace Cronkpit
                     int dmg = randGen.Next(cone_atk_min_dmg, cone_atk_max_dmg + 1);
                     if (monsterCone)
                         dmg = dmg * 2;
-                    damage_monster(dmg, monsterID, false);
+                    damage_monster_single_atk(new Attack(cone_atk_dmg_type, dmg), monsterID, false, true);
                 }
                 else if (is_destroyable_Doodad_here(effected_area[i], out doodadID))
                 {
@@ -1607,7 +1603,7 @@ namespace Cronkpit
                 {
                     if (monsterCone)
                         pl.take_aoe_damage(cone_atk_min_dmg, cone_atk_max_dmg,
-                                           cone_atk_dmg_type, cone_atk_wnd_type, this);
+                                           cone_atk_dmg_type, this);
                 }
             }
         }
@@ -1697,7 +1693,6 @@ namespace Cronkpit
                 {
                     Scroll.Atk_Area_Type eType = persistent_effects[i].get_my_effect_type();
                     Attack.Damage effect_dmg_type = persistent_effects[i].get_my_damage_type();
-                    wound.Wound_Type effect_wnd_type = persistent_effects[i].get_my_wound_type();
                     int effect_max_damage = persistent_effects[i].get_specific_damage(true);
                     int effect_min_damage = persistent_effects[i].get_specific_damage(false);
 
@@ -1726,13 +1721,15 @@ namespace Cronkpit
                             if (pl.get_my_grid_C().x == effected_tiles[j].x &&
                                pl.get_my_grid_C().y == effected_tiles[j].y)
                             {
-                                //This is always an AOE effect.
+                                pl.take_aoe_damage(effect_min_damage, effect_max_damage, effect_dmg_type, this);
                             }
                         }
                         else
                         {
                             if (is_monster_here(effected_tiles[j], out monsterID))
-                                damage_monster(dmg_val, monsterID, false);
+                            {
+                                damage_monster_single_atk(new Attack(effect_dmg_type, dmg_val), monsterID, false, true);
+                            }
 
                             if (is_destroyable_Doodad_here(effected_tiles[j], out DoodadID))
                                 damage_Doodad(dmg_val, DoodadID);
@@ -1742,7 +1739,7 @@ namespace Cronkpit
                             {
                                 int aoe_dmg_to_player = dmg_val / 2;
                                 for (int k = 0; k < aoe_dmg_to_player; k++)
-                                    pl.take_damage(new Attack(effect_dmg_type, new wound(effect_wnd_type, 1)), this, "");
+                                    pl.take_damage(new Attack(effect_dmg_type, 1), this, "");
                             }
                         }
                     }
@@ -2250,13 +2247,34 @@ namespace Cronkpit
             return Money;
         }
 
-        public void damage_monster(int dmg, int monsterID, bool melee_attack)
+        public void damage_monster(List<Attack> atks, int monsterID, bool melee_attack, bool aoe_attack)
         {
             for (int i = 0; i < badGuys.Count; i++)
             {
                 if (badGuys[i].my_Index == monsterID)
                 {
-                    badGuys[i].takeDamage(dmg, melee_attack, message_buffer, this);
+                    badGuys[i].takeDamage(atks, melee_attack, aoe_attack, message_buffer, this);
+                    if (badGuys[i].hitPoints <= 0)
+                    {
+                        if (badGuys[i] is HollowKnight)
+                        {
+                            Doodads.Add(new Doodad(Doodad.Doodad_Type.Destroyed_ArmorSuit, cManager, badGuys[i].randomly_chosen_personal_coord(), Doodads.Count));
+                        }
+                        badGuys.RemoveAt(i);
+                    }
+                }
+            }
+        }
+
+        public void damage_monster_single_atk(Attack atk, int monsterID, bool melee_attack, bool aoe_attack)
+        {
+            List<Attack> atks = new List<Attack>();
+            atks.Add(atk);
+            for (int i = 0; i < badGuys.Count; i++)
+            {
+                if (badGuys[i].my_Index == monsterID)
+                {
+                    badGuys[i].takeDamage(atks, melee_attack, aoe_attack, message_buffer, this);
                     if (badGuys[i].hitPoints <= 0)
                     {
                         if (badGuys[i] is HollowKnight)

@@ -28,42 +28,36 @@ namespace Cronkpit
                     min_damage = 1;
                     max_damage = 1;
                     dmg_type = Attack.Damage.Crushing;
-                    wound_type = wound.Wound_Type.Impact;
                     break;
                 case Skeleton_Weapon_Type.Sword:
                     my_Texture = cont.Load<Texture2D>("Enemies/skeleton_warrior");
                     min_damage = 1;
                     max_damage = 2;
                     dmg_type = Attack.Damage.Slashing;
-                    wound_type = wound.Wound_Type.Open;
                     break;
                 case Skeleton_Weapon_Type.Spear:
                     my_Texture = cont.Load<Texture2D>("Enemies/skeleton_spearman");
                     min_damage = 1;
                     max_damage = 3;
                     dmg_type = Attack.Damage.Piercing;
-                    wound_type = wound.Wound_Type.Open;
                     break;
                 case Skeleton_Weapon_Type.Bow:
                     my_Texture = cont.Load<Texture2D>("Enemies/skeleton_archer");
                     min_damage = 1;
                     max_damage = 3;
                     dmg_type = Attack.Damage.Piercing;
-                    wound_type = wound.Wound_Type.Open;
                     break;
                 case Skeleton_Weapon_Type.Flamebolt:
                     my_Texture = cont.Load<Texture2D>("Enemies/skeleton_mage");
                     min_damage = 1;
                     max_damage = 5;
                     dmg_type = Attack.Damage.Fire;
-                    wound_type = wound.Wound_Type.Burn;
                     break;
                 case Skeleton_Weapon_Type.Axe:
                     my_Texture = cont.Load<Texture2D>("Enemies/skeleton_axeman");
                     min_damage = 1;
                     max_damage = 2;
                     dmg_type = Attack.Damage.Slashing;
-                    wound_type = wound.Wound_Type.Open;
                     break;
             }
             
@@ -117,7 +111,6 @@ namespace Cronkpit
                                                             ref cont, true, Scroll.Atk_Area_Type.singleTile);
                             prj.set_damage_range(min_damage, max_damage);
                             prj.set_damage_type(dmg_type);
-                            prj.set_wound_type(wound_type);
                             fl.create_new_projectile(prj);
                         }
                     }
@@ -130,7 +123,6 @@ namespace Cronkpit
                     min_damage = 1;
                     max_damage = 1;
                     dmg_type = Attack.Damage.Crushing;
-                    wound_type = wound.Wound_Type.Impact;
                 }
 
                 if(can_see_player)

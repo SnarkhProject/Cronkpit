@@ -20,7 +20,6 @@ namespace Cronkpit
             min_damage = 1;
             max_damage = 3;
             dmg_type = Attack.Damage.Frost;
-            wound_type = wound.Wound_Type.Frostburn;
             can_melee_attack = true;
 
             //SENSORY

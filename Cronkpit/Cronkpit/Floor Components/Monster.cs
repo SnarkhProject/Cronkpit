@@ -61,7 +61,6 @@ namespace Cronkpit
         public int min_damage;
         public int max_damage;
         public Attack.Damage dmg_type;
-        public wound.Wound_Type wound_type;
 
         public Monster(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, Monster_Size monSize)
         {
@@ -481,46 +480,50 @@ namespace Cronkpit
             }
         }
         //damage stuff
-        public void takeDamage(int dmg, bool melee_attack, List<string> msg_buf, Floor fl)
+        public void takeDamage(List<Attack> atks, bool melee_attack, bool aoe_attack, List<string> msg_buf, Floor fl)
         {
             bool dodged = false;
             bool absorbed = false;
             int dodge_roll = rGen.Next(100);
-            int armor_roll = rGen.Next(100);
 
             if (melee_attack && dodge_roll < melee_dodge)
                 dodged = true;
             else if (!melee_attack && dodge_roll < ranged_dodge)
                 dodged = true;
 
-            if (armorPoints > 0  && armor_roll < armor_effectiveness)
-                absorbed = true;
-
             if (!dodged)
             {
-                if (absorbed)
+                for (int i = 0; i < atks.Count; i++)
                 {
-                    if (armorPoints >= dmg)
+                    int dmg = atks[i].get_damage_amt();
+                    int armor_roll = rGen.Next(100);
+                    if (armorPoints > 0 && armor_roll < armor_effectiveness)
+                        absorbed = true;
+
+                    if (absorbed)
                     {
-                        msg_buf.Add("The " + my_name + "'s armor absorbs " + dmg + " damage!");
-                        fl.add_new_popup("-" + dmg, Popup.popup_msg_color.Blue, my_center_coordinate());
-                        armorPoints -= dmg;
+                        if (armorPoints >= dmg)
+                        {
+                            msg_buf.Add("The " + my_name + "'s armor absorbs " + dmg + " damage!");
+                            fl.add_new_popup("-" + dmg, Popup.popup_msg_color.Blue, my_center_coordinate());
+                            armorPoints -= dmg;
+                        }
+                        else
+                        {
+                            fl.add_new_popup("-" + dmg, Popup.popup_msg_color.Purple, my_center_coordinate());
+                            dmg -= armorPoints;
+                            msg_buf.Add("The " + my_name + "'s armor absorbs " + armorPoints + " damage!");
+                            msg_buf.Add("The " + my_name + " takes " + dmg + " damage!");
+                            armorPoints = 0;
+                            hitPoints -= dmg;
+                        }
                     }
                     else
                     {
-                        fl.add_new_popup("-" + dmg, Popup.popup_msg_color.Purple, my_center_coordinate());
-                        dmg -= armorPoints;
-                        msg_buf.Add("The " + my_name + "'s armor absorbs " + armorPoints + " damage!");
                         msg_buf.Add("The " + my_name + " takes " + dmg + " damage!");
-                        armorPoints = 0;
+                        fl.add_new_popup("-" + dmg, Popup.popup_msg_color.Red, my_center_coordinate());
                         hitPoints -= dmg;
                     }
-                }
-                else
-                {
-                    msg_buf.Add("The " + my_name + " takes " + dmg + " damage!");
-                    fl.add_new_popup("-" + dmg, Popup.popup_msg_color.Red, my_center_coordinate());
-                    hitPoints -= dmg;
                 }
             }
             else
@@ -563,7 +566,7 @@ namespace Cronkpit
         public Attack dealDamage()
         {
             int dmgValue = rGen.Next(min_damage, (max_damage+1));
-            return new Attack(dmg_type, new wound(wound_type, dmgValue));
+            return new Attack(dmg_type, dmgValue);
         }
 
         //now for the good stuff - SENSORY STUFF.

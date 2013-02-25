@@ -22,7 +22,6 @@ namespace Cronkpit
             min_damage = 1;
             max_damage = 3;
             dmg_type = Attack.Damage.Piercing;
-            wound_type = wound.Wound_Type.Open;
             can_melee_attack = true;
 
             //SENSORY

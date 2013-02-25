@@ -24,7 +24,6 @@ namespace Cronkpit
             min_damage = 1;
             max_damage = 2;
             dmg_type = Attack.Damage.Slashing;
-            wound_type = wound.Wound_Type.Open;
             can_melee_attack = true;
             turns_idle = 5;
 

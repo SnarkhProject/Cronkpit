@@ -8,14 +8,14 @@
     <framework targetVersion="4.0" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Cronkpit.exe.manifest" size="102518">
+    <dependentAssembly dependencyType="install" codebase="Cronkpit.exe.manifest" size="104125">
       <assemblyIdentity name="Cronkpit.exe" version="1.0.0.21" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>o6/xFnuj5BsfcGgt4cr62vVPlkc=</dsig:DigestValue>
+        <dsig:DigestValue>tHxHnIpUTi5uyiMc1rWmkGarXyg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
