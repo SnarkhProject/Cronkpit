@@ -18,7 +18,8 @@ namespace Cronkpit
             : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_Texture = cont.Load<Texture2D>("Enemies/zombie_fanatic");
-            hitPoints = 15;
+            max_hitPoints = 15;
+            hitPoints = max_hitPoints;
             armorPoints = 20;
             min_damage = 2;
             max_damage = 4;
@@ -40,10 +41,14 @@ namespace Cronkpit
             ranged_dodge = 5;
             armor_effectiveness = 50;
             last_seen_player_at = my_grid_coords[0];
+            set_initial_dodge_values();
+            smart_monster = true;
         }
 
         public override void Update_Monster(Player pl, Floor fl)
         {
+            heal_near_altar(fl);
+
             if (is_player_within(pl, sight_range))
                 can_see_player = can_i_see_point(fl, pl.get_my_grid_C());
             else

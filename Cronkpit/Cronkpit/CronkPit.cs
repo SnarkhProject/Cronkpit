@@ -35,11 +35,13 @@ namespace Cronkpit
             main_menu, select_character, mini_main_menu, normal,
             shop_screen, inv_screen, drinking_potion, ranged_attack,
             charging_attack, msg_log, bashing_attack, casting_spell,
-            force_attack
+            force_attack, won_game
         };
         public enum Dungeon
         {
-            Necropolis
+            Necropolis, Gelid_Peaks,
+            Flamerunner_Mine,
+            Sunken_Citadel
         };
 
         Keys[] hotbar_keymap = {Keys.F2, Keys.F3, Keys.F4, Keys.F5,
@@ -316,6 +318,11 @@ namespace Cronkpit
                     //gameState = 3;
                 }
 
+                if (p1.is_spot_dungeon_exit(f1))
+                {
+                    current_state = Game_State.won_game;
+                }
+
                 if (bad_turn && !f1.projectiles_remaining_to_update())
                 {
                     f1.add_smell_to_tile(p1.get_my_grid_C(), 0, p1.total_scent);
@@ -326,6 +333,7 @@ namespace Cronkpit
                     bad_turn = false;
                     p1.deincrement_cooldowns();
                     icoBar.update_cooldown_and_quant(p1);
+                    mBall.calculate_opacity(f1.check_mana());
                 }
 
                 if (!f1.done_smooth_transitions())
@@ -652,45 +660,9 @@ namespace Cronkpit
             if (current_state == Game_State.ranged_attack || current_state == Game_State.charging_attack ||
                 current_state == Game_State.bashing_attack || current_state == Game_State.casting_spell)
             {
-                if (check_key_press(Keys.NumPad1))
-                {
-                    ra1.shift_coordinates(-1, 1);
-                }
-
-                if (check_key_press(Keys.NumPad2))
-                {
-                    ra1.shift_coordinates(0, 1);
-                }
-
-                if (check_key_press(Keys.NumPad3))
-                {
-                    ra1.shift_coordinates(1, 1);
-                }
-
-                if (check_key_press(Keys.NumPad4))
-                {
-                    ra1.shift_coordinates(-1, 0);
-                }
-
-                if (check_key_press(Keys.NumPad6))
-                {
-                    ra1.shift_coordinates(1, 0);
-                }
-
-                if (check_key_press(Keys.NumPad7))
-                {
-                    ra1.shift_coordinates(-1, -1);
-                }
-
-                if (check_key_press(Keys.NumPad8))
-                {
-                    ra1.shift_coordinates(0, -1);
-                }
-
-                if (check_key_press(Keys.NumPad9))
-                {
-                    ra1.shift_coordinates(1, -1);
-                }
+                for (int i = 0; i < direction_keymap.Count(); i++)
+                    if (check_key_press(direction_keymap[i]))
+                        ra1.shift_coordinates(direction_map[i]);
 
                 #region only while shooting (GS = 5)
                 //gameState == 5
@@ -840,6 +812,19 @@ namespace Cronkpit
                 {
                     start_new_game(cSelect.get_current_selection());
                     current_state = Game_State.normal;
+                }
+            }
+
+            #endregion
+
+            #region keypresses for winning the game
+
+            if (current_state == Game_State.won_game)
+            {
+                if(check_key_release(Keys.F10))
+                {
+                    current_state = Game_State.main_menu;
+                    icoBar.show();
                 }
             }
 
@@ -1241,6 +1226,15 @@ namespace Cronkpit
                 case Game_State.select_character:
                     spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.NonPremultiplied);
                     cSelect.draw_me(ref spriteBatch);
+                    spriteBatch.End();
+                    break;
+                case Game_State.won_game:
+                    SpriteFont vicMsgFnt = Content.Load<SpriteFont>("Fonts/tfont");
+                    string vicMsgStr = "You won!!! Press F10 for new game.";
+                    Vector2 vicMsgPos = new Vector2((client_rect().Width - vicMsgFnt.MeasureString(vicMsgStr).X)/2,
+                                                    (client_rect().Height - vicMsgFnt.LineSpacing) /2);
+                    spriteBatch.Begin(SpriteSortMode.BackToFront, null);
+                    spriteBatch.DrawString(vicMsgFnt, vicMsgStr, vicMsgPos, Color.White);
                     spriteBatch.End();
                     break;
                 default:

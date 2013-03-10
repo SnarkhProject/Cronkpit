@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1">
-  <asmv1:assemblyIdentity name="Cronkpit.exe" version="1.0.0.21" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
+  <asmv1:assemblyIdentity name="Cronkpit.exe" version="1.0.0.22" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
   <description asmv2:iconFile="Game.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -93,14 +93,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Cronkpit.exe" size="221696">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Cronkpit.exe" size="240640">
       <assemblyIdentity name="Cronkpit" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>MS419+Xn5SAJZHoBCS1JlKbaEQ0=</dsig:DigestValue>
+        <dsig:DigestValue>caLDcnhnXPOEsgqVxtcIAI7jIXo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -264,6 +264,24 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>o4zCHtVu88sTe3r40SdcSRZRD9I=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Background\Necropolis\Necro_dungeon_exit_closed.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>5vOIHYHHwY2onDjt+GF0Yc7eZBI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Background\Necropolis\Necro_dungeon_exit_open.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>9PNQ2U9Z2QqJCS5a9HHw75HjXRc=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Background\Necropolis\Necro_MossDirtFloor.xnb" size="4283">
@@ -480,6 +498,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>0gXSIJygH1eEcHPE3PhAsIFnEtA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Enemies\boneyard_biting.xnb" size="16571">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>ieK5AlLU0+uZnMnDfbGjOBSi/8k=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Enemies\ghost.xnb" size="4283">
@@ -1670,6 +1697,15 @@
       <dsig:DigestValue>Qg8id768+poJPpTCSbwkFfije2E=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="Content\Projectiles\alert_spritesheet.xnb" size="65723">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>G6JKw1u1p9rGoagxF7h7GtSmsyA=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Content\Projectiles\arrow.png" size="292">
     <hash>
       <dsig:Transforms>
@@ -1688,6 +1724,24 @@
       <dsig:DigestValue>WAlU7vHIlxUL4h6Hm8T36+M84I0=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="Content\Projectiles\big_bite_spritesheet.xnb" size="164027">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>R42ga9YHb0knsPeH/hz073OngRU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Projectiles\bite_spritesheet.xnb" size="41147">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>/5yDNHVtp7bKwIFLQG+Otde4M3g=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Content\Projectiles\blank_projectile.xnb" size="4283">
     <hash>
       <dsig:Transforms>
@@ -1695,6 +1749,24 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>JX3g0EmtMW7Nuqg4njSV9UklQmc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Projectiles\blood_acidblob.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>BSehEiSZz4+ZEq9Q0ps8RD5fErM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Projectiles\bonespear.xnb" size="4283">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>MjLVTFbA2r4mPyST43/W+Afyl7k=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Projectiles\cleave_spritesheet.xnb" size="20667">
@@ -1875,6 +1947,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>gL/KUt92FQXPjyGMgADek6kGouQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Projectiles\warning_reticule_spritesheet.xnb" size="377019">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>25iTj7svDeQM1IC6+B6iDXa0TJM=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\sound shit.png" size="217">

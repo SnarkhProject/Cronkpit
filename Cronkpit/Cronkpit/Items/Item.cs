@@ -56,7 +56,7 @@ namespace Cronkpit
             return my_texture;
         }
 
-        public virtual List<string> get_my_information()
+        public virtual List<string> get_my_information(bool in_shop)
         {
             List<string> return_array = new List<string>();
 

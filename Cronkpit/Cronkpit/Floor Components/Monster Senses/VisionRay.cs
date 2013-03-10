@@ -11,25 +11,54 @@ namespace Cronkpit
 {
     class VisionRay
     {
+        public enum fineness { Roughest, Rough, Average, Fine };
         gridCoordinate my_start_coordinate;
         gridCoordinate my_end_coordinate;
         public Vector2 my_end_position;
         public Vector2 my_current_position;
-        int steps = 50;
+        int steps;
 
-        public VisionRay(gridCoordinate my_start_gridC, gridCoordinate my_end_gridC)
+        public VisionRay(gridCoordinate my_start_gridC, gridCoordinate my_end_gridC, 
+                         fineness fn = fineness.Average)
         {
             my_start_coordinate = new gridCoordinate(my_start_gridC);
             my_end_coordinate = new gridCoordinate(my_end_gridC);
 
             my_current_position = new Vector2((my_start_gridC.x * 32) + 16, (my_start_gridC.y * 32) + 16);
             my_end_position = new Vector2((my_end_gridC.x * 32) + 16, (my_end_gridC.y * 32) + 16);
+
+            find_steps(fn);
         }
 
-        public VisionRay(Vector2 start_position, Vector2 end_position)
+        public VisionRay(Vector2 start_position, Vector2 end_position, 
+                         fineness fn = fineness.Average)
         {
             my_current_position = start_position;
             my_end_position = end_position;
+
+            find_steps(fn);
+        }
+
+        public void find_steps(fineness fn)
+        {
+            switch (fn)
+            {
+                case fineness.Roughest:
+                    steps = 10;
+                    break;
+                case fineness.Rough:
+                    steps = 20;
+                    break;
+                case fineness.Average:
+                    steps = 30;
+                    break;
+                case fineness.Fine:
+                    steps = 80;
+                    break;
+                default:
+                    steps = 50;
+                    break;
+            }
         }
 
         public void update()

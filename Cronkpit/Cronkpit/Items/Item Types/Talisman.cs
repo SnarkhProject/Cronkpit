@@ -176,11 +176,136 @@ namespace Cronkpit
             my_talisman_prefix = T.get_my_prefix();
         }
 
+        public override List<string> get_my_information(bool in_shop)
+        {
+            List<string> return_array = new List<string>();
+
+            return_array.Add(name);
+            return_array.Add("Price: " + cost.ToString());
+            return_array.Add(" ");
+            int base_value = 1 + (int)my_talisman_prefix;
+            int primary_resist = base_value * 8;
+            int secondary_resist = base_value * 4;
+
+            if (armor_talisman())
+                return_array.Add("Equipped on armor.");
+            else
+                return_array.Add("Equipped on a weapon.");
+            return_array.Add(" ");
+            switch (my_talisman_type)
+            {
+                case Talisman_Type.Absorption:
+                    return_array.Add("Adds " + (base_value * 2).ToString() + "% chance to");
+                    return_array.Add("absorb all damage types.");
+                    break;
+                case Talisman_Type.Asbestos:
+                    return_array.Add("Adds " + primary_resist.ToString() + "% fire absorption.");
+                    return_array.Add("Adds " + secondary_resist.ToString() + "% acid absorption.");
+                    break;
+                case Talisman_Type.Bouyancy:
+                    return_array.Add("Allows travel through");
+                    return_array.Add("shallow water.");
+                    break;
+                case Talisman_Type.Diamond:
+                    return_array.Add("Adds " + primary_resist.ToString() + "% crushing absorption.");
+                    return_array.Add("Adds " + secondary_resist.ToString() + "% slashing absorption.");
+                    return_array.Add("Adds " + secondary_resist.ToString() + "% fire absorption.");
+                    break;
+                case Talisman_Type.Distruption:
+                    return_array.Add("Adds " + (base_value*2).ToString() + "% chance to disrupt enemy");
+                    return_array.Add("spellcasting for " + (base_value*2).ToString() + " turns.");
+                    break;
+                case Talisman_Type.Down:
+                    return_array.Add("Adds " + primary_resist.ToString() + "% frost absorption.");
+                    return_array.Add("Adds " + secondary_resist.ToString() + "% piercing absorption.");
+                    return_array.Add("Adds " + secondary_resist.ToString() + "% crushing absorption.");
+                    return_array.Add("Adds " + secondary_resist.ToString() + "% electric absorption.");
+                    break;
+                case Talisman_Type.Ebonite:
+                    return_array.Add("Adds " + primary_resist.ToString() + "% piercing absorption.");
+                    return_array.Add("Adds " + primary_resist.ToString() + "% slashing absorption.");
+                    break;
+                case Talisman_Type.Endurance:
+                    int health_increase_nonvit = (int)Math.Floor((double)(base_value / 2));
+                    return_array.Add("Your arms and legs can take");
+                    return_array.Add("an additional " + (health_increase_nonvit * 10).ToString() + " wounds");
+                    return_array.Add("before becoming disabled.");
+                    break;
+                case Talisman_Type.Expediency:
+                    return_array.Add("Adds " + (base_value + 1).ToString() + " - " + ((base_value + 1) * 2).ToString());
+                    break;
+                case Talisman_Type.Grasping:
+                    return_array.Add("Adds " + base_value.ToString() + "% chance to root enemy");
+                    return_array.Add("for " + base_value.ToString() + " turns.");
+                    break;
+                case Talisman_Type.Heartsblood:
+                    return_array.Add("Adds " + base_value.ToString() + " - " + (base_value * 2).ToString() + " piercing");
+                    break;
+                case Talisman_Type.Heat:
+                    return_array.Add("Adds " + base_value.ToString() + " - " + (base_value * 2).ToString() + " fire");
+                    break;
+                case Talisman_Type.Pressure:
+                    return_array.Add("Adds " + base_value.ToString() + " - " + (base_value * 2).ToString() + " crushing");
+                    break;
+                case Talisman_Type.Razors:
+                    return_array.Add("Adds " + base_value.ToString() + " - " + (base_value * 2).ToString() + " slashing");
+                    break;
+                case Talisman_Type.Reach:
+                    int extended_range = (int)Math.Floor((double)(base_value / 2));
+                    return_array.Add("Adds " + extended_range.ToString() + " to weapon range.");
+                    break;
+                case Talisman_Type.Skill:
+                    return_array.Add("Adds " + base_value.ToString() + "% chance to");
+                    return_array.Add("dodge attacks");
+                    break;
+                case Talisman_Type.Snow:
+                    return_array.Add("Adds " + base_value.ToString() + " - " + (base_value * 2).ToString() + " frost");
+                    break;
+                case Talisman_Type.Sparks:
+                    return_array.Add("Adds " + base_value.ToString() + " - " + (base_value * 2).ToString() + " electric");
+                    break;
+                case Talisman_Type.Tenacity:
+                    int health_increase_vit = (int)Math.Floor((double)(base_value / 2));
+                    return_array.Add("Your chest and head can take");
+                    return_array.Add("an additional " + (health_increase_vit * 10).ToString() + " wounds");
+                    return_array.Add("before becoming disabled.");
+                    break;
+                case Talisman_Type.Thunder:
+                    return_array.Add("Adds " + base_value.ToString() + "% chance to stun enemy");
+                    return_array.Add("for " + (Math.Min(base_value-1, 1)).ToString() + " turns.");
+                    break;
+                case Talisman_Type.Toxicity:
+                    return_array.Add("Adds " + base_value.ToString() + " - " + (base_value * 2).ToString() + " acid");
+                    break;
+                case Talisman_Type.Wool:
+                    return_array.Add("Adds " + primary_resist.ToString() + "% acid absorption.");
+                    return_array.Add("Adds " + primary_resist.ToString() + "% electric absorption.");
+                    return_array.Add("Adds " + secondary_resist.ToString() + "% frost absorption.");
+                    break;
+            }
+
+            if(my_talisman_type == Talisman_Type.Expediency ||
+               my_talisman_type == Talisman_Type.Heartsblood ||
+               my_talisman_type == Talisman_Type.Heat ||
+               my_talisman_type == Talisman_Type.Razors ||
+               my_talisman_type == Talisman_Type.Pressure ||
+               my_talisman_type == Talisman_Type.Toxicity ||
+               my_talisman_type == Talisman_Type.Sparks ||
+               my_talisman_type == Talisman_Type.Snow)
+                return_array.Add("damage to attacks.");
+
+            return return_array;
+        }
+
         public bool stackable_talisman()
         {
             return my_talisman_type != Talisman_Type.Tenacity &&
                    my_talisman_type != Talisman_Type.Endurance &&
-                   my_talisman_type != Talisman_Type.Bouyancy;
+                   my_talisman_type != Talisman_Type.Bouyancy &&
+                   my_talisman_type != Talisman_Type.Reach &&
+                   my_talisman_type != Talisman_Type.Thunder &&
+                   my_talisman_type != Talisman_Type.Grasping &&
+                   my_talisman_type != Talisman_Type.Distruption;
         }
 
         public bool armor_talisman()

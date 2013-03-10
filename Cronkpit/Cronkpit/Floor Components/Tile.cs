@@ -11,9 +11,10 @@ namespace Cronkpit
 {
     class Tile
     {
-        public enum Aura { None, Attack, SmellTarget, Interact };
+        public enum Aura { None, Attack, GonkTarget, Interact };
         public enum Tile_Type { StoneWall, DirtWall, StoneFloor, DirtFloor,
-                                Rubble_Wall, Rubble_Floor, Exit, Void };
+                                Rubble_Wall, Rubble_Floor, Exit, Void,
+                                Dungeon_Exit, Locked_Dungeon_Exit };
 
         private Texture2D my_Texture;
         private Texture2D my_blank_texture;
@@ -115,6 +116,20 @@ namespace Cronkpit
                     passable = false;
                     sound_absorbtion_value = 2;
                     my_Texture = textures[0];
+                    break;
+                case Tile_Type.Dungeon_Exit:
+                    opaque = false;
+                    deflect_sound = false;
+                    passable = true;
+                    sound_absorbtion_value = 1;
+                    my_Texture = textures[0];
+                    break;
+                case Tile_Type.Locked_Dungeon_Exit:
+                    opaque = false;
+                    deflect_sound = false;
+                    passable = false;
+                    sound_absorbtion_value = 2;
+                    my_Texture = textures[1];
                     break;
                 case Tile_Type.Void:
                 default:
@@ -283,7 +298,7 @@ namespace Cronkpit
                 case Aura.Attack:
                     my_color = new Color(255, 0, 0, 100);
                     break;
-                case Aura.SmellTarget:
+                case Aura.GonkTarget:
                     my_color = new Color(255, 120, 10, 100);
                     break;
             }

@@ -29,7 +29,8 @@ namespace Cronkpit
         {
             my_Texture = cont.Load<Texture2D>("Enemies/redKnightIdle");
             can_hear = true;
-            hitPoints = 10;
+            max_hitPoints = 10;
+            hitPoints = max_hitPoints;
             armorPoints = 30;
             min_damage = 2;
             max_damage = 5;
@@ -65,6 +66,9 @@ namespace Cronkpit
             melee_dodge = 5;
             ranged_dodge = 75;
             armor_effectiveness = 95;
+            set_initial_dodge_values();
+            dodge_values_degrade = false;
+            smart_monster = true;
         }
 
         public Attack generate_cleave_attack()

@@ -69,7 +69,7 @@ namespace Cronkpit
                     spData.Add(new SpawnData("ArmoredSkel", 39));
                     spData.Add(new SpawnData("Ghost", 49));
                     spData.Add(new SpawnData("GoreWolf", 59));
-                    spData.Add(new SpawnData("Necromancer", 5));
+                    spData.Add(new SpawnData("Necromancer", 64));
                     spData.Add(new SpawnData("Zombie", 99));
                     break;
                 case 9:

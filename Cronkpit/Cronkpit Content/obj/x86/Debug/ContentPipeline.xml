@@ -1421,7 +1421,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\boneyard.xnb</Output>
-      <Time>2013-02-03T18:19:03.8516535-05:00</Time>
+      <Time>2013-02-26T04:20:23.7696726-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\ghost.png</Source>
@@ -1469,69 +1469,6 @@
       <Time>2013-02-03T21:54:39.9595566-05:00</Time>
     </Item>
     <Item>
-      <Source>Fonts\sfont.spritefont</Source>
-      <Name>Fonts\sfont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\sfont.xnb</Output>
-      <Time>2012-09-30T13:29:36.231121-04:00</Time>
-    </Item>
-    <Item>
-      <Source>Fonts\tfont.spritefont</Source>
-      <Name>Fonts\tfont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\tfont.xnb</Output>
-      <Time>2012-09-30T19:28:18.3141137-04:00</Time>
-    </Item>
-    <Item>
-      <Source>Fonts\smallfont.spritefont</Source>
-      <Name>Fonts\smallfont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smallfont.xnb</Output>
-      <Time>2012-10-01T03:45:40.1359683-04:00</Time>
-    </Item>
-    <Item>
-      <Source>Fonts\popup_msg.spritefont</Source>
-      <Name>Fonts\popup_msg</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\popup_msg.xnb</Output>
-      <Time>2012-11-04T03:30:46.7837225-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Fonts\mfont.spritefont</Source>
-      <Name>Fonts\mfont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\mfont.xnb</Output>
-      <Time>2012-12-07T04:13:08.3029611-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Fonts\smallfont_bold.spritefont</Source>
-      <Name>Fonts\smallfont_bold</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smallfont_bold.xnb</Output>
-      <Time>2012-12-27T03:07:01.5429802-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Fonts\smaller_sfont.spritefont</Source>
-      <Name>Fonts\smaller_sfont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smaller_sfont.xnb</Output>
-      <Time>2012-12-30T14:53:01.8632439-05:00</Time>
-    </Item>
-    <Item>
       <Source>Icons\Scrolls\talisman_icon.png</Source>
       <Name>Icons\Scrolls\talisman_icon</Name>
       <Importer>TextureImporter</Importer>
@@ -1548,6 +1485,24 @@
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\acidblood_spritesheet.xnb</Output>
       <Time>2013-02-16T18:26:53.7708907-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Doodads\altar.png</Source>
+      <Name>Background\Doodads\altar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\altar.xnb</Output>
+      <Time>2013-02-19T02:56:11.6602967-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Doodads\corpsepile.png</Source>
+      <Name>Background\Doodads\corpsepile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\corpsepile.xnb</Output>
+      <Time>2013-02-19T02:56:11.6932986-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Necropolis\Necro_Dirtfloor.png</Source>
@@ -1658,24 +1613,6 @@
       <Time>2013-02-18T04:55:07.0596209-05:00</Time>
     </Item>
     <Item>
-      <Source>Background\Doodads\altar.png</Source>
-      <Name>Background\Doodads\altar</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\altar.xnb</Output>
-      <Time>2013-02-19T02:56:11.6602967-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Background\Doodads\corpsepile.png</Source>
-      <Name>Background\Doodads\corpsepile</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\corpsepile.xnb</Output>
-      <Time>2013-02-19T02:56:11.6932986-05:00</Time>
-    </Item>
-    <Item>
       <Source>Icons\Armors\clothhood_icon.png</Source>
       <Name>Icons\Armors\clothhood_icon</Name>
       <Importer>TextureImporter</Importer>
@@ -1710,6 +1647,150 @@
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Armors\steelhelmet_icon.xnb</Output>
       <Time>2013-02-24T04:22:23.2609125-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\sfont.spritefont</Source>
+      <Name>Fonts\sfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\sfont.xnb</Output>
+      <Time>2012-09-30T13:29:36.231121-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\tfont.spritefont</Source>
+      <Name>Fonts\tfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\tfont.xnb</Output>
+      <Time>2012-09-30T19:28:18.3141137-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\smallfont.spritefont</Source>
+      <Name>Fonts\smallfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smallfont.xnb</Output>
+      <Time>2012-10-01T03:45:40.1359683-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\popup_msg.spritefont</Source>
+      <Name>Fonts\popup_msg</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\popup_msg.xnb</Output>
+      <Time>2012-11-04T03:30:46.7837225-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\mfont.spritefont</Source>
+      <Name>Fonts\mfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\mfont.xnb</Output>
+      <Time>2012-12-07T04:13:08.3029611-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\smallfont_bold.spritefont</Source>
+      <Name>Fonts\smallfont_bold</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smallfont_bold.xnb</Output>
+      <Time>2012-12-27T03:07:01.5429802-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\smaller_sfont.spritefont</Source>
+      <Name>Fonts\smaller_sfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Fonts\smaller_sfont.xnb</Output>
+      <Time>2012-12-30T14:53:01.8632439-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\boneyard_biting.png</Source>
+      <Name>Enemies\boneyard_biting</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Enemies\boneyard_biting.xnb</Output>
+      <Time>2013-02-26T04:20:23.8246758-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\big_bite_spritesheet.png</Source>
+      <Name>Projectiles\big_bite_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\big_bite_spritesheet.xnb</Output>
+      <Time>2013-03-02T20:42:35.2752498-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\bite_spritesheet.png</Source>
+      <Name>Projectiles\bite_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\bite_spritesheet.xnb</Output>
+      <Time>2013-03-02T20:42:35.3002512-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\bonespear.png</Source>
+      <Name>Projectiles\bonespear</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\bonespear.xnb</Output>
+      <Time>2013-03-02T20:42:35.3382534-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\alert_spritesheet.png</Source>
+      <Name>Projectiles\alert_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\alert_spritesheet.xnb</Output>
+      <Time>2013-03-03T16:44:31.8560823-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\warning_reticule_spritesheet.png</Source>
+      <Name>Projectiles\warning_reticule_spritesheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\warning_reticule_spritesheet.xnb</Output>
+      <Time>2013-03-05T03:26:03.4924753-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Projectiles\blood_acidblob.png</Source>
+      <Name>Projectiles\blood_acidblob</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Projectiles\blood_acidblob.xnb</Output>
+      <Time>2013-03-08T04:42:13.6812671-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_dungeon_exit_closed.png</Source>
+      <Name>Background\Necropolis\Necro_dungeon_exit_closed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_dungeon_exit_closed.xnb</Output>
+      <Time>2013-03-08T04:52:44.4133429-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_dungeon_exit_open.png</Source>
+      <Name>Background\Necropolis\Necro_dungeon_exit_open</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_dungeon_exit_open.xnb</Output>
+      <Time>2013-03-08T04:52:44.4163431-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

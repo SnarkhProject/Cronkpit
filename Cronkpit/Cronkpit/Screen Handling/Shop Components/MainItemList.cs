@@ -67,6 +67,10 @@ namespace Cronkpit
             shared_items.Add(new Weapon(41, 250, "Training Staff", Weapon.Type.Staff, 2, 2, 3, 2));
             shared_items.Add(new Weapon(42, 1750, "Quarterstaff", Weapon.Type.Staff, 2, 4, 8, 2));
             shared_items.Add(new Weapon(43, 3500, "Mockernut Staff", Weapon.Type.Staff, 2, 5, 12, 3));
+            shared_items.Add(new Armor(44, 1250, "Cobalt Helmet", 4, 9, 9, 2, 3, 8, Armor.Armor_Type.Helmet));
+            shared_items.Add(new Armor(45, 250, "Cloth Hood", 2, 4, 4, 0, 0, 4, Armor.Armor_Type.Helmet));
+            shared_items.Add(new Armor(46, 1250, "Steel Helmet", 9, 0, 0, 12, 12, 8, Armor.Armor_Type.Helmet));
+            shared_items.Add(new Armor(47, 3000, "Pitsteel Warhelm", 10, 5, 0, 18, 14, 12, Armor.Armor_Type.Helmet));
         }
 
         public void build_universal_talisman_list()
@@ -193,7 +197,8 @@ namespace Cronkpit
             {
                 Talisman.Talisman_Type T_Type = available_talisman_types[rGen.Next(available_talisman_types.Count)];
                 Talisman.Talisman_Prefix T_Prefix = 0;
-                if (T_Type == Talisman.Talisman_Type.Endurance || T_Type == Talisman.Talisman_Type.Tenacity)
+                if (T_Type == Talisman.Talisman_Type.Endurance || T_Type == Talisman.Talisman_Type.Tenacity ||
+                    T_Type == Talisman.Talisman_Type.Reach)
                 {
                     if (rGen.Next(2) == 0)
                         T_Prefix = Talisman.Talisman_Prefix.Average;

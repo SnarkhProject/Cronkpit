@@ -61,7 +61,14 @@ namespace Cronkpit
 
         public int get_range()
         {
-            return max_range;
+            int modified_range = max_range;
+            for (int i = 0; i < talismans_equipped.Count; i++)
+            {
+                if (talismans_equipped[i].get_my_type() == Talisman.Talisman_Type.Reach)
+                    modified_range += (int)Math.Floor((double)((int)talismans_equipped[i].get_my_prefix() + 1 / 2));
+            }
+
+            return modified_range;
         }
 
         public int get_aoe_size()
@@ -122,7 +129,7 @@ namespace Cronkpit
             }
         }
 
-        public override List<string> get_my_information()
+        public override List<string> get_my_information(bool in_shop)
         {
             List<string> info = new List<string>();
 
@@ -161,6 +168,25 @@ namespace Cronkpit
             info.Add("Range: " + max_range);
             if (melee_range)
                 info.Add("Cast at melee range.");
+            if (!in_shop)
+            {
+                info.Add(" ");
+                switch (talismans_equipped.Count)
+                {
+                    case 0:
+                        info.Add("[ ] - No Talisman");
+                        info.Add("[ ] - No Talisman");
+                        break;
+                    case 1:
+                        info.Add("[X] - " + talismans_equipped[0].get_my_name());
+                        info.Add("[ ] - No Talisman");
+                        break;
+                    case 2:
+                        info.Add("[X] - " + talismans_equipped[0].get_my_name());
+                        info.Add("[X] - " + talismans_equipped[1].get_my_name());
+                        break;
+                }
+            }
             info.Add(" ");
             switch (my_sType)
             {

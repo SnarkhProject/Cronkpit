@@ -17,7 +17,8 @@ namespace Cronkpit
         {
             my_Texture = cont.Load<Texture2D>("Enemies/hollowKnight_idle");
             can_hear = true;
-            hitPoints = 5;
+            max_hitPoints = 5;
+            hitPoints = max_hitPoints;
             armorPoints = 22;
             min_damage = 1;
             max_damage = 3;
@@ -34,6 +35,8 @@ namespace Cronkpit
             melee_dodge = 5;
             ranged_dodge = 95;
             armor_effectiveness = 95;
+            set_initial_dodge_values();
+            dodge_values_degrade = false;
         }
 
         public void set_to_activeTexture()

@@ -60,8 +60,9 @@ namespace Cronkpit
                     dmg_type = Attack.Damage.Slashing;
                     break;
             }
-            
-            hitPoints = 12;
+
+            max_hitPoints = 12;
+            hitPoints = max_hitPoints;
             can_melee_attack = true;
             last_seen_player_at = new gridCoordinate(my_grid_coords[0]);
 
@@ -75,11 +76,13 @@ namespace Cronkpit
             my_name = "Skeleton";
             melee_dodge = 10;
             ranged_dodge = 10;
+            set_initial_dodge_values();
         }
 
         public override void Update_Monster(Player pl, Floor fl)
         {
             has_moved = false;
+            heal_near_altar(fl);
 
             if (is_player_within(pl, sight_range))
                 can_see_player = can_i_see_point(fl, pl.get_my_grid_C());

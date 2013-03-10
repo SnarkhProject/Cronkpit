@@ -8,15 +8,12 @@ namespace Cronkpit
     class Limb
     {
         int injuries;
+        int open_wounds;
+        int burn_wounds;
         Random rGen;
         string long_name;
         string short_name;
         int max_health;
-
-        String[] open_wounds = { "minor cut", "cut", "slash", "heavy slash", "gaping wound" };
-        String[] impact_wounds = { "bruise", "large bruise", "bruised bone", "fracture", "broken bone" };
-        String[] burn_wounds = { "blister", "minor burn", "burn", "severe burn", "horrific burn" };
-        String[] frost_wounds = { "chillblains", "frostnip", "frostbite", "deep frostbite", "frostburn" };
 
         public Limb(ref Random r_gen, string lname, string sname, int mhealth)
         {
@@ -32,14 +29,48 @@ namespace Cronkpit
             return injuries / 10 >= max_health;
         }
 
-        public void add_injury(int inj_severity)
+        public void add_injury(Attack.Damage dmg_type, int inj_severity)
         {
+            if (dmg_type == Attack.Damage.Slashing || dmg_type == Attack.Damage.Piercing)
+            {
+                if (open_wounds < 3)
+                {
+                    int chance_for_new_ow = 100 - open_wounds * 33;
+                    if (dmg_type == Attack.Damage.Piercing)
+                        chance_for_new_ow /= 2;
+                    if (rGen.Next(100) < chance_for_new_ow)
+                        open_wounds++;
+                }
+            }
+
+            if (dmg_type == Attack.Damage.Fire)
+            {
+                if (burn_wounds < 3)
+                {
+                    int chance_for_new_bw = 100 - burn_wounds * 33;
+                    if (rGen.Next(100) < chance_for_new_bw)
+                        burn_wounds++;
+                }
+            }
+
             injuries += inj_severity;
         }
 
         public void heal_via_potion(int potency)
         {
-            injuries -= potency;
+            for (int i = 0; i < potency; i++)
+            {
+                int cure_roll = rGen.Next(10);
+
+                if (open_wounds > 0 && cure_roll == 0)
+                    open_wounds--;
+
+                if (burn_wounds > 0 && cure_roll == 1)
+                    burn_wounds--;
+            }
+
+            injuries = Math.Max(injuries - potency, 0);
+            
         }
 
         public int count_inj_severity_factor()
@@ -50,6 +81,10 @@ namespace Cronkpit
         public void consolidate_injury_report(ref List<string> wReport)
         {
             wReport.Add(injuries.ToString() + " wounds.");
+            if (open_wounds > 0)
+                wReport.Add(open_wounds.ToString() + " open wounds.");
+            if (burn_wounds > 0)
+                wReport.Add(burn_wounds.ToString() + " burn wounds.");
         }
 
         public bool is_uninjured()
@@ -70,6 +105,16 @@ namespace Cronkpit
         public int get_max_health()
         {
             return max_health;
+        }
+
+        public int get_open_wounds()
+        {
+            return open_wounds;
+        }
+
+        public int get_burn_wounds()
+        {
+            return burn_wounds;
         }
     }
 }

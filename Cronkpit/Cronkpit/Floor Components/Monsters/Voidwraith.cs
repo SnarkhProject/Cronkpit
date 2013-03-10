@@ -23,7 +23,8 @@ namespace Cronkpit
             : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_Texture = cont.Load<Texture2D>("Enemies/voidwraith");
-            hitPoints = 15;
+            max_hitPoints = 15;
+            hitPoints = max_hitPoints;
             min_damage = 1;
             max_damage = 2;
             dmg_type = Attack.Damage.Acid;
@@ -37,6 +38,7 @@ namespace Cronkpit
             my_name = "Void Wraith";
             melee_dodge = 40;
             ranged_dodge = 40;
+            set_initial_dodge_values();
         }
 
         public override void Update_Monster(Player pl, Floor fl)

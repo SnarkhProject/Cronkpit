@@ -55,8 +55,9 @@ namespace Cronkpit
                     dmg_type = Attack.Damage.Fire;
                     break;
             }
-            
-            hitPoints = 18;
+
+            max_hitPoints = 18;
+            hitPoints = max_hitPoints;
             armorPoints = 20;
             can_melee_attack = true;
             last_seen_player_at = new gridCoordinate(my_grid_coords[0]);
@@ -75,6 +76,8 @@ namespace Cronkpit
             ranged_dodge = 15;
             armor_effectiveness = 70;
             acid_cloud_cooldown = 0;
+            set_initial_dodge_values();
+            smart_monster = true;
         }
 
         public void halberdier_linear_spear_stab(Player pl, Floor fl, int x_difference, int y_difference)
@@ -156,6 +159,8 @@ namespace Cronkpit
         {
             if (acid_cloud_cooldown > 0)
                 acid_cloud_cooldown--;
+
+            heal_near_altar(fl);
 
             if (is_player_within(pl, sight_range))
                 can_see_player = can_i_see_point(fl, pl.get_my_grid_C());

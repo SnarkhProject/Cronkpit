@@ -25,7 +25,7 @@ namespace Cronkpit
         int modified_hardness_value;
         int absorb_all;
 
-        public enum Attack_Zone { Chest, R_Arm, R_Leg, L_Arm, L_Leg };
+        public enum Attack_Zone { Head, Chest, R_Arm, R_Leg, L_Arm, L_Leg };
         int max_integrity;
         int max_chest_integrity;
         int c_chest_integ;
@@ -33,6 +33,7 @@ namespace Cronkpit
         int c_larm_integ;
         int c_rleg_integ;
         int c_lleg_integ;
+        int c_helm_integ;
 
         public Armor(int IDno, int goldVal, string myName,
                     int ab_val, int ins_val, int pad_val, int rig_val, int hard_val, 
@@ -52,6 +53,7 @@ namespace Cronkpit
             c_larm_integ = max_integrity;
             c_rleg_integ = max_integrity;
             c_lleg_integ = max_integrity;
+            c_helm_integ = max_integrity;
 
             my_armor_type = a_type;
             talismans_equipped = new List<Talisman>();
@@ -73,6 +75,7 @@ namespace Cronkpit
             c_larm_integ = max_integrity;
             c_rleg_integ = max_integrity;
             c_lleg_integ = max_integrity;
+            c_helm_integ = max_integrity;
 
             my_armor_type = a.what_armor_type();
             talismans_equipped = a.get_my_equipped_talismans();
@@ -133,7 +136,7 @@ namespace Cronkpit
             }
         }
 
-        public override List<string> get_my_information()
+        public override List<string> get_my_information(bool in_shop)
         {
             List<string> return_array = new List<string>();
             calculate_modified_values();
@@ -149,30 +152,33 @@ namespace Cronkpit
             else
                 is_over_armor += "Helmet";
             return_array.Add(is_over_armor);
-            return_array.Add(" ");
-            switch (talismans_equipped.Count)
+            if (!in_shop)
             {
-                case 0:
-                    return_array.Add("[ ] - No Talisman");
-                    return_array.Add("[ ] - No Talisman");
-                    break;
-                case 1:
-                    return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
-                    return_array.Add("[ ] - No Talisman");
-                    break;
-                case 2:
-                    return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
-                    return_array.Add("[X] - " + talismans_equipped[1].get_my_name());
-                    break;
+                return_array.Add(" ");
+                switch (talismans_equipped.Count)
+                {
+                    case 0:
+                        return_array.Add("[ ] - No Talisman");
+                        return_array.Add("[ ] - No Talisman");
+                        break;
+                    case 1:
+                        return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
+                        return_array.Add("[ ] - No Talisman");
+                        break;
+                    case 2:
+                        return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
+                        return_array.Add("[X] - " + talismans_equipped[1].get_my_name());
+                        break;
+                }
             }
             return_array.Add(" ");
-            return_array.Add("Protective values:");
-            return_array.Add("Ablative: " + modified_ablative_value.ToString());
-            return_array.Add("Insulative: " + modified_insulative_value.ToString());
-            return_array.Add("Padding: " + modified_padding_value.ToString());
-            return_array.Add("Rigidity: " + modified_rigidness_value.ToString());
-            return_array.Add("Hardness: " + modified_hardness_value.ToString());
-            return_array.Add("Integrity: " + max_integrity.ToString());
+            return_array.Add("Absorbs " + ((modified_hardness_value * 4) + (modified_rigidness_value * 2) + absorb_all) + "% slashing damage.");
+            return_array.Add("Absorbs " + ((modified_rigidness_value * 4) + (modified_padding_value * 2) + absorb_all) + "% crushing damage.");
+            return_array.Add("Absorbs " + ((modified_hardness_value * 4) + (modified_padding_value * 2) + absorb_all) + "% piercing damage.");
+            return_array.Add("Absorbs " + ((modified_ablative_value * 4) + (modified_rigidness_value * 2) + absorb_all) + "% fire damage.");
+            return_array.Add("Absorbs " + ((modified_padding_value * 4) + (modified_insulative_value * 2) + absorb_all) + "% frost damage");
+            return_array.Add("Absorbs " + ((modified_insulative_value * 4) + (modified_padding_value * 2) + absorb_all) + "% electric damage.");
+            return_array.Add("Absorbs " + ((modified_insulative_value * 4) + (modified_ablative_value * 2) + absorb_all) + "% acid damage.");
 
             return return_array;
         }
@@ -224,6 +230,14 @@ namespace Cronkpit
                 {
                     switch (area)
                     {
+                        case Attack_Zone.Head:
+                            if (c_helm_integ > 0)
+                            {
+                                c_helm_integ--;
+                                atk.decrease_severity(1);
+                                attacks_absorbed++;
+                            }
+                            break;
                         case Attack_Zone.Chest:
                             if (c_chest_integ > 0)
                             {
@@ -270,10 +284,17 @@ namespace Cronkpit
 
             if(attacks_absorbed > 0)
             {
-                string msg_buf_msg = "Your armor's ";
+                string msg_buf_msg = "Your";
+                if (area != Attack_Zone.Head)
+                    msg_buf_msg += " armor's ";
+                else
+                    msg_buf_msg += " helmet ";
                 string fl_popup_msg = "";
                 switch (area)
                 {
+                    case Attack_Zone.Head:
+                        fl_popup_msg = "Head";
+                        break;
                     case Attack_Zone.Chest:
                         msg_buf_msg += "chest ";
                         fl_popup_msg = "Chest";
@@ -428,6 +449,11 @@ namespace Cronkpit
         public int get_rleg_integ()
         {
             return c_rleg_integ;
+        }
+
+        public int get_helm_integ()
+        {
+            return c_helm_integ;
         }
 
         public int get_max_integ()

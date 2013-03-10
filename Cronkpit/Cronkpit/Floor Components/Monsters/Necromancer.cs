@@ -56,7 +56,8 @@ namespace Cronkpit
                 melee_damage_type = Attack.Damage.Slashing;
             }
 
-            hitPoints = 34;
+            max_hitPoints = 34;
+            hitPoints = max_hitPoints;
             armorPoints = 5;
 
             min_acidsplash_dmg = 1;
@@ -81,6 +82,8 @@ namespace Cronkpit
             melee_dodge = 5;
             ranged_dodge = 5;
             armor_effectiveness = 10;
+            set_initial_dodge_values();
+            smart_monster = true;
         }
 
         public List<gridCoordinate> acid_splash_matrix(gridCoordinate target_coord)
@@ -95,8 +98,9 @@ namespace Cronkpit
             return splash_matrix;
         }
 
-        public void create_minor_undead(gridCoordinate pl_gc, Floor fl)
+        public void create_minor_undead(Player pl, Floor fl)
         {
+            gridCoordinate pl_gc = pl.get_my_grid_C();
             List<Monster> fl_monsters = fl.see_badGuys();
             int monsterType = rGen.Next(3);
             int skeletonType = rGen.Next(6);
@@ -135,46 +139,125 @@ namespace Cronkpit
                     if (valid_number)
                         found_valid_number = true;
                 }
-
-                switch (monsterType)
-                {
-                    case 0:
-                        fl_monsters.Add(new Zombie(monster_position, cont, next_index));
-                        break;
-                    case 1:
-                        fl_monsters.Add(new GoreHound(monster_position, cont, next_index));
-                        break;
-                    case 2:
-                        Skeleton.Skeleton_Weapon_Type skelweapon = 0;
-                        switch (skeletonType)
-                        {
-                            case 0:
-                                skelweapon = Skeleton.Skeleton_Weapon_Type.Fist;
-                                break;
-                            case 1:
-                                skelweapon = Skeleton.Skeleton_Weapon_Type.Axe;
-                                break;
-                            case 2:
-                                skelweapon = Skeleton.Skeleton_Weapon_Type.Bow;
-                                break;
-                            case 3:
-                                skelweapon = Skeleton.Skeleton_Weapon_Type.Flamebolt;
-                                break;
-                            case 4:
-                                skelweapon = Skeleton.Skeleton_Weapon_Type.Spear;
-                                break;
-                            case 5:
-                                skelweapon = Skeleton.Skeleton_Weapon_Type.Sword;
-                                break;
-                        }
-                        fl_monsters.Add(new Skeleton(monster_position, cont, next_index, skelweapon));
-                        break;
-                }
-                create_minor_undead_cooldown = 10;
                 fl.add_new_popup("Summoned!", Popup.popup_msg_color.Purple, monster_position);
+                add_minor_undead(fl, monsterType, skeletonType, 
+                                 next_index, monster_position, false, pl);
+                create_minor_undead_cooldown = 10;
             }
             else
                 create_minor_undead_cooldown = 5;
+
+            raise_additional_undead(fl, pl, 1);
+        }
+
+        public void raise_additional_undead(Floor fl, Player pl, int grade)
+        {
+            if (is_doodad_within(fl, sight_range - 1, Doodad.Doodad_Type.CorpsePile))
+            {
+                List<Doodad> corpses = new List<Doodad>();
+                int corpse_index = 0;
+                while (fl.Doodad_by_index(corpse_index) != null)
+                {
+                    Doodad d = fl.Doodad_by_index(corpse_index);
+                    gridCoordinate corpse_position = d.get_g_coord();
+                    if(d.get_my_doodad_type() == Doodad.Doodad_Type.CorpsePile &&
+                       corpse_position.x <= my_grid_coords[0].x + (sight_range-1) && 
+                       corpse_position.x >= my_grid_coords[0].x - (sight_range-1) &&
+                       corpse_position.y <= my_grid_coords[0].y + (sight_range-1) && 
+                       corpse_position.y >= my_grid_coords[0].y - (sight_range-1) &&
+                       can_i_see_point(fl, corpse_position, VisionRay.fineness.Roughest) &&
+                       !occupies_tile(corpse_position))
+                        corpses.Add(fl.Doodad_by_index(corpse_index));
+                    corpse_index++;
+                }
+
+                int target_corpse = rGen.Next(corpses.Count);
+                int corpse_ID = corpses[target_corpse].get_my_index();
+                gridCoordinate rezzed_corpse_pos = new gridCoordinate(corpses[target_corpse].get_g_coord());
+                fl.remove_doodad_at_index(corpse_ID);
+
+                List<Monster> fl_monsters = fl.see_badGuys();
+                int next_index = -1;
+                bool found_valid_number = false;
+                while (!found_valid_number)
+                {
+                    next_index++;
+                    bool valid_number = true;
+                    for (int i = 0; i < fl_monsters.Count; i++)
+                    {
+                        if (next_index == fl_monsters[i].my_Index)
+                            valid_number = false;
+                    }
+
+                    if (valid_number)
+                        found_valid_number = true;
+                }
+
+                int whoCares = -1;
+                bool force_wander = (pl.get_my_grid_C().x == rezzed_corpse_pos.x &&
+                                     pl.get_my_grid_C().y == rezzed_corpse_pos.y) ||
+                                     fl.is_monster_here(rezzed_corpse_pos, out whoCares) ||
+                                     !fl.isWalkable(rezzed_corpse_pos);
+                switch (grade)
+                {
+                    //Minor undead
+                    case 1:
+                        int minor_monster_type = rGen.Next(3);
+                        int minor_skel_type = rGen.Next(6);
+                        add_minor_undead(fl, minor_monster_type, minor_skel_type,
+                                         next_index, rezzed_corpse_pos, force_wander, pl);
+                        break;
+                    //Major undead
+                    case 2:
+                        break;
+                    //Lethal undead
+                    case 3:
+                        break;
+                }
+                fl.add_new_popup("Summoned!", Popup.popup_msg_color.Purple, rezzed_corpse_pos);
+            }
+        }
+
+        public void add_minor_undead(Floor fl, int minor_monster_type, 
+                                     int minor_skeleton_type, int next_monster_index, 
+                                     gridCoordinate monster_position, bool force_wander, Player pl)
+        {
+            switch (minor_monster_type)
+            {
+                case 0:
+                    fl.see_badGuys().Add(new Zombie(monster_position, cont, next_monster_index));
+                    break;
+                case 1:
+                    fl.see_badGuys().Add(new GoreHound(monster_position, cont, next_monster_index));
+                    break;
+                case 2:
+                    Skeleton.Skeleton_Weapon_Type skelweapon = 0;
+                    switch (minor_skeleton_type)
+                    {
+                        case 0:
+                            skelweapon = Skeleton.Skeleton_Weapon_Type.Fist;
+                            break;
+                        case 1:
+                            skelweapon = Skeleton.Skeleton_Weapon_Type.Axe;
+                            break;
+                        case 2:
+                            skelweapon = Skeleton.Skeleton_Weapon_Type.Bow;
+                            break;
+                        case 3:
+                            skelweapon = Skeleton.Skeleton_Weapon_Type.Flamebolt;
+                            break;
+                        case 4:
+                            skelweapon = Skeleton.Skeleton_Weapon_Type.Spear;
+                            break;
+                        case 5:
+                            skelweapon = Skeleton.Skeleton_Weapon_Type.Sword;
+                            break;
+                    }
+                    fl.see_badGuys().Add(new Skeleton(monster_position, cont, next_monster_index, skelweapon));
+                    break;
+            }
+            if (force_wander)
+                fl.force_monster_wander(next_monster_index, pl);
         }
 
         public override void Update_Monster(Player pl, Floor fl)
@@ -192,6 +275,8 @@ namespace Cronkpit
                 create_major_undead_cooldown--;
             if (acid_splash_cooldown > 0)
                 acid_splash_cooldown--;
+
+            heal_near_altar(fl);
 
             if (!active)
             {
@@ -221,7 +306,7 @@ namespace Cronkpit
                     {
                         if (create_minor_undead_cooldown == 0 && fl.check_mana() >= create_minor_manacost)
                         {
-                            create_minor_undead(pl.get_my_grid_C(), fl);
+                            create_minor_undead(pl, fl);
                             fl.consume_mana(create_minor_manacost);
                         }
                         else

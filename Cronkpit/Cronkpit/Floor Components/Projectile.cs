@@ -12,12 +12,14 @@ namespace Cronkpit
     class Projectile
     {
         public enum projectile_type { Blank, Arrow, Flamebolt, Frostbolt, Javelin, 
-                                      AcidCloud, Crossbow_Bolt, Fireball, Lightning_Bolt };
+                                      AcidCloud, Crossbow_Bolt, Fireball, Lightning_Bolt, Bonespear,
+                                      Bloody_AcidCloud };
         projectile_type my_prj_type;
-        public enum special_anim { None, Earthquake };
+        public enum special_anim { None, Earthquake, Alert, BloodAcid };
         Scroll.Atk_Area_Type attack_type;
         bool monster_projectile;
         bool destroys_walls;
+        bool damaging_projectile;
         int max_damage;
         int min_damage;
         int bounce_range;
@@ -37,6 +39,7 @@ namespace Cronkpit
 
         //Spell info
         List<gridCoordinate> Small_AoE_Matrix;
+        List<Talisman> talisman_effects;
 
         //Used for AoE purposes only
         int AoE_size;
@@ -46,7 +49,7 @@ namespace Cronkpit
         //Start coord and end coord, type of projectile and content manager.
         //Also whether it's a monster projectile or not + attack area type
         public Projectile(gridCoordinate start_gCoord, gridCoordinate end_gCoord, projectile_type myType, ref ContentManager cmanage, 
-                          bool monster_proj, Scroll.Atk_Area_Type atk_a_typ)
+                          bool monster_proj, Scroll.Atk_Area_Type atk_a_typ, bool damage_projectile = true)
         {
             my_type = myType;
             int offset = 0;
@@ -73,6 +76,9 @@ namespace Cronkpit
                 case projectile_type.AcidCloud:
                     my_texture = cmanage.Load<Texture2D>("Projectiles/acidblob");
                     break;
+                case projectile_type.Bloody_AcidCloud:
+                    my_texture = cmanage.Load<Texture2D>("Projectiles/blood_acidblob");
+                    break;
                 case projectile_type.Fireball:
                     my_texture = cmanage.Load<Texture2D>("Projectiles/fireball");
                     break;
@@ -83,8 +89,12 @@ namespace Cronkpit
                 case projectile_type.Lightning_Bolt:
                     my_texture = cmanage.Load<Texture2D>("Projectiles/lightningbolt");
                     break;
+                case projectile_type.Bonespear:
+                    my_texture = cmanage.Load<Texture2D>("Projectiles/bonespear");
+                    break;
             }
             monster_projectile = monster_proj;
+            damaging_projectile = damage_projectile;
 
             my_start_coordinate = new gridCoordinate(start_gCoord);
             my_end_coordinate = new gridCoordinate(end_gCoord);
@@ -175,6 +185,10 @@ namespace Cronkpit
             destroys_walls = destroy;
         }
 
+        public void set_talisman_effects(List<Talisman> effects)
+        {
+            talisman_effects = effects;
+        }
         //Getters
         public List<gridCoordinate> get_small_AOE_matrix()
         {
@@ -241,10 +255,20 @@ namespace Cronkpit
 
         public gridCoordinate get_center_rect_GC()
         {
-            int c_x_val = (int)Math.Floor((double)((my_rectangle.X + my_rectangle.Width / 2)/32));
-            int c_y_val = (int)Math.Floor((double)((my_rectangle.Y + my_rectangle.Width / 2)/32));
+            int c_x_val = (int)Math.Floor((double)((my_rectangle.X + (my_rectangle.Width / 2))/32));
+            int c_y_val = (int)Math.Floor((double)((my_rectangle.Y + (my_rectangle.Height / 2))/32));
 
             return new gridCoordinate(c_x_val, c_y_val);
+        }
+
+        public List<Talisman> get_talisman_effects()
+        {
+            return talisman_effects;
+        }
+
+        public bool is_damaging_projectile()
+        {
+            return damaging_projectile;
         }
     }
 }

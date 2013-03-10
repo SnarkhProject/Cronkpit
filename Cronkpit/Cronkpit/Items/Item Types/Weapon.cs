@@ -91,7 +91,7 @@ namespace Cronkpit
                 damageType = Attack.Damage.Fire;
         }
 
-        public override List<string> get_my_information()
+        public override List<string> get_my_information(bool in_shop)
         {
             List<string> return_array = new List<string>();
 
@@ -147,21 +147,24 @@ namespace Cronkpit
                     break;
             }
             return_array.Add(d_type);
-            return_array.Add(" ");
-            switch (talismans_equipped.Count)
+            if (!in_shop)
             {
-                case 0:
-                    return_array.Add("[ ] - No Talisman");
-                    return_array.Add("[ ] - No Talisman");
-                    break;
-                case 1:
-                    return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
-                    return_array.Add("[ ] - No Talisman");
-                    break;
-                case 2:
-                    return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
-                    return_array.Add("[X] - " + talismans_equipped[1].get_my_name());
-                    break;
+                return_array.Add(" ");
+                switch (talismans_equipped.Count)
+                {
+                    case 0:
+                        return_array.Add("[ ] - No Talisman");
+                        return_array.Add("[ ] - No Talisman");
+                        break;
+                    case 1:
+                        return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
+                        return_array.Add("[ ] - No Talisman");
+                        break;
+                    case 2:
+                        return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
+                        return_array.Add("[X] - " + talismans_equipped[1].get_my_name());
+                        break;
+                }
             }
             return_array.Add(" ");
             return_array.Add("Minimum Damage: " + min_damage*hands);
@@ -192,20 +195,21 @@ namespace Cronkpit
         public List<Attack> damage(ref Random rGen)
         {
             List<Attack> list_of_attacks = new List<Attack>();
-            int modified_min_damage = min_damage;
-            int modified_max_damage = max_damage;
-            int modifier_value = 0;
 
+            int base_damage = rGen.Next(min_damage, max_damage+1) * hands;
+            int min_damage_modifier = 0;
+            int max_damage_modifier = 0;
             for (int i = 0; i < talismans_equipped.Count; i++)
             {
                 if (talismans_equipped[i].get_my_type() == Talisman.Talisman_Type.Expediency)
                 {
                     int base_val = (int)talismans_equipped[i].get_my_prefix() + 2;
-                    modified_min_damage += modifier_value;
-                    modified_max_damage += (modifier_value * 2);
+                    min_damage_modifier += base_val;
+                    max_damage_modifier += (base_val * 2);
                 }
             }
-            list_of_attacks.Add(new Attack(damageType, rGen.Next(modified_min_damage, modified_max_damage+1)));
+            base_damage += rGen.Next(min_damage_modifier, max_damage_modifier + 1);
+            list_of_attacks.Add(new Attack(damageType, base_damage));
 
             for (int i = 0; i < talismans_equipped.Count; i++)
             {
@@ -261,7 +265,14 @@ namespace Cronkpit
 
         public int get_my_range()
         {
-            return weapon_range;
+            int modified_range = weapon_range;
+            for (int i = 0; i < talismans_equipped.Count; i++)
+            {
+                if (talismans_equipped[i].get_my_type() == Talisman.Talisman_Type.Reach)
+                    modified_range += (int)Math.Floor((double)(((int)talismans_equipped[i].get_my_prefix() + 1) / 2));
+            }
+
+            return modified_range;
         }
 
         public int get_current_cooldown()

@@ -34,10 +34,9 @@ namespace Cronkpit
             am_i_visible = false;
         }
 
-        public void shift_coordinates(int xshift, int yshift)
+        public void shift_coordinates(gridCoordinate.direction dir)
         {
-            my_grid_coord.x += xshift;
-            my_grid_coord.y += yshift;
+            my_grid_coord.shift_direction(dir);
 
             reset_drawing_position();
         }

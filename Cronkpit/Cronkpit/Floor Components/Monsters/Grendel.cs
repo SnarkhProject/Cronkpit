@@ -37,7 +37,8 @@ namespace Cronkpit
                     break;
             }
 
-            hitPoints = 37;
+            max_hitPoints = 37;
+            hitPoints = max_hitPoints;
             can_melee_attack = true;
             last_seen_player_at = new gridCoordinate(my_grid_coords[0]);
 
@@ -53,6 +54,8 @@ namespace Cronkpit
             my_name = "Grendel";
             melee_dodge = 5;
             ranged_dodge = 5;
+            set_initial_dodge_values();
+            smart_monster = true;
         }
 
         public override void Update_Monster(Player pl, Floor fl)

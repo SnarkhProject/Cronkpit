@@ -205,7 +205,7 @@ namespace Cronkpit
                     if (selected_item_index > armors_in_stock.Count)
                         selected_item_index = 0;
                     if(selected_item_index < armors_in_stock.Count)
-                        current_item_info = armors_in_stock[selected_item_index].get_my_information();
+                        current_item_info = armors_in_stock[selected_item_index].get_my_information(true);
                     break;
                 case Shopping_Mode.Weapons:
                     selectedIndex = 0;
@@ -215,7 +215,7 @@ namespace Cronkpit
                     if (selected_item_index > weapons_in_stock.Count)
                         selected_item_index = 0;
                     if (selected_item_index < weapons_in_stock.Count)
-                        current_item_info = weapons_in_stock[selected_item_index].get_my_information();
+                        current_item_info = weapons_in_stock[selected_item_index].get_my_information(true);
                     break;
                 case Shopping_Mode.Consumables:
                     selectedIndex = 0;
@@ -225,7 +225,7 @@ namespace Cronkpit
                     if (selected_item_index > consumables_in_stock.Count)
                         selected_item_index = 0;
                     if (selected_item_index < consumables_in_stock.Count)
-                        current_item_info = consumables_in_stock[selected_item_index].get_my_information();
+                        current_item_info = consumables_in_stock[selected_item_index].get_my_information(true);
                     break;
                 case Shopping_Mode.Talismans:
                     selectedIndex = 0;
@@ -235,7 +235,7 @@ namespace Cronkpit
                     if (selected_item_index > talismans_in_stock.Count)
                         selected_item_index = 0;
                     if (selected_item_index < talismans_in_stock.Count)
-                        current_item_info = talismans_in_stock[selected_item_index].get_my_information();
+                        current_item_info = talismans_in_stock[selected_item_index].get_my_information(true);
                     break;
                 case Shopping_Mode.Sell:
                     selectedIndex = 0;
@@ -245,7 +245,7 @@ namespace Cronkpit
                     if (selected_item_index > items_to_sell.Count)
                         selected_item_index = 0;
                     if (selected_item_index < items_to_sell.Count)
-                        current_item_info = items_to_sell[selected_item_index].get_my_information();
+                        current_item_info = items_to_sell[selected_item_index].get_my_information(true);
                     break;
                 case Shopping_Mode.Buyback:
                     selectedIndex = 0;
@@ -255,7 +255,7 @@ namespace Cronkpit
                     if (selected_item_index > sold_items.Count)
                         selected_item_index = 0;
                     if (selected_item_index < sold_items.Count)
-                        current_item_info = sold_items[selected_item_index].get_my_information();
+                        current_item_info = sold_items[selected_item_index].get_my_information(false);
                     break;
                 case Shopping_Mode.Scrolls:
                     selectedIndex = 0;
@@ -265,7 +265,7 @@ namespace Cronkpit
                     if (selected_item_index > scrolls_in_stock.Count)
                         selected_item_index = 0;
                     if (selected_item_index < scrolls_in_stock.Count)
-                        current_item_info = scrolls_in_stock[selected_item_index].get_my_information();
+                        current_item_info = scrolls_in_stock[selected_item_index].get_my_information(true);
                     break;
             }
         }
@@ -783,7 +783,7 @@ namespace Cronkpit
                             tint = highlighted;
                         else
                             tint = normal;
-                        sBatch.DrawString(sFont, talismans_in_stock[i].get_my_name(), position2, tint);
+                        sBatch.DrawString(smaller_Font, talismans_in_stock[i].get_my_name(), position2, tint);
                         position2.Y += sFont.LineSpacing;
                     }
                     if (selected_item_index == talismans_in_stock.Count)

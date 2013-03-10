@@ -126,6 +126,7 @@ namespace Cronkpit
         Rectangle off_hand_equip_slot;
         Rectangle over_armor_equip_slot;
         Rectangle under_armor_equip_slot;
+        Rectangle helmet_equip_slot;
         Rectangle draggable_item_rect;
 
         List<string> pl_equipment_report;
@@ -182,6 +183,7 @@ namespace Cronkpit
             off_hand_equip_slot = new Rectangle(my_xPosition + ptBG_xPos + 140, e_rects_start_Y + 225, 48, 48);
             over_armor_equip_slot = new Rectangle(my_xPosition + ptBG_xPos + ((ptBG_width - 48) / 2), e_rects_start_Y + 180, 48, 48);
             under_armor_equip_slot = new Rectangle(my_xPosition + ptBG_xPos + ((ptBG_width - 48 ) / 2), e_rects_start_Y + 250, 48, 48);
+            helmet_equip_slot = new Rectangle(my_xPosition + ptBG_xPos + ((ptBG_width - 48) / 2), e_rects_start_Y + 115, 48, 48);
             draggable_item_rect = new Rectangle(0, 0, 48, 48);
             index_of_mouse_selected_item = -1;
 
@@ -321,6 +323,12 @@ namespace Cronkpit
                 pl.show_under_armor().set_texture(current_texture);
                 the_icoBar.init_item_texture_by_id_number(pl.show_under_armor().get_my_IDno(), current_texture);
             }
+            if (pl.show_helmet() != null)
+            {
+                Texture2D current_texture = cManager.Load<Texture2D>("Icons/Armors/" + pl.show_helmet().get_my_texture_name());
+                pl.show_helmet().set_texture(current_texture);
+                the_icoBar.init_item_texture_by_id_number(pl.show_helmet().get_my_IDno(), current_texture);
+            }
 
             player_name = pl.my_chara_as_string();
             switch (player_name)
@@ -395,6 +403,8 @@ namespace Cronkpit
                     index_of_c_equipped_selected_item = 3;
                 if (under_armor_equip_slot.Contains((int)mousePosition.X, (int)mousePosition.Y))
                     index_of_c_equipped_selected_item = 4;
+                if(helmet_equip_slot.Contains((int)mousePosition.X, (int)mousePosition.Y))
+                    index_of_c_equipped_selected_item = 5;
 
                 if(BGElement_equipmentTab.Contains((int)mousePosition.X, (int)mousePosition.Y))
                 {
@@ -446,12 +456,13 @@ namespace Cronkpit
                         {
                             if (check_overlap(item_icon_rects[i], draggable_item_rect))
                             {
-                                if (player_inv[i] is Armor && T.armor_talisman() && player_inv[i].can_add_talisman(T))
+                                if (i < player_inv.Count && player_inv[i] is Armor && T.armor_talisman() && player_inv[i].can_add_talisman(T))
                                 {
                                     player_inv[i].add_talisman(T);
                                     player_inv.RemoveAt(index_of_mouse_selected_item);
                                 }
-                                else if ((player_inv[i] is Weapon || player_inv[i] is Scroll) && !T.armor_talisman() && player_inv[i].can_add_talisman(T))
+                                else if (i < player_inv.Count && 
+                                        (player_inv[i] is Weapon || player_inv[i] is Scroll) && !T.armor_talisman() && player_inv[i].can_add_talisman(T))
                                 {
                                     player_inv[i].add_talisman(T);
                                     player_inv.RemoveAt(index_of_mouse_selected_item);
@@ -492,6 +503,17 @@ namespace Cronkpit
                             if (nextArmor.what_armor_type() == Armor.Armor_Type.UnderArmor)
                             {
                                 pl.equip_under_armor((Armor)player_inv[index_of_mouse_selected_item]);
+                                equipped_new_item = true;
+                            }
+                        }
+
+                    if (check_overlap(helmet_equip_slot, draggable_item_rect) && !equipped_new_item)
+                        if (player_inv[index_of_mouse_selected_item] is Armor)
+                        {
+                            Armor nextArmor = (Armor)player_inv[index_of_mouse_selected_item];
+                            if (nextArmor.what_armor_type() == Armor.Armor_Type.Helmet)
+                            {
+                                pl.equip_helmet((Armor)player_inv[index_of_mouse_selected_item]);
                                 equipped_new_item = true;
                             }
                         }
@@ -542,6 +564,10 @@ namespace Cronkpit
                                     break;
                                 case 4:
                                     pl.unequip(Player.Equip_Slot.Underarmor);
+                                    equipped_new_item = true;
+                                    break;
+                                case 5:
+                                    pl.unequip(Player.Equip_Slot.Helmet);
                                     equipped_new_item = true;
                                     break;
                             }
@@ -758,7 +784,7 @@ namespace Cronkpit
 
         public void draw_tooltip_box(ref SpriteBatch sBatch, Item tooltip_target)
         {
-            List<string> tooltip = tooltip_target.get_my_information();
+            List<string> tooltip = tooltip_target.get_my_information(false);
             //We have that. Now we decide how big the tooltip box is gonna be.
             int tooltip_box_width = 0;
             int tooltip_box_height = 0;
@@ -799,6 +825,7 @@ namespace Cronkpit
             sBatch.Draw(my_back_texture, off_hand_equip_slot, new Color(0, 0, 0, 100));
             sBatch.Draw(my_back_texture, over_armor_equip_slot, new Color(0, 0, 0, 100));
             sBatch.Draw(my_back_texture, under_armor_equip_slot, new Color(0, 0, 0, 100));
+            sBatch.Draw(my_back_texture, helmet_equip_slot, new Color(0, 0, 0, 100));
         }
 
         public void draw_equipment_slot_borders(ref SpriteBatch sBatch)
@@ -809,6 +836,7 @@ namespace Cronkpit
             draw_border_around_rectangle(ref sBatch, off_hand_equip_slot, std_border_width, my_text_color);
             draw_border_around_rectangle(ref sBatch, over_armor_equip_slot, std_border_width, my_text_color);
             draw_border_around_rectangle(ref sBatch, under_armor_equip_slot, std_border_width, my_text_color);
+            draw_border_around_rectangle(ref sBatch, helmet_equip_slot, std_border_width, my_text_color);
         }
 
         public void draw_item_icons(ref SpriteBatch sBatch, Player pl)
@@ -869,6 +897,15 @@ namespace Cronkpit
                 else
                     rect = over_armor_equip_slot;
                 sBatch.Draw(pl.show_over_armor().get_my_texture(), rect, Color.White);
+            }
+            if (pl.show_helmet() != null)
+            {
+                Rectangle rect;
+                if (index_of_c_equipped_selected_item == 5)
+                    rect = draggable_item_rect;
+                else
+                    rect = helmet_equip_slot;
+                sBatch.Draw(pl.show_helmet().get_my_texture(), rect, Color.White);
             }
         }
 

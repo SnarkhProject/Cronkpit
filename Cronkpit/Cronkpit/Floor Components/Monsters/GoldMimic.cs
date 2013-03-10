@@ -19,7 +19,8 @@ namespace Cronkpit
             : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_active_texture = cont.Load<Texture2D>("Enemies/goldenMimic");
-            hitPoints = 8;
+            max_hitPoints = 8;
+            hitPoints = max_hitPoints;
             armorPoints = 10;
             min_damage = 1;
             max_damage = 2;
@@ -56,6 +57,7 @@ namespace Cronkpit
             melee_dodge = 5;
             ranged_dodge = 0;
             armor_effectiveness = 10;
+            set_initial_dodge_values();
         }
 
         public override void Update_Monster(Player pl, Floor fl)

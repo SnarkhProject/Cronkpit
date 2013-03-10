@@ -17,7 +17,8 @@ namespace Cronkpit
             : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_Texture = cont.Load<Texture2D>("Enemies/goreWolf");
-            hitPoints = 22;
+            max_hitPoints = 22;
+            hitPoints = max_hitPoints;
             armorPoints = 0;
             min_damage = 2;
             max_damage = 4;
@@ -36,12 +37,15 @@ namespace Cronkpit
             melee_dodge = 25;
             ranged_dodge = 15;
             savage_cooldown = 0;
+            set_initial_dodge_values();
         }
 
         public override void Update_Monster(Player pl, Floor fl)
         {
             if (savage_cooldown > 0)
                 savage_cooldown--;
+
+            heal_near_altar(fl);
 
             Tile target_tile = strongest_smell_within(fl, 0, smell_threshold, smell_range);
 
@@ -67,6 +71,7 @@ namespace Cronkpit
                         Attack dmg = dealDamage();
                         Attack dmg2 = dealDamage();
                         fl.addmsg("The Gorewolf savagely tears at your legs!");
+                        fl.add_specific_effect(Floor.specific_effect.Bite, pl.get_my_grid_C());
                         pl.take_damage(dmg, fl, "RLeg");
                         pl.take_damage(dmg2, fl, "LLeg");
                         savage_cooldown = 3;

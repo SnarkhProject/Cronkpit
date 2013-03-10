@@ -16,7 +16,8 @@ namespace Cronkpit
             : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_Texture = cont.Load<Texture2D>("Enemies/ghost");
-            hitPoints = 12;
+            max_hitPoints = 12;
+            hitPoints = max_hitPoints;
             min_damage = 1;
             max_damage = 3;
             dmg_type = Attack.Damage.Frost;
@@ -33,10 +34,13 @@ namespace Cronkpit
             melee_dodge = 50;
             ranged_dodge = 50;
             corporeal = false;
+            set_initial_dodge_values();
         }
 
         public override void Update_Monster(Player pl, Floor fl)
         {
+            heal_near_altar(fl);
+
             if (is_player_within(pl, sight_range))
                 can_see_player = can_i_see_point(fl, pl.get_my_grid_C());
             else

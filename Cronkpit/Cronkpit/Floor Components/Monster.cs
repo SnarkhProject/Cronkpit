@@ -51,10 +51,21 @@ namespace Cronkpit
         public string my_name;
         protected int melee_dodge;
         protected int ranged_dodge;
+        protected double modified_melee_dodge;
+        protected double modified_ranged_dodge;
+        protected bool dodge_values_degrade;
         protected int armor_effectiveness;
         protected bool corporeal;
+        protected bool smart_monster;
+        public bool boss_monster;
+
+        //Status afflictions
+        protected int stunned_turns_remaining;
+        protected int rooted_turns_remaining;
+        protected int disrupted_turns_remaining;
 
         //Damage related - will be overhauling later.
+        protected int max_hitPoints;
         public int hitPoints;
         public int armorPoints;
         public int my_Index;
@@ -109,11 +120,18 @@ namespace Cronkpit
             
             //Damage stuff
             can_melee_attack = false;
+            max_hitPoints = 0;
             hitPoints = 0;
             armorPoints = 0;
             min_damage = 0;
             max_damage = 0;
             corporeal = true;
+            dodge_values_degrade = true;
+
+            //status affliction stuff
+            stunned_turns_remaining = 0;
+            rooted_turns_remaining = 0;
+            disrupted_turns_remaining = 0;
 
             //other
             /*
@@ -129,6 +147,8 @@ namespace Cronkpit
             ranged_dodge = 0;
             armor_effectiveness = 0;
             my_name = "";
+            smart_monster = false;
+            boss_monster = false;
 
             movement_indexes = new List<int[]>();
             direction_indexes = new List<gridCoordinate.direction>();
@@ -266,14 +286,20 @@ namespace Cronkpit
 
         public bool is_spot_free(gridCoordinate targetpoint, Floor fl, Player pl, bool corporeal)
         {
+            bool spot_free = true;
             if(corporeal)
-                return (!am_i_on_player(targetpoint, pl) && 
-                        fl.isWalkable(targetpoint) &&
-                        !fl.am_i_on_other_monster(targetpoint, my_Index));
+                spot_free = (!am_i_on_player(targetpoint, pl) && 
+                             fl.isWalkable(targetpoint) &&
+                             !fl.am_i_on_other_monster(targetpoint, my_Index));
             else
-                return (!am_i_on_player(targetpoint, pl) && 
-                        !fl.am_i_on_other_monster(targetpoint, my_Index) &&
-                        !fl.is_void_tile(targetpoint));
+                spot_free = (!am_i_on_player(targetpoint, pl) && 
+                             !fl.am_i_on_other_monster(targetpoint, my_Index) &&
+                             !fl.is_void_tile(targetpoint));
+
+            if(smart_monster)
+                fl.open_door_here(targetpoint);
+
+            return spot_free;
         }
 
         //pick a random direction and walk 1 square in it.
@@ -412,7 +438,7 @@ namespace Cronkpit
             else if (top_left_edge.y > target_point.y && bottom_left_edge.y > target_point.y)
                 y_move = -1;
 
-            int target_index = 0;
+            int target_index = -1;
             for(int i = 0; i < 8; i++)
             {
                 if(movement_indexes[i][0] == x_move && movement_indexes[i][1] == y_move)
@@ -421,61 +447,64 @@ namespace Cronkpit
             //Slightly less efficient than just delcaring these in the gridCoord arrays, but
             //It's way, way easier to debug like this, since you can tell what it's doing before it
             //actually gets into those sections.
-            gridCoordinate.direction desired_direction = direction_indexes[target_index];
-            gridCoordinate.direction diagonal_1_direction = direction_indexes[(target_index + 1) % 8];
-            gridCoordinate.direction diagonal_2_direction = direction_indexes[(target_index + 7) % 8];
-
-            List<gridCoordinate> desired_grid_coords = new List<gridCoordinate>();
-            List<gridCoordinate> diagonal_1_grid_coords = new List<gridCoordinate>();
-            List<gridCoordinate> diagonal_2_grid_coords = new List<gridCoordinate>();
-            
-            for (int i = 0; i < my_grid_coords.Count; i++)
+            if (target_index != -1)
             {
-                desired_grid_coords.Add(new gridCoordinate(my_grid_coords[i], desired_direction));
-                diagonal_1_grid_coords.Add(new gridCoordinate(my_grid_coords[i], diagonal_1_direction));
-                diagonal_2_grid_coords.Add(new gridCoordinate(my_grid_coords[i], diagonal_2_direction));
-            }
+                gridCoordinate.direction desired_direction = direction_indexes[target_index];
+                gridCoordinate.direction diagonal_1_direction = direction_indexes[(target_index + 1) % 8];
+                gridCoordinate.direction diagonal_2_direction = direction_indexes[(target_index + 7) % 8];
 
-            bool desired_direction_valid = true;
-            for(int i = 0; i < desired_grid_coords.Count; i++)
-                if(!is_spot_free(desired_grid_coords[i], fl, pl, corporeal))
-                    desired_direction_valid = false;
+                List<gridCoordinate> desired_grid_coords = new List<gridCoordinate>();
+                List<gridCoordinate> diagonal_1_grid_coords = new List<gridCoordinate>();
+                List<gridCoordinate> diagonal_2_grid_coords = new List<gridCoordinate>();
 
-            if (desired_direction_valid)
-            {
-                my_grid_coords = desired_grid_coords;
-                has_moved = true;
-            }
-            else
-            {
-                bool diagonal_1_valid = true;
-                bool diagonal_2_valid = true;
                 for (int i = 0; i < my_grid_coords.Count; i++)
                 {
-                    if (!is_spot_free(diagonal_1_grid_coords[i], fl, pl, corporeal))
-                        diagonal_1_valid = false;
-                    if (!is_spot_free(diagonal_2_grid_coords[i], fl, pl, corporeal))
-                        diagonal_2_valid = false;
+                    desired_grid_coords.Add(new gridCoordinate(my_grid_coords[i], desired_direction));
+                    diagonal_1_grid_coords.Add(new gridCoordinate(my_grid_coords[i], diagonal_1_direction));
+                    diagonal_2_grid_coords.Add(new gridCoordinate(my_grid_coords[i], diagonal_2_direction));
                 }
 
-                if (diagonal_1_valid && !diagonal_2_valid)
+                bool desired_direction_valid = true;
+                for (int i = 0; i < desired_grid_coords.Count; i++)
+                    if (!is_spot_free(desired_grid_coords[i], fl, pl, corporeal))
+                        desired_direction_valid = false;
+
+                if (desired_direction_valid)
                 {
-                    my_grid_coords = diagonal_1_grid_coords;
+                    my_grid_coords = desired_grid_coords;
                     has_moved = true;
                 }
-                else if (!diagonal_1_valid && diagonal_2_valid)
+                else
                 {
-                    my_grid_coords = diagonal_2_grid_coords;
-                    has_moved = true;
-                }
-                else if (diagonal_1_valid && diagonal_2_valid)
-                {
-                    int use_diagonal_1 = rGen.Next(2);
-                    if (use_diagonal_1 == 1)
+                    bool diagonal_1_valid = true;
+                    bool diagonal_2_valid = true;
+                    for (int i = 0; i < my_grid_coords.Count; i++)
+                    {
+                        if (!is_spot_free(diagonal_1_grid_coords[i], fl, pl, corporeal))
+                            diagonal_1_valid = false;
+                        if (!is_spot_free(diagonal_2_grid_coords[i], fl, pl, corporeal))
+                            diagonal_2_valid = false;
+                    }
+
+                    if (diagonal_1_valid && !diagonal_2_valid)
+                    {
                         my_grid_coords = diagonal_1_grid_coords;
-                    else
+                        has_moved = true;
+                    }
+                    else if (!diagonal_1_valid && diagonal_2_valid)
+                    {
                         my_grid_coords = diagonal_2_grid_coords;
-                    has_moved = true;
+                        has_moved = true;
+                    }
+                    else if (diagonal_1_valid && diagonal_2_valid)
+                    {
+                        int use_diagonal_1 = rGen.Next(2);
+                        if (use_diagonal_1 == 1)
+                            my_grid_coords = diagonal_1_grid_coords;
+                        else
+                            my_grid_coords = diagonal_2_grid_coords;
+                        has_moved = true;
+                    }
                 }
             }
         }
@@ -486,16 +515,32 @@ namespace Cronkpit
             bool absorbed = false;
             int dodge_roll = rGen.Next(100);
 
-            if (melee_attack && dodge_roll < melee_dodge)
+            if (melee_attack && dodge_roll < (int)modified_melee_dodge)
+            {
                 dodged = true;
-            else if (!melee_attack && dodge_roll < ranged_dodge)
+                if (dodge_values_degrade)
+                    modified_melee_dodge *= .9;
+            }
+            else if (!melee_attack && dodge_roll < (int)modified_ranged_dodge)
+            {
                 dodged = true;
+                if (dodge_values_degrade)
+                    modified_ranged_dodge *= .9;
+            }
 
             if (!dodged)
             {
+                set_initial_dodge_values();
                 for (int i = 0; i < atks.Count; i++)
                 {
-                    int dmg = atks[i].get_damage_amt();
+                    int base_dmg = atks[i].get_damage_amt();
+
+                    //Large and huge monsters take half damage from AoE attacks to keep
+                    //the AoE attacks from just fucking destroying them utterly.
+                    int dmg = base_dmg;
+                    if (my_monster_size != Monster_Size.Normal && aoe_attack)
+                        dmg = base_dmg / 2;
+
                     int armor_roll = rGen.Next(100);
                     if (armorPoints > 0 && armor_roll < armor_effectiveness)
                         absorbed = true;
@@ -580,7 +625,7 @@ namespace Cronkpit
 
             List<Tile> strongest_smells = new List<Tile>();
             for (int i = 0; i < smelled_from.Count; i++)
-                strongest_smells.Add(fl.establish_los_strongest_smell(smelled_from[i], targetSmell, smell_threshold));
+                strongest_smells.Add(fl.establish_los_strongest_smell(smelled_from[i], radius, targetSmell, smell_threshold));
 
             int strongest_smell = -1;
             int target_index = 0;
@@ -611,6 +656,30 @@ namespace Cronkpit
             return false;
         }
 
+        public bool is_doodad_within(Floor fl, int radius, Doodad.Doodad_Type target_doodad)
+        {
+            int doodad_index = 0;
+            while (fl.Doodad_by_index(doodad_index) != null)
+            {
+                Doodad d = fl.Doodad_by_index(doodad_index);
+                if (d.get_my_doodad_type() == target_doodad)
+                {
+                    gridCoordinate doodad_gcoord = d.get_g_coord();
+                    for (int i = 0; i < my_grid_coords.Count; i++)
+                    {
+                        if (doodad_gcoord.x >= (my_grid_coords[i].x - radius) &&
+                            doodad_gcoord.x <= (my_grid_coords[i].x + radius) &&
+                            doodad_gcoord.y >= (my_grid_coords[i].y - radius) &&
+                            doodad_gcoord.y <= (my_grid_coords[i].y + radius))
+                            return true;
+                    }
+                }
+                doodad_index++;
+            }
+
+            return false;
+        }
+
         public bool is_player_within_diamond(Player pl, int radius)
         {
             //get the difference between the player's x and the monster's x.
@@ -630,12 +699,13 @@ namespace Cronkpit
             return within_radius;
         }
 
-        public bool can_i_see_point(Floor fl, gridCoordinate target_point)
+        public bool can_i_see_point(Floor fl, gridCoordinate target_point,
+                                    VisionRay.fineness fineness = VisionRay.fineness.Average)
         {
             bool can_see_target = false;
             for (int i = 0; i < my_grid_coords.Count; i++)
             {
-                if (fl.establish_los(my_grid_coords[i], target_point))
+                if (fl.establish_los(my_grid_coords[i], target_point, fineness))
                     can_see_target = true;
             }
 
@@ -714,5 +784,42 @@ namespace Cronkpit
             else
                 return i2 - i1;
         }
+
+        protected void set_initial_dodge_values()
+        {
+            modified_melee_dodge = melee_dodge;
+            modified_ranged_dodge = ranged_dodge;
+        }
+
+        public bool is_corporeal()
+        {
+            return corporeal;
+        }
+
+        #region special functions that are common among some monster groups
+
+        public void heal_near_altar(Floor fl)
+        {
+            if (is_doodad_within(fl, 4, Doodad.Doodad_Type.Altar))
+            {
+                int heal_value = (int)Math.Ceiling((double)(max_hitPoints/5));
+                if (hitPoints <= max_hitPoints - heal_value)
+                {
+                    hitPoints += (int)Math.Ceiling((double)(max_hitPoints / 5));
+                    fl.add_new_popup("+" + heal_value.ToString() + "HP", Popup.popup_msg_color.VividGreen, my_center_coordinate());
+                }
+                else
+                {
+                    int difference = max_hitPoints - hitPoints;
+                    if (difference > 0)
+                    {
+                        hitPoints = max_hitPoints;
+                        fl.add_new_popup("+" + difference.ToString() + "HP", Popup.popup_msg_color.VividGreen, my_center_coordinate());
+                    }
+                }
+            }
+        }
+
+        #endregion
     }
 }

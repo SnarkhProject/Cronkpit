@@ -15,7 +15,8 @@ namespace Cronkpit
             : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_Texture = cont.Load<Texture2D>("Enemies/goreHound");
-            hitPoints = 6;
+            max_hitPoints = 6;
+            hitPoints = max_hitPoints;
             armorPoints = 0;
             min_damage = 1;
             max_damage = 2;
@@ -33,11 +34,13 @@ namespace Cronkpit
             my_name = "Gorehound";
             melee_dodge = 30;
             ranged_dodge = 20;
+            set_initial_dodge_values();
         }
 
         public override void Update_Monster(Player pl, Floor fl)
         {
             Tile target_tile = strongest_smell_within(fl, 0, smell_threshold, smell_range);
+            heal_near_altar(fl);
 
             if (target_tile == null)
                 has_scent = false;

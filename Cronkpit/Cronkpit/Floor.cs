@@ -13,7 +13,9 @@ namespace Cronkpit
     {
         //Constants
         protected int stdfloorSize = 50;
-        public enum specific_effect { None, Power_Strike, Cleave, Earthquake, Acid_Blood };
+        public enum specific_effect { None, Power_Strike, Cleave, Earthquake,
+                                      Acid_Blood, Bite, Big_Bite, Alert,
+                                      Warning_Bracket };
         //Floor components
         int fl_number;
         int ambient_manavalue;
@@ -54,6 +56,7 @@ namespace Cronkpit
         Texture2D[] dirt_floors = new Texture2D[1];
         Texture2D[] dirt_walls = new Texture2D[2];
         Texture2D[] exit_tile = new Texture2D[1];
+        Texture2D[] dungeon_exit = new Texture2D[2];
         //Mossy textures - present in the necropolis
         Texture2D[] mossy_stonewalls = new Texture2D[1];
         Texture2D[] mossy_stonefloors = new Texture2D[2];
@@ -114,7 +117,8 @@ namespace Cronkpit
             }
         }
 
-        protected void add_monsters(ref List<Monster> monsters, int number_of_monsters)
+        protected void add_monsters(ref List<Monster> monsters, int number_of_monsters, 
+                                    Cronkpit.CronkPit.Dungeon cDungeon)
         {
             for (int i = 0; i < number_of_monsters; i++)
             {
@@ -214,7 +218,8 @@ namespace Cronkpit
                 }
             }
 
-            badGuys.Add(new Boneyard(random_valid_position(Monster.Monster_Size.Large), cManager, badGuys.Count, false));
+            if(cDungeon == CronkPit.Dungeon.Necropolis && fl_number == 12)
+                badGuys.Add(new Boneyard(random_valid_position(Monster.Monster_Size.Large), cManager, badGuys.Count, true));
         }
 
         public void draw_hallway_tiles(Tile target_tile)
@@ -297,9 +302,30 @@ namespace Cronkpit
             return circle_matrix;
         }
 
-        public void add_door(gridCoordinate target_coord)
+        public void add_door(gridCoordinate target_coord, List<gridCoordinate> side_coords)
         {
-            Doodads.Add(new Doodad(Doodad.Doodad_Type.Door, cManager, target_coord, Doodads.Count));
+            bool wood_frame_possible = false;
+            bool stone_frame_possible = false;
+
+            for (int i = 0; i < side_coords.Count; i++)
+            {
+                if (floorTiles[side_coords[i].x][side_coords[i].y].get_my_tile_type() == Tile.Tile_Type.StoneWall)
+                    stone_frame_possible = true;
+
+                if (floorTiles[side_coords[i].x][side_coords[i].y].get_my_tile_type() == Tile.Tile_Type.DirtWall)
+                    wood_frame_possible = true;
+            }
+
+            bool stone_frame = false;
+            if (wood_frame_possible && stone_frame_possible)
+            {
+                if (randGen.Next(2) == 0)
+                    stone_frame = true;
+            }
+            else if (!wood_frame_possible && stone_frame_possible)
+                stone_frame = true;
+
+            Doodads.Add(new Doodad(Doodad.Doodad_Type.Door, cManager, target_coord, Doodads.Count, stone_frame));
             int door_state = randGen.Next(5);
             if (door_state == 0)
                 Doodads[Doodads.Count - 1].set_door_state(Doodad.Door_State.Locked);
@@ -348,6 +374,14 @@ namespace Cronkpit
             return t_coord.x > 0 && t_coord.x < stdfloorSize-1 && t_coord.y > 0 && t_coord.y < stdfloorSize-1;
         }
 
+        public void unlock_dungeon_exit()
+        {
+            for (int x = 0; x < stdfloorSize; x++)
+                for (int y = 0; y < stdfloorSize; y++)
+                    if (floorTiles[x][y].get_my_tile_type() == Tile.Tile_Type.Locked_Dungeon_Exit)
+                        floorTiles[x][y].set_tile_type(Tile.Tile_Type.Dungeon_Exit, dungeon_exit);
+        }
+
         #endregion
 
         #region specific dungeon building functions
@@ -371,6 +405,9 @@ namespace Cronkpit
             dirt_walls[1] = cManager.Load<Texture2D>(basePath + "DirtWallTorch");
             //Exit Tile
             exit_tile[0] = cManager.Load<Texture2D>("Background/exit");
+            //Dungeon Exit Tile
+            dungeon_exit[0] = cManager.Load<Texture2D>(basePath + "dungeon_exit_open");
+            dungeon_exit[1] = cManager.Load<Texture2D>(basePath + "dungeon_exit_closed");
             //MOSS
             mossy_dirtfloors[0] = cManager.Load<Texture2D>(basePath + "MossDirtFloor");
             mossy_stonefloors[0] = cManager.Load<Texture2D>(basePath + "StoneFloorMoss");
@@ -579,8 +616,16 @@ namespace Cronkpit
                     {
                         if (floorTiles[x][exit_coord.y].isVoid() && !exitPlaced)
                         {
-                            floorTiles[x][exit_coord.y].set_tile_type(Tile.Tile_Type.Exit, exit_tile);
-                            exitPlaced = true;
+                            if (fl_number < 12)
+                            {
+                                floorTiles[x][exit_coord.y].set_tile_type(Tile.Tile_Type.Exit, exit_tile);
+                                exitPlaced = true;
+                            }
+                            else
+                            {
+                                floorTiles[x][exit_coord.y].set_tile_type(Tile.Tile_Type.Locked_Dungeon_Exit, dungeon_exit);
+                                exitPlaced = true;
+                            }
                         }
                     }
                 }
@@ -590,8 +635,16 @@ namespace Cronkpit
                     {
                         if (floorTiles[exit_coord.x][y].isVoid() && !exitPlaced)
                         {
-                            floorTiles[exit_coord.x][y].set_tile_type(Tile.Tile_Type.Exit, exit_tile);
-                            exitPlaced = true;
+                            if (fl_number < 12)
+                            {
+                                floorTiles[exit_coord.x][y].set_tile_type(Tile.Tile_Type.Exit, exit_tile);
+                                exitPlaced = true;
+                            }
+                            else
+                            {
+                                floorTiles[exit_coord.x][y].set_tile_type(Tile.Tile_Type.Locked_Dungeon_Exit, dungeon_exit);
+                                exitPlaced = true;
+                            }
                         }
                     }
             }
@@ -649,19 +702,32 @@ namespace Cronkpit
                     int roomY = roomLayout[i].startYPos;
                     int roomH = roomLayout[i].roomHeight;
                     int roomW = roomLayout[i].roomWidth;
+                    //we pass the side coordinates to the door function so that it knows
+                    //what type of frame to give the door.
+                    List<gridCoordinate> side_door_coords = new List<gridCoordinate>();
                     for (int x = roomX; x < roomX + roomW; x++)
                     {
                         if (!is_tile_passable(new gridCoordinate(x - 1, roomY - 1)) &&
                             !is_tile_passable(new gridCoordinate(x + 1, roomY - 1)) &&
                             is_tile_passable(new gridCoordinate(x, roomY - 1)) &&
                             !floorTiles[x][roomY - 1].isExit())
-                            add_door(new gridCoordinate(x, roomY - 1));
+                        {
+                            side_door_coords.Clear();
+                            side_door_coords.Add(new gridCoordinate(x - 1, roomY - 1));
+                            side_door_coords.Add(new gridCoordinate(x + 1, roomY - 1));
+                            add_door(new gridCoordinate(x, roomY - 1), side_door_coords);
+                        }
 
                         if (!is_tile_passable(new gridCoordinate(x - 1, roomY + roomH)) &&
                             !is_tile_passable(new gridCoordinate(x + 1, roomY + roomH)) &&
                             is_tile_passable(new gridCoordinate(x, roomY + roomH)) &&
                             !floorTiles[x][roomY + roomH].isExit())
-                            add_door(new gridCoordinate(x, roomY+roomH));
+                        {
+                            side_door_coords.Clear();
+                            side_door_coords.Add(new gridCoordinate(x - 1, roomY + roomH));
+                            side_door_coords.Add(new gridCoordinate(x + 1, roomY + roomH));
+                            add_door(new gridCoordinate(x, roomY + roomH), side_door_coords);
+                        }
                     }
 
                     for (int y = roomY; y < roomY + roomH; y++)
@@ -670,13 +736,41 @@ namespace Cronkpit
                             !is_tile_passable(new gridCoordinate(roomX - 1, y + 1)) &&
                             is_tile_passable(new gridCoordinate(roomX - 1, y)) &&
                             !floorTiles[roomX - 1][y].isExit())
-                            add_door(new gridCoordinate(roomX-1, y));
+                        {
+                            side_door_coords.Clear();
+                            side_door_coords.Add(new gridCoordinate(roomX - 1, y-1));
+                            side_door_coords.Add(new gridCoordinate(roomX - 1, y+1));
+                            add_door(new gridCoordinate(roomX - 1, y), side_door_coords);
+                        }
 
                         if (!is_tile_passable(new gridCoordinate(roomX + roomW, y - 1)) &&
                             !is_tile_passable(new gridCoordinate(roomX + roomW, y + 1)) &&
                             is_tile_passable(new gridCoordinate(roomX + roomW, y)) &&
                             !floorTiles[roomX + roomW][y].isExit())
-                            add_door(new gridCoordinate(roomX + roomW, y));
+                        {
+                            side_door_coords.Clear();
+                            side_door_coords.Add(new gridCoordinate(roomX + roomW, y - 1));
+                            side_door_coords.Add(new gridCoordinate(roomX + roomW, y + 1));
+                            add_door(new gridCoordinate(roomX + roomW, y), side_door_coords);
+                        }
+                    }
+                }
+            }
+            //Add Altars!!!
+            if (fl_number > 4)
+            {
+                for (int i = 0; i < roomLayout.Count; i++)
+                {
+                    int room_has_altars = randGen.Next(10);
+                    int threshold = 0;
+                    if (roomLayout[i].is_circular_room())
+                        threshold = 4;
+                    if (room_has_altars <= threshold)
+                    {
+                        int x_ctr = roomLayout[i].findCenter("x");
+                        int y_ctr = roomLayout[i].findCenter("y");
+                        Doodads.Add(new Doodad(Doodad.Doodad_Type.Altar, cManager,
+                                    new gridCoordinate(x_ctr, y_ctr), Doodads.Count));
                     }
                 }
             }
@@ -706,7 +800,8 @@ namespace Cronkpit
                     {
                         bool corner_valid = false;
                         gridCoordinate target_corner_gc = new gridCoordinate(-1, -1);
-                        while(!corner_valid)
+                        int tries = 0;
+                        while(!corner_valid && tries < 20)
                         {
                             //pick a random corner.
                             int target_corner = randGen.Next(4);
@@ -742,6 +837,7 @@ namespace Cronkpit
                                 if (Doodads[d].get_g_coord().x == target_corner_gc.x &&
                                     Doodads[d].get_g_coord().y == target_corner_gc.y)
                                     corner_valid = false;
+                            tries++;
                         }
 
                         if (corner_valid)
@@ -766,26 +862,6 @@ namespace Cronkpit
                                     !is_tile_passable(new gridCoordinate(pile_3.x + x_dir_check, pile_3.y)))
                                     Doodads.Add(new Doodad(Doodad.Doodad_Type.CorpsePile, cManager, pile_3, Doodads.Count));
                             }
-                            /*
-                            if (number_of_corpses <= 4)
-                            {
-                                gridCoordinate pile_4 = new gridCoordinate(pile_2.x + (x_dir_check * -1), target_corner_gc.y);
-                                if (is_tile_passable(pile_4) &&
-                                    !is_tile_passable(new gridCoordinate(pile_4.x, pile_4.y + y_dir_check)))
-                                    Doodads.Add(new Doodad(Doodad.Doodad_Type.CorpsePile, cManager, pile_4, Doodads.Count));
-                            }
-                            
-                            if (number_of_corpses == 5)
-                            {
-                                gridCoordinate pile_5 = new gridCoordinate(pile_3.x + (x_dir_check * -1), pile_3.y);
-                                if(is_tile_passable(pile_5) &&
-                                   !is_tile_passable(new gridCoordinate(target_corner_gc.x + x_dir_check, target_corner_gc.y)) &&
-                                   !is_tile_passable(new gridCoordinate(target_corner_gc.x, target_corner_gc.y + y_dir_check)) &&
-                                   !is_tile_passable(new gridCoordinate(pile_2.x, pile_2.y + y_dir_check)) &&
-                                   !is_tile_passable(new gridCoordinate(pile_3.x + x_dir_check, pile_3.y)))
-                                Doodads.Add(new Doodad(Doodad.Doodad_Type.CorpsePile, cManager, pile_5, Doodads.Count));
-                            }
-                            */
                         }
                     }
                 }
@@ -817,7 +893,7 @@ namespace Cronkpit
             int monster_lower_bound = 2;
             int monster_upper_bound = 4 + (fl_number / 2);
             int number_of_monsters = 7 + ((fl_number - 5) / 2) + randGen.Next(monster_lower_bound, monster_upper_bound);
-            add_monsters(ref badGuys, number_of_monsters);
+            add_monsters(ref badGuys, number_of_monsters, CronkPit.Dungeon.Necropolis);
         }
 
         #endregion
@@ -885,6 +961,12 @@ namespace Cronkpit
         public bool isExit(gridCoordinate grid_position)
         {
             return floorTiles[grid_position.x][grid_position.y].isExit();
+        }
+
+        public bool isDungeonExit(gridCoordinate grid_position)
+        {
+            return floorTiles[grid_position.x][grid_position.y].get_my_tile_type() ==
+                   Tile.Tile_Type.Dungeon_Exit;
         }
 
         //Green text. Function here.
@@ -1084,6 +1166,19 @@ namespace Cronkpit
             return false;
         }
 
+        public bool is_los_blocking_Doodad_here(gridCoordinate gc)
+        {
+            for (int i = 0; i < Doodads.Count; i++)
+            {
+                gridCoordinate Doodad_coord = Doodads[i].get_g_coord();
+                if (Doodad_coord.x == gc.x && Doodad_coord.y == gc.y && Doodads[i].blocks_los)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         List<gridCoordinate> determine_range_by_aoe_type(Scroll.Atk_Area_Type aoe_type,
                                                          gridCoordinate effect_center,
                                                          List<gridCoordinate> small_aoe_matrix,
@@ -1180,16 +1275,18 @@ namespace Cronkpit
 
         #endregion
 
-        #region projectile management (includes cloud generation & cone attacks)
+        #region projectile management (includes cloud generation, cone attacks & player projectile processing)
 
         public void update_all_projectiles(Player pl, float delta_time)
         {
             List<gridCoordinate> attacked_coordinates = new List<gridCoordinate>();
             bool aoe_effect = true;
             bool remove = false;
+            bool damaging_prj = false;
 
             for (int i = 0; i < Pew_Pews.Count; i++)
             {
+                damaging_prj = Pew_Pews[i].is_damaging_projectile();
                 Pew_Pews[i].update(delta_time);
                 if (Pew_Pews[i].get_atk_area_type() == Scroll.Atk_Area_Type.piercingBolt)
                 {
@@ -1234,6 +1331,8 @@ namespace Cronkpit
                                     p.set_bounce(Pew_Pews[i].get_bounce());
                                     p.set_bounces_left(Pew_Pews[i].get_remaining_bounces() - 1);
                                     p.set_damage_type(Pew_Pews[i].get_dmg_type());
+                                    if (!p.is_monster_projectile())
+                                        p.set_talisman_effects(Pew_Pews[i].get_talisman_effects());
                                     create_new_projectile(p);
                                 }
                             }
@@ -1241,9 +1340,11 @@ namespace Cronkpit
                         case Scroll.Atk_Area_Type.cloudAOE:
                             int cloud_size = Pew_Pews[i].get_aoe_size();
                             int cloud_duration = 1 + ((cloud_size-1)/2);
+                            Floor.specific_effect pew_effect = specific_effect.None;
+                            if (Pew_Pews[i].get_special_anim() == Projectile.special_anim.BloodAcid)
+                                pew_effect = specific_effect.Acid_Blood;
                             PersistentEffect ceffect = new PersistentEffect(Scroll.Atk_Area_Type.cloudAOE,
-                                                                            specific_effect.None,
-                                                                            endCoord, cloud_duration, 
+                                                                            pew_effect, endCoord, cloud_duration, 
                                                                             Pew_Pews[i].is_monster_projectile(),
                                                                             dmg_type, cloud_size,
                                                                             min_damage, max_damage);
@@ -1290,11 +1391,17 @@ namespace Cronkpit
                                 case Projectile.special_anim.Earthquake:
                                     add_specific_effect(specific_effect.Earthquake, attacked_coordinates[j]);
                                     break;
+                                case Projectile.special_anim.Alert:
+                                    add_specific_effect(specific_effect.Alert, attacked_coordinates[j]);
+                                    break;
+                                case Projectile.special_anim.BloodAcid:
+                                    add_specific_effect(specific_effect.Acid_Blood, attacked_coordinates[j]);
+                                    break;
                             }
                         if (!is_tile_passable(attacked_coordinates[j]) && destroy_walls)
                         {
                             gridCoordinate target_coordinate = new gridCoordinate(attacked_coordinates[j]);
-                            if(acceptable_destruction_coordinate(target_coordinate))
+                            if (acceptable_destruction_coordinate(target_coordinate))
                             {
                                 Tile target_tile = floorTiles[target_coordinate.x][target_coordinate.y];
                                 target_tile.set_tile_type(Tile.Tile_Type.Rubble_Floor, rubble_floor);
@@ -1303,59 +1410,123 @@ namespace Cronkpit
                         }
                     }
 
-                    int dmg_val = randGen.Next(min_damage, max_damage + 1);
-                    if (Pew_Pews[i].is_monster_projectile())
+                    if (damaging_prj)
                     {
-                        if (pl.get_my_grid_C().x == attacked_coordinates[j].x &&
-                           pl.get_my_grid_C().y == attacked_coordinates[j].y)
+                        int dmg_val = randGen.Next(min_damage, max_damage + 1);
+                        if (Pew_Pews[i].is_monster_projectile())
                         {
-                            if (aoe_effect)
+                            if (pl.get_my_grid_C().x == attacked_coordinates[j].x &&
+                               pl.get_my_grid_C().y == attacked_coordinates[j].y)
                             {
-                                pl.take_aoe_damage(min_damage, max_damage,
-                                                   dmg_type, this);
+                                if (aoe_effect)
+                                {
+                                    pl.take_aoe_damage(min_damage, max_damage, dmg_type, this);
+                                }
+                                else
+                                {
+                                    Attack atk = new Attack(dmg_type, dmg_val);
+                                    pl.take_damage(atk, this, "");
+                                }
                             }
-                            else
-                            {
-                                Attack atk = new Attack(dmg_type, dmg_val);
-                                pl.take_damage(atk, this, "");
-                            }
+
+                            //Monsters can hurt each other and damage Doodads with AoE attacks too!
+                            //Silver lining
+                            int mon_on_mon_ID = -1;
+                            if (is_monster_here(attacked_coordinates[j], out mon_on_mon_ID))
+                                damage_monster_single_atk(new Attack(Pew_Pews[i].get_dmg_type(), dmg_val * 2), mon_on_mon_ID, false, aoe_effect);
+
+                            int mon_on_Doodad_ID = -1;
+                            if (is_destroyable_Doodad_here(attacked_coordinates[j], out mon_on_Doodad_ID))
+                                damage_Doodad(dmg_val * 2, mon_on_Doodad_ID);
                         }
-
-                        //Monsters can hurt each other and damage Doodads with AoE attacks too!
-                        //Silver lining
-                        int mon_on_mon_ID = -1;
-                        if(is_monster_here(attacked_coordinates[j], out mon_on_mon_ID))
-                            damage_monster_single_atk(new Attack(Pew_Pews[i].get_dmg_type(), dmg_val * 2), mon_on_mon_ID, false, aoe_effect);
-
-                        int mon_on_Doodad_ID = -1;
-                        if (is_destroyable_Doodad_here(attacked_coordinates[j], out mon_on_Doodad_ID))
-                            damage_Doodad(dmg_val * 2, mon_on_Doodad_ID);
-                    }
-                    else
-                    {
-                        if (is_monster_here(attacked_coordinates[j], out monsterID))
-                            damage_monster_single_atk(new Attack(Pew_Pews[i].get_dmg_type(), dmg_val * 2), monsterID, false, aoe_effect);
-
-                        if (is_destroyable_Doodad_here(attacked_coordinates[j], out DoodadID))
-                            damage_Doodad(dmg_val, DoodadID);
-
-                        if (pl.get_my_grid_C().x == attacked_coordinates[j].x &&
-                           pl.get_my_grid_C().y == attacked_coordinates[j].y)
+                        else
                         {
-                            int aoe_dmg_to_player = dmg_val / 2;
-                            for (int k = 0; k < aoe_dmg_to_player; k++)
-                                pl.take_damage(new Attack(dmg_type, 1), this, "");
+                            if (is_monster_here(attacked_coordinates[j], out monsterID))
+                            {
+                                Monster mon = badguy_by_monster_id(monsterID);
+                                process_player_projectile_attack(Pew_Pews[i], mon, aoe_effect);
+                            }
+
+                            if (is_destroyable_Doodad_here(attacked_coordinates[j], out DoodadID))
+                                damage_Doodad(dmg_val, DoodadID);
+
+                            if (pl.get_my_grid_C().x == attacked_coordinates[j].x &&
+                               pl.get_my_grid_C().y == attacked_coordinates[j].y)
+                            {
+                                int aoe_dmg_to_player = dmg_val / 2;
+                                for (int k = 0; k < aoe_dmg_to_player; k++)
+                                    pl.take_damage(new Attack(dmg_type, 1), this, "");
+                            }
                         }
                     }
                 }
+
                 if (remove)
                     Pew_Pews.RemoveAt(i);
+                attacked_coordinates.Clear();
             }
+            //End of loop
         }
 
         public void create_new_projectile(Projectile proj)
         {
             Pew_Pews.Add(proj);
+        }
+
+        public void process_player_projectile_attack(Projectile pew, Monster m, bool aoe_effect)
+        {
+            List<Talisman> projectile_talismans = pew.get_talisman_effects();
+            List<Attack> damage_to_monster = new List<Attack>();
+            int projectile_damage = randGen.Next(pew.get_damage_range(false), pew.get_damage_range(true)+1);
+            int projectile_modified_min_dmg = 0;
+            int projectile_modified_max_dmg = 0;
+            for (int i = 0; i < projectile_talismans.Count; i++)
+            {
+                if (projectile_talismans[i].get_my_type() == Talisman.Talisman_Type.Expediency)
+                {
+                    int base_val = (int)projectile_talismans[i].get_my_prefix() + 2;
+                    projectile_modified_min_dmg += base_val;
+                    projectile_modified_max_dmg += (base_val * 2);
+                }
+            }
+            projectile_damage += randGen.Next(projectile_modified_min_dmg, projectile_modified_max_dmg + 1);
+            damage_to_monster.Add(new Attack(pew.get_dmg_type(), projectile_damage));
+
+            for (int i = 0; i < projectile_talismans.Count; i++)
+            {
+                if (projectile_talismans[i].extra_damage_specific_type_talisman())
+                {
+                    int base_val = (int)projectile_talismans[i].get_my_prefix() + 1;
+                    Attack.Damage dmg_typ = 0;
+                    switch (projectile_talismans[i].get_my_type())
+                    {
+                        case Talisman.Talisman_Type.Pressure:
+                            dmg_typ = Attack.Damage.Crushing;
+                            break;
+                        case Talisman.Talisman_Type.Heat:
+                            dmg_typ = Attack.Damage.Fire;
+                            break;
+                        case Talisman.Talisman_Type.Snow:
+                            dmg_typ = Attack.Damage.Frost;
+                            break;
+                        case Talisman.Talisman_Type.Razors:
+                            dmg_typ = Attack.Damage.Slashing;
+                            break;
+                        case Talisman.Talisman_Type.Heartsblood:
+                            dmg_typ = Attack.Damage.Piercing;
+                            break;
+                        case Talisman.Talisman_Type.Toxicity:
+                            dmg_typ = Attack.Damage.Acid;
+                            break;
+                        case Talisman.Talisman_Type.Sparks:
+                            dmg_typ = Attack.Damage.Electric;
+                            break;
+                    }
+                    damage_to_monster.Add(new Attack(dmg_typ, randGen.Next(base_val, (base_val * 2) + 1)));
+                }
+            }
+
+            damage_monster(damage_to_monster, m.my_Index, false, aoe_effect);
         }
 
         public bool check_overlap(Rectangle rect_A, Rectangle rect_B)
@@ -1458,15 +1629,19 @@ namespace Cronkpit
                     int grid_x_equiv = current_ray_current_X - lowest_x_coord;
                     int grid_y_equiv = current_ray_current_Y - lowest_y_coord;
 
-                    if (!is_tile_passable(current_Position) || v_Area_Rays[i].is_at_end())
-                    {
-                        v_Area_Rays.RemoveAt(i);
-                    }
-                    else
-                    {
+                    bool remove = false;
+                    if (is_tile_passable(current_Position))
                         valid_cloud_area[grid_x_equiv][grid_y_equiv] = true;
+                    else
+                        remove = true;
+
+                    if (v_Area_Rays[i].is_at_end())
+                        remove = true;
+                    
+                    if(remove)
+                        v_Area_Rays.RemoveAt(i);
+                    else
                         v_Area_Rays[i].update();
-                    }    
                 }
             }
 
@@ -1656,6 +1831,18 @@ namespace Cronkpit
                 case specific_effect.Acid_Blood:
                     eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/acidblood_spritesheet"), 11, fx_coord));
                     break;
+                case specific_effect.Bite:
+                    eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/bite_spritesheet"), 10, fx_coord));
+                    break;
+                case specific_effect.Big_Bite:
+                    eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/big_bite_spritesheet"), 10, fx_coord));
+                    break;
+                case specific_effect.Alert:
+                    eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/alert_spritesheet"), 16, fx_coord));
+                    break;
+                case specific_effect.Warning_Bracket:
+                    eff_ex.Add(new Effect(cManager.Load<Texture2D>("Projectiles/warning_reticule_spritesheet"), 23, fx_coord, 16));
+                    break;
             }
         }
 
@@ -1713,6 +1900,8 @@ namespace Cronkpit
                                 add_effect(effect_dmg_type, effected_tiles[j]);
                             else if (persistent_effects[i].get_my_special_fx() == specific_effect.Earthquake)
                                 add_specific_effect(specific_effect.Earthquake, effected_tiles[j]);
+                            else if (persistent_effects[i].get_my_special_fx() == specific_effect.Acid_Blood)
+                                add_specific_effect(specific_effect.Acid_Blood, effected_tiles[j]);
                         }
 
                         int dmg_val = randGen.Next(effect_min_damage, effect_max_damage + 1);
@@ -1875,14 +2064,17 @@ namespace Cronkpit
             }
         }
 
-        public Tile establish_los_strongest_smell(gridCoordinate origin, int targetSmell, int smell_threshold)
+        public Tile establish_los_strongest_smell(gridCoordinate origin, int smellrange, 
+                                                  int targetSmell, int smell_threshold)
         {
             //We sort these by scent.
             Tile target_tile = null;
             int strongest_smell = 0;
             for (int i = scentedTiles.Count - 1; i >= 0; i--)
             {
-                if (scentedTiles[i].strength_of_scent(targetSmell) >= smell_threshold &&
+                if ((scentedTiles[i].get_grid_c().x <= origin.x + smellrange || scentedTiles[i].get_grid_c().x >= origin.x - smellrange) &&
+                    (scentedTiles[i].get_grid_c().y <= origin.y + smellrange || scentedTiles[i].get_grid_c().y >= origin.y - smellrange) &&
+                    scentedTiles[i].strength_of_scent(targetSmell) >= smell_threshold &&
                     scentedTiles[i].strength_of_scent(targetSmell) > strongest_smell)
                 {
                     Tile test_tile = scentedTiles[i];
@@ -1987,7 +2179,9 @@ namespace Cronkpit
             return floorTiles[grid_position.x][grid_position.y].isOpaque();
         }
 
-        //This may also be deprecated.
+        //This IS be deprecated.
+        //I kept it in the code because it might be useful for a future release and it's also
+        //nice to see how much progress you've made from a primitive method of doing things.
         public void sight_pulse_raycast(gridCoordinate origin, Player pl, Monster theMon, int sightRange)
         {
             int origin_x = origin.x;
@@ -2045,17 +2239,16 @@ namespace Cronkpit
             }
         }
 
-        public bool establish_los(gridCoordinate origin, gridCoordinate destination)
+        public bool establish_los(gridCoordinate origin, gridCoordinate destination, 
+                                  VisionRay.fineness fineness = VisionRay.fineness.Average)
         {
             Tile originTile = floorTiles[origin.x][origin.y];
             Tile destinationTile = floorTiles[destination.x][destination.y];
             
-            Vision_Rc.Add(new VisionRay(originTile.get_corner(1), destinationTile.get_corner(1)));
-            Vision_Rc.Add(new VisionRay(originTile.get_corner(2), destinationTile.get_corner(2)));
-            Vision_Rc.Add(new VisionRay(originTile.get_corner(3), destinationTile.get_corner(3)));
-            Vision_Rc.Add(new VisionRay(originTile.get_corner(4), destinationTile.get_corner(4)));
-            Vision_Rc.Add(new VisionRay(originTile.get_corner(3), destinationTile.get_corner(1)));
-            Vision_Rc.Add(new VisionRay(originTile.get_corner(2), destinationTile.get_corner(4)));
+            Vision_Rc.Add(new VisionRay(originTile.get_corner(1), destinationTile.get_corner(1), fineness));
+            Vision_Rc.Add(new VisionRay(originTile.get_corner(2), destinationTile.get_corner(2), fineness));
+            Vision_Rc.Add(new VisionRay(originTile.get_corner(3), destinationTile.get_corner(3), fineness));
+            Vision_Rc.Add(new VisionRay(originTile.get_corner(4), destinationTile.get_corner(4), fineness));
 
             //Comment this out when we're done with the vision log
             /*
@@ -2076,7 +2269,8 @@ namespace Cronkpit
                     int my_grid_x_position = (int)(Vision_Rc[i].my_current_position.X / 32);
                     int my_grid_y_position = (int)(Vision_Rc[i].my_current_position.Y / 32);
 
-                    if (floorTiles[my_grid_x_position][my_grid_y_position].isOpaque())
+                    if (floorTiles[my_grid_x_position][my_grid_y_position].isOpaque() &&
+                        !is_same_coordinate(origin, new gridCoordinate(my_grid_x_position, my_grid_y_position)))
                         remove = true;
 
                     for (int j = 0; j < Doodads.Count; j++)
@@ -2225,6 +2419,13 @@ namespace Cronkpit
             return badGuys;
         }
 
+        public void force_monster_wander(int monsterID, Player pl)
+        {
+            for (int i = 0; i < badGuys.Count; i++)
+                if (badGuys[i].my_Index == monsterID)
+                    badGuys[i].wander(pl, this, badGuys[i].is_corporeal());
+        }
+
         public Monster badguy_by_monster_id(int index)
         {
             for (int i = 0; i < badGuys.Count; i++)
@@ -2236,7 +2437,7 @@ namespace Cronkpit
 
         public Doodad Doodad_by_index(int index)
         {
-            if (index != -1)
+            if (index != -1 && index < Doodads.Count)
                 return Doodads[index];
             else
                 return null;
@@ -2260,6 +2461,10 @@ namespace Cronkpit
                         {
                             Doodads.Add(new Doodad(Doodad.Doodad_Type.Destroyed_ArmorSuit, cManager, badGuys[i].randomly_chosen_personal_coord(), Doodads.Count));
                         }
+                        if (badGuys[i].boss_monster)
+                        {
+                            unlock_dungeon_exit();
+                        }
                         badGuys.RemoveAt(i);
                     }
                 }
@@ -2270,26 +2475,21 @@ namespace Cronkpit
         {
             List<Attack> atks = new List<Attack>();
             atks.Add(atk);
-            for (int i = 0; i < badGuys.Count; i++)
-            {
-                if (badGuys[i].my_Index == monsterID)
-                {
-                    badGuys[i].takeDamage(atks, melee_attack, aoe_attack, message_buffer, this);
-                    if (badGuys[i].hitPoints <= 0)
-                    {
-                        if (badGuys[i] is HollowKnight)
-                        {
-                            Doodads.Add(new Doodad(Doodad.Doodad_Type.Destroyed_ArmorSuit, cManager, badGuys[i].randomly_chosen_personal_coord(), Doodads.Count));
-                        }
-                        badGuys.RemoveAt(i);
-                    }
-                }
-            }
+            damage_monster(atks, monsterID, melee_attack, aoe_attack);
         }
 
         public void damage_Doodad(int dmg, int DoodadID)
         {
             Doodads[DoodadID].take_damage(dmg, message_buffer, this);
+        }
+
+        public void remove_doodad_at_index(int index)
+        {
+            for (int i = 0; i < Doodads.Count; i++)
+            {
+                if (Doodads[i].get_my_index() == index)
+                    Doodads.RemoveAt(i);
+            }
         }
 
         public void set_tile_aura(gridCoordinate target_tile, Tile.Aura target_aura)
@@ -2328,6 +2528,16 @@ namespace Cronkpit
         public int check_mana()
         {
             return ambient_manavalue;
+        }
+
+        private bool is_same_coordinate(gridCoordinate gc1, gridCoordinate gc2)
+        {
+            return gc1.x == gc2.x && gc1.y == gc2.y;
+        }
+
+        public int get_fl_size()
+        {
+            return stdfloorSize;
         }
 
         #endregion

@@ -15,7 +15,8 @@ namespace Cronkpit
             : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             my_Texture = cont.Load<Texture2D>("Enemies/lolzombie");
-            hitPoints = 10;
+            max_hitPoints = 10;
+            hitPoints = max_hitPoints;
             min_damage = 1;
             max_damage = 1;
             dmg_type = Attack.Damage.Crushing;
@@ -33,6 +34,7 @@ namespace Cronkpit
             my_name = "Zombie";
             melee_dodge = 0;
             ranged_dodge = 0;
+            set_initial_dodge_values();
         }
 
         public override void Update_Monster(Player pl, Floor fl)
@@ -41,6 +43,7 @@ namespace Cronkpit
             //When not aggroed, there is a 25% chance that a zombie will wander in a random direction.
             //If it cannot wander in the first direction, it will try up to 5 times for another one.
             //Aggroed when the player comes within 3 blocks of it. Then it will move towards the player.
+            heal_near_altar(fl);
 
             if (is_player_within(pl, sight_range))
                 can_see_player = can_i_see_point(fl, pl.get_my_grid_C());

@@ -91,7 +91,7 @@ namespace Cronkpit
             return my_type;
         }
 
-        public override List<string> get_my_information()
+        public override List<string> get_my_information(bool in_shop)
         {
             List<string> return_array = new List<string>();
 

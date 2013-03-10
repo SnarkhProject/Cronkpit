@@ -11,7 +11,8 @@ namespace Cronkpit
 {
     class Doodad
     {
-        public enum Doodad_Type { ArmorSuit, Destroyed_ArmorSuit, Door, CorpsePile };
+        public enum Doodad_Type { ArmorSuit, Destroyed_ArmorSuit, Door, CorpsePile, Altar,
+                                  Destroyed_Altar };
         Doodad_Type my_doodad_type;
         Texture2D my_impassable_texture;
         Texture2D my_passable_texture;
@@ -32,7 +33,8 @@ namespace Cronkpit
         int index;
         string name;
 
-        public Doodad(Doodad_Type dType, ContentManager cManage, gridCoordinate s_coord, int s_ind)
+        public Doodad(Doodad_Type dType, ContentManager cManage, gridCoordinate s_coord, int s_ind,
+                      bool stone_doorframe = false)
         {
             my_doodad_type = dType;
             switch (my_doodad_type)
@@ -65,15 +67,31 @@ namespace Cronkpit
                     HP = 0;
                     break;
                 case Doodad_Type.Door:
-                    my_impassable_texture = cManage.Load<Texture2D>("Background/Doodads/stonewall_woodendoor");
-                    my_passable_texture = cManage.Load<Texture2D>("Background/Doodads/stonewall_woodendoor_open");
-                    my_destroyed_texture = cManage.Load<Texture2D>("Background/Doodads/stonewall_woodendoor_destroyed");
+                    if (stone_doorframe)
+                    {
+                        my_impassable_texture = cManage.Load<Texture2D>("Background/Doodads/stonewall_woodendoor");
+                        my_passable_texture = cManage.Load<Texture2D>("Background/Doodads/stonewall_woodendoor_open");
+                        my_destroyed_texture = cManage.Load<Texture2D>("Background/Doodads/stonewall_woodendoor_destroyed");
+                    }
+                    else
+                    {
+                        my_impassable_texture = cManage.Load<Texture2D>("Background/Doodads/woodwall_woodendoor");
+                        my_passable_texture = cManage.Load<Texture2D>("Background/Doodads/woodwall_woodendoor_open");
+                        my_destroyed_texture = cManage.Load<Texture2D>("Background/Doodads/woodwall_woodendoor_destroyed");
+                    }
                     name = "door";
                     my_door_state = Door_State.Closed;
                     passable = false;
                     destroyable = true;
                     blocks_los = true;
                     HP = 17;
+                    break;
+                case Doodad_Type.Altar:
+                    my_impassable_texture = cManage.Load<Texture2D>("Background/Doodads/altar");
+                    name = "altar";
+                    passable = false;
+                    destroyable = false;
+                    blocks_los = false;
                     break;
             }
             rGen = new Random();
