@@ -514,14 +514,21 @@ namespace Cronkpit
             bool dodged = false;
             bool absorbed = false;
             int dodge_roll = rGen.Next(100);
+            int dodge_bonus = 0;
 
-            if (melee_attack && dodge_roll < (int)modified_melee_dodge)
+            if (!corporeal)
+            {
+                if (my_monster_size == Monster_Size.Normal && !fl.is_tile_passable(my_grid_coords[0]))
+                    dodge_bonus = 25;
+            }
+
+            if (melee_attack && dodge_roll < ((int)modified_melee_dodge + dodge_bonus))
             {
                 dodged = true;
                 if (dodge_values_degrade)
                     modified_melee_dodge *= .9;
             }
-            else if (!melee_attack && dodge_roll < (int)modified_ranged_dodge)
+            else if (!melee_attack && dodge_roll < ((int)modified_ranged_dodge + dodge_bonus))
             {
                 dodged = true;
                 if (dodge_values_degrade)

@@ -1,0 +1,102 @@
+<XnaContent>
+  <Asset Type="CKPLibrary.ArmorDC[]">
+    <Item>
+      <IDNumber>3</IDNumber>
+      <Cost>350</Cost>
+      <Name>Plate Mail</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Ex-Priest </ValidClasses>
+      <AbVal>5</AbVal>
+      <InsVal>0</InsVal>
+      <PadVal>0</PadVal>
+      <RigVal>6</RigVal>
+      <HardVal>5</HardVal>
+      <Integrity>8</Integrity>
+      <ArmorType>Overarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>4</IDNumber>
+      <Cost>250</Cost>
+      <Name>Chainmail</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue Ex-Priest </ValidClasses>
+      <AbVal>3</AbVal>
+      <InsVal>0</InsVal>
+      <PadVal>2</PadVal>
+      <RigVal>4</RigVal>
+      <HardVal>4</HardVal>
+      <Integrity>5</Integrity>
+      <ArmorType>Overarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>49</IDNumber>
+      <Cost>3000</Cost>
+      <Name>Goridium Platemail</Name>
+      <ItemTier>3</ItemTier>
+      <ValidClasses>Warrior Ex-Priest </ValidClasses>
+      <AbVal>9</AbVal>
+      <InsVal>2</InsVal>
+      <PadVal>2</PadVal>
+      <RigVal>13</RigVal>
+      <HardVal>9</HardVal>
+      <Integrity>20</Integrity>
+      <ArmorType>Overarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>48</IDNumber>
+      <Cost>1750</Cost>
+      <Name>Reinforced Plate</Name>
+      <ItemTier>2</ItemTier>
+      <ValidClasses>Warrior Ex-Priest </ValidClasses>
+      <AbVal>7</AbVal>
+      <InsVal>0</InsVal>
+      <PadVal>2</PadVal>
+      <RigVal>7</RigVal>
+      <HardVal>8</HardVal>
+      <Integrity>14</Integrity>
+      <ArmorType>Overarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>5</IDNumber>
+      <Cost>250</Cost>
+      <Name>Rubber Underwear</Name>
+      <ItemTier>0</ItemTier>
+      <ValidClasses>Warrior Rogue Mage Ex-Priest </ValidClasses>
+      <AbVal>4</AbVal>
+      <InsVal>6</InsVal>
+      <PadVal>3</PadVal>
+      <RigVal>0</RigVal>
+      <HardVal>0</HardVal>
+      <Integrity>4</Integrity>
+      <ArmorType>Underarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>6</IDNumber>
+      <Cost>250</Cost>
+      <Name>Quilted Armor</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue Mage Ex-Priest </ValidClasses>
+      <AbVal>0</AbVal>
+      <InsVal>5</InsVal>
+      <PadVal>6</PadVal>
+      <RigVal>0</RigVal>
+      <HardVal>0</HardVal>
+      <Integrity>4</Integrity>
+      <ArmorType>Underarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>45</IDNumber>
+      <Cost>250</Cost>
+      <Name>Cloth Hood</Name>
+      <ItemTier>0</ItemTier>
+      <ValidClasses>Mage Ex-Priest </ValidClasses>
+      <AbVal>2</AbVal>
+      <InsVal>5</InsVal>
+      <PadVal>5</PadVal>
+      <RigVal>0</RigVal>
+      <HardVal>0</HardVal>
+      <Integrity>4</Integrity>
+      <ArmorType>Helmet</ArmorType>
+    </Item>
+  </Asset>
+</XnaContent>

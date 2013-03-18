@@ -225,7 +225,7 @@ namespace Cronkpit
             int total_wounds = atk.get_damage_amt();
             for (int i = 0; i < total_wounds; i++)
             {
-                int r_chance = rgen.Next(1, 101);
+                int r_chance = rgen.Next(100);
                 if (r_chance < absorb_threshold)
                 {
                     switch (area)

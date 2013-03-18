@@ -12,7 +12,7 @@ namespace Cronkpit
     class Player
     {
         public enum Character { Falsael, Ziktofel, Halephon, Petaer, Belia, Tavec, Sir_Placeholder };
-        public enum Chara_Class { Warrior, Mage, Rogue };
+        public enum Chara_Class { Warrior, Mage, Rogue, ExPriest };
         public enum Equip_Slot { Mainhand, Offhand, Overarmor, Underarmor, Helmet };
         //Constructor stuff
         private Texture2D my_Texture;
@@ -44,6 +44,7 @@ namespace Cronkpit
         List<Item> inventory;
         //!Constructor stuff
         private int my_gold;
+        private int lifetime_gold;
         //Sensory
         private int base_smell_value;
         private int base_sound_value;
@@ -99,7 +100,7 @@ namespace Cronkpit
             R_Arm = new Limb(ref rGen, "Right Arm", "RArm", 3);
             L_Arm = new Limb(ref rGen, "Left Arm", "LArm", 3);
             R_Leg = new Limb(ref rGen, "Right Leg", "RLeg", 3);
-            L_Leg = new Limb(ref rGen, "Left Leg", "LLeg",3 );
+            L_Leg = new Limb(ref rGen, "Left Leg", "LLeg", 3);
             calculate_dodge_chance();
             //Inventory stuff
             main_hand = new Weapon(0, 100, "Knife", Weapon.Type.Sword, 1, 2, 4, 1);
@@ -127,6 +128,23 @@ namespace Cronkpit
             }
 
             return "Default";
+        }
+
+        public string my_class_as_string()
+        {
+            switch (my_class)
+            {
+                case Chara_Class.Warrior:
+                    return "Warrior";
+                case Chara_Class.Mage:
+                    return "Mage";
+                case Chara_Class.Rogue:
+                    return "Rogue";
+                case Chara_Class.ExPriest:
+                    return "ExPriest";
+            }
+
+            return "Error";
         }
 
         public void drawMe(ref SpriteBatch sb)
@@ -889,29 +907,10 @@ namespace Cronkpit
         public void cast_spell(Scroll s, Floor fl, gridCoordinate spell_target, int target_monster_ID, int target_Doodad_ID)
         {
             string spell_name = s.get_my_name();
-            Projectile.projectile_type prj_type = 0;
+            Projectile.projectile_type prj_type = s.get_assoc_projectile();
             Attack.Damage spell_dmg_type = s.get_damage_type();
             gridCoordinate starting_coord = my_grid_coord;
-
-            switch(spell_dmg_type)
-            {
-                case Attack.Damage.Acid:
-                    prj_type = Projectile.projectile_type.AcidCloud;
-                    break;
-                case Attack.Damage.Fire:
-                    if (s.get_aoe_size() == 0)
-                        prj_type = Projectile.projectile_type.Flamebolt;
-                    else
-                        prj_type = Projectile.projectile_type.Fireball;
-                    break;
-                case Attack.Damage.Crushing:
-                    if (String.Compare(s.get_my_name(), "Earthquake") == 0)
-                        prj_type = Projectile.projectile_type.Blank;
-                    break;
-                case Attack.Damage.Electric:
-                    prj_type = Projectile.projectile_type.Lightning_Bolt;
-                    break;
-            }
+            Projectile.special_anim spec_prj_anim = s.get_spec_impact_anim();
  
             if (s.get_spell_type() == Scroll.Atk_Area_Type.piercingBolt)
             {
@@ -922,7 +921,8 @@ namespace Cronkpit
                 spell_target = new gridCoordinate(my_grid_coord.x + relative_x, my_grid_coord.y + relative_y);
             }
 
-            if (s.get_spell_type() != Scroll.Atk_Area_Type.personalBuff)
+            if (s.get_spell_type() != Scroll.Atk_Area_Type.personalBuff &&
+                s.get_spell_type() != Scroll.Atk_Area_Type.enemyDebuff)
             {
                 Projectile prj = new Projectile(starting_coord, spell_target, prj_type,
                                                  ref cont, false, s.get_spell_type());
@@ -943,6 +943,7 @@ namespace Cronkpit
                 prj.set_damage_range(spell_min_damage, spell_max_damage);
                 prj.set_damage_type(spell_dmg_type);
                 prj.set_wall_destroying(s.spell_destroys_walls());
+                prj.set_special_anim(spec_prj_anim);
 
                 if (s.get_spell_type() == Scroll.Atk_Area_Type.cloudAOE ||
                     s.get_spell_type() == Scroll.Atk_Area_Type.solidblockAOE ||
@@ -1021,6 +1022,7 @@ namespace Cronkpit
         public void add_gold(int gold_amt)
         {
             my_gold += gold_amt;
+            lifetime_gold += gold_amt;
         }
 
         public void pay_gold(int gold_amt)
@@ -1669,6 +1671,11 @@ namespace Cronkpit
         public int get_my_gold()
         {
             return my_gold;
+        }
+
+        public int get_my_lifetime_gold()
+        {
+            return lifetime_gold;
         }
 
         //Green text. Function here.

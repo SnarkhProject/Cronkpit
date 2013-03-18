@@ -32,7 +32,7 @@ namespace Cronkpit
             corporeal = false;
 
             //SENSORY
-            sight_range = 7;
+            sight_range = 5;
 
             //OTHER
             my_name = "Void Wraith";

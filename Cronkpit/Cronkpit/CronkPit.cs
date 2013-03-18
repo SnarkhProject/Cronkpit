@@ -201,6 +201,7 @@ namespace Cronkpit
                                     scroll_down_max_arrow);
             invScr.init_textures(scroll_up_max_arrow, scroll_up_one_arrow, scroll_down_max_arrow, 
                                 scroll_down_one_arrow);
+            shopScr.init_controls(scroll_up_one_arrow, scroll_down_one_arrow);
             
             // TODO: use this.Content to load your game content here
         }
@@ -374,7 +375,7 @@ namespace Cronkpit
 
             for (int i = 0; i < 8; i++)
             {
-                if (check_key_press(hotbar_keymap[i]) && valid_iconbar_state())
+                if (check_key_press(hotbar_keymap[i]) && valid_iconbar_state() && p1.is_alive())
                     use_slot_on_icoBar_full(i, out just_changed_states);
             }
 
@@ -551,6 +552,15 @@ namespace Cronkpit
 
                 if (check_key_release(Keys.Down) || check_key_release(Keys.NumPad2))
                     shopScr.scroll_menu(1);
+
+                if(check_key_release(Keys.NumPad9) && shopScr.in_submenu())
+                    shopScr.scroll_iteminfo_menu(-1);
+
+                if (check_key_release(Keys.NumPad3) && shopScr.in_submenu())
+                    shopScr.scroll_iteminfo_menu(1);
+
+                if (check_mouse_left_click())
+                    shopScr.mouse_click(mousePosition);
 
                 if (check_key_release(Keys.Enter))
                 {

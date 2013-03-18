@@ -421,8 +421,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Icons\Weapons\heavysiegebow_icon.png">
-      <Name>heavysiegebow_icon</Name>
+    <Compile Include="Icons\Weapons\siegebow_icon.png">
+      <Name>siegebow_icon</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -447,8 +447,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Icons\Weapons\traininglance_icon.png">
-      <Name>traininglance_icon</Name>
+    <Compile Include="Icons\Weapons\lightsteellance_icon.png">
+      <Name>lightsteellance_icon</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1302,6 +1302,56 @@
     </Compile>
     <Compile Include="Background\Necropolis\Necro_dungeon_exit_open.png">
       <Name>Necro_dungeon_exit_open</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Player\ziktofel_dead.png">
+      <Name>ziktofel_dead</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ItemData\weapons.xml">
+      <Name>weapons</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\CKPLibrary\CKPLibrary\CKPLibrary.csproj">
+      <Project>{019A4668-9C72-48B3-9B15-08985FA53E02}</Project>
+      <Name>CKPLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ItemData\potions.xml">
+      <Name>potions</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ItemData\armors.xml">
+      <Name>armors</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Icons\Armors\goridiumplatemail_icon.png">
+      <Name>goridiumplatemail_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Icons\Armors\reinforcedplate_icon.png">
+      <Name>reinforcedplate_icon</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

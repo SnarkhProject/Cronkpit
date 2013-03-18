@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cronkpit", "Cronkpit\Cronkp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cronkpit Content", "Cronkpit\Cronkpit Content\Cronkpit Content.contentproj", "{2E95B1D3-C6AC-490F-81BC-17D28BD5446C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CKPLibrary", "..\CKPLibrary\CKPLibrary\CKPLibrary.csproj", "{019A4668-9C72-48B3-9B15-08985FA53E02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -18,6 +20,10 @@ Global
 		{2E95B1D3-C6AC-490F-81BC-17D28BD5446C}.Debug|x86.ActiveCfg = Debug|x86
 		{2E95B1D3-C6AC-490F-81BC-17D28BD5446C}.Debug|x86.Build.0 = Debug|x86
 		{2E95B1D3-C6AC-490F-81BC-17D28BD5446C}.Release|x86.ActiveCfg = Release|x86
+		{019A4668-9C72-48B3-9B15-08985FA53E02}.Debug|x86.ActiveCfg = Debug|x86
+		{019A4668-9C72-48B3-9B15-08985FA53E02}.Debug|x86.Build.0 = Debug|x86
+		{019A4668-9C72-48B3-9B15-08985FA53E02}.Release|x86.ActiveCfg = Release|x86
+		{019A4668-9C72-48B3-9B15-08985FA53E02}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

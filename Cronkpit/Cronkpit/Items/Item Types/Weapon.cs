@@ -176,8 +176,9 @@ namespace Cronkpit
                 case Weapon.Type.Crossbow:
                 case Weapon.Type.Bow:
                     return_array.Add(" ");
-                    return_array.Add("Cannot equip two bows, crossbows,");
-                    return_array.Add("or a bow and a crossbow.");
+                    return_array.Add("Cannot equip two bows,");
+                    return_array.Add("crossbows, or a bow and");
+                    return_array.Add("a crossbow.");
                     break;
             }
 

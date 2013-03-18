@@ -28,6 +28,11 @@ namespace Cronkpit
 
         Random rGen;
 
+        Rectangle info_scrollup_ctrl;
+        Rectangle info_scrolldwn_ctrl;
+        Texture2D info_scrollup_tex;
+        Texture2D info_scrolldwn_tex;
+
         //Descriptive stuff
         string descriptive_text;
         int blurb_height;
@@ -52,31 +57,37 @@ namespace Cronkpit
 
         float height = 0;
         float width = 0;
-        float i_menu_height = 0;
-        float i_menu_width = 0;
-        float inf_menu_height = 0;
-        float inf_menu_width = 0;
+
+        int item_menu_offset;
+        int item_info_offset;
+        int max_info_offset;
+        int lines_available;
+        int small_lines_avilable;
 
         //Shopping stuff!
         public enum Shopping_Mode { Main, Armor, Weapons, Consumables, Talismans, Scrolls, Sell, Buyback };
         Shopping_Mode im_shopping_for;
 
         //Item stuff
-        MainItemList all_items;
-        List<Armor> armors_in_stock;
-        List<Weapon> weapons_in_stock;
-        List<Scroll> scrolls_in_stock;
+        ShopXManager shopManager;
+        List<Item> armors_in_stock;
+        List<Item> weapons_in_stock;
+        List<Item> scrolls_in_stock;
         List<Item> consumables_in_stock;
-        List<Talisman> talismans_in_stock;
+        List<Item> talismans_in_stock;
         List<Item> items_to_sell;
         List<Item> sold_items;
+        List<Item> current_list;
         List<string> current_item_info;
         int player_gold;
+
+        //Misc.
+        int adtl_spacing = 25;
 
         public ShopScreen(List<string> mItems, SpriteFont sf, SpriteFont small_f, Rectangle cl, ref ContentManager cm)
         {
             menuItems = new List<string>(mItems);
-            all_items = new MainItemList();
+            shopManager = new ShopXManager(cm);
             current_item_info = new List<string>();
             cManager = cm;
             sFont = sf;
@@ -87,7 +98,15 @@ namespace Cronkpit
             rGen = new Random();
             //Choose a random blurb, based on what character you picked.
             blurb_position = new Vector2(20f, 20f);
-            descriptive_text = "";
+            descriptive_text = "";    
+        }
+
+        public void init_controls(Texture2D scrollup_tex, Texture2D scrolldown_tex)
+        {
+            info_scrollup_tex = scrollup_tex;
+            info_scrolldwn_tex = scrolldown_tex;
+            info_scrollup_ctrl = new Rectangle(client.Width - 32, 0, 32, 32);
+            info_scrolldwn_ctrl = new Rectangle(client.Width - 32, client.Height - 50, 32, 32);
         }
 
         private void take_measurements()
@@ -107,86 +126,10 @@ namespace Cronkpit
                                         blurb_height + ((client.Height - height - blurb_height) / 2));
         }
 
-        private void take_item_menu_measurements(Shopping_Mode target_menu)
-        {
-            i_menu_height = 0;
-            i_menu_width = 0;
-            inf_menu_height = 0;
-            inf_menu_width = 0;
-
-            if (target_menu == Shopping_Mode.Armor)
-            {
-                for (int i = 0; i < armors_in_stock.Count; i++)
-                {
-                    Vector2 size = sFont.MeasureString(armors_in_stock[i].get_my_name());
-                    if (size.X > i_menu_width)
-                        i_menu_width = size.X;
-                    i_menu_height += sFont.LineSpacing + 5;
-                }
-            }
-
-            if (target_menu == Shopping_Mode.Weapons)
-            {
-                for (int i = 0; i < weapons_in_stock.Count; i++)
-                {
-                    Vector2 size = sFont.MeasureString(weapons_in_stock[i].get_my_name());
-                    if (size.X > i_menu_width)
-                        i_menu_width = size.X;
-                    i_menu_height += sFont.LineSpacing + 5;
-                }
-            }
-
-            if (target_menu == Shopping_Mode.Scrolls)
-            {
-                for (int i = 0; i < scrolls_in_stock.Count; i++)
-                {
-                    Vector2 size = sFont.MeasureString(scrolls_in_stock[i].get_my_name());
-                    if (size.X > i_menu_width)
-                        i_menu_width = size.X;
-                    i_menu_height += sFont.LineSpacing + 5;
-                }
-            }
-
-            if (target_menu == Shopping_Mode.Sell)
-            {
-                for (int i = 0; i < items_to_sell.Count; i++)
-                {
-                    Vector2 size = sFont.MeasureString(items_to_sell[i].get_my_name());
-                    if (size.X > i_menu_width)
-                        i_menu_width = size.X;
-                    i_menu_height += sFont.LineSpacing + 5;
-                }
-            }
-
-            if (target_menu == Shopping_Mode.Buyback)
-            {
-                for (int i = 0; i < sold_items.Count; i++)
-                {
-                    Vector2 size = sFont.MeasureString(sold_items[i].get_my_name());
-                    if (size.X > i_menu_width)
-                        i_menu_width = size.X;
-                    i_menu_height += sFont.LineSpacing + 5;
-                }
-            }
-
-            for (int i = 0; i < current_item_info.Count; i++)
-            {
-                Vector2 size = sFont.MeasureString(current_item_info[i]);
-                if (size.X > i_menu_width)
-                    inf_menu_width = size.X;
-                inf_menu_height += sFont.LineSpacing + 5;
-            }
-
-            int client_5_zone_split = client.Width / 5;
-            item_menu_position = new Vector2(((client.Width - (client_5_zone_split * 3)) - width) / 2,
-                                            blurb_height + ((client.Height - height - blurb_height) / 2));
-            item_info_position = new Vector2(((client.Width - inf_menu_width) / 2) + item_menu_position.X,
-                                            blurb_height + ((client.Height - inf_menu_height - blurb_height) / 2));
-        }
-
         public void scroll_menu(int scroll)
         {
             current_item_info.Clear();
+            item_info_offset = 0;
             switch(im_shopping_for)
             {
                 case Shopping_Mode.Main:
@@ -197,77 +140,50 @@ namespace Cronkpit
                     if (selectedIndex >= menuItems.Count)
                         selectedIndex = 0;
                     break;
-                case Shopping_Mode.Armor:
+                default:
                     selectedIndex = 0;
                     selected_item_index += scroll;
+                    if (selected_item_index > (item_menu_offset + lines_available - 1))
+                        item_menu_offset++;
+                    else if (selected_item_index < item_menu_offset && item_menu_offset > 0)
+                        item_menu_offset--;
+
                     if (selected_item_index < 0)
-                        selected_item_index = armors_in_stock.Count;
-                    if (selected_item_index > armors_in_stock.Count)
+                    {
+                        selected_item_index = current_list.Count;
+                        item_menu_offset = current_list.Count+1 - lines_available;
+                        if (item_menu_offset < 0)
+                            item_menu_offset = 0;
+                    }
+                    if (selected_item_index > current_list.Count)
+                    {
                         selected_item_index = 0;
-                    if(selected_item_index < armors_in_stock.Count)
-                        current_item_info = armors_in_stock[selected_item_index].get_my_information(true);
-                    break;
-                case Shopping_Mode.Weapons:
-                    selectedIndex = 0;
-                    selected_item_index += scroll;
-                    if (selected_item_index < 0)
-                        selected_item_index = weapons_in_stock.Count;
-                    if (selected_item_index > weapons_in_stock.Count)
-                        selected_item_index = 0;
-                    if (selected_item_index < weapons_in_stock.Count)
-                        current_item_info = weapons_in_stock[selected_item_index].get_my_information(true);
-                    break;
-                case Shopping_Mode.Consumables:
-                    selectedIndex = 0;
-                    selected_item_index += scroll;
-                    if (selected_item_index < 0)
-                        selected_item_index = consumables_in_stock.Count;
-                    if (selected_item_index > consumables_in_stock.Count)
-                        selected_item_index = 0;
-                    if (selected_item_index < consumables_in_stock.Count)
-                        current_item_info = consumables_in_stock[selected_item_index].get_my_information(true);
-                    break;
-                case Shopping_Mode.Talismans:
-                    selectedIndex = 0;
-                    selected_item_index += scroll;
-                    if (selected_item_index < 0)
-                        selected_item_index = talismans_in_stock.Count;
-                    if (selected_item_index > talismans_in_stock.Count)
-                        selected_item_index = 0;
-                    if (selected_item_index < talismans_in_stock.Count)
-                        current_item_info = talismans_in_stock[selected_item_index].get_my_information(true);
-                    break;
-                case Shopping_Mode.Sell:
-                    selectedIndex = 0;
-                    selected_item_index += scroll;
-                    if (selected_item_index < 0)
-                        selected_item_index = items_to_sell.Count;
-                    if (selected_item_index > items_to_sell.Count)
-                        selected_item_index = 0;
-                    if (selected_item_index < items_to_sell.Count)
-                        current_item_info = items_to_sell[selected_item_index].get_my_information(true);
-                    break;
-                case Shopping_Mode.Buyback:
-                    selectedIndex = 0;
-                    selected_item_index += scroll;
-                    if (selected_item_index < 0)
-                        selected_item_index = sold_items.Count;
-                    if (selected_item_index > sold_items.Count)
-                        selected_item_index = 0;
-                    if (selected_item_index < sold_items.Count)
-                        current_item_info = sold_items[selected_item_index].get_my_information(false);
-                    break;
-                case Shopping_Mode.Scrolls:
-                    selectedIndex = 0;
-                    selected_item_index += scroll;
-                    if (selected_item_index < 0)
-                        selected_item_index = scrolls_in_stock.Count;
-                    if (selected_item_index > scrolls_in_stock.Count)
-                        selected_item_index = 0;
-                    if (selected_item_index < scrolls_in_stock.Count)
-                        current_item_info = scrolls_in_stock[selected_item_index].get_my_information(true);
+                        item_menu_offset = 0;
+                    }
+                    if (selected_item_index < current_list.Count)
+                    {
+                        current_item_info = current_list[selected_item_index].get_my_information(true);
+                        max_info_offset = Math.Max(current_item_info.Count- lines_available, 0);
+                    }
                     break;
             }
+        }
+
+        public void scroll_iteminfo_menu(int scroll)
+        {
+            if((item_info_offset < max_info_offset && item_info_offset > 0) ||
+               (item_info_offset == max_info_offset && scroll == -1) ||
+               (item_info_offset == 0 && scroll == 1))
+                item_info_offset += scroll;
+        }
+
+        public void mouse_click(Vector2 clickloc)
+        {
+            if (info_scrollup_ctrl.Contains((int)clickloc.X, (int)clickloc.Y))
+                scroll_iteminfo_menu(-1);
+
+            if (info_scrolldwn_ctrl.Contains((int)clickloc.X, (int)clickloc.Y))
+                scroll_iteminfo_menu(1);
         }
 
         public int get_my_index()
@@ -285,33 +201,44 @@ namespace Cronkpit
                     break;
                 case Shopping_Mode.Armor:
                     set_descriptive_armor_shopping(armor_shopping_used);
+                    current_list = armors_in_stock;
                     scroll_menu(0);
                     break;
                 case Shopping_Mode.Weapons:
                     set_descriptive_weapon_shopping(weapon_shopping_used);
+                    current_list = weapons_in_stock;
                     scroll_menu(0);
                     break;
                 case Shopping_Mode.Consumables:
                     set_descriptive_consumable_shopping(consumable_shopping_used);
+                    current_list = consumables_in_stock;
                     scroll_menu(0);
                     break;
                 case Shopping_Mode.Sell:
                     set_descriptive_selling(sell_shopping_used);
+                    current_list = items_to_sell;
                     scroll_menu(0);
                     break;
                 case Shopping_Mode.Buyback:
                     set_descriptive_buyback(buyback_shopping_used);
+                    current_list = sold_items;
                     scroll_menu(0);
                     break;
                 case Shopping_Mode.Scrolls:
                     set_descriptive_scroll_shopping(scroll_shopping_used);
+                    current_list = scrolls_in_stock;
                     scroll_menu(0);
                     break;
                 case Shopping_Mode.Talismans:
                     set_descriptive_talisman_shopping(talisman_shopping_used);
+                    current_list = talismans_in_stock;
                     scroll_menu(0);
                     break;
             }
+            item_menu_position = new Vector2(75, Math.Max(250, blurb_height + adtl_spacing));
+            lines_available = (client.Height - (Math.Max(250, blurb_height + adtl_spacing) + 50)) / sFont.LineSpacing;
+            small_lines_avilable = (client.Height - (Math.Max(250, blurb_height + adtl_spacing) + 50)) / smaller_Font.LineSpacing;
+            info_scrollup_ctrl.Y = (int)item_menu_position.Y;
         }
 
         public bool in_submenu()
@@ -347,84 +274,44 @@ namespace Cronkpit
             int item_gold_value;
             switch (im_shopping_for)
             {
-                case Shopping_Mode.Armor:
-                    item_gold_value = armors_in_stock[selected_item_index].get_my_gold_value();
-                    if (pl.get_my_gold() >= item_gold_value)
-                    {
-                        pl.pay_gold(item_gold_value);
-                        pl.acquire_item((Item)armors_in_stock[selected_item_index]);
-                        armors_in_stock.RemoveAt(selected_item_index);
-                    }
-                    break;
-                case Shopping_Mode.Weapons:
-                    item_gold_value = weapons_in_stock[selected_item_index].get_my_gold_value();
-                    if (pl.get_my_gold() >= item_gold_value)
-                    {
-                        pl.pay_gold(item_gold_value);
-                        pl.acquire_item((Item)weapons_in_stock[selected_item_index]);
-                        weapons_in_stock.RemoveAt(selected_item_index);
-                    }
-                    break;
-                case Shopping_Mode.Consumables:
-                    item_gold_value = consumables_in_stock[selected_item_index].get_my_gold_value();
-                    if (pl.get_my_gold() >= item_gold_value)
-                    {
-                        pl.pay_gold(item_gold_value);
-                        if (consumables_in_stock[selected_item_index] is Potion)
-                        {
-                            int pt_ID = consumables_in_stock[selected_item_index].get_my_IDno();
-                            int pt_cost = consumables_in_stock[selected_item_index].get_my_gold_value();
-                            string pt_name = consumables_in_stock[selected_item_index].get_my_name();
-
-                            Potion pt = new Potion(pt_ID, pt_cost, pt_name, (Potion)consumables_in_stock[selected_item_index]);
-                            pl.acquire_potion(pt);
-                        }
-                        consumables_in_stock.RemoveAt(selected_item_index);
-                    }
-                    break;
-                case Shopping_Mode.Talismans:
-                    item_gold_value = talismans_in_stock[selected_item_index].get_my_gold_value();
-                    if (pl.get_my_gold() >= item_gold_value)
-                    {
-                        pl.pay_gold(item_gold_value);
-                        pl.acquire_item((Item)talismans_in_stock[selected_item_index]);
-                        talismans_in_stock.RemoveAt(selected_item_index);
-                    }
-                    break;
                 case Shopping_Mode.Sell:
                     sell_item(pl);
-                    break;
-                case Shopping_Mode.Buyback:
-                    item_gold_value = sold_items[selected_item_index].get_my_gold_value();
-                    int buyback_value = (int)Math.Max(item_gold_value * .93, item_gold_value - 500);
-                    if (pl.get_my_gold() >= buyback_value)
-                    {
-                        pl.pay_gold(buyback_value);
-                        if (sold_items[selected_item_index] is Potion)
-                        {
-                            Potion p = (Potion)sold_items[selected_item_index];
-                            p.adjust_quantity(-1);
-                            Potion p2 = new Potion(p.get_my_IDno(), p.get_my_gold_value(), p.get_my_name(), p);
-                            p2.set_quantity(1);
-                            pl.acquire_potion(p2);
-
-                            if (p.get_my_quantity() == 0)
-                                sold_items.RemoveAt(selected_item_index);
-                        }
-                        else
-                        {
-                            pl.acquire_item(sold_items[selected_item_index]);
-                            sold_items.RemoveAt(selected_item_index);
-                        }
-                    }
                     break;
                 case Shopping_Mode.Scrolls:
                     item_gold_value = scrolls_in_stock[selected_item_index].get_my_gold_value();
                     if (pl.get_my_gold() >= item_gold_value)
                     {
                         pl.pay_gold(item_gold_value);
-                        pl.acquire_item((Item)scrolls_in_stock[selected_item_index]);
+                        pl.acquire_item(scrolls_in_stock[selected_item_index]);
                         scrolls_in_stock.RemoveAt(selected_item_index);
+                    }
+                    break;
+                default:
+                    item_gold_value = current_list[selected_item_index].get_my_gold_value();
+                    int buyback_value = (int)Math.Max(item_gold_value * .93, item_gold_value - 500);
+
+                    if (im_shopping_for == Shopping_Mode.Buyback)
+                        item_gold_value = buyback_value;
+
+                    if (pl.get_my_gold() >= item_gold_value)
+                    {
+                        pl.pay_gold(item_gold_value);
+                        if (current_list[selected_item_index] is Potion)
+                        {
+                            Potion p = (Potion)current_list[selected_item_index];
+                            p.adjust_quantity(-1);
+                            Potion p2 = new Potion(p.get_my_IDno(), p.get_my_gold_value(), p.get_my_name(), p);
+                            p2.set_quantity(1);
+                            pl.acquire_potion(p2);
+
+                            if (p.get_my_quantity() == 0)
+                                current_list.RemoveAt(selected_item_index);
+                        }
+                        else
+                        {
+                            pl.acquire_item(current_list[selected_item_index]);
+                            current_list.RemoveAt(selected_item_index);
+                        }
                     }
                     break;
             }
@@ -483,11 +370,11 @@ namespace Cronkpit
             scroll_shopping_used = rGen.Next(1);
             exit_used = rGen.Next(1);
 
-            armors_in_stock = all_items.retrieve_random_shared_armors(4);
-            weapons_in_stock = all_items.retrieve_random_shared_weapons(4);
-            consumables_in_stock = all_items.retrieve_random_shared_consumables(2);
-            scrolls_in_stock = all_items.retrieve_random_shared_scrolls(3);
-            talismans_in_stock = all_items.retrieve_random_shared_talismans(4);
+            armors_in_stock = shopManager.retrieve_random_items(ShopXManager.Permanent_ITypes.Armor, pl, 4);
+            weapons_in_stock = shopManager.retrieve_random_items(ShopXManager.Permanent_ITypes.Weapon, pl, 4);
+            scrolls_in_stock = shopManager.retrieve_random_items(ShopXManager.Permanent_ITypes.Scroll, pl, 4);
+            consumables_in_stock = shopManager.retrieve_random_consumables(pl, 2);
+            talismans_in_stock = shopManager.retrieve_random_talismans(4);
             items_to_sell = pl.retrieve_inventory();
             sold_items = new List<Item>();
 
@@ -695,14 +582,8 @@ namespace Cronkpit
             take_measurements();
 
             sBatch.DrawString(sFont, descriptive_text, blurb_position, Color.White);
-
-            SpriteFont item_info_font = sFont;
-            if (blurb_height > (sFont.LineSpacing * 10))
-                item_info_font = smaller_Font;
-
             Vector2 position2;
             Color tint;
-            Color exit_submenu_tint;
             Vector2 player_gold_position = new Vector2(10, client.Height - sFont.LineSpacing - 10);
 
             sBatch.DrawString(sFont, "Gold Remaining: " + player_gold.ToString(), player_gold_position, Color.White);
@@ -720,126 +601,44 @@ namespace Cronkpit
                         position2.Y += sFont.LineSpacing;
                     }
                     break;
-                case Shopping_Mode.Armor:
-                    take_item_menu_measurements(im_shopping_for);
-                    position2 = new Vector2(item_menu_position.X, item_menu_position.Y);
-                    for (int i = 0; i < armors_in_stock.Count; i++)
-                    {
-                        if (i == selected_item_index)
-                            tint = highlighted;
-                        else
-                            tint = normal;
-                        sBatch.DrawString(sFont, armors_in_stock[i].get_my_name(), position2, tint);
-                        position2.Y += sFont.LineSpacing;
-                    }
-                    if (selected_item_index == armors_in_stock.Count)
-                        exit_submenu_tint = highlighted;
-                    else
-                        exit_submenu_tint = normal;
-                    sBatch.DrawString(sFont, sub_menu_exit, position2, exit_submenu_tint);
-                    break;
-                case Shopping_Mode.Weapons:
-                    take_item_menu_measurements(im_shopping_for);
-                    position2 = new Vector2(item_menu_position.X, item_menu_position.Y);
-                    for (int i = 0; i < weapons_in_stock.Count; i++)
-                    {
-                        if (i == selected_item_index)
-                            tint = highlighted;
-                        else
-                            tint = normal;
-                        sBatch.DrawString(sFont, weapons_in_stock[i].get_my_name(), position2, tint);
-                        position2.Y += sFont.LineSpacing;
-                    }
-                    if (selected_item_index == weapons_in_stock.Count)
-                        exit_submenu_tint = highlighted;
-                    else
-                        exit_submenu_tint = normal;
-                    sBatch.DrawString(sFont, sub_menu_exit, position2, exit_submenu_tint);
-                    break;
-                case Shopping_Mode.Consumables:
-                    take_item_menu_measurements(im_shopping_for);
-                    position2 = new Vector2(item_menu_position.X, item_menu_position.Y);
-                    for (int i = 0; i < consumables_in_stock.Count; i++)
-                    {
-                        if (i == selected_item_index)
-                            tint = highlighted;
-                        else
-                            tint = normal;
-                        sBatch.DrawString(sFont, consumables_in_stock[i].get_my_name(), position2, tint);
-                        position2.Y += sFont.LineSpacing;
-                    }
-                    if (selected_item_index == consumables_in_stock.Count)
-                        exit_submenu_tint = highlighted;
-                    else
-                        exit_submenu_tint = normal;
-                    sBatch.DrawString(sFont, sub_menu_exit, position2, exit_submenu_tint);
-                    break;
-                case Shopping_Mode.Talismans:
-                    take_item_menu_measurements(im_shopping_for);
-                    position2 = new Vector2(item_menu_position.X, item_menu_position.Y);
-                    for (int i = 0; i < talismans_in_stock.Count; i++)
-                    {
-                        if (i == selected_item_index)
-                            tint = highlighted;
-                        else
-                            tint = normal;
-                        sBatch.DrawString(smaller_Font, talismans_in_stock[i].get_my_name(), position2, tint);
-                        position2.Y += sFont.LineSpacing;
-                    }
-                    if (selected_item_index == talismans_in_stock.Count)
-                        exit_submenu_tint = highlighted;
-                    else
-                        exit_submenu_tint = normal;
-                    sBatch.DrawString(sFont, sub_menu_exit, position2, exit_submenu_tint);
-                    break;
-                case Shopping_Mode.Sell:
-                    draw_item_type_menu(items_to_sell, ref sBatch);
-                    break;
-                case Shopping_Mode.Buyback:
-                    draw_item_type_menu(sold_items, ref sBatch);
-                    break;
-                case Shopping_Mode.Scrolls:
-                    take_item_menu_measurements(im_shopping_for);
-                    position2 = new Vector2(item_menu_position.X, item_menu_position.Y);
-                    for (int i = 0; i < scrolls_in_stock.Count; i++)
-                    {
-                        if (i == selected_item_index)
-                            tint = highlighted;
-                        else
-                            tint = normal;
-                        sBatch.DrawString(sFont, scrolls_in_stock[i].get_my_name(), position2, tint);
-                        position2.Y += sFont.LineSpacing;
-                    }
-                    if (selected_item_index == scrolls_in_stock.Count)
-                        exit_submenu_tint = highlighted;
-                    else
-                        exit_submenu_tint = normal;
-                    sBatch.DrawString(sFont, sub_menu_exit, position2, exit_submenu_tint);
+                default:
+                    draw_item_type_menu(current_list, ref sBatch);
                     break;
             }
 
             if (im_shopping_for != Shopping_Mode.Main)
             {
-                Vector2 item_info_position2 = new Vector2(item_info_position.X, item_info_position.Y);
-                if (blurb_height > sFont.LineSpacing*10 && current_item_info.Count > 10)
-                    item_info_position2.Y += 20;
-
-                for (int i = 0; i < current_item_info.Count; i++)
+                SpriteFont target_font = sFont;
+                int current_lines_avail = lines_available;
+                if (current_item_info.Count > 10)
                 {
-                    sBatch.DrawString(item_info_font, current_item_info[i], item_info_position2, Color.White);
-                    item_info_position2.Y += item_info_font.LineSpacing;
+                    target_font = smaller_Font;
+                    current_lines_avail = small_lines_avilable;
                 }
+
+                Vector2 item_info_position2 = new Vector2(item_info_position.X, item_info_position.Y);
+
+                for (int i = item_info_offset; 
+                     i < Math.Min(current_item_info.Count, item_info_offset + current_lines_avail); i++)
+                {
+                    sBatch.DrawString(target_font, current_item_info[i], item_info_position2, Color.White);
+                    item_info_position2.Y += target_font.LineSpacing;
+                }
+
+                sBatch.Draw(info_scrollup_tex, info_scrollup_ctrl, Color.White);
+                sBatch.Draw(info_scrolldwn_tex, info_scrolldwn_ctrl, Color.White);
             }
         }
 
         public void draw_item_type_menu(List<Item> target_menu, ref SpriteBatch sBatch)
         {
-            take_item_menu_measurements(im_shopping_for);
+            item_info_position = new Vector2(425, Math.Max(250, blurb_height + adtl_spacing));
             Vector2 position2 = new Vector2(item_menu_position.X, item_menu_position.Y);
             Color tint;
             Color exit_submenu_tint;
 
-            for (int i = 0; i < target_menu.Count; i++)
+            for (int i = item_menu_offset; 
+                 i < Math.Min(target_menu.Count, item_menu_offset+lines_available); i++)
             {
                 if (i == selected_item_index)
                     tint = highlighted;
@@ -848,11 +647,15 @@ namespace Cronkpit
                 sBatch.DrawString(sFont, target_menu[i].get_my_name(), position2, tint);
                 position2.Y += sFont.LineSpacing;
             }
-            if (selected_item_index == target_menu.Count)
-                exit_submenu_tint = highlighted;
-            else
-                exit_submenu_tint = normal;
-            sBatch.DrawString(sFont, sub_menu_exit, position2, exit_submenu_tint);
+
+            if (item_menu_offset + lines_available >= target_menu.Count+1)
+            {
+                if (selected_item_index == target_menu.Count)
+                    exit_submenu_tint = highlighted;
+                else
+                    exit_submenu_tint = normal;
+                sBatch.DrawString(sFont, sub_menu_exit, position2, exit_submenu_tint);
+            }
         }
     }
 }

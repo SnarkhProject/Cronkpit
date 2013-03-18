@@ -8,34 +8,52 @@ namespace Cronkpit
     class Scroll: Item
     {
         public enum Atk_Area_Type { singleTile, cloudAOE, solidblockAOE, randomblockAOE, 
-                                    personalBuff, piercingBolt, smallfixedAOE, chainedBolt };
-        int scroll_tier;
+                                    personalBuff, piercingBolt, smallfixedAOE, chainedBolt,
+                                    enemyDebuff };
+        public enum Spell_Status_Effect { Blind, Deaf, Anosmia, LynxFer, PantherFer, TigerFer };
+
+        //Enums
         Atk_Area_Type my_sType;
         Attack.Damage spell_dmg_type;
+        Projectile.projectile_type my_prjType;
+        Projectile.special_anim my_specAnim;
+        Spell_Status_Effect myBufforDebuff;
+        //Ints
+        int scroll_tier;
         int aoe_size;
         int max_range;
         int min_damage;
         int max_damage;
-        bool melee_range;
+        int buffDebuff_duration;
         int total_impacts;
-        bool destroys_walls;
         int mana_cost;
+        //Bools
+        bool destroys_walls;
+        bool melee_range;
 
         public Scroll(int IDno, int goldVal, string myName, int stier, int smana, int srange, int sAoe, int minDmg, int maxDmg, bool meleeSpell,
-                      Atk_Area_Type s_spell_type, Attack.Damage dmg_type, bool destroyWalls)
+                      Atk_Area_Type s_spell_type, Projectile.projectile_type s_prj_type, Attack.Damage dmg_type, bool destroyWalls, int t_impacts,
+                      Spell_Status_Effect s_buffDebuff, int spell_duration, Projectile.special_anim s_prj_special_anim)
             : base(IDno, goldVal, myName)
         {
+            //Enums
+            my_sType = s_spell_type;
+            spell_dmg_type = dmg_type;
+            my_prjType = s_prj_type;
+            my_specAnim = s_prj_special_anim;
+            myBufforDebuff = s_buffDebuff;
+            //Ints
             scroll_tier = stier;
             aoe_size = sAoe;
             max_range = srange;
             min_damage = minDmg;
             max_damage = maxDmg;
-            melee_range = meleeSpell;
-            my_sType = s_spell_type;
-            spell_dmg_type = dmg_type;
-            total_impacts = 0;
-            destroys_walls = destroyWalls;
+            total_impacts = t_impacts;
             mana_cost = smana;
+            buffDebuff_duration = spell_duration;
+            //Bools
+            destroys_walls = destroyWalls;
+            melee_range = meleeSpell;
         }
 
         public Scroll(int IDno, int goldVal, string myName, Scroll s)
@@ -54,6 +72,33 @@ namespace Cronkpit
             mana_cost = s.get_manaCost();
         }
 
+        //Enum getters
+        public Attack.Damage get_damage_type()
+        {
+            return spell_dmg_type;
+        }
+
+        public Atk_Area_Type get_spell_type()
+        {
+            return my_sType;
+        }
+
+        public Projectile.projectile_type get_assoc_projectile()
+        {
+            return my_prjType;
+        }
+
+        public Spell_Status_Effect get_status_effect()
+        {
+            return myBufforDebuff;
+        }
+
+        public Projectile.special_anim get_spec_impact_anim()
+        {
+            return my_specAnim;
+        }
+
+        //Int getters
         public int get_tier()
         {
             return scroll_tier;
@@ -89,19 +134,25 @@ namespace Cronkpit
             return rGen.Next(min_damage, max_damage + 1);
         }
 
-        public Attack.Damage get_damage_type()
+        public int get_t_impacts()
         {
-            return spell_dmg_type;
+            return total_impacts;
         }
 
-        public Atk_Area_Type get_spell_type()
+        public int get_manaCost()
         {
-            return my_sType;
+            return mana_cost;
         }
 
+        public int get_duration()
+        {
+            return buffDebuff_duration;
+        }
+
+        //Bool getters
         public bool is_AoE_Spell()
         {
-            return my_sType != Atk_Area_Type.singleTile && 
+            return my_sType != Atk_Area_Type.singleTile &&
                    my_sType != Atk_Area_Type.personalBuff &&
                    my_sType != Atk_Area_Type.chainedBolt;
         }
@@ -111,6 +162,12 @@ namespace Cronkpit
             return melee_range;
         }
 
+        public bool spell_destroys_walls()
+        {
+            return destroys_walls;
+        }
+
+        //String getters
         public override string get_my_texture_name()
         {
             switch (scroll_tier)
@@ -226,24 +283,10 @@ namespace Cronkpit
             return info;
         }
 
+        //Void setters
         public void set_t_impacts(int nt)
         {
             total_impacts = nt;
-        }
-
-        public int get_t_impacts()
-        {
-            return total_impacts;
-        }
-
-        public bool spell_destroys_walls()
-        {
-            return destroys_walls;
-        }
-
-        public int get_manaCost()
-        {
-            return mana_cost;
-        }
+        }        
     }
 }

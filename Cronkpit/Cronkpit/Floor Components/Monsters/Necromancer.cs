@@ -33,7 +33,7 @@ namespace Cronkpit
         int min_acidsplash_dmg;
         int max_acidsplash_dmg;
 
-        public Necromancer(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, bool createMajor)
+        public Necromancer(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, int rank = 1)
             : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
         {
             female = false;
@@ -72,7 +72,7 @@ namespace Cronkpit
 
             frostbolt_range = 4;
             acidsplash_range = 5;
-            can_create_major = createMajor;
+            can_create_major = rank > 1;
 
             //Sensory
             sight_range = 2;

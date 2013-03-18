@@ -113,9 +113,9 @@ namespace Cronkpit
 
             string section2 = "This potion ";
             if (my_type == Potion_Type.Repair)
-                section2 += "repairs " + (int)(potency * 1.6) + " damage";
+                section2 += "repairs " + (int)(potency * 1.7) + " damage";
             else if (my_type == Potion_Type.Health)
-                section2 += "heals " + (int)(potency * 1.6) + " wounds";
+                section2 += "heals " + (int)(potency * 1.7) + " wounds";
             
             return_array.Add(section2);
             return_array.Add("when the potion is ingested;");

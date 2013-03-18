@@ -184,7 +184,7 @@ namespace Cronkpit
                         }
                         break;
                     case "Necromancer":
-                        badGuys.Add(new Necromancer(random_valid_position(), cManager, i, false));
+                        badGuys.Add(new Necromancer(random_valid_position(), cManager, i));
                         break;
                     case "GoreWolf":
                         badGuys.Add(new Gorewolf(random_valid_position(), cManager, i));
@@ -2249,6 +2249,8 @@ namespace Cronkpit
             Vision_Rc.Add(new VisionRay(originTile.get_corner(2), destinationTile.get_corner(2), fineness));
             Vision_Rc.Add(new VisionRay(originTile.get_corner(3), destinationTile.get_corner(3), fineness));
             Vision_Rc.Add(new VisionRay(originTile.get_corner(4), destinationTile.get_corner(4), fineness));
+            Vision_Rc.Add(new VisionRay(originTile.get_corner(1), destinationTile.get_corner(3), fineness));
+            Vision_Rc.Add(new VisionRay(originTile.get_corner(2), destinationTile.get_corner(4), fineness));
 
             //Comment this out when we're done with the vision log
             /*

@@ -29,7 +29,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>22</ApplicationRevision>
+    <ApplicationRevision>24</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -177,7 +177,8 @@
     <Compile Include="Screen Handling\MiniMainMenu.cs" />
     <Compile Include="Screen Handling\PaperDoll.cs" />
     <Compile Include="Screen Handling\PotionPrompt.cs" />
-    <Compile Include="Screen Handling\Shop Components\MainItemList.cs" />
+    <Compile Include="Screen Handling\Shop Components\ComparisonPopup.cs" />
+    <Compile Include="Screen Handling\Shop Components\ShopXManager.cs" />
     <Compile Include="Screen Handling\ShopScreen.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +186,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\CKPLibrary\CKPLibrary\CKPLibrary.csproj">
+      <Project>{019A4668-9C72-48B3-9B15-08985FA53E02}</Project>
+      <Name>CKPLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cronkpit Content\Cronkpit Content.contentproj">
       <Name>Cronkpit Content %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
