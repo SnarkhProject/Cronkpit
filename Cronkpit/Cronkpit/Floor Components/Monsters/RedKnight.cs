@@ -35,7 +35,6 @@ namespace Cronkpit
             min_damage = 2;
             max_damage = 5;
             dmg_type = Attack.Damage.Slashing;
-            can_melee_attack = true;
             active = false;
 
             //SENSORY

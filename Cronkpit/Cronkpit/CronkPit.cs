@@ -435,7 +435,7 @@ namespace Cronkpit
                 } 
             }
 
-#endregion
+            #endregion
 
             #region keypresses for mini main menu only
 
@@ -457,6 +457,7 @@ namespace Cronkpit
                     {
                         case 0:
                             current_state = Game_State.select_character;
+                            cSelect.switch_mode();
                             cSelect.init_character_textures();
                             just_changed_states = true;
                             icoBar.show();
@@ -812,16 +813,28 @@ namespace Cronkpit
 
             if (current_state == Game_State.select_character)
             {
-                if(check_key_release(Keys.Left))
+                if(check_key_release(Keys.Left) || check_key_release(Keys.NumPad4))
                     cSelect.scroll_menu(-1);
 
-                if(check_key_release(Keys.Right))
+                if(check_key_release(Keys.Right) || check_key_release(Keys.NumPad6))
                     cSelect.scroll_menu(1);
+
+                if (check_key_release(Keys.Up) || check_key_release(Keys.NumPad8))
+                    cSelect.scroll_menu(-2);
+
+                if (check_key_release(Keys.Down) || check_key_release(Keys.NumPad2))
+                    cSelect.scroll_menu(2);
 
                 if (check_key_release(Keys.Enter) && !just_changed_states)
                 {
-                    start_new_game(cSelect.get_current_selection());
-                    current_state = Game_State.normal;
+                    if (cSelect.selecting_character())
+                        cSelect.switch_mode();
+                    else
+                    {
+                        start_new_game(cSelect.get_current_character_selection(),
+                                       cSelect.get_current_class_selection());
+                        current_state = Game_State.normal;
+                    }   
                 }
             }
 
@@ -1171,9 +1184,10 @@ namespace Cronkpit
             return mouse_newState.LeftButton == ButtonState.Pressed && mouse_oldState.LeftButton == ButtonState.Pressed;
         }
 
-        public void start_new_game(int character_number)
+        public void start_new_game(int character_number, int class_number)
         {
             Player.Character chara = Player.Character.Falsael;
+            Player.Chara_Class chClass = Player.Chara_Class.Warrior;
             switch (character_number)
             {
                 case 0:
@@ -1190,10 +1204,26 @@ namespace Cronkpit
                     break;
             }
 
+            switch (class_number)
+            {
+                case 0:
+                    chClass = Player.Chara_Class.Warrior;
+                    break;
+                case 1:
+                    chClass = Player.Chara_Class.Rogue;
+                    break;
+                case 2:
+                    chClass = Player.Chara_Class.Mage;
+                    break;
+                case 3:
+                    chClass = Player.Chara_Class.ExPriest;
+                    break;
+            }
+
             current_dungeon = Dungeon.Necropolis;
             miniMain.set_index(0);
             current_floor = 0;
-            p1 = new Player(Content, new gridCoordinate(-1, -1), ref msgBuf, Player.Chara_Class.Warrior, 
+            p1 = new Player(Content, new gridCoordinate(-1, -1), ref msgBuf, chClass, 
                             chara, ref pDoll);
             initalize_menu_wireframes();
             p1.update_pdoll();

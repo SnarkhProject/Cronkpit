@@ -123,13 +123,13 @@ namespace Cronkpit
             switch (iTyp)
             {
                 case Permanent_ITypes.Armor:
-                    raw_items = cManager.Load<ArmorDC[]>("ItemData/armors");
+                    raw_items = cManager.Load<ArmorDC[]>("XmlData/armors");
                     break;
                 case Permanent_ITypes.Weapon:
-                    raw_items = cManager.Load<WeaponDC[]>("ItemData/weapons");
+                    raw_items = cManager.Load<WeaponDC[]>("XmlData/weapons");
                     break;
                 case Permanent_ITypes.Scroll:
-                    raw_items = cManager.Load<ScrollDC[]>("ItemData/scrolls");
+                    raw_items = cManager.Load<ScrollDC[]>("XmlData/scrolls");
                     break;
             }
 
@@ -184,7 +184,7 @@ namespace Cronkpit
 
         public List<Item> retrieve_random_consumables(Player pl, int number)
         {
-            PotionDC[] raw_potion_data = cManager.Load<PotionDC[]>("ItemData/potions");
+            PotionDC[] raw_potion_data = cManager.Load<PotionDC[]>("XmlData/potions");
             List<PotionDC> selected_potion_data = new List<PotionDC>();
 
             List<Item> fetched_list = new List<Item>();

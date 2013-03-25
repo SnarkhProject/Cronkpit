@@ -27,12 +27,15 @@ namespace Cronkpit
 
         //Sight
         public bool can_see_player;
+        public int base_sight_range;
         public int sight_range;
         //Smell
         public bool has_scent;
         public gridCoordinate strongest_smell_coord;
         public int smell_range;
         public int smell_threshold;
+        public int base_smell_range;
+        public int base_smell_threshold;
         //Sound
         public bool can_hear;
         public bool heard_something;
@@ -41,9 +44,9 @@ namespace Cronkpit
         protected SoundPulse.Sound_Types last_sound_i_heard;
         protected List<SoundPulse.Sound_Types> sounds_i_can_hear;
         public List<int> listen_threshold;
+        public List<int> base_listen_thresholds;
 
         //Other stuff
-        public bool can_melee_attack;
         public bool active;
         public int speed_numerator;
         public int speed_denominator;
@@ -60,9 +63,7 @@ namespace Cronkpit
         public bool boss_monster;
 
         //Status afflictions
-        protected int stunned_turns_remaining;
-        protected int rooted_turns_remaining;
-        protected int disrupted_turns_remaining;
+        List<StatusEffect> BuffDebuffTracker;
 
         //Damage related - will be overhauling later.
         protected int max_hitPoints;
@@ -119,7 +120,6 @@ namespace Cronkpit
             last_sound_i_heard = SoundPulse.Sound_Types.None;
             
             //Damage stuff
-            can_melee_attack = false;
             max_hitPoints = 0;
             hitPoints = 0;
             armorPoints = 0;
@@ -129,9 +129,7 @@ namespace Cronkpit
             dodge_values_degrade = true;
 
             //status affliction stuff
-            stunned_turns_remaining = 0;
-            rooted_turns_remaining = 0;
-            disrupted_turns_remaining = 0;
+            BuffDebuffTracker = new List<StatusEffect>();
 
             //other
             /*
@@ -801,6 +799,17 @@ namespace Cronkpit
         public bool is_corporeal()
         {
             return corporeal;
+        }
+
+        public bool effect_present(Scroll.Spell_Status_Effect effect)
+        {
+            for (int i = 0; i < BuffDebuffTracker.Count; i++)
+            {
+                if (BuffDebuffTracker[i].effect == effect)
+                    return true;
+            }
+
+            return false;
         }
 
         #region special functions that are common among some monster groups

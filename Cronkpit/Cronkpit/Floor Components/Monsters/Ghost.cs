@@ -21,7 +21,6 @@ namespace Cronkpit
             min_damage = 1;
             max_damage = 3;
             dmg_type = Attack.Damage.Frost;
-            can_melee_attack = true;
 
             //SENSORY
             sight_range = 4;

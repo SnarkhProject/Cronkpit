@@ -21,7 +21,6 @@ namespace Cronkpit
             min_damage = 1;
             max_damage = 2;
             dmg_type = Attack.Damage.Slashing;
-            can_melee_attack = true;
 
             //SENSORY
             smell_range = 4;

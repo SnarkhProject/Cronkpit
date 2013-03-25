@@ -63,7 +63,6 @@ namespace Cronkpit
 
             max_hitPoints = 12;
             hitPoints = max_hitPoints;
-            can_melee_attack = true;
             last_seen_player_at = new gridCoordinate(my_grid_coords[0]);
 
             //SENSORY

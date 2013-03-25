@@ -10,7 +10,8 @@ namespace Cronkpit
         public enum Atk_Area_Type { singleTile, cloudAOE, solidblockAOE, randomblockAOE, 
                                     personalBuff, piercingBolt, smallfixedAOE, chainedBolt,
                                     enemyDebuff };
-        public enum Spell_Status_Effect { Blind, Deaf, Anosmia, LynxFer, PantherFer, TigerFer };
+        public enum Spell_Status_Effect { None, Blind, Deaf, Anosmia, LynxFer, PantherFer, TigerFer,
+                                          Stun, Root, Disrupt, Minor_Anosmia};
 
         //Enums
         Atk_Area_Type my_sType;
@@ -59,17 +60,24 @@ namespace Cronkpit
         public Scroll(int IDno, int goldVal, string myName, Scroll s)
             : base(IDno, goldVal, myName)
         {
+            //Enums
+            my_sType = s.get_spell_type();
+            spell_dmg_type = s.get_damage_type();
+            my_prjType = s.get_assoc_projectile();
+            my_specAnim = s.get_spec_impact_anim();
+            myBufforDebuff = s.get_status_effect();
+            //Ints
             scroll_tier = s.get_tier();
             aoe_size = s.get_aoe_size();
             max_range = s.get_range();
             min_damage = s.get_specific_damage(false);
             max_damage = s.get_specific_damage(true);
-            melee_range = s.is_melee_range_spell();
-            my_sType = s.get_spell_type();
-            spell_dmg_type = s.get_damage_type();
             total_impacts = s.get_t_impacts();
-            destroys_walls = s.spell_destroys_walls();
             mana_cost = s.get_manaCost();
+            buffDebuff_duration = s.get_duration();
+            //Bools
+            destroys_walls = s.spell_destroys_walls();
+            melee_range = s.is_melee_range_spell();    
         }
 
         //Enum getters
@@ -193,6 +201,7 @@ namespace Cronkpit
             info.Add(name);
             info.Add("Cost: " + cost.ToString());
             info.Add(" ");
+
             string spelldmg_type = "";
             switch (spell_dmg_type)
             {
@@ -219,9 +228,13 @@ namespace Cronkpit
                     break;
             }
             info.Add("Consumes " + mana_cost.ToString() + " mana.");
-            info.Add("Damage type: " + spelldmg_type);
-            info.Add("Minimum Damage: " + min_damage);
-            info.Add("Maximum Damage: " + max_damage);
+            if (my_sType != Atk_Area_Type.personalBuff &&
+               my_sType != Atk_Area_Type.enemyDebuff)
+            {
+                info.Add("Damage type: " + spelldmg_type);
+                info.Add("Minimum Damage: " + min_damage);
+                info.Add("Maximum Damage: " + max_damage);
+            }
             info.Add("Range: " + max_range);
             if (melee_range)
                 info.Add("Cast at melee range.");
@@ -260,6 +273,12 @@ namespace Cronkpit
                     info.Add("Cloud lasts " + Math.Ceiling((double)aoe_size / 2) + " more turns.");
                     break;
                 case Atk_Area_Type.personalBuff:
+                    info.Add("Enhances your capabilities");
+                    info.Add(" ");
+                    break;
+                case Atk_Area_Type.enemyDebuff:
+                    info.Add("Hinders enemy capabilities");
+                    info.Add(" ");
                     break;
                 case Atk_Area_Type.piercingBolt:
                     info.Add("Fires a bolt that pierces");
@@ -281,6 +300,27 @@ namespace Cronkpit
             if (destroys_walls)
                 info.Add("Destroys walls.");
             return info;
+        }
+
+        public void add_buff_debuff_descriptions(ref List<string> info)
+        {
+            switch (myBufforDebuff)
+            {
+                case Spell_Status_Effect.LynxFer:
+                case Spell_Status_Effect.PantherFer:
+                case Spell_Status_Effect.TigerFer:
+                    info.Add("Increases damage from weapon");
+                    string nl = "based attacks by ";
+                    if (myBufforDebuff == Spell_Status_Effect.LynxFer)
+                        nl += "20";
+                    else if (myBufforDebuff == Spell_Status_Effect.PantherFer)
+                        nl += "40";
+                    else if (myBufforDebuff == Spell_Status_Effect.TigerFer)
+                        nl += "60";
+                    nl += "%";
+                    info.Add(nl);
+                    break;
+            }
         }
 
         //Void setters

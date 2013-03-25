@@ -40,6 +40,7 @@ namespace Cronkpit
         //Spell info
         List<gridCoordinate> Small_AoE_Matrix;
         List<Talisman> talisman_effects;
+        Scroll.Spell_Status_Effect attached_status_effect;
 
         //Used for AoE purposes only
         int AoE_size;
@@ -189,6 +190,12 @@ namespace Cronkpit
         {
             talisman_effects = effects;
         }
+
+        public void attach_status_effect(Scroll.Spell_Status_Effect sx)
+        {
+            attached_status_effect = sx;
+        }
+
         //Getters
         public List<gridCoordinate> get_small_AOE_matrix()
         {
@@ -264,6 +271,11 @@ namespace Cronkpit
         public List<Talisman> get_talisman_effects()
         {
             return talisman_effects;
+        }
+
+        public Scroll.Spell_Status_Effect get_attached_status()
+        {
+            return attached_status_effect;
         }
 
         public bool is_damaging_projectile()

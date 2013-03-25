@@ -470,7 +470,7 @@ namespace Cronkpit
                 can_see_player = false;
 
             has_moved = false;
-            if (stunned_turns_remaining == 0)
+            if (!effect_present(Scroll.Spell_Status_Effect.Stun))
             {
                 if (can_see_player)
                 {
@@ -610,8 +610,6 @@ namespace Cronkpit
                     follow_path_to_sound(fl, pl);
                 }
             }
-            else
-                stunned_turns_remaining--;
         }
     }
 }

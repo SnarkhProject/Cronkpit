@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="CKPLibrary.ClassDescDC[]">
+    <Item>
+      <Selected_Class>ExPriest</Selected_Class>
+      <Description>
+        <Item>ExPriests are former members</Item>
+        <Item>of the church. Maybe you got </Item>
+        <Item>tired of the endlessly self</Item>
+        <Item>rigtheous doctrines. Maybe you</Item>
+        <Item>hated how the church never</Item>
+        <Item>seemed to help those who</Item>
+        <Item>needed it most. Regardless,</Item>
+        <Item>you're done. And you're deter-</Item>
+        <Item>-mined to be a better person.</Item>
+        <Item>You've had extensive training </Item>
+        <Item>with "heavenly" magic, as well</Item>
+        <Item>as heavier weapons and armor.</Item>
+        <Item>Ranged weapons are not your</Item>
+        <Item>forte, but your magic makes up</Item>
+        <Item>for that in part.</Item>
+      </Description>
+    </Item>
+    <Item>
+      <Selected_Class>Warrior</Selected_Class>
+      <Description>
+        <Item>Warriors are versatile combat-</Item>
+        <Item>-tants, experienced with a</Item>
+        <Item>wide variety of weaponry and</Item>
+        <Item>armor. Whether you want to get</Item>
+        <Item>right in a monster's face or </Item>
+        <Item>stand back and pick it apart</Item>
+        <Item>with a ranged weapon, you can</Item>
+        <Item>be sure that as a warrior,</Item>
+        <Item>you'll have the right tool for</Item>
+        <Item>the job. Your magical options</Item>
+        <Item>are comparitively limited, but</Item>
+        <Item>offer powerful enhancements to</Item>
+        <Item>your already formidible capab-</Item>
+        <Item>-ilities.</Item>
+      </Description>
+    </Item>
+    <Item>
+      <Selected_Class>Rogue</Selected_Class>
+      <Description>
+        <Item>Rogues are experts at sneaking</Item>
+        <Item>and using ranged attacks to</Item>
+        <Item>dispatch their foes. Most of </Item>
+        <Item>your weapons offer either</Item>
+        <Item>extra damage to enemies who</Item>
+        <Item>are unaware of your presence,</Item>
+        <Item>ranged attacks, or a way to</Item>
+        <Item>keep enemies at bay. Your</Item>
+        <Item>armor isn't the best around,</Item>
+        <Item>but it's more than enough to</Item>
+        <Item>get the job done. Spells tend </Item>
+        <Item>towards obfuscation and</Item>
+        <Item>evasion, increasing stealth</Item>
+        <Item>as well as survivability.</Item>
+      </Description>
+    </Item>
+    <Item>
+      <Selected_Class>Mage</Selected_Class>
+      <Description>
+        <Item>As a Mage, you have poor armor</Item>
+        <Item>and a relatively lackluster</Item>
+        <Item>arsenal of weapons available</Item>
+        <Item>for your use, but this is</Item>
+        <Item>offset by the amazing arsenal</Item>
+        <Item>of extremely powerful spells</Item>
+        <Item>at your disposal. As long as</Item>
+        <Item>you take care and make sure to</Item>
+        <Item>keep your distance from your</Item>
+        <Item>enemy, you are a fearsome foe</Item>
+        <Item>and few can match your magical</Item>
+        <Item>might.</Item>
+      </Description>
+    </Item>
+  </Asset>
+</XnaContent>

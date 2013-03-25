@@ -25,7 +25,6 @@ namespace Cronkpit
             min_damage = 1;
             max_damage = 2;
             dmg_type = Attack.Damage.Slashing;
-            can_melee_attack = true;
             turns_idle = 5;
 
             int idle_texture_choice = rGen.Next(5);

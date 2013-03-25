@@ -1757,6 +1757,78 @@
       <Time>2013-03-15T04:52:47.7658356-04:00</Time>
     </Item>
     <Item>
+      <Source>Icons\Class\expriestclass_icon.png</Source>
+      <Name>Icons\Class\expriestclass_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Class\expriestclass_icon.xnb</Output>
+      <Time>2013-03-20T04:05:15.6148716-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Class\mageclass_icon.png</Source>
+      <Name>Icons\Class\mageclass_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Class\mageclass_icon.xnb</Output>
+      <Time>2013-03-20T04:05:15.638873-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Class\rogueclass_icon.png</Source>
+      <Name>Icons\Class\rogueclass_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Class\rogueclass_icon.xnb</Output>
+      <Time>2013-03-20T04:05:15.6408731-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Class\warriorclass_icon.png</Source>
+      <Name>Icons\Class\warriorclass_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Class\warriorclass_icon.xnb</Output>
+      <Time>2013-03-20T04:05:15.6418731-04:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Large Chara Images\Falsael_large_condensed.png</Source>
+      <Name>UI Elements\Large Chara Images\Falsael_large_condensed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Large Chara Images\Falsael_large_condensed.xnb</Output>
+      <Time>2013-03-21T02:28:09.0644093-04:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Large Chara Images\Halephon_large_condensed.png</Source>
+      <Name>UI Elements\Large Chara Images\Halephon_large_condensed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Large Chara Images\Halephon_large_condensed.xnb</Output>
+      <Time>2013-03-21T02:28:09.0954111-04:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Large Chara Images\Petaer_large_condensed.png</Source>
+      <Name>UI Elements\Large Chara Images\Petaer_large_condensed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Large Chara Images\Petaer_large_condensed.xnb</Output>
+      <Time>2013-03-21T02:28:09.1044116-04:00</Time>
+    </Item>
+    <Item>
+      <Source>UI Elements\Large Chara Images\Ziktofel_large_condensed.png</Source>
+      <Name>UI Elements\Large Chara Images\Ziktofel_large_condensed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\UI Elements\Large Chara Images\Ziktofel_large_condensed.xnb</Output>
+      <Time>2013-03-21T02:28:09.1064117-04:00</Time>
+    </Item>
+    <Item>
       <Source>Fonts\sfont.spritefont</Source>
       <Name>Fonts\sfont</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -1820,31 +1892,49 @@
       <Time>2012-12-30T14:53:01.8632439-05:00</Time>
     </Item>
     <Item>
-      <Source>ItemData\weapons.xml</Source>
-      <Name>ItemData\weapons</Name>
+      <Source>XmlData\weapons.xml</Source>
+      <Name>XmlData\weapons</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\ItemData\weapons.xnb</Output>
-      <Time>2013-03-15T04:50:10.4948402-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\XmlData\weapons.xnb</Output>
+      <Time>2013-03-25T01:05:36.6665688-04:00</Time>
     </Item>
     <Item>
-      <Source>ItemData\potions.xml</Source>
-      <Name>ItemData\potions</Name>
+      <Source>XmlData\potions.xml</Source>
+      <Name>XmlData\potions</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\ItemData\potions.xnb</Output>
-      <Time>2013-03-17T01:45:49.8718034-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\XmlData\potions.xnb</Output>
+      <Time>2013-03-25T01:04:39.5213002-04:00</Time>
     </Item>
     <Item>
-      <Source>ItemData\armors.xml</Source>
-      <Name>ItemData\armors</Name>
+      <Source>XmlData\armors.xml</Source>
+      <Name>XmlData\armors</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\ItemData\armors.xnb</Output>
-      <Time>2013-03-15T04:50:09.5407856-04:00</Time>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\XmlData\armors.xnb</Output>
+      <Time>2013-03-25T01:04:27.0085845-04:00</Time>
+    </Item>
+    <Item>
+      <Source>XmlData\scrolls.xml</Source>
+      <Name>XmlData\scrolls</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\XmlData\scrolls.xnb</Output>
+      <Time>2013-03-25T01:05:07.8469204-04:00</Time>
+    </Item>
+    <Item>
+      <Source>XmlData\classdescriptions.xml</Source>
+      <Name>XmlData\classdescriptions</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\XmlData\classdescriptions.xnb</Output>
+      <Time>2013-03-25T04:05:48.1909526-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -1884,7 +1974,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Users\Selene\Documents\Visual Studio 2010\Projects\CKPLibrary\CKPLibrary\bin\x86\Debug\CKPLibrary.dll</Key>
-        <Value>2013-03-18T04:53:15.9138375-04:00</Value>
+        <Value>2013-03-23T05:17:09.6945415-04:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>

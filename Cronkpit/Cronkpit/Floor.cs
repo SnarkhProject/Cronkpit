@@ -1490,7 +1490,8 @@ namespace Cronkpit
                 }
             }
             projectile_damage += randGen.Next(projectile_modified_min_dmg, projectile_modified_max_dmg + 1);
-            damage_to_monster.Add(new Attack(pew.get_dmg_type(), projectile_damage));
+            if(projectile_damage > 0)
+                damage_to_monster.Add(new Attack(pew.get_dmg_type(), projectile_damage));
 
             for (int i = 0; i < projectile_talismans.Count; i++)
             {

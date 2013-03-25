@@ -172,8 +172,8 @@ namespace Cronkpit
         public void scroll_iteminfo_menu(int scroll)
         {
             if((item_info_offset < max_info_offset && item_info_offset > 0) ||
-               (item_info_offset == max_info_offset && scroll == -1) ||
-               (item_info_offset == 0 && scroll == 1))
+               (item_info_offset == max_info_offset && scroll == -1 && max_info_offset > 0) ||
+               (item_info_offset == 0 && scroll == 1 && max_info_offset > 0))
                 item_info_offset += scroll;
         }
 

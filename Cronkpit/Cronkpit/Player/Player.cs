@@ -11,7 +11,8 @@ namespace Cronkpit
 {
     class Player
     {
-        public enum Character { Falsael, Ziktofel, Halephon, Petaer, Belia, Tavec, Sir_Placeholder };
+        public enum Character { Falsael, Ziktofel, Halephon, Petaer, 
+                                Belia, Tavec, Zacul, Sir_Placeholder };
         public enum Chara_Class { Warrior, Mage, Rogue, ExPriest };
         public enum Equip_Slot { Mainhand, Offhand, Overarmor, Underarmor, Helmet };
         //Constructor stuff
@@ -83,7 +84,7 @@ namespace Cronkpit
                     break;
                 case Character.Ziktofel:
                     my_Texture = cont.Load<Texture2D>("Player/ziktofel_sprite");
-                    my_dead_texture = cont.Load<Texture2D>("Player/playercorpse");
+                    my_dead_texture = cont.Load<Texture2D>("Player/ziktofel_dead");
                     break;
                 case Character.Halephon:
                     my_Texture = cont.Load<Texture2D>("Player/halephon_sprite");

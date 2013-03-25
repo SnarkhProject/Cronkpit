@@ -1314,7 +1314,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ItemData\weapons.xml">
+    <Compile Include="XmlData\weapons.xml">
       <Name>weapons</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
@@ -1329,14 +1329,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ItemData\potions.xml">
+    <Compile Include="XmlData\potions.xml">
       <Name>potions</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ItemData\armors.xml">
+    <Compile Include="XmlData\armors.xml">
       <Name>armors</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
@@ -1354,6 +1354,65 @@
       <Name>reinforcedplate_icon</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="XmlData\scrolls.xml">
+      <Name>scrolls</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Icons\Class\expriestclass_icon.png">
+      <Name>expriestclass_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Class\mageclass_icon.png">
+      <Name>mageclass_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Class\rogueclass_icon.png">
+      <Name>rogueclass_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Class\warriorclass_icon.png">
+      <Name>warriorclass_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UI Elements\Large Chara Images\Falsael_large_condensed.png">
+      <Name>Falsael_large_condensed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Large Chara Images\Halephon_large_condensed.png">
+      <Name>Halephon_large_condensed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Large Chara Images\Petaer_large_condensed.png">
+      <Name>Petaer_large_condensed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="UI Elements\Large Chara Images\Ziktofel_large_condensed.png">
+      <Name>Ziktofel_large_condensed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="XmlData\classdescriptions.xml">
+      <Name>classdescriptions</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

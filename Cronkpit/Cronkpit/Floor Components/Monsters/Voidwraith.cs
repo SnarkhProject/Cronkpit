@@ -28,7 +28,6 @@ namespace Cronkpit
             min_damage = 1;
             max_damage = 2;
             dmg_type = Attack.Damage.Acid;
-            can_melee_attack = true;
             corporeal = false;
 
             //SENSORY

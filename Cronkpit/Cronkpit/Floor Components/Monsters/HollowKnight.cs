@@ -23,7 +23,6 @@ namespace Cronkpit
             min_damage = 1;
             max_damage = 3;
             dmg_type = Attack.Damage.Piercing;
-            can_melee_attack = true;
 
             //SENSORY
             sounds_i_can_hear.Add(SoundPulse.Sound_Types.Player);

@@ -41,24 +41,38 @@ namespace Cronkpit
 
         public void find_steps(fineness fn)
         {
+            int xDif = positive_difference((int)my_current_position.X, (int)my_end_position.X) / 32;
+            int yDif = positive_difference((int)my_current_position.Y, (int)my_end_position.Y) / 32;
+            int Hyp = 0;
+            if (xDif != 0 && yDif != 0)
+                Hyp = (int)Math.Sqrt((xDif * xDif) + (yDif * yDif));
+
+            int step_coef = 0;
             switch (fn)
             {
                 case fineness.Roughest:
-                    steps = 10;
+                    step_coef = 2;
                     break;
                 case fineness.Rough:
-                    steps = 20;
+                    step_coef = 3;
                     break;
                 case fineness.Average:
-                    steps = 30;
+                    step_coef = 4;
                     break;
                 case fineness.Fine:
-                    steps = 80;
+                    step_coef = 5;
                     break;
                 default:
-                    steps = 50;
+                    step_coef = 6;
                     break;
             }
+
+            if (xDif == 0)
+                steps = Math.Max(step_coef, yDif * step_coef);
+            else if (yDif == 0)
+                steps = Math.Max(step_coef, xDif * step_coef);
+            else
+                steps = Math.Max(step_coef, Hyp * step_coef);
         }
 
         public void update()
@@ -74,6 +88,14 @@ namespace Cronkpit
         {
             return Math.Round(my_current_position.X) == Math.Round(my_end_position.X) && 
                     Math.Round(my_current_position.Y) == Math.Round(my_end_position.Y);
+        }
+
+        private int positive_difference(int i1, int i2)
+        {
+            if (i1 > i2)
+                return i1 - i2;
+            else
+                return i2 - i1;
         }
     }
 }

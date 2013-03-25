@@ -59,7 +59,7 @@ namespace Cronkpit
             max_hitPoints = 18;
             hitPoints = max_hitPoints;
             armorPoints = 20;
-            can_melee_attack = true;
+
             last_seen_player_at = new gridCoordinate(my_grid_coords[0]);
 
             //SENSORY
@@ -153,6 +153,19 @@ namespace Cronkpit
                         fl.add_effect(dmg_type, target_location);
                 }
             }
+        }
+
+        public void cast_acid_cloud(Floor fl, gridCoordinate target_GC)
+        {
+            Projectile prj = new Projectile(my_grid_coords[0], target_GC,
+                                                                Projectile.projectile_type.AcidCloud,
+                                                                ref cont, true, Scroll.Atk_Area_Type.cloudAOE);
+            prj.set_AOE_size(3);
+            prj.set_damage_range(acidcloud_min_damage, acidcloud_max_damage);
+            prj.set_damage_type(acidcloud_dmg_type);
+            fl.create_new_projectile(prj);
+            fl.consume_mana(acidcloud_mana_cost);
+            acid_cloud_cooldown = 5;
         }
 
         public override void Update_Monster(Player pl, Floor fl)
@@ -282,15 +295,7 @@ namespace Cronkpit
                             if (acid_cloud_cooldown == 0 && fl.check_mana() >= acidcloud_mana_cost &&
                                 !is_player_within(pl, 1))
                             {
-                                Projectile prj = new Projectile(my_grid_coords[0], pl.get_my_grid_C(),
-                                                                Projectile.projectile_type.AcidCloud,
-                                                                ref cont, true, Scroll.Atk_Area_Type.cloudAOE);
-                                prj.set_AOE_size(3);
-                                prj.set_damage_range(acidcloud_min_damage, acidcloud_max_damage);
-                                prj.set_damage_type(acidcloud_dmg_type);
-                                fl.create_new_projectile(prj);
-                                fl.consume_mana(acidcloud_mana_cost);
-                                acid_cloud_cooldown = 5;
+                                cast_acid_cloud(fl, pl.get_my_grid_C());
                             }
                             else 
                             {
@@ -321,7 +326,12 @@ namespace Cronkpit
             else if (!can_see_player && have_i_seen_player)
             {
                 //fl.add_new_popup("The Grendel goes to your last position!", Popup.popup_msg_color.Red, my_grid_coord);
-                advance_towards_single_point(last_seen_player_at, pl, fl, 0, corporeal);
+                if(my_weapon_type == Armor_Skeleton_Weapon.Magic && acid_cloud_cooldown == 0 && 
+                    fl.check_mana() >= acidcloud_mana_cost && !is_player_within(pl, 1))
+                    cast_acid_cloud(fl, last_seen_player_at);
+                else
+                    advance_towards_single_point(last_seen_player_at, pl, fl, 0, corporeal);
+
                 if (occupies_tile(last_seen_player_at))
                     have_i_seen_player = false;
             }

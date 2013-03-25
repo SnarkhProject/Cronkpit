@@ -67,7 +67,6 @@ namespace Cronkpit
             min_damage = 2;
             max_damage = 6;
             dmg_type = Attack.Damage.Frost;
-            can_melee_attack = true;
             can_hear = true;
 
             frostbolt_range = 4;
