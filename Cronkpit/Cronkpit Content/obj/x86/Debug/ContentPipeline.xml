@@ -1313,7 +1313,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\stonewall_woodendoor.xnb</Output>
-      <Time>2013-02-03T17:58:02.0364818-05:00</Time>
+      <Time>2013-04-04T03:07:18.4978942-04:00</Time>
     </Item>
     <Item>
       <Source>Background\Doodads\stonewall_woodendoor_destroyed.png</Source>
@@ -1322,7 +1322,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\stonewall_woodendoor_destroyed.xnb</Output>
-      <Time>2013-02-03T17:58:02.039482-05:00</Time>
+      <Time>2013-04-04T03:07:19.0579262-04:00</Time>
     </Item>
     <Item>
       <Source>Background\Doodads\stonewall_woodendoor_open.png</Source>
@@ -1331,7 +1331,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\stonewall_woodendoor_open.xnb</Output>
-      <Time>2013-02-03T17:58:02.0414821-05:00</Time>
+      <Time>2013-04-04T03:07:19.6419596-04:00</Time>
     </Item>
     <Item>
       <Source>Background\Doodads\woodwall_woodendoor.png</Source>
@@ -1340,7 +1340,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\woodwall_woodendoor.xnb</Output>
-      <Time>2013-02-03T17:58:02.0444823-05:00</Time>
+      <Time>2013-04-04T03:07:20.1519888-04:00</Time>
     </Item>
     <Item>
       <Source>Background\Doodads\woodwall_woodendoor_destroyed.png</Source>
@@ -1349,7 +1349,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\woodwall_woodendoor_destroyed.xnb</Output>
-      <Time>2013-02-03T17:58:02.0464824-05:00</Time>
+      <Time>2013-04-04T03:07:20.7740244-04:00</Time>
     </Item>
     <Item>
       <Source>Background\Doodads\woodwall_woodendoor_open.png</Source>
@@ -1358,7 +1358,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\woodwall_woodendoor_open.xnb</Output>
-      <Time>2013-02-03T17:58:02.0474825-05:00</Time>
+      <Time>2013-04-04T03:07:21.3710585-04:00</Time>
     </Item>
     <Item>
       <Source>Player\falsael_dead.png</Source>
@@ -1898,7 +1898,7 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\XmlData\weapons.xnb</Output>
-      <Time>2013-03-25T01:05:36.6665688-04:00</Time>
+      <Time>2013-03-28T03:56:44.1872293-04:00</Time>
     </Item>
     <Item>
       <Source>XmlData\potions.xml</Source>
@@ -1935,6 +1935,195 @@
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\XmlData\classdescriptions.xnb</Output>
       <Time>2013-03-25T04:05:48.1909526-04:00</Time>
+    </Item>
+    <Item>
+      <Source>XmlData\Prompts\falsael_prompts.xml</Source>
+      <Name>XmlData\Prompts\falsael_prompts</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\XmlData\Prompts\falsael_prompts.xnb</Output>
+      <Time>2013-03-28T01:37:48.8194736-04:00</Time>
+    </Item>
+    <Item>
+      <Source>XmlData\Prompts\halephon_prompts.xml</Source>
+      <Name>XmlData\Prompts\halephon_prompts</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\XmlData\Prompts\halephon_prompts.xnb</Output>
+      <Time>2013-04-04T04:48:01.6815445-04:00</Time>
+    </Item>
+    <Item>
+      <Source>XmlData\Prompts\petaer_prompts.xml</Source>
+      <Name>XmlData\Prompts\petaer_prompts</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\XmlData\Prompts\petaer_prompts.xnb</Output>
+      <Time>2013-03-26T03:20:33.2014614-04:00</Time>
+    </Item>
+    <Item>
+      <Source>XmlData\Prompts\ziktofel_prompts.xml</Source>
+      <Name>XmlData\Prompts\ziktofel_prompts</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\XmlData\Prompts\ziktofel_prompts.xnb</Output>
+      <Time>2013-04-05T02:59:19.5762988-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\bladedspear_icon.png</Source>
+      <Name>Icons\Weapons\bladedspear_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\bladedspear_icon.xnb</Output>
+      <Time>2013-03-28T03:27:58.6125321-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\cutlass_icon.png</Source>
+      <Name>Icons\Weapons\cutlass_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\cutlass_icon.xnb</Output>
+      <Time>2013-03-28T03:27:58.7745414-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\limestonerod_icon.png</Source>
+      <Name>Icons\Weapons\limestonerod_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\limestonerod_icon.xnb</Output>
+      <Time>2013-03-28T03:27:58.8345448-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\sharpshotcrossbow_icon.png</Source>
+      <Name>Icons\Weapons\sharpshotcrossbow_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\sharpshotcrossbow_icon.xnb</Output>
+      <Time>2013-03-28T03:27:58.9315504-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\Weapons\steelwarhammer_icon.png</Source>
+      <Name>Icons\Weapons\steelwarhammer_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Icons\Weapons\steelwarhammer_icon.xnb</Output>
+      <Time>2013-03-28T03:27:58.959552-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\entrance.png</Source>
+      <Name>Background\entrance</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\entrance.xnb</Output>
+      <Time>2013-04-04T03:07:34.438806-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_Dirtfloor2.png</Source>
+      <Name>Background\Necropolis\Necro_Dirtfloor2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_Dirtfloor2.xnb</Output>
+      <Time>2013-04-05T03:02:36.8255808-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_MossDirtFloor2.png</Source>
+      <Name>Background\Necropolis\Necro_MossDirtFloor2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_MossDirtFloor2.xnb</Output>
+      <Time>2013-04-05T03:02:36.9585884-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_MossDirtWall2.png</Source>
+      <Name>Background\Necropolis\Necro_MossDirtWall2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_MossDirtWall2.xnb</Output>
+      <Time>2013-04-05T03:03:37.8320702-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneWall2.png</Source>
+      <Name>Background\Necropolis\Necro_StoneWall2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneWall2.xnb</Output>
+      <Time>2013-04-05T03:03:37.8340703-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneWallMoss2.png</Source>
+      <Name>Background\Necropolis\Necro_StoneWallMoss2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneWallMoss2.xnb</Output>
+      <Time>2013-04-05T03:03:37.8360704-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_DirtWall2.png</Source>
+      <Name>Background\Necropolis\Necro_DirtWall2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_DirtWall2.xnb</Output>
+      <Time>2013-04-05T03:08:06.4764357-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneFloorCracked2.png</Source>
+      <Name>Background\Necropolis\Necro_StoneFloorCracked2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneFloorCracked2.xnb</Output>
+      <Time>2013-04-05T03:08:06.4784359-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneFloorCrackedMoss2.png</Source>
+      <Name>Background\Necropolis\Necro_StoneFloorCrackedMoss2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneFloorCrackedMoss2.xnb</Output>
+      <Time>2013-04-05T03:08:06.4794359-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneFloorMoss2.png</Source>
+      <Name>Background\Necropolis\Necro_StoneFloorMoss2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneFloorMoss2.xnb</Output>
+      <Time>2013-04-05T03:08:06.4944368-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Necropolis\Necro_StoneFloorMoss3.png</Source>
+      <Name>Background\Necropolis\Necro_StoneFloorMoss3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Necropolis\Necro_StoneFloorMoss3.xnb</Output>
+      <Time>2013-04-05T03:08:06.4964369-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Doodads\altar_destroyed.png</Source>
+      <Name>Background\Doodads\altar_destroyed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\Background\Doodads\altar_destroyed.xnb</Output>
+      <Time>2013-04-05T04:28:57.8809202-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -1974,7 +2163,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Users\Selene\Documents\Visual Studio 2010\Projects\CKPLibrary\CKPLibrary\bin\x86\Debug\CKPLibrary.dll</Key>
-        <Value>2013-03-23T05:17:09.6945415-04:00</Value>
+        <Value>2013-03-26T05:39:16.9605532-04:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>

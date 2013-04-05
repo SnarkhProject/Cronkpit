@@ -21,7 +21,7 @@ namespace Cronkpit
         }
     }
 
-    class InvAndHealthBox
+    class InvAndHealthScreen
     {
         ContentManager cManager;
         Vector2 mousePosition;
@@ -148,7 +148,7 @@ namespace Cronkpit
         //There's gonna have to be fonts and stuff here too for now, but this will be okay
         //FOR THE TIME BEING...
 
-        public InvAndHealthBox(Texture2D my_default_backTex, SpriteFont smallFont, SpriteFont largeFont, SpriteFont pname_font, ref ContentManager cm, ref IconBar s_icoBar)
+        public InvAndHealthScreen(Texture2D my_default_backTex, SpriteFont smallFont, SpriteFont largeFont, SpriteFont pname_font, ref ContentManager cm, ref IconBar s_icoBar)
         {
             cManager = cm;
 

@@ -572,5 +572,42 @@ namespace Cronkpit
                               SMADM, SMLSP, SAETP, SPRJT, SDMTP, SDSWL, SCHIP, SBFDB,
                               SBDDR, SSPFX);
         }
+
+        //This will return appropriate shop prompts based on metrics
+        //passed in the function.
+        public List<string> get_prompt(Player.Character chara, string section)
+        {
+            ShopPromptDC[] all_prompts = new ShopPromptDC[0];
+            List<ShopPromptDC> possible_prompts = new List<ShopPromptDC>();
+            string path = "XmlData/Prompts/";
+            switch (chara)
+            {
+                case Player.Character.Falsael:
+                    path += "falsael_prompts";
+                    break;
+                case Player.Character.Halephon:
+                    path += "halephon_prompts";
+                    break;
+                case Player.Character.Petaer:
+                    path += "petaer_prompts";
+                    break;
+                case Player.Character.Ziktofel:
+                    path += "ziktofel_prompts";
+                    break;
+            }
+            all_prompts = cManager.Load<ShopPromptDC[]>(path);
+
+            for (int i = 0; i < all_prompts.Count(); i++)
+            {
+                if (String.Compare(all_prompts[i].Shop_Section, section) == 0)
+                    possible_prompts.Add(all_prompts[i]);
+            }
+
+            int chosen_prompt = rGen.Next(possible_prompts.Count);
+            if (possible_prompts.Count > 0)
+                return possible_prompts[chosen_prompt].Prompt_Text;
+            else
+                return new List<string>();
+        }
     }
 }

@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Cronkpit 1.2")]
-[assembly: AssemblyProduct("Cronkpit 1.2")]
+[assembly: AssemblyTitle("Cronkpit Pre-Alpha 4.22")]
+[assembly: AssemblyProduct("Cronkpit")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
@@ -32,3 +32,4 @@ using System.Runtime.InteropServices;
 //      Revision
 //
 [assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersionAttribute("0.4.2.2")]

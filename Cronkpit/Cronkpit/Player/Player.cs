@@ -131,6 +131,11 @@ namespace Cronkpit
             return "Default";
         }
 
+        public Character my_chara()
+        {
+            return my_character;
+        }
+
         public string my_class_as_string()
         {
             switch (my_class)

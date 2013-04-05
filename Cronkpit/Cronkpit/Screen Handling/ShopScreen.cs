@@ -32,21 +32,21 @@ namespace Cronkpit
         Rectangle info_scrolldwn_ctrl;
         Texture2D info_scrollup_tex;
         Texture2D info_scrolldwn_tex;
+        Texture2D blank_texture;
 
         //Descriptive stuff
-        string descriptive_text;
         int blurb_height;
         Vector2 menu_position;
         Vector2 blurb_position;
-        int intro_used;
-        int weapon_shopping_used;
-        int armor_shopping_used;
-        int consumable_shopping_used;
-        int talisman_shopping_used;
-        int sell_shopping_used;
-        int buyback_shopping_used;
-        int scroll_shopping_used;
-        int exit_used;
+        List<string> intro_prompt;
+        List<string> weapon_shopping_prompt;
+        List<string> armor_shopping_prompt;
+        List<string> consumable_shopping_prompt;
+        List<string> talisman_shopping_prompt;
+        List<string> sell_shopping_prompt;
+        List<string> buyback_shopping_prompt;
+        List<string> scroll_shopping_prompt;
+        List<string> current_prompt;
         string shopkeeper;
 
         Vector2 item_menu_position;
@@ -81,10 +81,14 @@ namespace Cronkpit
         List<string> current_item_info;
         int player_gold;
 
+        //Item comparison stuff
+        ComparisonPopup comparatorPopup;
+
         //Misc.
         int adtl_spacing = 25;
 
-        public ShopScreen(List<string> mItems, SpriteFont sf, SpriteFont small_f, Rectangle cl, ref ContentManager cm)
+        public ShopScreen(List<string> mItems, SpriteFont sf, SpriteFont small_f, Rectangle cl, ref ContentManager cm,
+                          Texture2D blnkTex)
         {
             menuItems = new List<string>(mItems);
             shopManager = new ShopXManager(cm);
@@ -98,7 +102,8 @@ namespace Cronkpit
             rGen = new Random();
             //Choose a random blurb, based on what character you picked.
             blurb_position = new Vector2(20f, 20f);
-            descriptive_text = "";    
+            comparatorPopup = null;
+            blank_texture = blnkTex;
         }
 
         public void init_controls(Texture2D scrollup_tex, Texture2D scrolldown_tex)
@@ -193,48 +198,51 @@ namespace Cronkpit
 
         public void switch_shopping_mode(Shopping_Mode next_mode)
         {
+            selected_item_index = 0;
             im_shopping_for = next_mode;
+            string section = "";
             switch (im_shopping_for)
             {
                 case Shopping_Mode.Main:
-                    set_descriptive_intro(intro_used);
+                    section = "Intro";
                     break;
                 case Shopping_Mode.Armor:
-                    set_descriptive_armor_shopping(armor_shopping_used);
+                    section = "Armor";
                     current_list = armors_in_stock;
                     scroll_menu(0);
                     break;
                 case Shopping_Mode.Weapons:
-                    set_descriptive_weapon_shopping(weapon_shopping_used);
+                    section = "Weapons";
                     current_list = weapons_in_stock;
                     scroll_menu(0);
                     break;
                 case Shopping_Mode.Consumables:
-                    set_descriptive_consumable_shopping(consumable_shopping_used);
+                    section = "Consumables";
                     current_list = consumables_in_stock;
                     scroll_menu(0);
                     break;
                 case Shopping_Mode.Sell:
-                    set_descriptive_selling(sell_shopping_used);
+                    section = "Sell";
                     current_list = items_to_sell;
                     scroll_menu(0);
                     break;
                 case Shopping_Mode.Buyback:
-                    set_descriptive_buyback(buyback_shopping_used);
+                    section = "Buyback";
                     current_list = sold_items;
                     scroll_menu(0);
                     break;
                 case Shopping_Mode.Scrolls:
-                    set_descriptive_scroll_shopping(scroll_shopping_used);
+                    section = "Scrolls";
                     current_list = scrolls_in_stock;
                     scroll_menu(0);
                     break;
                 case Shopping_Mode.Talismans:
-                    set_descriptive_talisman_shopping(talisman_shopping_used);
+                    section = "Talismans";
                     current_list = talismans_in_stock;
                     scroll_menu(0);
                     break;
             }
+            set_prompt_by_section(section);
             item_menu_position = new Vector2(75, Math.Max(250, blurb_height + adtl_spacing));
             lines_available = (client.Height - (Math.Max(250, blurb_height + adtl_spacing) + 50)) / sFont.LineSpacing;
             small_lines_avilable = (client.Height - (Math.Max(250, blurb_height + adtl_spacing) + 50)) / smaller_Font.LineSpacing;
@@ -244,6 +252,11 @@ namespace Cronkpit
         public bool in_submenu()
         {
             return im_shopping_for != Shopping_Mode.Main;
+        }
+
+        public bool in_comparable_submenu()
+        {
+            return im_shopping_for == Shopping_Mode.Weapons || im_shopping_for == Shopping_Mode.Armor;
         }
 
         public bool exit_submenu()
@@ -360,15 +373,16 @@ namespace Cronkpit
         public void set_variables(Player pl)
         {
             player_gold = pl.get_my_gold();
-            intro_used = rGen.Next(2);
-            weapon_shopping_used = rGen.Next(1);
-            armor_shopping_used = rGen.Next(1);
-            consumable_shopping_used = rGen.Next(1);
-            talisman_shopping_used = rGen.Next(1);
-            sell_shopping_used = rGen.Next(1);
-            buyback_shopping_used = rGen.Next(1);
-            scroll_shopping_used = rGen.Next(1);
-            exit_used = rGen.Next(1);
+            //set all prompts
+            set_shopkeep();
+            intro_prompt = slot_keywords(shopManager.get_prompt(pl.my_chara(), "Intro"));
+            weapon_shopping_prompt = slot_keywords(shopManager.get_prompt(pl.my_chara(), "Weapons"));
+            armor_shopping_prompt = slot_keywords(shopManager.get_prompt(pl.my_chara(), "Armor"));
+            consumable_shopping_prompt = slot_keywords(shopManager.get_prompt(pl.my_chara(), "Consumables"));
+            talisman_shopping_prompt = slot_keywords(shopManager.get_prompt(pl.my_chara(), "Talismans"));
+            sell_shopping_prompt = slot_keywords(shopManager.get_prompt(pl.my_chara(), "Sell"));
+            buyback_shopping_prompt = slot_keywords(shopManager.get_prompt(pl.my_chara(), "Buyback"));
+            scroll_shopping_prompt = slot_keywords(shopManager.get_prompt(pl.my_chara(), "Scrolls"));
 
             armors_in_stock = shopManager.retrieve_random_items(ShopXManager.Permanent_ITypes.Armor, pl, 4);
             weapons_in_stock = shopManager.retrieve_random_items(ShopXManager.Permanent_ITypes.Weapon, pl, 4);
@@ -425,169 +439,107 @@ namespace Cronkpit
              */
         }
 
-        public void set_descriptive_intro(int choice)
+        public void set_prompt_by_section(string section)
         {
-            switch (choice)
+            switch (section)
+            {
+                case "Intro":
+                    current_prompt = intro_prompt;
+                    break;
+                case "Weapons":
+                    current_prompt = weapon_shopping_prompt;
+                    break;
+                case "Armor":
+                    current_prompt = armor_shopping_prompt;
+                    break;
+                case "Consumables":
+                    current_prompt = consumable_shopping_prompt;
+                    break;
+                case "Talismans":
+                    current_prompt = talisman_shopping_prompt;
+                    break;
+                case "Scrolls":
+                    current_prompt = scroll_shopping_prompt;
+                    break;
+                case "Sell":
+                    current_prompt = sell_shopping_prompt;
+                    break;
+                case "Buyback":
+                    current_prompt = buyback_shopping_prompt;
+                    break;
+            }
+            blurb_height = (current_prompt.Count + 3) * sFont.LineSpacing;
+        }
+
+        public void set_shopkeep()
+        {
+            int skeeper = rGen.Next(2);
+            switch (skeeper)
             {
                 case 0:
-                    descriptive_text = "You leave the stairs at a brisk trot, only to find yourself in what \n" + 
-                                        "seems like a shop. Racks of weapons and suits of armor adorn the \n" +
-                                        "walls, with shelves of potions and scrolls in the back. At the other \n" +
-                                        "end of the room, there's a counter with a hooded man standing behind \n" +
-                                        "it. You raise your hand and greet him cheerfully and he starts to \n" + 
-                                        "return your gesture, but stops short and gives you an odd look. You \n" +
-                                        "wonder why for a moment and then realize it's probably because of your \n" +
-                                        "scorpion tail. \"Don't get venom on my wares...\" he mumbles at you. \n" +
-                                        "You shrug and begin to browse.";
-                    shopkeeper = "hooded man";
-                    blurb_height = ((9 + 3) * sFont.LineSpacing);
+                    shopkeeper = "ancient goblin";
                     break;
                 case 1:
-                    descriptive_text = "You take a step off the stairs, blood running off of your armor in \n" +
-                                       "rivulets and pooling on the floor below. Truth be told, you can't \n" +
-                                       "tell who's blood it is, whether it's yours or that of your enemies. \n" +
-                                       "An ancient goblin rushes over and starts to dab at your armor with a \n" +
-                                       "towel, sopping up the worst of the mess. You watch him with a wary \n" +
-                                       "look in your eyes, your tail ready to strike at moment's notice. His \n" +
-                                       "attentions seem sincere, as he returns to the counter a moment later. \n" +
-                                       "\"Thanks,\" you say shortly, giving him a curt nod. \"Don't flatter \n" +
-                                       "yourself,\" he snaps back. \" I'm just making sure you don't bleed on \n" +
-                                       "my wares.\"";
-                    shopkeeper = "ancient goblin";
-                    blurb_height = ((10+3) * sFont.LineSpacing);
-                    break;
-                default:
+                    shopkeeper = "hooded man";
                     break;
             }
         }
 
-        public void set_descriptive_weapon_shopping(int choice)
+        public List<string> slot_keywords(List<string> list)
         {
-            switch (choice)
+            for (int i = 0; i < list.Count; i++)
             {
-                case 0:
-                    descriptive_text = "You shop for weapons.";
-                    blurb_height = (1 * sFont.LineSpacing);
-                    break;
+                string nextString = list[i].Replace("[SHOPKEEPER]", shopkeeper);
+                list[i] = nextString;
+            }
+
+            return list;
+        }
+
+        public void run_comparison(Player pl)
+        {
+            if (comparatorPopup == null)
+            {
+                if (im_shopping_for == Shopping_Mode.Armor)
+                {
+                    Armor p_armor = null;
+                    Armor c_armor = (Armor)current_list[selected_item_index];
+                    if (c_armor.what_armor_type() == Armor.Armor_Type.Helmet)
+                        p_armor = pl.show_helmet();
+                    else if (c_armor.what_armor_type() == Armor.Armor_Type.OverArmor)
+                        p_armor = pl.show_over_armor();
+                    else
+                        p_armor = pl.show_under_armor();
+                    comparatorPopup = new ComparisonPopup(blank_texture, sFont, smaller_Font, cManager, p_armor, c_armor);
+                }
+                else
+                    comparatorPopup = new ComparisonPopup(blank_texture, sFont, smaller_Font, cManager, pl.show_main_hand(),
+                                                          (Weapon)current_list[selected_item_index],
+                                                          pl.show_off_hand());
             }
         }
 
-        public void set_descriptive_armor_shopping(int choice)
+        public void clear_comparison()
         {
-            switch (choice)
-            {
-                case 0:
-                    descriptive_text = "You head back for the racks of armor, ignoring the piercing look the \n" + 
-                                        shopkeeper + " is giving you. You look up and down the rows of the \n" +
-                                        "various armors as you stroke your chin thoughtfully, considering \n" + 
-                                        "exactly which one you want to wear. Picking out a set of armor is \n" + 
-                                        "always so difficult. There are just so many things to consider! You \n" +
-                                        "hum to yourself as you lean over and pick up a suit of chainmail, \n" + 
-                                        "holding it up to the admittedly poor light.";
-                    blurb_height = ((7 + 3) * sFont.LineSpacing);
-                    break;
-            }
+            comparatorPopup = null;
         }
 
-        public void set_descriptive_consumable_shopping(int choice)
-        {
-            switch (choice)
-            {
-                case 0:
-                    descriptive_text = "You shop for consumables.";
-                    blurb_height = (1 * sFont.LineSpacing);
-                    break;
-            }
-        }
-
-        public void set_descriptive_scroll_shopping(int choice)
-        {
-            switch (choice)
-            {
-                case 0:
-                    descriptive_text = "You take a look at the scroll and squint at it, carefully reading the \n" +
-                                       "runes. Your brows furrow as you take a moment to go over what Petaer \n" +
-                                       "told you in his lengthy explanation, carefully reciting to yourself. \n" +
-                                       "\"Okay. I think I got this. This one makes you half-translucent, like \n" +
-                                       "looking through stained glass.\" You pause. \"That's stupid. Why would \n" +
-                                       "anyone want that?\" The " + shopkeeper + " looks at you strangely. \"You're \n" +
-                                       "holding it upside down,\" he 'helpfully' points out. \"Shut the fuck \n" +
-                                       "up. I didn't want your fucking opinion,\" you snap back, flipping \n" +
-                                       "him your middle finger. He takes the hint.";
-                    blurb_height = ((9+3) * sFont.LineSpacing);
-                    break;
-            }
-        }
-        
-        public void set_descriptive_talisman_shopping(int choice)
-        {
-            switch (choice)
-            {
-                case 0:
-                    descriptive_text = "You look at talismans.";
-                    blurb_height = ((1 + 3) * sFont.LineSpacing);
-                    break;
-            }
-        }
-
-        public void set_descriptive_selling(int choice)
-        {
-            switch (choice)
-            {
-                case 0:
-                    descriptive_text = "\"I want to get rid of some of this shit. What's the going price around \n" +
-                                       "here?\" You ask the shopkeeper, narrowing your eyes slightly at him. \n" +
-                                       "The " + shopkeeper + " thinks for a moment, then replies \"All items will be \n" +
-                                       "sold at half their market value.\" He barely has a moment to let out a \n" +
-                                       "strangled gasp as you lunge at him, picking him up by the collar and \n" +
-                                       "holding him in the air, your tail pressed to his throat. A single  \n" +
-                                       "trickle of venom rolls down his neck as he makes small whimpering \n" +
-                                       "noises. \"None of that shit.\" you hiss at him. \"You WILL give me a \n" +
-                                       "fair price. Or I will kill you.\" \"F-f-fine!\" he stammers, \"7% less \n" +
-                                       "than the original value or less 500 gold, whichever is less! Oh \n" +
-                                       "gods please don't kill me.\" You put him down and hold up your items.";
-                    blurb_height = ((11 + 3) * sFont.LineSpacing);
-                    break;
-            }
-        }
-
-        public void set_descriptive_buyback(int choice)
-        {
-            switch (choice)
-            {
-                case 0:
-                    descriptive_text = "\"Hey, I want some of that back,\" you point to your items behind the \n" +
-                                       "counter, then wave your hand impatiently. The " + shopkeeper + " grumbles \n" +
-                                       "but dutifully complies, grabbing a few of your items and putting them \n" +
-                                       "back on the counter. \"And you'd better not even fuucking think of \n" +
-                                       "trying to sell them back to me for the full value, do you understand?\" \n" +
-                                       "For emphasis, you bury the tip of your tail in the counter. He gulps, \n" +
-                                       "but gives you a quick nod.";
-                    blurb_height = ((7 + 3) * sFont.LineSpacing);
-                    break;
-            }
-        }
-
-        public void set_descriptive_exit(int choice)
-        {
-            switch (choice)
-            {
-                case 0:
-                    break;
-            }
-        }
-
-        public void drawMe(ref SpriteBatch sBatch)
+        public void draw_text(ref SpriteBatch sBatch)
         {
             take_measurements();
 
-            sBatch.DrawString(sFont, descriptive_text, blurb_position, Color.White);
+            Vector2 blurb_position2 = new Vector2(blurb_position.X, blurb_position.Y);
+            for (int i = 0; i < current_prompt.Count; i++)
+            {
+                sBatch.DrawString(sFont, current_prompt[i], blurb_position2, Color.White);
+                blurb_position2.Y += sFont.LineSpacing;
+            }
             Vector2 position2;
             Color tint;
             Vector2 player_gold_position = new Vector2(10, client.Height - sFont.LineSpacing - 10);
 
             sBatch.DrawString(sFont, "Gold Remaining: " + player_gold.ToString(), player_gold_position, Color.White);
-            switch(im_shopping_for)
+            switch (im_shopping_for)
             {
                 case Shopping_Mode.Main:
                     position2 = new Vector2(menu_position.X, menu_position.Y);
@@ -618,7 +570,7 @@ namespace Cronkpit
 
                 Vector2 item_info_position2 = new Vector2(item_info_position.X, item_info_position.Y);
 
-                for (int i = item_info_offset; 
+                for (int i = item_info_offset;
                      i < Math.Min(current_item_info.Count, item_info_offset + current_lines_avail); i++)
                 {
                     sBatch.DrawString(target_font, current_item_info[i], item_info_position2, Color.White);
@@ -628,6 +580,21 @@ namespace Cronkpit
                 sBatch.Draw(info_scrollup_tex, info_scrollup_ctrl, Color.White);
                 sBatch.Draw(info_scrolldwn_tex, info_scrolldwn_ctrl, Color.White);
             }
+        }
+
+        public void draw_comparator(ref SpriteBatch sBatch)
+        {
+            comparatorPopup.drawMe(ref sBatch);
+        }
+
+        public void drawMe(ref SpriteBatch sBatch)
+        {
+            sBatch.Begin(SpriteSortMode.BackToFront, null);
+            draw_text(ref sBatch);
+            sBatch.End();
+
+            if (comparatorPopup != null)
+                draw_comparator(ref sBatch);
         }
 
         public void draw_item_type_menu(List<Item> target_menu, ref SpriteBatch sBatch)

@@ -14,7 +14,7 @@ namespace Cronkpit
         public enum Aura { None, Attack, GonkTarget, Interact };
         public enum Tile_Type { StoneWall, DirtWall, StoneFloor, DirtFloor,
                                 Rubble_Wall, Rubble_Floor, Exit, Void,
-                                Dungeon_Exit, Locked_Dungeon_Exit };
+                                Dungeon_Exit, Locked_Dungeon_Exit, Entrance };
 
         private Texture2D my_Texture;
         private Texture2D my_blank_texture;
@@ -65,6 +65,8 @@ namespace Cronkpit
                     passable = true;
                     sound_absorbtion_value = 1;
                     if (random_variation < 5)
+                        my_Texture = textures[2];
+                    else if (random_variation >= 5 && random_variation <= 10)
                         my_Texture = textures[1];
                     else
                         my_Texture = textures[0];
@@ -75,6 +77,8 @@ namespace Cronkpit
                     passable = false;
                     sound_absorbtion_value = 1;
                     if (random_variation < 15)
+                        my_Texture = textures[2];
+                    else if (random_variation >= 15 && random_variation <= 57)
                         my_Texture = textures[1];
                     else
                         my_Texture = textures[0];
@@ -86,12 +90,22 @@ namespace Cronkpit
                     sound_absorbtion_value = 1;
                     my_Texture = textures[0];
                     break;
+                case Tile_Type.Entrance:
+                    opaque = false;
+                    deflect_sound = false;
+                    passable = true;
+                    sound_absorbtion_value = 1;
+                    my_Texture = textures[0];
+                    break;
                 case Tile_Type.DirtFloor:
                     opaque = false;
                     deflect_sound = false;
                     passable = true;
                     sound_absorbtion_value = 2;
-                    my_Texture = textures[0];
+                    if (random_variation <= 50)
+                        my_Texture = textures[0];
+                    else
+                        my_Texture = textures[1];
                     break;
                 case Tile_Type.DirtWall:
                     opaque = true;
@@ -99,6 +113,8 @@ namespace Cronkpit
                     passable = false;
                     sound_absorbtion_value = 3;
                     if (random_variation < 15)
+                        my_Texture = textures[2];
+                    else if (random_variation >= 15 && random_variation <= 57)
                         my_Texture = textures[1];
                     else
                         my_Texture = textures[0];
@@ -148,20 +164,29 @@ namespace Cronkpit
             {
                 case Tile_Type.StoneFloor:
                     if (random_variation < 5)
+                        my_Texture = textures[4];
+                    else if (random_variation >= 5 && random_variation < 10)
+                        my_Texture = textures[3];
+                    else if (random_variation >= 10 && random_variation < 40)
+                        my_Texture = textures[2];
+                    else if (random_variation >= 40 && random_variation < 70)
                         my_Texture = textures[1];
                     else
                         my_Texture = textures[0];
                     break;
+                case Tile_Type.DirtWall:
                 case Tile_Type.StoneWall:
                     if (random_variation >= 15)
-                        my_Texture = textures[0];
+                        if (random_variation < 50)
+                            my_Texture = textures[0];
+                        else
+                            my_Texture = textures[1];
                     break;
                 case Tile_Type.DirtFloor:
-                    my_Texture = textures[0];
-                    break;
-                case Tile_Type.DirtWall:
-                    if (random_variation >= 15)
+                    if (random_variation < 50)
                         my_Texture = textures[0];
+                    else
+                        my_Texture = textures[1];
                     break;
             }
 
@@ -182,6 +207,11 @@ namespace Cronkpit
         public bool isExit()
         {
             return tile_typ == Tile_Type.Exit;
+        }
+
+        public bool isExitorEntrance()
+        {
+            return tile_typ == Tile_Type.Exit || tile_typ == Tile_Type.Entrance;
         }
 
         public gridCoordinate get_grid_c()

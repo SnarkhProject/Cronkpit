@@ -1415,6 +1415,125 @@
       <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="XmlData\Prompts\falsael_prompts.xml">
+      <Name>falsael_prompts</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="XmlData\Prompts\halephon_prompts.xml">
+      <Name>halephon_prompts</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="XmlData\Prompts\petaer_prompts.xml">
+      <Name>petaer_prompts</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="XmlData\Prompts\ziktofel_prompts.xml">
+      <Name>ziktofel_prompts</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Icons\Weapons\bladedspear_icon.png">
+      <Name>bladedspear_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Weapons\cutlass_icon.png">
+      <Name>cutlass_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Weapons\limestonerod_icon.png">
+      <Name>limestonerod_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Weapons\sharpshotcrossbow_icon.png">
+      <Name>sharpshotcrossbow_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Icons\Weapons\steelwarhammer_icon.png">
+      <Name>steelwarhammer_icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Background\entrance.png">
+      <Name>entrance</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Background\Necropolis\Necro_Dirtfloor2.png">
+      <Name>Necro_Dirtfloor2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_MossDirtFloor2.png">
+      <Name>Necro_MossDirtFloor2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Background\Necropolis\Necro_MossDirtWall2.png">
+      <Name>Necro_MossDirtWall2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneWall2.png">
+      <Name>Necro_StoneWall2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneWallMoss2.png">
+      <Name>Necro_StoneWallMoss2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Background\Necropolis\Necro_DirtWall2.png">
+      <Name>Necro_DirtWall2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneFloorCracked2.png">
+      <Name>Necro_StoneFloorCracked2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneFloorCrackedMoss2.png">
+      <Name>Necro_StoneFloorCrackedMoss2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneFloorMoss2.png">
+      <Name>Necro_StoneFloorMoss2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Background\Necropolis\Necro_StoneFloorMoss3.png">
+      <Name>Necro_StoneFloorMoss3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Background\Doodads\altar_destroyed.png">
+      <Name>altar_destroyed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

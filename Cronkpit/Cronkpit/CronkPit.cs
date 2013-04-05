@@ -65,7 +65,7 @@ namespace Cronkpit
         MenuScreen sMenu;
         MessageBufferBox msgBufBox;
         IconBar icoBar;
-        InvAndHealthBox invScr;
+        InvAndHealthScreen invScr;
         ShopScreen shopScr;
         PotionPrompt potiPrompt;
         MiniMainMenu miniMain;
@@ -156,8 +156,8 @@ namespace Cronkpit
             sMenu = new MenuScreen(menuItems, "CronkPit", normal_font, big_font, client_rect());
             msgBufBox = new MessageBufferBox(client_rect(), tiny_font, blank_texture, ref msgBuf);
             icoBar = new IconBar(blank_texture, tiny_font, normal_font, client_rect());
-            invScr = new InvAndHealthBox(blank_texture, tiny_font, big_font, pname_font, ref Secondary_cManager, ref icoBar);
-            shopScr = new ShopScreen(shopMenuItems, normal_font, smaller_font, client_rect(), ref Secondary_cManager);
+            invScr = new InvAndHealthScreen(blank_texture, tiny_font, big_font, pname_font, ref Secondary_cManager, ref icoBar);
+            shopScr = new ShopScreen(shopMenuItems, normal_font, smaller_font, client_rect(), ref Secondary_cManager, blank_texture);
             potiPrompt = new PotionPrompt(blank_texture, tiny_font, tiny_bold_font);
             miniMain = new MiniMainMenu(miniMenuItems, client_rect(), blank_texture, big_font);
             cSelect = new CharSelect(ref Secondary_cManager, normal_font, big_font, client_rect());
@@ -548,10 +548,12 @@ namespace Cronkpit
             //gameState == 3
             if (current_state == Game_State.shop_screen)
             {
-                if (check_key_release(Keys.Up) || check_key_release(Keys.NumPad8))
+                if ((check_key_release(Keys.Up) || check_key_release(Keys.NumPad8)) && 
+                    !check_key_hold(Keys.LeftShift))
                     shopScr.scroll_menu(-1);
 
-                if (check_key_release(Keys.Down) || check_key_release(Keys.NumPad2))
+                if ((check_key_release(Keys.Down) || check_key_release(Keys.NumPad2)) &&
+                    !check_key_hold(Keys.LeftShift))
                     shopScr.scroll_menu(1);
 
                 if(check_key_release(Keys.NumPad9) && shopScr.in_submenu())
@@ -562,6 +564,11 @@ namespace Cronkpit
 
                 if (check_mouse_left_click())
                     shopScr.mouse_click(mousePosition);
+
+                if (check_key_hold(Keys.LeftShift) && shopScr.in_comparable_submenu())
+                    shopScr.run_comparison(p1);
+                else
+                    shopScr.clear_comparison();
 
                 if (check_key_release(Keys.Enter))
                 {
@@ -1164,6 +1171,9 @@ namespace Cronkpit
             }
         }
 
+        //check to see how they / mouse button is being used region.
+        #region input key check types
+
         private bool check_key_press(Keys theKey)
         {
             return newState.IsKeyDown(theKey) && !oldState.IsKeyDown(theKey);
@@ -1172,6 +1182,11 @@ namespace Cronkpit
         private bool check_key_release(Keys theKey)
         {
             return !newState.IsKeyDown(theKey) && oldState.IsKeyDown(theKey);
+        }
+
+        private bool check_key_hold(Keys theKey)
+        {
+            return newState.IsKeyDown(theKey) && oldState.IsKeyDown(theKey);
         }
 
         private bool check_mouse_left_click()
@@ -1183,6 +1198,8 @@ namespace Cronkpit
         {
             return mouse_newState.LeftButton == ButtonState.Pressed && mouse_oldState.LeftButton == ButtonState.Pressed;
         }
+
+        #endregion
 
         public void start_new_game(int character_number, int class_number)
         {
@@ -1236,7 +1253,7 @@ namespace Cronkpit
             Texture2D blank_texture = new Texture2D(GraphicsDevice, 1, 1);
             current_floor++;
             f1 = new Floor(Content, ref msgBuf, blank_texture, current_floor, current_dungeon);
-            p1.teleport(f1.random_valid_position());
+            p1.teleport(f1.get_entrance_coord());
             bad_turn = false;
             msgBuf.Clear();
             msgBufBox.scrollMSG(-1000);
@@ -1259,9 +1276,7 @@ namespace Cronkpit
                     spriteBatch.End();
                     break;
                 case Game_State.shop_screen:
-                    spriteBatch.Begin(SpriteSortMode.BackToFront, null);
                     shopScr.drawMe(ref spriteBatch);
-                    spriteBatch.End();
                     break;
                 case Game_State.select_character:
                     spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.NonPremultiplied);

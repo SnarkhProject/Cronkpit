@@ -16,6 +16,7 @@ namespace Cronkpit
         public enum specific_effect { None, Power_Strike, Cleave, Earthquake,
                                       Acid_Blood, Bite, Big_Bite, Alert,
                                       Warning_Bracket };
+        public enum random_coord_restrictions { None, Monster, Entrance };
         //Floor components
         int fl_number;
         int ambient_manavalue;
@@ -33,6 +34,8 @@ namespace Cronkpit
         List<Popup> popup_alerts;
         SpawnTable floorSpawns;
         SpawnTable floor_Sub_Spawns;
+        gridCoordinate dungeon_exit_coord;
+        gridCoordinate dungeon_entrance_coord;
 
         List<string> message_buffer;
 
@@ -51,17 +54,18 @@ namespace Cronkpit
         Texture2D[] rubble_wall = new Texture2D[1];
         Texture2D[] rubble_floor = new Texture2D[1];
         Texture2D[] the_void = new Texture2D[1];
-        Texture2D[] stone_walls = new Texture2D[2];
-        Texture2D[] stone_floors = new Texture2D[2];
-        Texture2D[] dirt_floors = new Texture2D[1];
-        Texture2D[] dirt_walls = new Texture2D[2];
+        Texture2D[] stone_walls = new Texture2D[3];
+        Texture2D[] stone_floors = new Texture2D[3];
+        Texture2D[] dirt_floors = new Texture2D[2];
+        Texture2D[] dirt_walls = new Texture2D[3];
         Texture2D[] exit_tile = new Texture2D[1];
+        Texture2D[] entrance_tile = new Texture2D[1];
         Texture2D[] dungeon_exit = new Texture2D[2];
         //Mossy textures - present in the necropolis
-        Texture2D[] mossy_stonewalls = new Texture2D[1];
-        Texture2D[] mossy_stonefloors = new Texture2D[2];
-        Texture2D[] mossy_dirtfloors = new Texture2D[1];
-        Texture2D[] mossy_dirtwalls = new Texture2D[1];
+        Texture2D[] mossy_stonewalls = new Texture2D[2];
+        Texture2D[] mossy_stonefloors = new Texture2D[5];
+        Texture2D[] mossy_dirtfloors = new Texture2D[2];
+        Texture2D[] mossy_dirtwalls = new Texture2D[2];
 
         //Green text. Function here.
         public Floor(ContentManager sCont, ref List<string> msgBuffer, Texture2D blnkTex, int floor_number,
@@ -125,6 +129,7 @@ namespace Cronkpit
                 int monsterType = randGen.Next(100);
                 string monster_to_add = floorSpawns.find_monster_by_number(monsterType);
 
+                gridCoordinate norm_nonhk_spawn = random_valid_position(restrictions: random_coord_restrictions.Monster);
                 switch (monster_to_add)
                 {
                     case "HollowKnight":
@@ -157,40 +162,40 @@ namespace Cronkpit
                                 reg_skel_wpn = Skeleton.Skeleton_Weapon_Type.Flamebolt;
                                 break;
                         }
-                        badGuys.Add(new Skeleton(random_valid_position(), cManager, i, reg_skel_wpn));
+                        badGuys.Add(new Skeleton(norm_nonhk_spawn, cManager, i, reg_skel_wpn));
                         break;
                     case "GoldMimic":
-                        badGuys.Add(new GoldMimic(random_valid_position(), cManager, i));
+                        badGuys.Add(new GoldMimic(norm_nonhk_spawn, cManager, i));
                         break;
                     case "GoreHound":
-                        badGuys.Add(new GoreHound(random_valid_position(), cManager, i));
+                        badGuys.Add(new GoreHound(norm_nonhk_spawn, cManager, i));
                         break;
                     case "Zombie":
                         if (randGen.Next(100) <= floor_Sub_Spawns.return_spawn_chance_by_monster("ZombieFanatic"))
                             badGuys.Add(new ZombieFanatic(random_valid_position(), cManager, i));
                         else
-                            badGuys.Add(new Zombie(random_valid_position(), cManager, i));
+                            badGuys.Add(new Zombie(norm_nonhk_spawn, cManager, i));
                         break;
                     case "Grendel":
                         int grenwpn = randGen.Next(3);
                         switch (grenwpn)
                         {
                             case 0:
-                                badGuys.Add(new Grendel(random_valid_position(), cManager, i, Grendel.Grendel_Weapon_Type.Club));
+                                badGuys.Add(new Grendel(norm_nonhk_spawn, cManager, i, Grendel.Grendel_Weapon_Type.Club));
                                 break;
                             case 1:
-                                badGuys.Add(new Grendel(random_valid_position(), cManager, i, Grendel.Grendel_Weapon_Type.Frostbolt));
+                                badGuys.Add(new Grendel(norm_nonhk_spawn, cManager, i, Grendel.Grendel_Weapon_Type.Frostbolt));
                                 break;
                         }
                         break;
                     case "Necromancer":
-                        badGuys.Add(new Necromancer(random_valid_position(), cManager, i));
+                        badGuys.Add(new Necromancer(norm_nonhk_spawn, cManager, i));
                         break;
                     case "GoreWolf":
-                        badGuys.Add(new Gorewolf(random_valid_position(), cManager, i));
+                        badGuys.Add(new Gorewolf(norm_nonhk_spawn, cManager, i));
                         break;
                     case "Ghost":
-                        badGuys.Add(new Ghost(random_valid_position(), cManager, i));
+                        badGuys.Add(new Ghost(norm_nonhk_spawn, cManager, i));
                         break;
                     case "ArmoredSkel":
                         int a_skelwpn = randGen.Next(4);
@@ -210,16 +215,17 @@ namespace Cronkpit
                                 arm_skel_wpn = Armored_Skeleton.Armor_Skeleton_Weapon.Greatsword;
                                 break;
                         }
-                        badGuys.Add(new Armored_Skeleton(random_valid_position(), cManager, i, arm_skel_wpn));
+                        badGuys.Add(new Armored_Skeleton(norm_nonhk_spawn, cManager, i, arm_skel_wpn));
                         break;
                     case "VoidWraith":
-                        badGuys.Add(new Voidwraith(random_valid_position(), cManager, i));
+                        badGuys.Add(new Voidwraith(norm_nonhk_spawn, cManager, i));
                         break;
                 }
             }
 
             if(cDungeon == CronkPit.Dungeon.Necropolis && fl_number == 12)
-                badGuys.Add(new Boneyard(random_valid_position(Monster.Monster_Size.Large), cManager, badGuys.Count, true));
+                badGuys.Add(new Boneyard(random_valid_position(Monster.Monster_Size.Large, 
+                                                               random_coord_restrictions.Monster), cManager, badGuys.Count, true));
         }
 
         public void draw_hallway_tiles(Tile target_tile)
@@ -394,26 +400,38 @@ namespace Cronkpit
             the_void[0] = cManager.Load<Texture2D>("Background/badvoidtile");
             //Stone Walls
             stone_walls[0] = cManager.Load<Texture2D>(basePath + "StoneWall");
-            stone_walls[1] = cManager.Load<Texture2D>(basePath + "StoneWallTorch");
+            stone_walls[1] = cManager.Load<Texture2D>(basePath + "StoneWall2");
+            stone_walls[2] = cManager.Load<Texture2D>(basePath + "StoneWallTorch");
             //Stone Floors
             stone_floors[0] = cManager.Load<Texture2D>(basePath + "StoneFloor");
             stone_floors[1] = cManager.Load<Texture2D>(basePath + "StoneFloorCracked");
+            stone_floors[2] = cManager.Load<Texture2D>(basePath + "StoneFloorCracked2");
             //Dirt Floors
             dirt_floors[0] = cManager.Load<Texture2D>(basePath + "Dirtfloor");
+            dirt_floors[1] = cManager.Load<Texture2D>(basePath + "DirtFloor2");
             //Dirt Walls
             dirt_walls[0] = cManager.Load<Texture2D>(basePath + "DirtWall");
-            dirt_walls[1] = cManager.Load<Texture2D>(basePath + "DirtWallTorch");
-            //Exit Tile
+            dirt_walls[1] = cManager.Load<Texture2D>(basePath + "DirtWall2");
+            dirt_walls[2] = cManager.Load<Texture2D>(basePath + "DirtWallTorch");
+            //Exit + Entrance Tile
             exit_tile[0] = cManager.Load<Texture2D>("Background/exit");
+            entrance_tile[0] = cManager.Load<Texture2D>("Background/entrance");
             //Dungeon Exit Tile
             dungeon_exit[0] = cManager.Load<Texture2D>(basePath + "dungeon_exit_open");
             dungeon_exit[1] = cManager.Load<Texture2D>(basePath + "dungeon_exit_closed");
             //MOSS
             mossy_dirtfloors[0] = cManager.Load<Texture2D>(basePath + "MossDirtFloor");
+            mossy_dirtfloors[1] = cManager.Load<Texture2D>(basePath + "MossDirtFloor2");
             mossy_stonefloors[0] = cManager.Load<Texture2D>(basePath + "StoneFloorMoss");
-            mossy_stonefloors[1] = cManager.Load<Texture2D>(basePath + "StoneFloorCrackedMoss");
+            mossy_stonefloors[1] = cManager.Load<Texture2D>(basePath + "StoneFloorMoss2");
+            mossy_stonefloors[2] = cManager.Load<Texture2D>(basePath + "StoneFloorMoss3");
+            mossy_stonefloors[3] = cManager.Load<Texture2D>(basePath + "StoneFloorCrackedMoss");
+            mossy_stonefloors[4] = cManager.Load<Texture2D>(basePath + "StoneFloorCrackedMoss2");
             mossy_dirtwalls[0] = cManager.Load<Texture2D>(basePath + "MossDirtWall");
+            mossy_dirtwalls[1] = cManager.Load<Texture2D>(basePath + "MossDirtWall2");
             mossy_stonewalls[0] = cManager.Load<Texture2D>(basePath + "StoneWallMoss");
+            mossy_stonewalls[1] = cManager.Load<Texture2D>(basePath + "StoneWallMoss2");
+
 
             for (int x = 0; x < stdfloorSize; x++)
             {
@@ -619,11 +637,13 @@ namespace Cronkpit
                             if (fl_number < 12)
                             {
                                 floorTiles[x][exit_coord.y].set_tile_type(Tile.Tile_Type.Exit, exit_tile);
+                                dungeon_exit_coord = new gridCoordinate(x, exit_coord.y);
                                 exitPlaced = true;
                             }
                             else
                             {
                                 floorTiles[x][exit_coord.y].set_tile_type(Tile.Tile_Type.Locked_Dungeon_Exit, dungeon_exit);
+                                dungeon_exit_coord = new gridCoordinate(x, exit_coord.y);
                                 exitPlaced = true;
                             }
                         }
@@ -638,16 +658,38 @@ namespace Cronkpit
                             if (fl_number < 12)
                             {
                                 floorTiles[exit_coord.x][y].set_tile_type(Tile.Tile_Type.Exit, exit_tile);
+                                dungeon_exit_coord = new gridCoordinate(exit_coord.x, y);
                                 exitPlaced = true;
                             }
                             else
                             {
                                 floorTiles[exit_coord.x][y].set_tile_type(Tile.Tile_Type.Locked_Dungeon_Exit, dungeon_exit);
+                                dungeon_exit_coord = new gridCoordinate(exit_coord.x, y);
                                 exitPlaced = true;
                             }
                         }
                     }
             }
+
+            //Then place an entrance.
+            bool entranceplaced = false;
+            while (!entranceplaced)
+            {
+                gridCoordinate entrance_coord = random_valid_position(Monster.Monster_Size.Normal,
+                                                                      random_coord_restrictions.Entrance);
+
+                for(int x = entrance_coord.x - 1; x <= entrance_coord.x + 1; x++)
+                    for(int y = entrance_coord.y - 1; y <= entrance_coord.y + 1; y++)
+                        if (x < stdfloorSize && x > 0 && y < stdfloorSize && y > 0 &&
+                           (x == entrance_coord.x || y == entrance_coord.y) && !entranceplaced &&
+                           floorTiles[x][y].isVoid())
+                        {
+                            floorTiles[x][y].set_tile_type(Tile.Tile_Type.Entrance, entrance_tile);
+                            dungeon_entrance_coord = new gridCoordinate(x, y);
+                            entranceplaced = true;
+                        }
+            }
+
             //add walls around all walkable tiles.
             for (int x = 0; x < stdfloorSize; x++)
                 for (int y = 0; y < stdfloorSize; y++)
@@ -710,7 +752,7 @@ namespace Cronkpit
                         if (!is_tile_passable(new gridCoordinate(x - 1, roomY - 1)) &&
                             !is_tile_passable(new gridCoordinate(x + 1, roomY - 1)) &&
                             is_tile_passable(new gridCoordinate(x, roomY - 1)) &&
-                            !floorTiles[x][roomY - 1].isExit())
+                            !floorTiles[x][roomY - 1].isExitorEntrance())
                         {
                             side_door_coords.Clear();
                             side_door_coords.Add(new gridCoordinate(x - 1, roomY - 1));
@@ -721,7 +763,7 @@ namespace Cronkpit
                         if (!is_tile_passable(new gridCoordinate(x - 1, roomY + roomH)) &&
                             !is_tile_passable(new gridCoordinate(x + 1, roomY + roomH)) &&
                             is_tile_passable(new gridCoordinate(x, roomY + roomH)) &&
-                            !floorTiles[x][roomY + roomH].isExit())
+                            !floorTiles[x][roomY + roomH].isExitorEntrance())
                         {
                             side_door_coords.Clear();
                             side_door_coords.Add(new gridCoordinate(x - 1, roomY + roomH));
@@ -735,7 +777,7 @@ namespace Cronkpit
                         if (!is_tile_passable(new gridCoordinate(roomX - 1, y - 1)) &&
                             !is_tile_passable(new gridCoordinate(roomX - 1, y + 1)) &&
                             is_tile_passable(new gridCoordinate(roomX - 1, y)) &&
-                            !floorTiles[roomX - 1][y].isExit())
+                            !floorTiles[roomX - 1][y].isExitorEntrance())
                         {
                             side_door_coords.Clear();
                             side_door_coords.Add(new gridCoordinate(roomX - 1, y-1));
@@ -746,7 +788,7 @@ namespace Cronkpit
                         if (!is_tile_passable(new gridCoordinate(roomX + roomW, y - 1)) &&
                             !is_tile_passable(new gridCoordinate(roomX + roomW, y + 1)) &&
                             is_tile_passable(new gridCoordinate(roomX + roomW, y)) &&
-                            !floorTiles[roomX + roomW][y].isExit())
+                            !floorTiles[roomX + roomW][y].isExitorEntrance())
                         {
                             side_door_coords.Clear();
                             side_door_coords.Add(new gridCoordinate(roomX + roomW, y - 1));
@@ -1043,7 +1085,8 @@ namespace Cronkpit
         }
 
         //Green text. Function here.
-        public gridCoordinate random_valid_position(Monster.Monster_Size entitySize = Monster.Monster_Size.Normal)
+        public gridCoordinate random_valid_position(Monster.Monster_Size entitySize = Monster.Monster_Size.Normal,
+                                                    random_coord_restrictions restrictions = random_coord_restrictions.None)
         {
             bool valid_position = false;
             List<gridCoordinate> g_coords = new List<gridCoordinate>();
@@ -1089,6 +1132,21 @@ namespace Cronkpit
                 for (int i = 0; i < g_coords.Count; i++)
                     if (floorTiles[g_coords[i].x][g_coords[i].y].get_my_tile_type() == Tile.Tile_Type.Exit)
                         good_position = false;
+                if (restrictions == random_coord_restrictions.Entrance)
+                {
+                    for (int i = 0; i < g_coords.Count; i++)
+                        if (g_coords[i].x > dungeon_exit_coord.x - 10 && g_coords[i].x < dungeon_exit_coord.x + 10 &&
+                            g_coords[i].y > dungeon_exit_coord.y - 10 && g_coords[i].y < dungeon_exit_coord.y + 10)
+                            good_position = false;
+                }
+                else if (restrictions == random_coord_restrictions.Monster)
+                {
+                    for (int i = 0; i < g_coords.Count; i++)
+                        if (g_coords[i].x > dungeon_entrance_coord.x - 6 && g_coords[i].x < dungeon_entrance_coord.y + 6 &&
+                            g_coords[i].y > dungeon_entrance_coord.y - 6 && g_coords[i].y < dungeon_entrance_coord.y + 6)
+                            good_position = false;
+                }
+                        
 
                 if (good_position)
                     valid_position = true;
@@ -1099,11 +1157,15 @@ namespace Cronkpit
             return g_coords[0];
         }
 
+        public gridCoordinate get_entrance_coord()
+        {
+            return dungeon_entrance_coord;
+        }
         //Green text!
         public gridCoordinate valid_hollowKnight_spawn()
         {
             bool goodPosition = false;
-            gridCoordinate returnCoord = random_valid_position();
+            gridCoordinate returnCoord = random_valid_position(restrictions: random_coord_restrictions.Monster);
             while (!goodPosition)
             {
                 gridCoordinate gc = random_valid_position();
@@ -1268,6 +1330,15 @@ namespace Cronkpit
                                     bad_turn = true;
                                     Doodads[i].open_door(this);
                                 }
+                            break;
+                        case Doodad.Doodad_Type.Altar:
+                            if (!Doodads[i].is_passable())
+                            {
+                                Doodads[i].destroy_altar(pl, this);
+                                ambient_manavalue += 100;
+                                add_new_popup("Descrated!", Popup.popup_msg_color.Red, Doodads[i].get_g_coord());
+                                add_new_popup("+Mana!", Popup.popup_msg_color.Blue, Doodads[i].get_g_coord());
+                            }
                             break;
                     }
             }

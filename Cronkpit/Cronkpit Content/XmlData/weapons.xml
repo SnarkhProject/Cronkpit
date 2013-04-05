@@ -142,7 +142,7 @@
       <WeaponType>Sword</WeaponType>
       <Hands>1</Hands>
       <MinDamage>4</MinDamage>
-      <MaxDamage>8</MaxDamage>
+      <MaxDamage>9</MaxDamage>
       <WeaponRange>1</WeaponRange>
     </Item>
     <Item>
@@ -228,6 +228,66 @@
       <MinDamage>5</MinDamage>
       <MaxDamage>12</MaxDamage>
       <WeaponRange>3</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>44</IDNumber>
+      <Cost>500</Cost>
+      <Name>Sharpshot Crossbow</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Rogue </ValidClasses>
+      <WeaponType>Crossbow</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>4</MinDamage>
+      <MaxDamage>7</MaxDamage>
+      <WeaponRange>4</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>46</IDNumber>
+      <Cost>500</Cost>
+      <Name>Cutlass</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue Mage </ValidClasses>
+      <WeaponType>Sword</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>4</MinDamage>
+      <MaxDamage>7</MaxDamage>
+      <WeaponRange>1</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>47</IDNumber>
+      <Cost>1400</Cost>
+      <Name>Steel Warhammer</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Ex-Priest </ValidClasses>
+      <WeaponType>Mace</WeaponType>
+      <Hands>2</Hands>
+      <MinDamage>3</MinDamage>
+      <MaxDamage>4</MaxDamage>
+      <WeaponRange>1</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>55</IDNumber>
+      <Cost>1450</Cost>
+      <Name>Limestone Rod</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Mage Ex-Priest </ValidClasses>
+      <WeaponType>Staff</WeaponType>
+      <Hands>2</Hands>
+      <MinDamage>2</MinDamage>
+      <MaxDamage>4</MaxDamage>
+      <WeaponRange>2</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>54</IDNumber>
+      <Cost>1400</Cost>
+      <Name>Bladed Spear</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Ex-Priest </ValidClasses>
+      <WeaponType>Spear</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>3</MinDamage>
+      <MaxDamage>4</MaxDamage>
+      <WeaponRange>2</WeaponRange>
     </Item>
   </Asset>
 </XnaContent>

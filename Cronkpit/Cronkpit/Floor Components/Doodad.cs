@@ -25,6 +25,9 @@ namespace Cronkpit
         Door_State my_door_state;
         Texture2D my_destroyed_texture;
 
+        //Altar only stuff
+        ContentManager cmgr;
+
         //General functions used for both armor suits and doors.
         public bool passable;
         public bool destroyable;
@@ -87,7 +90,9 @@ namespace Cronkpit
                     HP = 17;
                     break;
                 case Doodad_Type.Altar:
+                    cmgr = cManage;
                     my_impassable_texture = cManage.Load<Texture2D>("Background/Doodads/altar");
+                    my_passable_texture = cManage.Load<Texture2D>("Background/Doodads/altar_destroyed");
                     name = "altar";
                     passable = false;
                     destroyable = false;
@@ -214,6 +219,108 @@ namespace Cronkpit
         {
             return HP <= 0;
         }
+
+        #endregion
+
+        #region altar only stuff
+
+        public void destroy_altar(Player pl, Floor fl)
+        {
+            my_doodad_type = Doodad_Type.Destroyed_Altar;
+            passable = true;
+            destroyable = false;
+            name = "destroyed altar";
+            create_minor_undead(pl, fl);
+        }
+
+        public void create_minor_undead(Player pl, Floor fl)
+        {
+            gridCoordinate pl_gc = pl.get_my_grid_C();
+            List<Monster> fl_monsters = fl.see_badGuys();
+            int monsterType = rGen.Next(3);
+            int skeletonType = rGen.Next(6);
+            gridCoordinate monster_position = new gridCoordinate();
+            bool valid_position_found = false;
+
+            for (int x = -1; x <= 1; x++)
+                for (int y = -1; y <= 1; y++)
+                {
+                    int whocares = -1;
+                    gridCoordinate next_position = new gridCoordinate(my_grid_coord.x + x, my_grid_coord.y + y);
+                    if (!valid_position_found && !fl.is_tile_opaque(next_position) &&
+                        !fl.is_entity_here(next_position) && !fl.is_monster_here(next_position, out whocares) &&
+                        pl_gc.x != next_position.x && pl_gc.y != next_position.y)
+                    {
+                        monster_position = next_position;
+                        valid_position_found = true;
+                    }
+                }
+
+            if (valid_position_found)
+            {
+                int next_index = -1;
+                bool found_valid_number = false;
+                while (!found_valid_number)
+                {
+                    next_index++;
+                    bool valid_number = true;
+                    for (int i = 0; i < fl_monsters.Count; i++)
+                    {
+                        if (next_index == fl_monsters[i].my_Index)
+                            valid_number = false;
+                    }
+
+                    if (valid_number)
+                        found_valid_number = true;
+                }
+                fl.add_new_popup("Summoned!", Popup.popup_msg_color.Purple, monster_position);
+                add_minor_undead(fl, monsterType, skeletonType,
+                                 next_index, monster_position, false, pl);
+            }
+        }
+
+        public void add_minor_undead(Floor fl, int minor_monster_type,
+                                     int minor_skeleton_type, int next_monster_index,
+                                     gridCoordinate monster_position, bool force_wander, Player pl)
+        {
+            switch (minor_monster_type)
+            {
+                case 0:
+                    fl.see_badGuys().Add(new Zombie(monster_position, cmgr, next_monster_index));
+                    break;
+                case 1:
+                    fl.see_badGuys().Add(new GoreHound(monster_position, cmgr, next_monster_index));
+                    break;
+                case 2:
+                    Skeleton.Skeleton_Weapon_Type skelweapon = 0;
+                    switch (minor_skeleton_type)
+                    {
+                        case 0:
+                            skelweapon = Skeleton.Skeleton_Weapon_Type.Fist;
+                            break;
+                        case 1:
+                            skelweapon = Skeleton.Skeleton_Weapon_Type.Axe;
+                            break;
+                        case 2:
+                            skelweapon = Skeleton.Skeleton_Weapon_Type.Bow;
+                            break;
+                        case 3:
+                            skelweapon = Skeleton.Skeleton_Weapon_Type.Flamebolt;
+                            break;
+                        case 4:
+                            skelweapon = Skeleton.Skeleton_Weapon_Type.Spear;
+                            break;
+                        case 5:
+                            skelweapon = Skeleton.Skeleton_Weapon_Type.Sword;
+                            break;
+                    }
+                    fl.see_badGuys().Add(new Skeleton(monster_position, cmgr, next_monster_index, skelweapon));
+                    break;
+            }
+            if (force_wander)
+                fl.force_monster_wander(next_monster_index, pl);
+        }
+
 
         #endregion
     }

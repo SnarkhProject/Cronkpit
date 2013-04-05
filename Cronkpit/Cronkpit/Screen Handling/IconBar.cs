@@ -272,14 +272,6 @@ namespace Cronkpit
             }
         }
 
-        public void draw_border_around_rectangle(ref SpriteBatch sBatch, Rectangle target_rect, int border_width, Color border_color)
-        {
-            sBatch.Draw(default_texture, new Rectangle(target_rect.Left, target_rect.Top, border_width, target_rect.Height), border_color);
-            sBatch.Draw(default_texture, new Rectangle(target_rect.Right, target_rect.Top, border_width, target_rect.Height + border_width), border_color);
-            sBatch.Draw(default_texture, new Rectangle(target_rect.Left, target_rect.Top, target_rect.Width, border_width), border_color);
-            sBatch.Draw(default_texture, new Rectangle(target_rect.Left, target_rect.Bottom, target_rect.Width, border_width), border_color);
-        }
-
         public void draw_my_borders(ref SpriteBatch sBatch)
         {
             int border_width = 4;
