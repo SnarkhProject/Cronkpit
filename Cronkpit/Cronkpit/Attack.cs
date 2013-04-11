@@ -31,5 +31,10 @@ namespace Cronkpit
         {
             attack_damage -= dec;
         }
+
+        public void reset_dmg(int nextDmg)
+        {
+            attack_damage = nextDmg;
+        }
     }
 }

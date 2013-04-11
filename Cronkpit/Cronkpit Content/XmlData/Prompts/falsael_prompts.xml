@@ -130,5 +130,21 @@
         <Item>you're finally satisfied with the ones you've found.</Item>
       </Prompt_Text>
     </Item>
+    <Item>
+      <Shop_Section>Armor</Shop_Section>
+      <Prompt_Text>
+        <Item>You pick up a breastplate and turn it over in your hands, looking</Item>
+        <Item>it over carefully. There are no cracks or dents in the armor. No</Item>
+        <Item>straps or buckles look old or frayed. The armor has a nice sheen </Item>
+        <Item>to it, you'd guess that the [SHOPKEEPER] has maintained this</Item>
+        <Item>piece pretty well. That's when you notice that your scorpion tail</Item>
+        <Item>is dripping venom all over the back of the armor. Oops. You</Item>
+        <Item>quickly stuff it back onto the shelf it came from, your eyes</Item>
+        <Item>darting around. Good. It looks like nobody noticed your little</Item>
+        <Item>goof there. Ziktofel is giving you an odd look, though.</Item>
+        <Item>"Problem?" You ask her, narrowing your eyes a little. She shakes</Item>
+        <Item>her head and goes back to looking at scrolls. Phew.</Item>
+      </Prompt_Text>
+    </Item>
   </Asset>
 </XnaContent>

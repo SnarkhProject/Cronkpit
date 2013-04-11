@@ -124,8 +124,10 @@ namespace Cronkpit
         protected void add_monsters(ref List<Monster> monsters, int number_of_monsters, 
                                     Cronkpit.CronkPit.Dungeon cDungeon)
         {
+            int index_offset = monsters.Count;
             for (int i = 0; i < number_of_monsters; i++)
             {
+                int next_index = i + index_offset;
                 int monsterType = randGen.Next(100);
                 string monster_to_add = floorSpawns.find_monster_by_number(monsterType);
 
@@ -134,9 +136,9 @@ namespace Cronkpit
                 {
                     case "HollowKnight":
                         if (randGen.Next(100) <= floor_Sub_Spawns.return_spawn_chance_by_monster("RedKnight"))
-                            badGuys.Add(new RedKnight(valid_hollowKnight_spawn(), cManager, i));
+                            badGuys.Add(new RedKnight(valid_hollowKnight_spawn(), cManager, next_index));
                         else
-                            badGuys.Add(new HollowKnight(valid_hollowKnight_spawn(), cManager, i));
+                            badGuys.Add(new HollowKnight(valid_hollowKnight_spawn(), cManager, next_index));
                         break;
                     case "Skeleton":
                         int skelwpn = randGen.Next(6);
@@ -162,40 +164,40 @@ namespace Cronkpit
                                 reg_skel_wpn = Skeleton.Skeleton_Weapon_Type.Flamebolt;
                                 break;
                         }
-                        badGuys.Add(new Skeleton(norm_nonhk_spawn, cManager, i, reg_skel_wpn));
+                        badGuys.Add(new Skeleton(norm_nonhk_spawn, cManager, next_index, reg_skel_wpn));
                         break;
                     case "GoldMimic":
-                        badGuys.Add(new GoldMimic(norm_nonhk_spawn, cManager, i));
+                        badGuys.Add(new GoldMimic(norm_nonhk_spawn, cManager, next_index));
                         break;
                     case "GoreHound":
-                        badGuys.Add(new GoreHound(norm_nonhk_spawn, cManager, i));
+                        badGuys.Add(new GoreHound(norm_nonhk_spawn, cManager, next_index));
                         break;
                     case "Zombie":
                         if (randGen.Next(100) <= floor_Sub_Spawns.return_spawn_chance_by_monster("ZombieFanatic"))
-                            badGuys.Add(new ZombieFanatic(random_valid_position(), cManager, i));
+                            badGuys.Add(new ZombieFanatic(random_valid_position(), cManager, next_index));
                         else
-                            badGuys.Add(new Zombie(norm_nonhk_spawn, cManager, i));
+                            badGuys.Add(new Zombie(norm_nonhk_spawn, cManager, next_index));
                         break;
                     case "Grendel":
                         int grenwpn = randGen.Next(3);
                         switch (grenwpn)
                         {
                             case 0:
-                                badGuys.Add(new Grendel(norm_nonhk_spawn, cManager, i, Grendel.Grendel_Weapon_Type.Club));
+                                badGuys.Add(new Grendel(norm_nonhk_spawn, cManager, next_index, Grendel.Grendel_Weapon_Type.Club));
                                 break;
                             case 1:
-                                badGuys.Add(new Grendel(norm_nonhk_spawn, cManager, i, Grendel.Grendel_Weapon_Type.Frostbolt));
+                                badGuys.Add(new Grendel(norm_nonhk_spawn, cManager, next_index, Grendel.Grendel_Weapon_Type.Frostbolt));
                                 break;
                         }
                         break;
                     case "Necromancer":
-                        badGuys.Add(new Necromancer(norm_nonhk_spawn, cManager, i));
+                        badGuys.Add(new Necromancer(norm_nonhk_spawn, cManager, next_index));
                         break;
                     case "GoreWolf":
-                        badGuys.Add(new Gorewolf(norm_nonhk_spawn, cManager, i));
+                        badGuys.Add(new Gorewolf(norm_nonhk_spawn, cManager, next_index));
                         break;
                     case "Ghost":
-                        badGuys.Add(new Ghost(norm_nonhk_spawn, cManager, i));
+                        badGuys.Add(new Ghost(norm_nonhk_spawn, cManager, next_index));
                         break;
                     case "ArmoredSkel":
                         int a_skelwpn = randGen.Next(4);
@@ -215,10 +217,10 @@ namespace Cronkpit
                                 arm_skel_wpn = Armored_Skeleton.Armor_Skeleton_Weapon.Greatsword;
                                 break;
                         }
-                        badGuys.Add(new Armored_Skeleton(norm_nonhk_spawn, cManager, i, arm_skel_wpn));
+                        badGuys.Add(new Armored_Skeleton(norm_nonhk_spawn, cManager, next_index, arm_skel_wpn));
                         break;
                     case "VoidWraith":
-                        badGuys.Add(new Voidwraith(norm_nonhk_spawn, cManager, i));
+                        badGuys.Add(new Voidwraith(norm_nonhk_spawn, cManager, next_index));
                         break;
                 }
             }
@@ -822,7 +824,8 @@ namespace Cronkpit
             for (int i = 0; i < suits; i++)
                 Doodads.Add(new Doodad(Doodad.Doodad_Type.ArmorSuit, cManager,
                             valid_hollowKnight_spawn(), i));
-
+            
+            //Add corpses
             for (int i = 0; i < roomLayout.Count; i++)
             {
                 if (roomLayout[i].has_corpses())
@@ -908,6 +911,20 @@ namespace Cronkpit
                     }
                 }
             }
+            //Add corpse mimics
+            int corpse_mimic_cap = Math.Max(2, fl_number - 8);
+            int c_corpse_mimics = 0;
+            int corpse_mimic_chance = Math.Max(2, (fl_number * 2) - 4);
+            int original_size = Doodads.Count;
+            for(int i = 0; i < original_size; i++)
+                for (int j = 0; j < Doodads.Count; j++)
+                    if (Doodads[j].get_my_doodad_type() == Doodad.Doodad_Type.CorpsePile &&
+                       c_corpse_mimics < corpse_mimic_cap && randGen.Next(100) < corpse_mimic_chance)
+                    {
+                        gridCoordinate doodadC = new gridCoordinate(Doodads[j].get_g_coord());
+                        Doodads.RemoveAt(j);
+                        badGuys.Add(new CorpseMimic(doodadC, cManager, badGuys.Count, fl_number));
+                    }
 
             //Add gold piles
             int gold_per_floor = 500;
@@ -1253,6 +1270,7 @@ namespace Cronkpit
                 case Scroll.Atk_Area_Type.piercingBolt:
                 case Scroll.Atk_Area_Type.singleTile:
                 case Scroll.Atk_Area_Type.chainedBolt:
+                case Scroll.Atk_Area_Type.enemyDebuff:
                     range.Add(effect_center);
                     break;
                 case Scroll.Atk_Area_Type.smallfixedAOE:
@@ -1385,6 +1403,7 @@ namespace Cronkpit
                     
                     switch (Pew_Pews[i].get_atk_area_type())
                     {
+                        case Scroll.Atk_Area_Type.enemyDebuff:
                         case Scroll.Atk_Area_Type.piercingBolt:
                         case Scroll.Atk_Area_Type.singleTile:
                             aoe_effect = false;
@@ -1504,7 +1523,9 @@ namespace Cronkpit
                             //Silver lining
                             int mon_on_mon_ID = -1;
                             if (is_monster_here(attacked_coordinates[j], out mon_on_mon_ID))
-                                damage_monster_single_atk(new Attack(Pew_Pews[i].get_dmg_type(), dmg_val * 2), mon_on_mon_ID, false, aoe_effect);
+                                damage_monster_single_atk(new Attack(Pew_Pews[i].get_dmg_type(), dmg_val * 2),
+                                                          Pew_Pews[i].get_attached_statuses(),
+                                                          mon_on_mon_ID, false, aoe_effect);
 
                             int mon_on_Doodad_ID = -1;
                             if (is_destroyable_Doodad_here(attacked_coordinates[j], out mon_on_Doodad_ID))
@@ -1515,7 +1536,7 @@ namespace Cronkpit
                             if (is_monster_here(attacked_coordinates[j], out monsterID))
                             {
                                 Monster mon = badguy_by_monster_id(monsterID);
-                                process_player_projectile_attack(Pew_Pews[i], mon, aoe_effect);
+                                process_player_projectile_attack(pl, Pew_Pews[i], mon, aoe_effect);
                             }
 
                             if (is_destroyable_Doodad_here(attacked_coordinates[j], out DoodadID))
@@ -1544,61 +1565,14 @@ namespace Cronkpit
             Pew_Pews.Add(proj);
         }
 
-        public void process_player_projectile_attack(Projectile pew, Monster m, bool aoe_effect)
+        public void process_player_projectile_attack(Player pl, Projectile pew, Monster m, bool aoe_effect)
         {
-            List<Talisman> projectile_talismans = pew.get_talisman_effects();
             List<Attack> damage_to_monster = new List<Attack>();
-            int projectile_damage = randGen.Next(pew.get_damage_range(false), pew.get_damage_range(true)+1);
-            int projectile_modified_min_dmg = 0;
-            int projectile_modified_max_dmg = 0;
-            for (int i = 0; i < projectile_talismans.Count; i++)
-            {
-                if (projectile_talismans[i].get_my_type() == Talisman.Talisman_Type.Expediency)
-                {
-                    int base_val = (int)projectile_talismans[i].get_my_prefix() + 2;
-                    projectile_modified_min_dmg += base_val;
-                    projectile_modified_max_dmg += (base_val * 2);
-                }
-            }
-            projectile_damage += randGen.Next(projectile_modified_min_dmg, projectile_modified_max_dmg + 1);
-            if(projectile_damage > 0)
-                damage_to_monster.Add(new Attack(pew.get_dmg_type(), projectile_damage));
+            List<StatusEffect> debuffs_to_monster = new List<StatusEffect>();
 
-            for (int i = 0; i < projectile_talismans.Count; i++)
-            {
-                if (projectile_talismans[i].extra_damage_specific_type_talisman())
-                {
-                    int base_val = (int)projectile_talismans[i].get_my_prefix() + 1;
-                    Attack.Damage dmg_typ = 0;
-                    switch (projectile_talismans[i].get_my_type())
-                    {
-                        case Talisman.Talisman_Type.Pressure:
-                            dmg_typ = Attack.Damage.Crushing;
-                            break;
-                        case Talisman.Talisman_Type.Heat:
-                            dmg_typ = Attack.Damage.Fire;
-                            break;
-                        case Talisman.Talisman_Type.Snow:
-                            dmg_typ = Attack.Damage.Frost;
-                            break;
-                        case Talisman.Talisman_Type.Razors:
-                            dmg_typ = Attack.Damage.Slashing;
-                            break;
-                        case Talisman.Talisman_Type.Heartsblood:
-                            dmg_typ = Attack.Damage.Piercing;
-                            break;
-                        case Talisman.Talisman_Type.Toxicity:
-                            dmg_typ = Attack.Damage.Acid;
-                            break;
-                        case Talisman.Talisman_Type.Sparks:
-                            dmg_typ = Attack.Damage.Electric;
-                            break;
-                    }
-                    damage_to_monster.Add(new Attack(dmg_typ, randGen.Next(base_val, (base_val * 2) + 1)));
-                }
-            }
-
-            damage_monster(damage_to_monster, m.my_Index, false, aoe_effect);
+            pl.handle_attack_damage(pew.get_attached_weapon(), pew.get_attached_scroll(),
+                                    1.0, false, ref damage_to_monster, ref debuffs_to_monster);
+            damage_monster(damage_to_monster, debuffs_to_monster, m.my_Index, false, aoe_effect);
         }
 
         public bool check_overlap(Rectangle rect_A, Rectangle rect_B)
@@ -1836,7 +1810,7 @@ namespace Cronkpit
                     int dmg = randGen.Next(cone_atk_min_dmg, cone_atk_max_dmg + 1);
                     if (monsterCone)
                         dmg = dmg * 2;
-                    damage_monster_single_atk(new Attack(cone_atk_dmg_type, dmg), monsterID, false, true);
+                    damage_monster_single_atk(new Attack(cone_atk_dmg_type, dmg), null, monsterID, false, true);
                 }
                 else if (is_destroyable_Doodad_here(effected_area[i], out doodadID))
                 {
@@ -1989,7 +1963,7 @@ namespace Cronkpit
                         {
                             if (is_monster_here(effected_tiles[j], out monsterID))
                             {
-                                damage_monster_single_atk(new Attack(effect_dmg_type, dmg_val), monsterID, false, true);
+                                damage_monster_single_atk(new Attack(effect_dmg_type, dmg_val), null, monsterID, false, true);
                             }
 
                             if (is_destroyable_Doodad_here(effected_tiles[j], out DoodadID))
@@ -2522,13 +2496,14 @@ namespace Cronkpit
             return Money;
         }
 
-        public void damage_monster(List<Attack> atks, int monsterID, bool melee_attack, bool aoe_attack)
+        public void damage_monster(List<Attack> atks, List<StatusEffect> debuffs,
+                                   int monsterID, bool melee_attack, bool aoe_attack)
         {
             for (int i = 0; i < badGuys.Count; i++)
             {
                 if (badGuys[i].my_Index == monsterID)
                 {
-                    badGuys[i].takeDamage(atks, melee_attack, aoe_attack, message_buffer, this);
+                    badGuys[i].takeDamage(atks, debuffs, melee_attack, aoe_attack, message_buffer, this);
                     if (badGuys[i].hitPoints <= 0)
                     {
                         if (badGuys[i] is HollowKnight)
@@ -2545,11 +2520,12 @@ namespace Cronkpit
             }
         }
 
-        public void damage_monster_single_atk(Attack atk, int monsterID, bool melee_attack, bool aoe_attack)
+        public void damage_monster_single_atk(Attack atk, List<StatusEffect> debuffs,
+                                              int monsterID, bool melee_attack, bool aoe_attack)
         {
             List<Attack> atks = new List<Attack>();
             atks.Add(atk);
-            damage_monster(atks, monsterID, melee_attack, aoe_attack);
+            damage_monster(atks, debuffs, monsterID, melee_attack, aoe_attack);
         }
 
         public void damage_Doodad(int dmg, int DoodadID)

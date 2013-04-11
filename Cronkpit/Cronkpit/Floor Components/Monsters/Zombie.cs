@@ -22,12 +22,14 @@ namespace Cronkpit
             dmg_type = Attack.Damage.Crushing;
 
             //SENSORY
-            sight_range = 3;
+            base_sight_range = 3;
             can_hear = true;
             sounds_i_can_hear.Add(SoundPulse.Sound_Types.Voidwraith_Scream);
             sounds_i_can_hear.Add(SoundPulse.Sound_Types.Fanatic_Scream);
-            listen_threshold.Add(1);
-            listen_threshold.Add(1);
+            base_listen_threshold.Add(1);
+            base_listen_threshold.Add(1);
+
+            set_senses_to_baseline();
 
             //OTHER
             my_name = "Zombie";
@@ -38,10 +40,7 @@ namespace Cronkpit
 
         public override void Update_Monster(Player pl, Floor fl)
         {
-            //ZOMBIE AGGRO RULES:
-            //When not aggroed, there is a 25% chance that a zombie will wander in a random direction.
-            //If it cannot wander in the first direction, it will try up to 5 times for another one.
-            //Aggroed when the player comes within 3 blocks of it. Then it will move towards the player.
+            has_moved = false;
             heal_near_altar(fl);
 
             if (is_player_within(pl, sight_range))
@@ -49,30 +48,35 @@ namespace Cronkpit
             else
                 can_see_player = false;
 
-            if (can_see_player)
+            if (!stunned)
             {
-                //the monster is aggroed!
-                advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
-                if (is_player_within(pl, 1) && !has_moved)
+                if (can_see_player)
                 {
-                    fl.addmsg("The Zombie swings at you!");
-                    Attack dmg = dealDamage();
-                    fl.add_effect(dmg_type, pl.get_my_grid_C());
-                    pl.take_damage(dmg, fl, "");
+                    //the monster is aggroed!
+                    advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
+                    if (is_player_within(pl, 1) && !has_moved)
+                    {
+                        fl.addmsg("The Zombie swings at you!");
+                        Attack dmg = dealDamage();
+                        fl.add_effect(dmg_type, pl.get_my_grid_C());
+                        pl.take_damage(dmg, fl, "");
+                    }
+                }
+                else if (!can_see_player && heard_something)
+                {
+                    follow_path_to_sound(fl, pl);
+                }
+                else
+                {
+                    int should_i_wander = rGen.Next(5);
+                    if (should_i_wander == 1)
+                    {
+                        wander(pl, fl, corporeal);
+                    }
                 }
             }
-            else if (!can_see_player && heard_something)
-            {
-                follow_path_to_sound(fl, pl);
-            }
-            else
-            {
-                int should_i_wander = rGen.Next(5);
-                if (should_i_wander == 1)
-                {
-                    wander(pl, fl, corporeal);
-                }
-            }
+
+            base.Update_Monster(pl, fl);
         }
     }
 }

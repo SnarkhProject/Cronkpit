@@ -128,6 +128,7 @@ namespace Cronkpit
         Rectangle under_armor_equip_slot;
         Rectangle helmet_equip_slot;
         Rectangle draggable_item_rect;
+        List<Rectangle> armor_equip_slots;
 
         List<string> pl_equipment_report;
 
@@ -186,6 +187,10 @@ namespace Cronkpit
             helmet_equip_slot = new Rectangle(my_xPosition + ptBG_xPos + ((ptBG_width - 48) / 2), e_rects_start_Y + 115, 48, 48);
             draggable_item_rect = new Rectangle(0, 0, 48, 48);
             index_of_mouse_selected_item = -1;
+            armor_equip_slots = new List<Rectangle>();
+            armor_equip_slots.Add(over_armor_equip_slot);
+            armor_equip_slots.Add(under_armor_equip_slot);
+            armor_equip_slots.Add(helmet_equip_slot);
 
             //Tab system. Better than the other stuff.
             current_tab_selected = Current_Tab.Equipment;
@@ -445,6 +450,7 @@ namespace Cronkpit
             //On the release, try and equip the item. If it's a talisman and over another item
             //Try to add it to the item
             bool equipped_new_item = false;
+            bool equipped_talisman = false;
             if (!is_holding_mouse && !is_click_mouse)
             {
                 if (index_of_mouse_selected_item != -1)
@@ -452,71 +458,56 @@ namespace Cronkpit
                     if (player_inv[index_of_mouse_selected_item] is Talisman)
                     {
                         Talisman T = (Talisman)player_inv[index_of_mouse_selected_item];
+                        Item attach_to = null;
                         for (int i = 0; i < item_icon_rects.Count; i++)
+                            if (check_overlap(item_icon_rects[i], draggable_item_rect) && i < player_inv.Count)
+                                attach_to = player_inv[i];
+
+                        if(check_overlap(main_hand_equip_slot, draggable_item_rect))
+                            attach_to = pl.show_main_hand();
+                        else if(check_overlap(off_hand_equip_slot, draggable_item_rect))
+                            attach_to = pl.show_off_hand();
+                        else if(check_overlap(helmet_equip_slot, draggable_item_rect))
+                            attach_to = pl.show_helmet();
+                        else if(check_overlap(over_armor_equip_slot, draggable_item_rect))
+                            attach_to = pl.show_over_armor();
+                        else if(check_overlap(under_armor_equip_slot, draggable_item_rect))
+                            attach_to = pl.show_under_armor();
+
+                        if(attach_to != null)
                         {
-                            if (check_overlap(item_icon_rects[i], draggable_item_rect))
-                            {
-                                if (i < player_inv.Count && player_inv[i] is Armor && T.armor_talisman() && player_inv[i].can_add_talisman(T))
-                                {
-                                    player_inv[i].add_talisman(T);
-                                    player_inv.RemoveAt(index_of_mouse_selected_item);
-                                }
-                                else if (i < player_inv.Count && 
-                                        (player_inv[i] is Weapon || player_inv[i] is Scroll) && !T.armor_talisman() && player_inv[i].can_add_talisman(T))
-                                {
-                                    player_inv[i].add_talisman(T);
-                                    player_inv.RemoveAt(index_of_mouse_selected_item);
-                                }
-                            }
+                            if(attach_to is Armor && T.armor_talisman() && attach_to.can_add_talisman(T))
+                                attach_to.add_talisman(T);
+                            else if((attach_to is Weapon || attach_to is Scroll) &&
+                                    !T.armor_talisman() && attach_to.can_add_talisman(T))
+                                attach_to.add_talisman(T);
+                                player_inv.RemoveAt(index_of_mouse_selected_item);
+                                equipped_talisman = true;
                         }
                     }
 
-                    if (check_overlap(main_hand_equip_slot, draggable_item_rect) && !equipped_new_item)
+                    if (check_overlap(main_hand_equip_slot, draggable_item_rect) && !equipped_new_item && !equipped_talisman)
                         if (player_inv[index_of_mouse_selected_item] is Weapon)
                         {
                             pl.equip_main_hand((Weapon)player_inv[index_of_mouse_selected_item]);
                             equipped_new_item = true;
                         }
 
-                    if (check_overlap(off_hand_equip_slot, draggable_item_rect) && !equipped_new_item)
+                    if (check_overlap(off_hand_equip_slot, draggable_item_rect) && !equipped_new_item && !equipped_talisman)
                         if (player_inv[index_of_mouse_selected_item] is Weapon)
                         {
                             pl.equip_off_hand((Weapon)player_inv[index_of_mouse_selected_item]);
                             equipped_new_item = true;
                         }
 
-                    if (check_overlap(over_armor_equip_slot, draggable_item_rect) && !equipped_new_item)
-                        if (player_inv[index_of_mouse_selected_item] is Armor)
+                    for (int i = 0; i < armor_equip_slots.Count; i++)
+                    {
+                        if (check_overlap(armor_equip_slots[i], draggable_item_rect) && !equipped_new_item && !equipped_talisman)
                         {
-                            Armor nextArmor = (Armor)player_inv[index_of_mouse_selected_item];
-                            if (nextArmor.what_armor_type() == Armor.Armor_Type.OverArmor)
-                            {
-                                pl.equip_over_armor((Armor)player_inv[index_of_mouse_selected_item]);
-                                equipped_new_item = true;
-                            }
+                            pl.equip_armor((Armor)player_inv[index_of_mouse_selected_item]);
+                            equipped_new_item = true;
                         }
-
-                    if (check_overlap(under_armor_equip_slot, draggable_item_rect) && !equipped_new_item)
-                        if (player_inv[index_of_mouse_selected_item] is Armor)
-                        {
-                            Armor nextArmor = (Armor)player_inv[index_of_mouse_selected_item];
-                            if (nextArmor.what_armor_type() == Armor.Armor_Type.UnderArmor)
-                            {
-                                pl.equip_under_armor((Armor)player_inv[index_of_mouse_selected_item]);
-                                equipped_new_item = true;
-                            }
-                        }
-
-                    if (check_overlap(helmet_equip_slot, draggable_item_rect) && !equipped_new_item)
-                        if (player_inv[index_of_mouse_selected_item] is Armor)
-                        {
-                            Armor nextArmor = (Armor)player_inv[index_of_mouse_selected_item];
-                            if (nextArmor.what_armor_type() == Armor.Armor_Type.Helmet)
-                            {
-                                pl.equip_helmet((Armor)player_inv[index_of_mouse_selected_item]);
-                                equipped_new_item = true;
-                            }
-                        }
+                    }
 
                     //spot to check if I should put it in the icobar
                     bool done = false;
@@ -612,7 +603,7 @@ namespace Cronkpit
                     }
                 }
 
-                if(equipped_new_item)
+                if(equipped_new_item || equipped_talisman)
                     update_player_info(ref pl);
                 index_of_mouse_selected_item = -1;
                 index_of_c_equipped_selected_item = -1;

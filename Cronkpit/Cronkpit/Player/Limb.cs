@@ -29,6 +29,11 @@ namespace Cronkpit
             return injuries / 10 >= max_health;
         }
 
+        public void set_HP(int nextHP)
+        {
+            max_health = nextHP;
+        }
+
         public void add_injury(Attack.Damage dmg_type, int inj_severity)
         {
             if (dmg_type == Attack.Damage.Slashing || dmg_type == Attack.Damage.Piercing)
@@ -43,11 +48,13 @@ namespace Cronkpit
                 }
             }
 
-            if (dmg_type == Attack.Damage.Fire)
+            if (dmg_type == Attack.Damage.Fire || dmg_type == Attack.Damage.Acid)
             {
                 if (burn_wounds < 3)
                 {
                     int chance_for_new_bw = 100 - burn_wounds * 33;
+                    if (dmg_type == Attack.Damage.Acid)
+                        chance_for_new_bw /= 2;
                     if (rGen.Next(100) < chance_for_new_bw)
                         burn_wounds++;
                 }
@@ -70,7 +77,11 @@ namespace Cronkpit
             }
 
             injuries = Math.Max(injuries - potency, 0);
-            
+            if (injuries == 0)
+            {
+                open_wounds = 0;
+                burn_wounds = 0;
+            }
         }
 
         public int count_inj_severity_factor()

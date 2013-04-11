@@ -42,7 +42,7 @@ namespace Cronkpit
 
         public void calculate_opacity(double mana)
         {
-            double opacity_percentage = mana / 1000;
+            double opacity_percentage = Math.Min(1000, mana) / 1000;
             c_opacity = max_opacity * (float)opacity_percentage;
 
             manaball_mask_color.A = (byte)c_opacity;

@@ -36,6 +36,7 @@ namespace Cronkpit
         Rectangle ingest_zone;
         Rectangle cancel_zone;
 
+        Vector2 head_center;
         Vector2 torso_center;
         Vector2 larm_center;
         Vector2 rarm_center;
@@ -58,6 +59,7 @@ namespace Cronkpit
 
         Armor player_oa;
         Armor player_ua;
+        Armor player_hlm;
 
         string ingest_prompt = "Ingest Potion";
         string cancel_prompt = "Nevermind";
@@ -82,6 +84,7 @@ namespace Cronkpit
             ingest_zone = new Rectangle(x_position + 20, y_position + height - 70, width - 40, 20);
             cancel_zone = new Rectangle(x_position + 20, y_position + height - 40, width - 40, 20);
 
+            head_center = new Vector2(head_zone.X + head_zone.Width / 2, head_zone.Y + head_zone.Height / 2);
             torso_center = new Vector2(torso_zone.X + torso_zone.Width / 2, torso_zone.Y + torso_zone.Height / 2);
             larm_center = new Vector2(larm_zone.X + larm_zone.Width / 2, larm_zone.Y + larm_zone.Height / 2);
             rarm_center = new Vector2(rarm_zone.X + rarm_zone.Width / 2, rarm_zone.Y + rarm_zone.Height / 2);
@@ -120,6 +123,7 @@ namespace Cronkpit
             pl.wound_report(out wounds_by_part, out max_health_by_part);
             player_oa = pl.show_over_armor();
             player_ua = pl.show_under_armor();
+            player_hlm = pl.show_helmet();
         }
 
         #region zone clicks
@@ -316,9 +320,10 @@ namespace Cronkpit
                 draw_armor_integrity_ratio(sBatch, player_oa, my_orange_color, true);
 
             if (player_ua != null)
-            {
                 draw_armor_integrity_ratio(sBatch, player_ua, my_m_yellow_color, false);
-            }
+
+            if (player_hlm != null)
+                draw_armor_integrity_ratio(sBatch, player_hlm, my_orange_color, true);
         }
 
         public void draw_armor_integrity_ratio(SpriteBatch sBatch, Armor target_armor, Color target_color, bool above)
@@ -330,25 +335,34 @@ namespace Cronkpit
             if (above)
                 line_spacing *= -1;
 
-            string armor_chest_report = target_armor.get_chest_integ().ToString() + "/" + armor_max_c_integ;
-            Vector2 armor_chest_rep_position = new Vector2(torso_center.X - big_text_font.MeasureString(armor_chest_report).X / 2, torso_center.Y + line_spacing);
-            sBatch.DrawString(big_text_font, armor_chest_report, armor_chest_rep_position, target_color);
+            if (target_armor.what_armor_type() == Armor.Armor_Type.Helmet)
+            {
+                string armor_head_report = target_armor.get_helm_integ().ToString() + "/" + armor_max_integ;
+                Vector2 armor_head_rep_position = new Vector2(head_center.X - big_text_font.MeasureString(armor_head_report).X / 2, head_center.Y);
+                sBatch.DrawString(big_text_font, armor_head_report, armor_head_rep_position, target_color);
+            }
+            else
+            {
+                string armor_chest_report = target_armor.get_chest_integ().ToString() + "/" + armor_max_c_integ;
+                Vector2 armor_chest_rep_position = new Vector2(torso_center.X - big_text_font.MeasureString(armor_chest_report).X / 2, torso_center.Y + line_spacing);
+                sBatch.DrawString(big_text_font, armor_chest_report, armor_chest_rep_position, target_color);
 
-            string armor_larm_report = target_armor.get_larm_integ().ToString() + "/" + armor_max_integ;
-            Vector2 armor_larm_rep_position = new Vector2(larm_center.X - big_text_font.MeasureString(armor_larm_report).X / 2, larm_center.Y + line_spacing);
-            sBatch.DrawString(big_text_font, armor_larm_report, armor_larm_rep_position, target_color);
+                string armor_larm_report = target_armor.get_larm_integ().ToString() + "/" + armor_max_integ;
+                Vector2 armor_larm_rep_position = new Vector2(larm_center.X - big_text_font.MeasureString(armor_larm_report).X / 2, larm_center.Y + line_spacing);
+                sBatch.DrawString(big_text_font, armor_larm_report, armor_larm_rep_position, target_color);
 
-            string armor_rarm_report = target_armor.get_rarm_integ().ToString() + "/" + armor_max_integ;
-            Vector2 armor_rarm_rep_position = new Vector2(rarm_center.X - big_text_font.MeasureString(armor_rarm_report).X / 2, rarm_center.Y + line_spacing);
-            sBatch.DrawString(big_text_font, armor_rarm_report, armor_rarm_rep_position, target_color);
+                string armor_rarm_report = target_armor.get_rarm_integ().ToString() + "/" + armor_max_integ;
+                Vector2 armor_rarm_rep_position = new Vector2(rarm_center.X - big_text_font.MeasureString(armor_rarm_report).X / 2, rarm_center.Y + line_spacing);
+                sBatch.DrawString(big_text_font, armor_rarm_report, armor_rarm_rep_position, target_color);
 
-            string armor_lleg_report = target_armor.get_lleg_integ().ToString() + "/" + armor_max_integ;
-            Vector2 armor_lleg_rep_position = new Vector2(lleg_center.X - big_text_font.MeasureString(armor_lleg_report).X / 2, lleg_center.Y + line_spacing);
-            sBatch.DrawString(big_text_font, armor_lleg_report, armor_lleg_rep_position, target_color);
+                string armor_lleg_report = target_armor.get_lleg_integ().ToString() + "/" + armor_max_integ;
+                Vector2 armor_lleg_rep_position = new Vector2(lleg_center.X - big_text_font.MeasureString(armor_lleg_report).X / 2, lleg_center.Y + line_spacing);
+                sBatch.DrawString(big_text_font, armor_lleg_report, armor_lleg_rep_position, target_color);
 
-            string armor_rleg_report = target_armor.get_rleg_integ().ToString() + "/" + armor_max_integ;
-            Vector2 armor_rleg_rep_position = new Vector2(rleg_center.X - big_text_font.MeasureString(armor_rleg_report).X / 2, rleg_center.Y + line_spacing);
-            sBatch.DrawString(big_text_font, armor_rleg_report, armor_rleg_rep_position, target_color);
+                string armor_rleg_report = target_armor.get_rleg_integ().ToString() + "/" + armor_max_integ;
+                Vector2 armor_rleg_rep_position = new Vector2(rleg_center.X - big_text_font.MeasureString(armor_rleg_report).X / 2, rleg_center.Y + line_spacing);
+                sBatch.DrawString(big_text_font, armor_rleg_report, armor_rleg_rep_position, target_color);
+            }
         }
 
         public void draw_me(ref SpriteBatch sBatch)

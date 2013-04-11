@@ -39,8 +39,10 @@ namespace Cronkpit
 
             //SENSORY
             sounds_i_can_hear.Add(SoundPulse.Sound_Types.Player);
-            listen_threshold.Add(5);
-            sight_range = 2;
+            base_listen_threshold.Add(5);
+            base_sight_range = 2;
+
+            set_senses_to_baseline();
 
             //OTHER
             speed_denominator = 1;
@@ -101,6 +103,11 @@ namespace Cronkpit
                     {
                         fl.addmsg("The Red Knight winds up, then unleashes an incredible attack!");
                         pl.take_damage(generate_power_strike_attack(), fl, "");
+                        if (rGen.Next(2) == 0)
+                        {
+                            fl.addmsg("You start bleeding profusely from the attack!");
+                            pl.add_single_statusEffect(new StatusEffect(Scroll.Status_Type.Hemorrhage, 5));
+                        }
                     }
                     else
                     {
@@ -110,7 +117,7 @@ namespace Cronkpit
                         {
                             int dmg_value = generate_power_strike_attack().get_damage_amt() * 2;
                             fl.add_new_popup("- " + dmg_value.ToString(), Popup.popup_msg_color.Red, target_location);
-                            fl.damage_monster_single_atk(new Attack(dmg_type, dmg_value), mon_ID, true, true);
+                            fl.damage_monster_single_atk(new Attack(dmg_type, dmg_value), null, mon_ID, true, true);
                         }
                     }
                     if(!fl.is_tile_opaque(target_location))
@@ -135,6 +142,11 @@ namespace Cronkpit
                     {
                         fl.addmsg("The Red Knight winds up, then unleashes an incredible attack!");
                         pl.take_damage(generate_power_strike_attack(), fl, "");
+                        if (rGen.Next(2) == 0)
+                        {
+                            fl.addmsg("You start bleeding profusely from the attack!");
+                            pl.add_single_statusEffect(new StatusEffect(Scroll.Status_Type.Hemorrhage, 5));
+                        }
                     }
                     else
                     {
@@ -144,7 +156,7 @@ namespace Cronkpit
                         {
                             int dmg_value = generate_power_strike_attack().get_damage_amt() * 2;
                             fl.add_new_popup("- " + dmg_value.ToString(), Popup.popup_msg_color.Red, target_location);
-                            fl.damage_monster_single_atk(new Attack(dmg_type, dmg_value), mon_ID, true, true);
+                            fl.damage_monster_single_atk(new Attack(dmg_type, dmg_value), null, mon_ID, true, true);
                         }
                     }
                     if (!fl.is_tile_passable(target_location))
@@ -215,7 +227,7 @@ namespace Cronkpit
                 {
                     int dmg_value = generate_cleave_attack().get_damage_amt() * 2;
                     fl.add_new_popup("- " + dmg_value.ToString(), Popup.popup_msg_color.Red, target_location);
-                    fl.damage_monster_single_atk(new Attack(dmg_type, dmg_value), mon_ID, true, true);
+                    fl.damage_monster_single_atk(new Attack(dmg_type, dmg_value), null, mon_ID, true, true);
                 }
             }
             if (!fl.is_tile_opaque(target_location))
@@ -279,79 +291,76 @@ namespace Cronkpit
             if (cleave_cooldown > 0)
                 cleave_cooldown--;
 
-            if (active)
+            if (!stunned)
             {
-                if (can_see_player)
+                if (active)
                 {
-                    if ((pl_x_difference == 0 || pl_y_difference == 0) &&
-                        is_player_within(pl, 2) && pwr_strike_cooldown == 0)
+                    if (can_see_player)
                     {
-                        //power strike
-                        execute_power_strike(pl, fl, pl_x_difference, pl_y_difference);
-                        pwr_strike_cooldown = 5;
-                    }
-                    else
-                    {
-                        //cleave or melee attack
-                        if (is_player_within(pl, 1))
+                        if ((pl_x_difference == 0 || pl_y_difference == 0) &&
+                            is_player_within(pl, 2) && pwr_strike_cooldown == 0)
                         {
-                            if (cleave_cooldown == 0)
-                            {
-                                //cleave
-                                execute_cleave_attack(pl, fl, pl_x_difference, pl_y_difference);
-                                cleave_cooldown = 3;
-                            }
-                            else
-                            {
-                                if (is_player_within(pl, 1))
-                                    execute_melee_attack(fl, pl);
-                            }
+                            //power strike
+                            execute_power_strike(pl, fl, pl_x_difference, pl_y_difference);
+                            pwr_strike_cooldown = 5;
                         }
                         else
                         {
-                            //chase the player, or throw a jav if it can't
-                            if (speed_numerator < speed_denominator)
+                            //cleave or melee attack
+                            if (is_player_within(pl, 1))
                             {
-                                advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, true);
+                                if (cleave_cooldown == 0)
+                                {
+                                    //cleave
+                                    execute_cleave_attack(pl, fl, pl_x_difference, pl_y_difference);
+                                    cleave_cooldown = 3;
+                                }
+                                else
+                                    if (is_player_within(pl, 1))
+                                        execute_melee_attack(fl, pl);
                             }
                             else
                             {
-                                throw_javelin(pl, fl);
+                                //chase the player, or throw a jav if it can't
+                                if (speed_numerator < speed_denominator)
+                                    advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, true);
+                                else
+                                    throw_javelin(pl, fl);
                             }
                         }
                     }
-                }
-                else
-                {
-                    if (heard_something && speed_numerator < speed_denominator)
+                    else
                     {
-                        follow_path_to_sound(fl, pl);
+                        if (heard_something && speed_numerator < speed_denominator)
+                            follow_path_to_sound(fl, pl);
+                        else if (heard_something && speed_numerator == speed_denominator)
+                            //throw jav
+                            throw_javelin(pl, fl);
+                        //if heard something and can move, move
+                        //else if heard something, throw javelin
                     }
-                    else if (heard_something && speed_numerator == speed_denominator)
-                    {
-                        //throw jav
-                        throw_javelin(pl, fl);
-                    }
-                    //if heard something and can move, move
-                    //else if heard something, throw javelin
-                }
 
-                if (speed_numerator == speed_denominator)
-                    speed_numerator = 0;
+                    if (speed_numerator == speed_denominator)
+                        speed_numerator = 0;
+                    else
+                        speed_numerator++;
+                }
                 else
-                    speed_numerator++;
-            }
-            else
-            {
-                if (heard_something)
                 {
-                    listen_threshold[0] = 2;
-                    active = true;
-                    fl.addmsg("The Red Knight awakens with an unearthly moan!");
-                    set_to_activeTexture();
-                    fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coords[0]);
+                    if (heard_something || can_see_player)
+                    {
+                        base_listen_threshold[0] = 2;
+                        set_senses_to_baseline();
+
+                        active = true;
+                        fl.addmsg("The Red Knight awakens with an unearthly moan!");
+                        set_to_activeTexture();
+                        fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coords[0]);
+                    }
                 }
             }
+
+            base.Update_Monster(pl, fl);
         }
     }
 }

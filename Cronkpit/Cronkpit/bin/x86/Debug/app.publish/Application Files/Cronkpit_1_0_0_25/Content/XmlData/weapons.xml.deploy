@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="CKPLibrary.WeaponDC[]">
+    <Item>
+      <IDNumber>7</IDNumber>
+      <Cost>250</Cost>
+      <Name>Axe</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior ExPriest </ValidClasses>
+      <WeaponType>Axe</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>3</MinDamage>
+      <MaxDamage>6</MaxDamage>
+      <WeaponRange>1</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>8</IDNumber>
+      <Cost>250</Cost>
+      <Name>Sword</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue Mage </ValidClasses>
+      <WeaponType>Sword</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>3</MinDamage>
+      <MaxDamage>6</MaxDamage>
+      <WeaponRange>1</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>9</IDNumber>
+      <Cost>250</Cost>
+      <Name>Spear</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior ExPriest </ValidClasses>
+      <WeaponType>Spear</WeaponType>
+      <Hands>2</Hands>
+      <MinDamage>2</MinDamage>
+      <MaxDamage>3</MaxDamage>
+      <WeaponRange>2</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>27</IDNumber>
+      <Cost>1750</Cost>
+      <Name>Reaver</Name>
+      <ItemTier>2</ItemTier>
+      <ValidClasses>Warrior ExPriest </ValidClasses>
+      <WeaponType>Axe</WeaponType>
+      <Hands>2</Hands>
+      <MinDamage>5</MinDamage>
+      <MaxDamage>8</MaxDamage>
+      <WeaponRange>1</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>28</IDNumber>
+      <Cost>250</Cost>
+      <Name>Flanged Mace</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue ExPriest </ValidClasses>
+      <WeaponType>Mace</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>3</MinDamage>
+      <MaxDamage>6</MaxDamage>
+      <WeaponRange>1</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>10</IDNumber>
+      <Cost>1500</Cost>
+      <Name>Katana</Name>
+      <ItemTier>2</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <WeaponType>Sword</WeaponType>
+      <Hands>2</Hands>
+      <MinDamage>4</MinDamage>
+      <MaxDamage>6</MaxDamage>
+      <WeaponRange>1</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>13</IDNumber>
+      <Cost>350</Cost>
+      <Name>Shortbow</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <WeaponType>Bow</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>3</MinDamage>
+      <MaxDamage>6</MaxDamage>
+      <WeaponRange>3</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>14</IDNumber>
+      <Cost>1800</Cost>
+      <Name>Siege Bow</Name>
+      <ItemTier>2</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <WeaponType>Bow</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>8</MinDamage>
+      <MaxDamage>12</MaxDamage>
+      <WeaponRange>5</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>12</IDNumber>
+      <Cost>4750</Cost>
+      <Name>Hyperion</Name>
+      <ItemTier>4</ItemTier>
+      <ValidClasses>Warrior ExPriest </ValidClasses>
+      <WeaponType>Spear</WeaponType>
+      <Hands>2</Hands>
+      <MinDamage>9</MinDamage>
+      <MaxDamage>14</MaxDamage>
+      <WeaponRange>4</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>23</IDNumber>
+      <Cost>350</Cost>
+      <Name>Light Crossbow</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue Mage </ValidClasses>
+      <WeaponType>Crossbow</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>3</MinDamage>
+      <MaxDamage>6</MaxDamage>
+      <WeaponRange>3</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>24</IDNumber>
+      <Cost>1800</Cost>
+      <Name>Heavy Crossbow</Name>
+      <ItemTier>2</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <WeaponType>Crossbow</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>8</MinDamage>
+      <MaxDamage>12</MaxDamage>
+      <WeaponRange>4</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>26</IDNumber>
+      <Cost>800</Cost>
+      <Name>Broadsword</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <WeaponType>Sword</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>4</MinDamage>
+      <MaxDamage>9</MaxDamage>
+      <WeaponRange>1</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>29</IDNumber>
+      <Cost>2350</Cost>
+      <Name>Pitsteel Warhammer</Name>
+      <ItemTier>2</ItemTier>
+      <ValidClasses>Warrior Rogue ExPriest </ValidClasses>
+      <WeaponType>Mace</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>9</MinDamage>
+      <MaxDamage>14</MaxDamage>
+      <WeaponRange>1</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>15</IDNumber>
+      <Cost>250</Cost>
+      <Name>Light Steel Lance</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior </ValidClasses>
+      <WeaponType>Lance</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>5</MinDamage>
+      <MaxDamage>8</MaxDamage>
+      <WeaponRange>5</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>16</IDNumber>
+      <Cost>3500</Cost>
+      <Name>Templar Lance</Name>
+      <ItemTier>3</ItemTier>
+      <ValidClasses>Warrior </ValidClasses>
+      <WeaponType>Lance</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>15</MinDamage>
+      <MaxDamage>30</MaxDamage>
+      <WeaponRange>5</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>25</IDNumber>
+      <Cost>3500</Cost>
+      <Name>Ballista</Name>
+      <ItemTier>0</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <WeaponType>Crossbow</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>10</MinDamage>
+      <MaxDamage>24</MaxDamage>
+      <WeaponRange>5</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>41</IDNumber>
+      <Cost>250</Cost>
+      <Name>Training Staff</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Mage ExPriest </ValidClasses>
+      <WeaponType>Staff</WeaponType>
+      <Hands>2</Hands>
+      <MinDamage>2</MinDamage>
+      <MaxDamage>3</MaxDamage>
+      <WeaponRange>2</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>42</IDNumber>
+      <Cost>1650</Cost>
+      <Name>Quarterstaff</Name>
+      <ItemTier>2</ItemTier>
+      <ValidClasses>Mage ExPriest </ValidClasses>
+      <WeaponType>Staff</WeaponType>
+      <Hands>2</Hands>
+      <MinDamage>4</MinDamage>
+      <MaxDamage>6</MaxDamage>
+      <WeaponRange>2</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>43</IDNumber>
+      <Cost>3200</Cost>
+      <Name>Mockernut Staff</Name>
+      <ItemTier>3</ItemTier>
+      <ValidClasses>Mage ExPriest </ValidClasses>
+      <WeaponType>Staff</WeaponType>
+      <Hands>2</Hands>
+      <MinDamage>5</MinDamage>
+      <MaxDamage>12</MaxDamage>
+      <WeaponRange>3</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>44</IDNumber>
+      <Cost>500</Cost>
+      <Name>Sharpshot Crossbow</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Rogue </ValidClasses>
+      <WeaponType>Crossbow</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>4</MinDamage>
+      <MaxDamage>7</MaxDamage>
+      <WeaponRange>4</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>46</IDNumber>
+      <Cost>500</Cost>
+      <Name>Cutlass</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue Mage </ValidClasses>
+      <WeaponType>Sword</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>4</MinDamage>
+      <MaxDamage>7</MaxDamage>
+      <WeaponRange>1</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>47</IDNumber>
+      <Cost>1400</Cost>
+      <Name>Steel Warhammer</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Ex-Priest </ValidClasses>
+      <WeaponType>Mace</WeaponType>
+      <Hands>2</Hands>
+      <MinDamage>3</MinDamage>
+      <MaxDamage>4</MaxDamage>
+      <WeaponRange>1</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>55</IDNumber>
+      <Cost>1450</Cost>
+      <Name>Limestone Rod</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Mage Ex-Priest </ValidClasses>
+      <WeaponType>Staff</WeaponType>
+      <Hands>2</Hands>
+      <MinDamage>2</MinDamage>
+      <MaxDamage>4</MaxDamage>
+      <WeaponRange>2</WeaponRange>
+    </Item>
+    <Item>
+      <IDNumber>54</IDNumber>
+      <Cost>1400</Cost>
+      <Name>Bladed Spear</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Ex-Priest </ValidClasses>
+      <WeaponType>Spear</WeaponType>
+      <Hands>1</Hands>
+      <MinDamage>3</MinDamage>
+      <MaxDamage>4</MaxDamage>
+      <WeaponRange>2</WeaponRange>
+    </Item>
+  </Asset>
+</XnaContent>

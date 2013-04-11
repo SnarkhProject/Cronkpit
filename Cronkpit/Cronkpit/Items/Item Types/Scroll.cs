@@ -10,15 +10,16 @@ namespace Cronkpit
         public enum Atk_Area_Type { singleTile, cloudAOE, solidblockAOE, randomblockAOE, 
                                     personalBuff, piercingBolt, smallfixedAOE, chainedBolt,
                                     enemyDebuff };
-        public enum Spell_Status_Effect { None, Blind, Deaf, Anosmia, LynxFer, PantherFer, TigerFer,
-                                          Stun, Root, Disrupt, Minor_Anosmia};
+        public enum Status_Type{
+            None, Blind, Deaf, Anosmia, LynxFer, PantherFer, TigerFer,
+            Stun, Root, Disrupt, Minor_Anosmia, Hemorrhage };
 
         //Enums
         Atk_Area_Type my_sType;
         Attack.Damage spell_dmg_type;
         Projectile.projectile_type my_prjType;
         Projectile.special_anim my_specAnim;
-        Spell_Status_Effect myBufforDebuff;
+        Status_Type myBufforDebuff;
         //Ints
         int scroll_tier;
         int aoe_size;
@@ -34,7 +35,7 @@ namespace Cronkpit
 
         public Scroll(int IDno, int goldVal, string myName, int stier, int smana, int srange, int sAoe, int minDmg, int maxDmg, bool meleeSpell,
                       Atk_Area_Type s_spell_type, Projectile.projectile_type s_prj_type, Attack.Damage dmg_type, bool destroyWalls, int t_impacts,
-                      Spell_Status_Effect s_buffDebuff, int spell_duration, Projectile.special_anim s_prj_special_anim)
+                      Status_Type s_buffDebuff, int spell_duration, Projectile.special_anim s_prj_special_anim)
             : base(IDno, goldVal, myName)
         {
             //Enums
@@ -57,8 +58,8 @@ namespace Cronkpit
             melee_range = meleeSpell;
         }
 
-        public Scroll(int IDno, int goldVal, string myName, Scroll s)
-            : base(IDno, goldVal, myName)
+        public Scroll(Scroll s)
+            : base(s.get_my_IDno(), s.get_my_gold_value(), s.get_my_name())
         {
             //Enums
             my_sType = s.get_spell_type();
@@ -96,7 +97,7 @@ namespace Cronkpit
             return my_prjType;
         }
 
-        public Spell_Status_Effect get_status_effect()
+        public Status_Type get_status_effect()
         {
             return myBufforDebuff;
         }
@@ -162,7 +163,8 @@ namespace Cronkpit
         {
             return my_sType != Atk_Area_Type.singleTile &&
                    my_sType != Atk_Area_Type.personalBuff &&
-                   my_sType != Atk_Area_Type.chainedBolt;
+                   my_sType != Atk_Area_Type.chainedBolt &&
+                   my_sType != Atk_Area_Type.enemyDebuff;
         }
 
         public bool is_melee_range_spell()
@@ -297,6 +299,8 @@ namespace Cronkpit
                     info.Add("within a " + aoe_size.ToString() + " x " + aoe_size.ToString() + " area.");
                     break;
             }
+            add_buff_debuff_descriptions(ref info);
+
             if (destroys_walls)
                 info.Add("Destroys walls.");
             return info;
@@ -306,21 +310,25 @@ namespace Cronkpit
         {
             switch (myBufforDebuff)
             {
-                case Spell_Status_Effect.LynxFer:
-                case Spell_Status_Effect.PantherFer:
-                case Spell_Status_Effect.TigerFer:
+                case Status_Type.LynxFer:
+                case Status_Type.PantherFer:
+                case Status_Type.TigerFer:
                     info.Add("Increases damage from weapon");
                     string nl = "based attacks by ";
-                    if (myBufforDebuff == Spell_Status_Effect.LynxFer)
+                    if (myBufforDebuff == Status_Type.LynxFer)
                         nl += "20";
-                    else if (myBufforDebuff == Spell_Status_Effect.PantherFer)
+                    else if (myBufforDebuff == Status_Type.PantherFer)
                         nl += "40";
-                    else if (myBufforDebuff == Spell_Status_Effect.TigerFer)
+                    else if (myBufforDebuff == Status_Type.TigerFer)
                         nl += "60";
                     nl += "%";
                     info.Add(nl);
                     break;
+                case Status_Type.Blind:
+                    info.Add("Blinds enemies");
+                    break;
             }
+            info.Add("for " + buffDebuff_duration.ToString() + " turns.");
         }
 
         //Void setters

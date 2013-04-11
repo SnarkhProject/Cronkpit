@@ -1,42 +1,50 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <XnaContent>
-  <!-- TODO: replace this Asset with your own XML asset data. -->
-    <Asset Type="CKPLibrary.PotionDC[]">
-      <Item>
-        <IDNumber>19</IDNumber>
-        <Cost>500</Cost>
-        <Name>Minor Health Potion</Name>
-        <ItemTier>1</ItemTier>
-        <ValidClasses>Warrior Rogue Mage ExPriest </ValidClasses>
-        <PotionType>Health</PotionType>
-        <PotionPotency>3</PotionPotency>
-      </Item>
-      <Item>
-        <IDNumber>20</IDNumber>
-        <Cost>500</Cost>
-        <Name>Minor Repair Potion</Name>
-        <ItemTier>1</ItemTier>
-        <ValidClasses>Warrior Rogue Mage ExPriest </ValidClasses>
-        <PotionType>Repair</PotionType>
-        <PotionPotency>5</PotionPotency>
-      </Item>
-      <Item>
-        <IDNumber>21</IDNumber>
-        <Cost>1500</Cost>
-        <Name>Major Health Potion</Name>
-        <ItemTier>2</ItemTier>
-        <ValidClasses>Warrior Rogue Mage ExPriest </ValidClasses>
-        <PotionType>Health</PotionType>
-        <PotionPotency>11</PotionPotency>
-      </Item>
-      <Item>
-        <IDNumber>22</IDNumber>
-        <Cost>1500</Cost>
-        <Name>Major Repair Potion</Name>
-        <ItemTier>1</ItemTier>
-        <ValidClasses>Warrior Rogue Mage ExPriest </ValidClasses>
-        <PotionType>Repair</PotionType>
-        <PotionPotency>17</PotionPotency>
-      </Item>
+  <Asset Type="CKPLibrary.PotionDC[]">
+    <Item>
+      <IDNumber>19</IDNumber>
+      <Cost>500</Cost>
+      <Name>Minor Health Potion</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue Mage ExPriest </ValidClasses>
+      <PotionType>Health</PotionType>
+      <PotionPotency>3</PotionPotency>
+    </Item>
+    <Item>
+      <IDNumber>20</IDNumber>
+      <Cost>500</Cost>
+      <Name>Minor Repair Potion</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue Mage ExPriest </ValidClasses>
+      <PotionType>Repair</PotionType>
+      <PotionPotency>5</PotionPotency>
+    </Item>
+    <Item>
+      <IDNumber>21</IDNumber>
+      <Cost>1500</Cost>
+      <Name>Major Health Potion</Name>
+      <ItemTier>2</ItemTier>
+      <ValidClasses>Warrior Rogue Mage ExPriest </ValidClasses>
+      <PotionType>Health</PotionType>
+      <PotionPotency>11</PotionPotency>
+    </Item>
+    <Item>
+      <IDNumber>22</IDNumber>
+      <Cost>1500</Cost>
+      <Name>Major Repair Potion</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue Mage ExPriest </ValidClasses>
+      <PotionType>Repair</PotionType>
+      <PotionPotency>17</PotionPotency>
+    </Item>
+    <Item>
+      <IDNumber>912</IDNumber>
+      <Cost>700</Cost>
+      <Name>Health Potion</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue Mage Ex-Priest </ValidClasses>
+      <PotionType>Health</PotionType>
+      <PotionPotency>6</PotionPotency>
+    </Item>
   </Asset>
 </XnaContent>

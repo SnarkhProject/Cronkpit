@@ -11,7 +11,8 @@ namespace Cronkpit
 {
     class Popup
     {
-        public enum popup_msg_color { Red, Blue, Yellow, Purple, LimeGreen, VividGreen, Orange };
+        public enum popup_msg_color { Red, Blue, Yellow, Purple, LimeGreen, VividGreen, Orange,
+                                      DarkPurple };
         Color my_color;
         string my_text;
         public float time_until_vanish = 150f;
@@ -32,30 +33,7 @@ namespace Cronkpit
             my_position = new Vector2(x_position, y_position);
             gc_origin = new gridCoordinate(g_c);
 
-            switch (clr)
-            {
-                case popup_msg_color.Red:
-                    my_color = new Color(255, 0, 0);
-                    break;
-                case popup_msg_color.Blue:
-                    my_color = new Color(0, 0, 255);
-                    break;
-                case popup_msg_color.Yellow:
-                    my_color = new Color(255, 255, 0);
-                    break;
-                case popup_msg_color.Purple:
-                    my_color = new Color(255, 0, 255);
-                    break;
-                case popup_msg_color.LimeGreen:
-                    my_color = new Color(80, 235, 50);
-                    break;
-                case popup_msg_color.VividGreen:
-                    my_color = new Color(50, 255, 30);
-                    break;
-                case popup_msg_color.Orange:
-                    my_color = Color.Orange;
-                    break;
-            }
+            assign_color(clr);
         }
 
         public Popup(string txt, popup_msg_color clr, SpriteFont fnt, Vector2 s_position)
@@ -68,6 +46,11 @@ namespace Cronkpit
             my_position = new Vector2(x_position, y_position);
             gc_origin = new gridCoordinate((int)Math.Round(s_position.X), (int)Math.Round(s_position.Y));
 
+            assign_color(clr);
+        }
+
+        public void assign_color(popup_msg_color clr)
+        {
             switch (clr)
             {
                 case popup_msg_color.Red:
@@ -82,11 +65,17 @@ namespace Cronkpit
                 case popup_msg_color.Purple:
                     my_color = new Color(255, 0, 255);
                     break;
+                case popup_msg_color.DarkPurple:
+                    my_color = Color.DarkMagenta;
+                    break;
                 case popup_msg_color.LimeGreen:
                     my_color = new Color(80, 235, 50);
                     break;
                 case popup_msg_color.VividGreen:
                     my_color = new Color(50, 255, 30);
+                    break;
+                case popup_msg_color.Orange:
+                    my_color = Color.Orange;
                     break;
             }
         }

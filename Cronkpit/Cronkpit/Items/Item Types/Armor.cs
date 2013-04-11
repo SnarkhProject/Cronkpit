@@ -344,7 +344,10 @@ namespace Cronkpit
             switch (zone)
             {
                 case "Head":
-                    c_chest_integ += potency;
+                    if (my_armor_type == Armor_Type.Helmet)
+                        c_helm_integ += potency;
+                    else
+                        c_chest_integ += potency;
                     break;
                 case "Chest":
                     c_chest_integ += potency;
@@ -362,6 +365,8 @@ namespace Cronkpit
                     c_rleg_integ += potency;
                     break;
             }
+            if (c_helm_integ > max_integrity)
+                c_helm_integ = max_integrity;
             if (c_chest_integ > max_chest_integrity)
                 c_chest_integ = max_chest_integrity;
             if (c_larm_integ > max_integrity)

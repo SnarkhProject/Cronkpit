@@ -543,27 +543,30 @@ namespace Cronkpit
                 case "None":
                     SSPFX = Projectile.special_anim.None;
                     break;
+                case "Blank":
+                    SSPFX = Projectile.special_anim.Blank;
+                    break;
             }
-            Scroll.Spell_Status_Effect SBFDB = 0;
+            Scroll.Status_Type SBFDB = 0;
             switch (rs.SpellSpecialEffect)
             {
                 case "Anosmia":
-                    SBFDB = Scroll.Spell_Status_Effect.Anosmia;
+                    SBFDB = Scroll.Status_Type.Anosmia;
                     break;
                 case "Blind":
-                    SBFDB = Scroll.Spell_Status_Effect.Blind;
+                    SBFDB = Scroll.Status_Type.Blind;
                     break;
                 case "Deaf":
-                    SBFDB = Scroll.Spell_Status_Effect.Deaf;
+                    SBFDB = Scroll.Status_Type.Deaf;
                     break;
                 case "LynxFer":
-                    SBFDB = Scroll.Spell_Status_Effect.LynxFer;
+                    SBFDB = Scroll.Status_Type.LynxFer;
                     break;
                 case "PantherFer":
-                    SBFDB = Scroll.Spell_Status_Effect.PantherFer;
+                    SBFDB = Scroll.Status_Type.PantherFer;
                     break;
                 case "TigerFer":
-                    SBFDB = Scroll.Spell_Status_Effect.TigerFer;
+                    SBFDB = Scroll.Status_Type.TigerFer;
                     break;
             }
             int SBDDR = rs.SpecialEffectDuration;

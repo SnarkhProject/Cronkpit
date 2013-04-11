@@ -212,8 +212,8 @@ namespace Cronkpit
                     return_array.Add("Adds " + secondary_resist.ToString() + "% fire absorption.");
                     break;
                 case Talisman_Type.Distruption:
-                    return_array.Add("Adds " + (base_value*2).ToString() + "% chance to disrupt enemy");
-                    return_array.Add("spellcasting for " + (base_value*2).ToString() + " turns.");
+                    return_array.Add("Adds " + (base_value*4).ToString() + "% chance to disrupt enemy");
+                    return_array.Add("spellcasting for " + (base_value+2).ToString() + " turns.");
                     break;
                 case Talisman_Type.Down:
                     return_array.Add("Adds " + primary_resist.ToString() + "% frost absorption.");
@@ -235,7 +235,7 @@ namespace Cronkpit
                     return_array.Add("Adds " + (base_value + 1).ToString() + " - " + ((base_value + 1) * 2).ToString());
                     break;
                 case Talisman_Type.Grasping:
-                    return_array.Add("Adds " + base_value.ToString() + "% chance to root enemy");
+                    return_array.Add("Adds " + (base_value*4).ToString() + "% chance to root enemy");
                     return_array.Add("for " + base_value.ToString() + " turns.");
                     break;
                 case Talisman_Type.Heartsblood:
@@ -271,8 +271,8 @@ namespace Cronkpit
                     return_array.Add("before becoming disabled.");
                     break;
                 case Talisman_Type.Thunder:
-                    return_array.Add("Adds " + base_value.ToString() + "% chance to stun enemy");
-                    return_array.Add("for " + (Math.Min(base_value-1, 1)).ToString() + " turns.");
+                    return_array.Add("Adds " + (base_value*2).ToString() + "% chance to stun enemy");
+                    return_array.Add("for " + (Math.Max(base_value-1, 1)).ToString() + " turns.");
                     break;
                 case Talisman_Type.Toxicity:
                     return_array.Add("Adds " + base_value.ToString() + " - " + (base_value * 2).ToString() + " acid");
@@ -293,6 +293,13 @@ namespace Cronkpit
                my_talisman_type == Talisman_Type.Sparks ||
                my_talisman_type == Talisman_Type.Snow)
                 return_array.Add("damage to attacks.");
+            if (my_talisman_type == Talisman_Type.Expediency)
+            {
+                return_array.Add(" ");
+                return_array.Add("Does not add damage");
+                return_array.Add("to debuff spells.");
+            }
+            
 
             return return_array;
         }

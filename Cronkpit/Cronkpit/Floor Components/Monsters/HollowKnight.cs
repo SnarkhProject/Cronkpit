@@ -26,7 +26,9 @@ namespace Cronkpit
 
             //SENSORY
             sounds_i_can_hear.Add(SoundPulse.Sound_Types.Player);
-            listen_threshold.Add(8);
+            base_listen_threshold.Add(8);
+
+            set_senses_to_baseline();
 
             //OTHER
             speed_denominator = 1;
@@ -49,30 +51,37 @@ namespace Cronkpit
             {
                 active = true;
                 set_to_activeTexture();
-                listen_threshold[0] = 2;
+                base_listen_threshold[0] = 2;
+                set_senses_to_baseline();
+
                 fl.addmsg("The Hollow Knight awakens with a lurch and a strange creak!");
                 fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coords[0]);
             }
 
-            has_moved = false;
-            if (active)
+            if (!stunned)
             {
-                if (is_player_within(pl, 1) && !has_moved)
+                has_moved = false;
+                if (active)
                 {
-                    fl.addmsg("The Hollow Knight savagely impales you!");
-                    fl.add_effect(dmg_type, pl.get_my_grid_C());
-                    Attack dmg = dealDamage();
-                    pl.take_damage(dmg, fl, "");
-                }
-                else
-                    if (speed_numerator < speed_denominator)
+                    if (is_player_within(pl, 1) && !has_moved)
                     {
-                        follow_path_to_sound(fl, pl);
-                        speed_numerator++;
+                        fl.addmsg("The Hollow Knight savagely impales you!");
+                        fl.add_effect(dmg_type, pl.get_my_grid_C());
+                        Attack dmg = dealDamage();
+                        pl.take_damage(dmg, fl, "");
                     }
                     else
-                        speed_numerator = 0;
+                        if (speed_numerator < speed_denominator)
+                        {
+                            follow_path_to_sound(fl, pl);
+                            speed_numerator++;
+                        }
+                        else
+                            speed_numerator = 0;
+                }
             }
+
+            base.Update_Monster(pl, fl);
         }
     }
 }

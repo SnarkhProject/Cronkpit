@@ -35,6 +35,7 @@ namespace Cronkpit
         Limb R_Leg;
         Limb L_Leg;
         int dodge_chance;
+        int base_hp;
         //Equipped items
         Weapon main_hand;
         Weapon off_hand;
@@ -51,6 +52,8 @@ namespace Cronkpit
         private int base_sound_value;
         public int total_sound;
         public int total_scent;
+        //Buffs and debuffs
+        List<StatusEffect> BuffDebuffTracker;
 
         int standard_wpn_cooldown = 6;
 
@@ -71,6 +74,7 @@ namespace Cronkpit
             //Player stuff
             my_class = myClass;
             my_character = myChara;
+            base_hp = 3;
 
             switch (my_character)
             {
@@ -96,12 +100,12 @@ namespace Cronkpit
                     break;
             }
             //Health stuff.
-            Head = new Limb(ref rGen, "Head", "Head", 1);
-            Torso = new Limb(ref rGen, "Chest", "Chest", 3);
-            R_Arm = new Limb(ref rGen, "Right Arm", "RArm", 3);
-            L_Arm = new Limb(ref rGen, "Left Arm", "LArm", 3);
-            R_Leg = new Limb(ref rGen, "Right Leg", "RLeg", 3);
-            L_Leg = new Limb(ref rGen, "Left Leg", "LLeg", 3);
+            Head = new Limb(ref rGen, "Head", "Head", base_hp - 2);
+            Torso = new Limb(ref rGen, "Chest", "Chest", base_hp);
+            R_Arm = new Limb(ref rGen, "Right Arm", "RArm", base_hp);
+            L_Arm = new Limb(ref rGen, "Left Arm", "LArm", base_hp);
+            R_Leg = new Limb(ref rGen, "Right Leg", "RLeg", base_hp);
+            L_Leg = new Limb(ref rGen, "Left Leg", "LLeg", base_hp);
             calculate_dodge_chance();
             //Inventory stuff
             main_hand = new Weapon(0, 100, "Knife", Weapon.Type.Sword, 1, 2, 4, 1);
@@ -110,6 +114,7 @@ namespace Cronkpit
             under_armor = new Armor(2, 100, "Linen Rags", 0, 2, 2, 0, 0, 2, Armor.Armor_Type.UnderArmor);
             inventory = new List<Item>();
             //Character stuff
+            BuffDebuffTracker = new List<StatusEffect>();
 
             pDoll = pd;
         }
@@ -428,7 +433,7 @@ namespace Cronkpit
                         L2.RemoveAt(j);
         }
 
-        public void attack_monster_in_grid(Floor fl, Weapon w, int c_monsterID, gridCoordinate current_gc, double multiplier)
+        public void attack_monster_in_grid(Floor fl, Weapon w, int c_monsterID, gridCoordinate current_gc, double multiplier, bool charge_attack = false)
         {
             List<Attack> modified_attacks = new List<Attack>();
             if (fl.badguy_by_monster_id(c_monsterID) != null)
@@ -437,27 +442,17 @@ namespace Cronkpit
                 {
                     string attack_msg = "You attack the " + fl.badguy_by_monster_id(c_monsterID).my_name + " with your " + w.get_my_name() + "!";
                     message_buffer.Add(attack_msg);
-                    List<Attack> attacks = w.damage(ref rGen);
+                    List<Attack> attacks = new List<Attack>();
+                    List<StatusEffect> debuffs = new List<StatusEffect>();
 
                     bool aoe_effect = false;
                     if (w.get_my_weapon_type() == Weapon.Type.Axe || w.get_my_weapon_type() == Weapon.Type.Lance)
                         aoe_effect = true;
 
-                    for (int i = 0; i < attacks.Count; i++)
-                    {
-                        double base_dmg_val = (double)attacks[i].get_damage_amt() * multiplier;
-                        int modified_dmg_val = (int)base_dmg_val;
-                        if (my_character == Character.Falsael)
-                            modified_dmg_val = (int)Math.Ceiling(base_dmg_val * 1.2);
-
-                        if (w.get_my_weapon_type() == Weapon.Type.Lance)
-                            modified_dmg_val = modified_dmg_val / 4;
-
-                        modified_attacks.Add(new Attack(w.get_my_damage_type(), modified_dmg_val));
-                    }
-                    fl.damage_monster(modified_attacks, c_monsterID, true, aoe_effect);
+                    handle_attack_damage(w, null, multiplier, charge_attack, ref attacks, ref debuffs);
+                    fl.damage_monster(attacks, debuffs, c_monsterID, true, aoe_effect);
                 }
-                else
+                else //Unarmed attack.
                 {
                     double base_dmg_val = (double)rGen.Next(1, 4) * multiplier;
                     int modified_dmg_val = (int)base_dmg_val;
@@ -467,29 +462,24 @@ namespace Cronkpit
                     modified_attacks.Add(new Attack(Attack.Damage.Crushing, modified_dmg_val));
                     string attack_msg = "You attack the " + fl.badguy_by_monster_id(c_monsterID).my_name + " with your fists!";
                     message_buffer.Add(attack_msg);
-                    fl.damage_monster(modified_attacks, c_monsterID, true, false);
+                    fl.damage_monster(modified_attacks, null, c_monsterID, true, false);
                 }
             }
         }
 
-        public void attack_Doodad_in_grid(Floor fl, Weapon w, int c_DoodadID, gridCoordinate current_gc, double multiplier)
+        public void attack_Doodad_in_grid(Floor fl, Weapon w, int c_DoodadID, gridCoordinate current_gc, double multiplier, bool charge_attack = false)
         {
             if (w != null)
             {
                 string attack_msg = "You attack the " + fl.Doodad_by_index(c_DoodadID).my_name() + " with your " + w.get_my_name() + "!";
                 message_buffer.Add(attack_msg);
-                List<Attack> attacks = w.damage(ref rGen);
+                List<Attack> attacks = new List<Attack>();
+                List<StatusEffect> debuffs = new List<StatusEffect>();
+                handle_attack_damage(w, null, multiplier, charge_attack, ref attacks, ref debuffs);
+
                 for (int i = 0; i < attacks.Count; i++)
                 {
-                    double base_dmg_val = (double)attacks[i].get_damage_amt() * multiplier;
-                    int modified_dmg_val = (int)base_dmg_val;
-                    if (my_character == Character.Falsael)
-                        modified_dmg_val = (int)Math.Ceiling(base_dmg_val * 1.2);
-
-                    if (w.get_my_weapon_type() == Weapon.Type.Lance)
-                        modified_dmg_val = modified_dmg_val / 4;
-
-                    fl.damage_Doodad(modified_dmg_val, c_DoodadID);
+                    fl.damage_Doodad(attacks[i].get_damage_amt(), c_DoodadID);
                 }
             }
             else
@@ -618,21 +608,17 @@ namespace Cronkpit
             if (Bow.get_my_weapon_type() == Weapon.Type.Bow)
             {
                 Projectile prj = new Projectile(get_my_grid_C(), opposition_coord, Projectile.projectile_type.Arrow, ref Secondary_cManager, false, Scroll.Atk_Area_Type.singleTile);
-                prj.set_damage_type(Attack.Damage.Piercing);
-                prj.set_damage_range(min_dmg_to_monster, max_dmg_to_monster);
-                prj.set_talisman_effects(Bow.get_my_equipped_talismans());
+                prj.attach_weapon(Bow);
                 fl.create_new_projectile(prj);
             }
             else if(Bow.get_my_weapon_type() == Weapon.Type.Crossbow)
             {
                 Projectile prj = new Projectile(get_my_grid_C(), opposition_coord, Projectile.projectile_type.Crossbow_Bolt, ref Secondary_cManager, false, Scroll.Atk_Area_Type.smallfixedAOE);
-                prj.set_damage_range(min_dmg_to_monster, max_dmg_to_monster);
                 List<gridCoordinate> crossbow_aoe = new List<gridCoordinate>();
                 crossbow_aoe.Add(opposition_coord);
                 crossbow_aoe.Add(splash_coord);
                 prj.set_small_AOE_matrix(crossbow_aoe);
-                prj.set_damage_type(Attack.Damage.Piercing);
-                prj.set_talisman_effects(Bow.get_my_equipped_talismans());
+                prj.attach_weapon(Bow);
                 fl.create_new_projectile(prj);
             }
 
@@ -731,7 +717,7 @@ namespace Cronkpit
                 {
                     monster_coord = new gridCoordinate(charge_coordinate);
                     teleport(previous_ray_position);
-                    attack_monster_in_grid(fl, lance, monsterID, charge_coordinate, 1.0);
+                    attack_monster_in_grid(fl, lance, monsterID, charge_coordinate, 1.0, true);
                     done = true;
                 }
 
@@ -740,7 +726,7 @@ namespace Cronkpit
                     attacked_Doodad = true;
                     Doodad_coord = new gridCoordinate(fl.Doodad_by_index(DoodadID).get_g_coord());
                     teleport(previous_ray_position);
-                    attack_Doodad_in_grid(fl, lance, DoodadID, fl.Doodad_by_index(DoodadID).get_g_coord(), 1.0);
+                    attack_Doodad_in_grid(fl, lance, DoodadID, fl.Doodad_by_index(DoodadID).get_g_coord(), 1.0, true);
                     done = true;
                 }
             }
@@ -927,29 +913,18 @@ namespace Cronkpit
                 spell_target = new gridCoordinate(my_grid_coord.x + relative_x, my_grid_coord.y + relative_y);
             }
 
-            if (s.get_spell_type() != Scroll.Atk_Area_Type.personalBuff &&
-                s.get_spell_type() != Scroll.Atk_Area_Type.enemyDebuff)
+            if (s.get_spell_type() != Scroll.Atk_Area_Type.personalBuff)
             {
                 Projectile prj = new Projectile(starting_coord, spell_target, prj_type,
                                                  ref cont, false, s.get_spell_type());
-                double base_spell_max_damage = (double)s.get_specific_damage(true);
-                double base_spell_min_damage = (double)s.get_specific_damage(false);
-                int spell_max_damage = (int)base_spell_max_damage;
-                int spell_min_damage = (int)base_spell_min_damage;
-
-                //Petaer does 20% more damage with all spells.
-                //Falsael does 20% more damage with all melee range spells.
-                if (my_character == Character.Petaer || (my_character == Character.Falsael &&
-                                                        s.is_melee_range_spell()))
-                {
-                    spell_max_damage = (int)Math.Ceiling(base_spell_max_damage*1.2);
-                    spell_min_damage = (int)Math.Ceiling(base_spell_min_damage*1.2);
-                }
-
-                prj.set_damage_range(spell_min_damage, spell_max_damage);
-                prj.set_damage_type(spell_dmg_type);
+                prj.attach_scroll(s);
                 prj.set_wall_destroying(s.spell_destroys_walls());
                 prj.set_special_anim(spec_prj_anim);
+
+                if (s.get_spell_type() == Scroll.Atk_Area_Type.enemyDebuff)
+                {
+                    prj.attach_status_effect(s.get_status_effect(), s.get_duration());
+                }
 
                 if (s.get_spell_type() == Scroll.Atk_Area_Type.cloudAOE ||
                     s.get_spell_type() == Scroll.Atk_Area_Type.solidblockAOE ||
@@ -968,6 +943,8 @@ namespace Cronkpit
                 prj.set_talisman_effects(s.get_my_equipped_talismans());
                 fl.create_new_projectile(prj);
             }
+            else
+                add_single_statusEffect(new StatusEffect(s.get_status_effect(), s.get_duration()+1));
         }
 
         private int positive_difference(int i1, int i2)
@@ -1056,10 +1033,7 @@ namespace Cronkpit
             }
             else if (thing is Scroll)
             {
-                Scroll scroll_thing = (Scroll)thing;
-                Scroll acquired_scroll = new Scroll(scroll_thing.get_my_IDno(),
-                                                    scroll_thing.get_my_gold_value(),
-                                                    scroll_thing.get_my_name(), scroll_thing);
+                Scroll acquired_scroll = new Scroll((Scroll)thing);
                 inventory.Add(acquired_scroll);
             }
             else if (thing is Talisman)
@@ -1150,6 +1124,9 @@ namespace Cronkpit
             }
             else if (pt.get_type() == Potion.Potion_Type.Repair)
             {
+                if (String.Compare(bodypart, "Head") == 0)
+                    helm.repair_by_zone(heal_value, bodypart);
+
                 if (repair_over_armor)
                     over_armor.repair_by_zone(heal_value, bodypart);
                 else
@@ -1445,6 +1422,8 @@ namespace Cronkpit
 
         #endregion
 
+        #region taking damage + buff/debuff management
+
         public void take_damage(Attack atk, Floor fl, string specific_part)
         {
             //OKAY THIS IS GONNA BE COMPLICATED.
@@ -1553,6 +1532,37 @@ namespace Cronkpit
                 message_buffer.Add("Your wounds are too much for you. You collapse and your vision fades.");
         }
 
+        //this is used for hemorrhage.
+        public void damage_random_part(int dmg, Attack.Damage dmgTyp, Floor fl)
+        {
+            int chosen_part = rGen.Next(6);
+            Limb target_part = null;
+            switch (chosen_part)
+            {
+                case 0:
+                    target_part = Head;
+                    break;
+                case 1:
+                    target_part = L_Arm;
+                    break;
+                case 2:
+                    target_part = R_Arm;
+                    break;
+                case 3:
+                    target_part = L_Leg;
+                    break;
+                case 4:
+                    target_part = R_Leg;
+                    break;
+                case 5:
+                    target_part = Torso;
+                    break;
+            }
+            target_part.add_injury(dmgTyp, dmg);
+            fl.add_new_popup("-1 " + target_part.get_shortname(), Popup.popup_msg_color.Red, my_grid_coord);
+            message_buffer.Add("Your " + target_part.get_longname() + " takes " + dmg.ToString() + " wounds.");
+        }
+
         public void take_aoe_damage(int min_dmg, int max_dmg, 
                                     Attack.Damage dmg_type, Floor fl)
         {
@@ -1625,6 +1635,62 @@ namespace Cronkpit
             }
             update_pdoll();
         }
+
+        public void add_single_statusEffect(StatusEffect se)
+        {
+            if (se.my_type == Scroll.Status_Type.PantherFer ||
+               se.my_type == Scroll.Status_Type.TigerFer)
+                remove_specific_effect(Scroll.Status_Type.LynxFer);
+            if (se.my_type == Scroll.Status_Type.TigerFer)
+                remove_specific_effect(Scroll.Status_Type.PantherFer);
+
+            int sEffect_index = check_for_status_effect(se);
+            if (sEffect_index >= 0)
+                BuffDebuffTracker[sEffect_index].my_duration = se.my_duration;
+            else
+                BuffDebuffTracker.Add(se);
+        }
+
+        public void remove_specific_effect(Scroll.Status_Type effect)
+        {
+            for (int i = 0; i < BuffDebuffTracker.Count; i++)
+                if (BuffDebuffTracker[i].my_type == effect)
+                    BuffDebuffTracker.RemoveAt(i);
+        }
+
+        public int check_for_status_effect(StatusEffect se)
+        {
+            int target_index = -1;
+            for (int i = 0; i < BuffDebuffTracker.Count; i++)
+                if (se.my_type == BuffDebuffTracker[i].my_type)
+                    target_index = i;
+
+            return target_index;
+        }
+
+        public bool body_part_disabled(string bpart)
+        {
+            switch (bpart)
+            {
+                case "Head":
+                    return Head.is_disabled();
+                case "Chest":
+                case "Torso":
+                    return Torso.is_disabled();
+                case "LArm":
+                    return L_Arm.is_disabled();
+                case "RArm":
+                    return R_Arm.is_disabled();
+                case "LLeg":
+                    return L_Leg.is_disabled();
+                case "RLeg":
+                    return R_Leg.is_disabled();
+            }
+
+            return false;
+        }
+
+        #endregion
 
         public void teleport(gridCoordinate gc)
         {
@@ -1893,6 +1959,25 @@ namespace Cronkpit
             }
         }
 
+        public void equip_armor(Armor a)
+        {
+            switch (a.what_armor_type())
+            {
+                case Armor.Armor_Type.Helmet:
+                    equip_helmet(a);
+                    break;
+                case Armor.Armor_Type.OverArmor:
+                    equip_over_armor(a);
+                    break;
+                case Armor.Armor_Type.UnderArmor:
+                    equip_under_armor(a);
+                    break;
+            }
+
+            calculate_dodge_chance();
+            calculate_limb_HP();
+        }
+
         public void equip_over_armor(Armor oa)
         {
             unequip(Equip_Slot.Overarmor);
@@ -1900,7 +1985,6 @@ namespace Cronkpit
             over_armor = oa;
 
             remove_item_from_inventory(over_armor.get_my_IDno());
-            calculate_dodge_chance();
         }
 
         public void equip_under_armor(Armor ua)
@@ -1910,7 +1994,6 @@ namespace Cronkpit
             under_armor = ua;
 
             remove_item_from_inventory(under_armor.get_my_IDno());
-            calculate_dodge_chance();
         }
 
         public void equip_helmet(Armor hm)
@@ -1920,7 +2003,6 @@ namespace Cronkpit
             helm = hm;
 
             remove_item_from_inventory(helm.get_my_IDno());
-            calculate_dodge_chance();
         }
 
         public void remove_item_from_inventory(int itemID)
@@ -1995,6 +2077,9 @@ namespace Cronkpit
                     helm = null;
                     break;
             }
+
+            calculate_dodge_chance();
+            calculate_limb_HP();
         }
 
         public bool is_bow_equipped()
@@ -2163,6 +2248,8 @@ namespace Cronkpit
             return potion_quantity;
         }
 
+        #region calculate stats area
+
         public void calculate_dodge_chance()
         {
             dodge_chance = 0;
@@ -2189,8 +2276,50 @@ namespace Cronkpit
             }
         }
 
-        public void deincrement_cooldowns()
+        public void calculate_limb_HP()
         {
+            int bonus_vital_hp = 0;
+            int bonus_nonvital_hp = 0;
+
+            List<Talisman> all_armor_talismans = new List<Talisman>();
+            if (helm != null)
+                all_armor_talismans.AddRange(helm.get_my_equipped_talismans());
+            if (over_armor != null)
+                all_armor_talismans.AddRange(over_armor.get_my_equipped_talismans());
+            if (under_armor != null)
+                all_armor_talismans.AddRange(under_armor.get_my_equipped_talismans());
+
+            for (int i = 0; i < all_armor_talismans.Count; i++)
+            {
+                int bonus = 0;
+                if (all_armor_talismans[i].get_my_prefix() == Talisman.Talisman_Prefix.Average)
+                    bonus = 1;
+                else if (all_armor_talismans[i].get_my_prefix() == Talisman.Talisman_Prefix.Perfect)
+                    bonus = 2;
+
+                if (all_armor_talismans[i].get_my_type() == Talisman.Talisman_Type.Endurance)
+                {
+                    bonus_nonvital_hp += bonus;
+                }
+                else if (all_armor_talismans[i].get_my_type() == Talisman.Talisman_Type.Tenacity)
+                {
+                    bonus_vital_hp += bonus;
+                }
+            }
+
+            Head.set_HP(base_hp + bonus_vital_hp - 2);
+            Torso.set_HP(base_hp + bonus_vital_hp);
+            L_Arm.set_HP(base_hp + bonus_nonvital_hp);
+            R_Arm.set_HP(base_hp + bonus_nonvital_hp);
+            L_Leg.set_HP(base_hp + bonus_nonvital_hp);
+            R_Leg.set_HP(base_hp + bonus_nonvital_hp);
+        }
+
+        #endregion
+
+        public void deincrement_cooldowns_and_seffects(Floor fl)
+        {
+            //Make all cooldowns go down by 1
             if (main_hand != null && main_hand.get_current_cooldown() > 0)
                 main_hand.set_cooldown(-1);
 
@@ -2206,6 +2335,29 @@ namespace Cronkpit
                     if (w.get_current_cooldown() > 0)
                         w.set_cooldown(-1);
                 }
+
+            //Now that that's done, we handle the status effect side of things.
+            for (int i = 0; i < BuffDebuffTracker.Count; i++)
+            {
+                switch (BuffDebuffTracker[i].my_type)
+                {
+                    case Scroll.Status_Type.Hemorrhage:
+                        damage_random_part(1, Attack.Damage.Slashing, fl);
+                        break;
+                }
+                BuffDebuffTracker[i].my_duration--;
+            }
+
+            int original_size = BuffDebuffTracker.Count;
+            for (int i = 0; i < original_size; i++)
+                for (int j = 0; j < BuffDebuffTracker.Count; j++)
+                    if (BuffDebuffTracker[j].my_duration == 0)
+                        BuffDebuffTracker.RemoveAt(j);
+        }
+
+        public List<StatusEffect> get_status_effects()
+        {
+            return BuffDebuffTracker;
         }
 
         public void update_pdoll()
@@ -2214,6 +2366,159 @@ namespace Cronkpit
             int[] max_health;
             wound_report(out wounds, out max_health);
             pDoll.update_wound_report(wounds, max_health);
+        }
+
+        //Functions for handling attack lists and talismans
+        public void handle_attack_damage(Weapon w, Scroll s, double initialMultiplier, bool charge_attack,
+                                         ref List<Attack> attacksOut, ref List<StatusEffect> effectsOut)
+        {
+            int mindmg = 0;
+            int maxdmg = 0;
+            Attack.Damage dmgTyp = 0;
+            List<Talisman> equipped_talismans = new List<Talisman>();
+            List<Attack> temp_attacks = new List<Attack>();
+            if (w != null)
+            {
+                mindmg = w.specific_damage_val(false) * w.get_hand_count();
+                maxdmg = w.specific_damage_val(true) * w.get_hand_count();
+                dmgTyp = w.get_my_damage_type();
+                equipped_talismans = w.get_my_equipped_talismans();
+            }
+            else if (s != null)
+            {
+                mindmg = s.get_specific_damage(false);
+                maxdmg = s.get_specific_damage(true);
+                dmgTyp = s.get_damage_type();
+                equipped_talismans = s.get_my_equipped_talismans();
+            }
+
+            int baseDamage = rGen.Next(mindmg, maxdmg + 1);
+            //next we check for a talisman of expediency.
+            for (int i = 0; i < equipped_talismans.Count; i++)
+            {
+                if (equipped_talismans[i].get_my_type() == Talisman.Talisman_Type.Expediency)
+                {
+                    int base_val = (int)equipped_talismans[i].get_my_prefix() + 2;
+                    int min_damage_modifier = base_val;
+                    int max_damage_modifier = (base_val * 2);
+                    if (baseDamage > 0)
+                        baseDamage += rGen.Next(min_damage_modifier, max_damage_modifier + 1);
+                }
+            }
+
+            //Now we add any talisman based attacks.
+            for (int i = 0; i < equipped_talismans.Count; i++)
+            {
+                if (equipped_talismans[i].extra_damage_specific_type_talisman())
+                {
+                    int base_val = (int)equipped_talismans[i].get_my_prefix() + 1;
+                    Attack.Damage dmg_typ = 0;
+                    switch (equipped_talismans[i].get_my_type())
+                    {
+                        case Talisman.Talisman_Type.Pressure:
+                            dmg_typ = Attack.Damage.Crushing;
+                            break;
+                        case Talisman.Talisman_Type.Heat:
+                            dmg_typ = Attack.Damage.Fire;
+                            break;
+                        case Talisman.Talisman_Type.Snow:
+                            dmg_typ = Attack.Damage.Frost;
+                            break;
+                        case Talisman.Talisman_Type.Razors:
+                            dmg_typ = Attack.Damage.Slashing;
+                            break;
+                        case Talisman.Talisman_Type.Heartsblood:
+                            dmg_typ = Attack.Damage.Piercing;
+                            break;
+                        case Talisman.Talisman_Type.Toxicity:
+                            dmg_typ = Attack.Damage.Acid;
+                            break;
+                        case Talisman.Talisman_Type.Sparks:
+                            dmg_typ = Attack.Damage.Electric;
+                            break;
+                    }
+                    temp_attacks.Add(new Attack(dmg_typ, rGen.Next(base_val, (base_val * 2) + 1)));
+                }
+            }
+            //next, for characters. Falsael gets a bonus to all nonbow weapons
+            //and melee spells. Petaer gets a bonus to all spells.
+            if ((my_character == Character.Petaer && s != null) ||
+               (my_character == Character.Falsael && ((w != null && w.get_my_weapon_type() != Weapon.Type.Bow) ||
+                                                      (s != null && s.is_melee_range_spell()))))
+                baseDamage = (int)(Math.Ceiling((double)baseDamage * 1.2));
+
+            //Okay we're not quite done yet. First we need to check for weapon damage enhancing buffs.
+            for (int i = 0; i < BuffDebuffTracker.Count; i++)
+            {
+                if (w != null && BuffDebuffTracker[i].my_type == Scroll.Status_Type.LynxFer)
+                    initialMultiplier += .2;
+                else if (w != null && BuffDebuffTracker[i].my_type == Scroll.Status_Type.PantherFer)
+                    initialMultiplier += .4;
+                else if (w != null && BuffDebuffTracker[i].my_type == Scroll.Status_Type.TigerFer)
+                    initialMultiplier += .6;
+            }
+            //Then we multiply all the attacks by that.
+            baseDamage = (int)((double)baseDamage * initialMultiplier);
+            for (int i = 0; i < temp_attacks.Count; i++)
+            {
+                double attack_basedmg = (double)temp_attacks[i].get_damage_amt();
+                attack_basedmg *= initialMultiplier;
+                temp_attacks[i].reset_dmg((int)attack_basedmg);
+            }
+
+            if (baseDamage > 0)
+            {
+                Attack baseAttack = new Attack(dmgTyp, baseDamage);
+                attacksOut.Add(baseAttack);
+            }
+            attacksOut.AddRange(temp_attacks);
+
+            //Now we apply damage penalties where appropriate
+            if (!charge_attack && w != null && w.get_my_weapon_type() == Weapon.Type.Lance)
+                for (int i = 0; i < attacksOut.Count; i++)
+                {
+                    int atkdmg = attacksOut[i].get_damage_amt();
+                    attacksOut[i].reset_dmg(atkdmg / 4);
+                }
+            //Horray, we're done with attacks! But we still need to do debuffs.
+            if (s != null && s.get_spell_type() == Scroll.Atk_Area_Type.enemyDebuff)
+                effectsOut.Add(new StatusEffect(s.get_status_effect(), s.get_duration()));
+
+            for (int i = 0; i < equipped_talismans.Count; i++)
+            {
+                bool add_fx = false;
+                int talisman_qualVal = 1 + (int)equipped_talismans[i].get_my_prefix();
+                int fx_chance = 0;
+                int fx_duration = 0;
+                Scroll.Status_Type fx_type = Scroll.Status_Type.None;
+                switch (equipped_talismans[i].get_my_type())
+                {
+                    case Talisman.Talisman_Type.Distruption:
+                        add_fx = true;
+                        fx_chance = talisman_qualVal * 4;
+                        fx_duration = talisman_qualVal + 2;
+                        fx_type = Scroll.Status_Type.Disrupt;
+                        break;
+                    case Talisman.Talisman_Type.Thunder:
+                        add_fx = true;
+                        fx_chance = talisman_qualVal * 2;
+                        fx_duration = Math.Max(talisman_qualVal - 1, 1);
+                        fx_type = Scroll.Status_Type.Stun;
+                        break;
+                    case Talisman.Talisman_Type.Grasping:
+                        add_fx = true;
+                        fx_chance = talisman_qualVal * 4;
+                        fx_duration = talisman_qualVal;
+                        fx_type = Scroll.Status_Type.Root;
+                        break;
+                }
+
+                if (add_fx)
+                {
+                    if (rGen.Next(100) < fx_chance)
+                        effectsOut.Add(new StatusEffect(fx_type, fx_duration));
+                }
+            }
         }
     }
 }

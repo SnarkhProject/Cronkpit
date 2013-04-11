@@ -190,7 +190,11 @@ namespace Cronkpit
             sfont_thesecond = Content.Load<SpriteFont>("Fonts/sfont");
             mouse_tex = Content.Load<Texture2D>("MouseTexture");
             //Make texture arrays for wireframe, etc.
-            
+            List<KeyValuePair<Scroll.Status_Type, Texture2D>> status_icon_list = new List<KeyValuePair<Scroll.Status_Type, Texture2D>>();
+            status_icon_list.Add(new KeyValuePair<Scroll.Status_Type, Texture2D>(Scroll.Status_Type.LynxFer, Content.Load<Texture2D>("Icons/StatEffects/lynx_ferocity_icon")));
+            status_icon_list.Add(new KeyValuePair<Scroll.Status_Type, Texture2D>(Scroll.Status_Type.PantherFer, Content.Load<Texture2D>("Icons/StatEffects/panther_ferocity_icon")));
+            status_icon_list.Add(new KeyValuePair<Scroll.Status_Type, Texture2D>(Scroll.Status_Type.TigerFer, Content.Load<Texture2D>("Icons/StatEffects/tiger_ferocity_icon")));
+            status_icon_list.Add(new KeyValuePair<Scroll.Status_Type, Texture2D>(Scroll.Status_Type.Hemorrhage, Content.Load<Texture2D>("Icons/StatEffects/hemorrhage_icon")));
             //Preload all of the arrrow textures so that they only need to be loaded once.
             Texture2D scroll_up_one_arrow = Content.Load<Texture2D>("UI Elements/Inventory Screen/invBox_one_scrollup");
             Texture2D scroll_up_max_arrow = Content.Load<Texture2D>("UI Elements/Inventory Screen/invBox_max_scrollup");
@@ -202,6 +206,8 @@ namespace Cronkpit
             invScr.init_textures(scroll_up_max_arrow, scroll_up_one_arrow, scroll_down_max_arrow, 
                                 scroll_down_one_arrow);
             shopScr.init_controls(scroll_up_one_arrow, scroll_down_one_arrow);
+            //init the iconbar status icon textures, the function is a lil ambiguous.
+            icoBar.init_textures(status_icon_list);
             
             // TODO: use this.Content to load your game content here
         }
@@ -326,13 +332,14 @@ namespace Cronkpit
 
                 if (bad_turn && !f1.projectiles_remaining_to_update())
                 {
+                    p1.deincrement_cooldowns_and_seffects(f1);
                     f1.add_smell_to_tile(p1.get_my_grid_C(), 0, p1.total_scent);
                     f1.sound_pulse(p1.get_my_grid_C(), p1.total_sound, SoundPulse.Sound_Types.Player);
                     p1.reset_sound_and_scent();
-                    f1.update_dungeon_floor(p1);
 
+                    f1.update_dungeon_floor(p1);
                     bad_turn = false;
-                    p1.deincrement_cooldowns();
+                    
                     icoBar.update_cooldown_and_quant(p1);
                     mBall.calculate_opacity(f1.check_mana());
                 }
@@ -606,6 +613,7 @@ namespace Cronkpit
                                 break;
                             case 7:
                                 icoBar.purge_sold_items(p1);
+                                icoBar.update_cooldown_and_quant(p1);
                                 invScr.init_necessary_textures(p1);
                                 current_state = Game_State.normal;
                                 break;
@@ -952,17 +960,35 @@ namespace Cronkpit
 
         private void start_spell_attack(Scroll s)
         {
-            ra1.shift_modes(RACursor.Mode.Spell);
-            selected_scroll = s.get_my_IDno();
-            //gameState = 5;
-            current_state = Game_State.casting_spell;
-            if (s.is_melee_range_spell())
-                p1.set_melee_attack_aura(f1);
+            if (s.get_spell_type() != Scroll.Atk_Area_Type.personalBuff)
+            {
+                ra1.shift_modes(RACursor.Mode.Spell);
+                selected_scroll = s.get_my_IDno();
+                //gameState = 5;
+                current_state = Game_State.casting_spell;
+                if (s.is_melee_range_spell())
+                    p1.set_melee_attack_aura(f1);
+                else
+                    p1.set_ranged_attack_aura(f1, p1.get_my_grid_C(), s);
+                ra1.am_i_visible = true;
+                ra1.my_grid_coord = new gridCoordinate(p1.get_my_grid_C().x, p1.get_my_grid_C().y - 1);
+                ra1.reset_drawing_position();
+            }
             else
-                p1.set_ranged_attack_aura(f1, p1.get_my_grid_C(), s);
-            ra1.am_i_visible = true;
-            ra1.my_grid_coord = new gridCoordinate(p1.get_my_grid_C().x, p1.get_my_grid_C().y - 1);
-            ra1.reset_drawing_position();
+            {
+                int floor_mana_consumed = s.get_manaCost();
+                int mana_on_floor = f1.check_mana();
+
+                if (mana_on_floor >= floor_mana_consumed)
+                {
+                    f1.consume_mana(floor_mana_consumed);
+                    p1.cast_spell(s, f1, new gridCoordinate(-1, -1), 0, 0);
+                    bad_turn = true;
+                }
+                else
+                    f1.add_new_popup("Not enough mana!", Popup.popup_msg_color.Purple, p1.get_my_grid_C());
+                cancel_all_specials();
+            }
         }
 
         private void spell_attack_via_cursor(int Scroll_ID, gridCoordinate click_location)
@@ -1037,7 +1063,7 @@ namespace Cronkpit
                 int item_ID = icoBar.get_item_IDs_by_slot(slot);
                 if (item_ID > -1)
                 {
-                    string item_type = p1.get_item_type_by_ID(item_ID);
+                    string item_type = icoBar.get_item_type_by_slot(slot);
                     bool is_equipped = p1.is_item_equipped(item_ID);
                     if (!is_equipped)
                     {
@@ -1046,17 +1072,31 @@ namespace Cronkpit
                             Weapon c_weapon = p1.get_weapon_by_ID(item_ID);
                             if (c_weapon.get_my_weapon_type() != Weapon.Type.Lance)
                             {
-                                if (c_weapon.get_hand_count() == 2)
-                                    p1.equip_main_hand(c_weapon);
+                                if (!p1.body_part_disabled("LArm") && !p1.body_part_disabled("RArm"))
+                                {
+                                    if (c_weapon.get_hand_count() == 2)
+                                        p1.equip_main_hand(c_weapon);
+                                    else
+                                    {
+                                        if (p1.show_main_hand() == null)
+                                            p1.equip_main_hand(c_weapon);
+                                        else if (p1.show_main_hand() != null && p1.show_off_hand() == null)
+                                            p1.equip_off_hand(c_weapon);
+                                        else if (p1.show_main_hand() != null && p1.show_off_hand() != null)
+                                            p1.equip_main_hand(c_weapon);
+                                    }
+                                }
                                 else
                                 {
-                                    if (p1.show_main_hand() == null)
-                                        p1.equip_main_hand(c_weapon);
-                                    else if (p1.show_main_hand() != null && p1.show_off_hand() == null)
-                                        p1.equip_off_hand(c_weapon);
-                                    else if (p1.show_main_hand() != null && p1.show_off_hand() != null)
-                                        p1.equip_main_hand(c_weapon);
+                                    if (c_weapon.get_hand_count() == 1)
+                                    {
+                                        if (p1.body_part_disabled("LArm") && !p1.body_part_disabled("RArm"))
+                                            p1.equip_off_hand(c_weapon);
+                                        if (!p1.body_part_disabled("LArm") && p1.body_part_disabled("RArm"))
+                                            p1.equip_main_hand(c_weapon);
+                                    }
                                 }
+
                             }
                             else if (c_weapon.get_my_weapon_type() == Weapon.Type.Lance)
                             {
@@ -1066,41 +1106,43 @@ namespace Cronkpit
                                 }
                                 else
                                 {
+                                    locked_slot = slot;
                                     start_charge_attack(item_ID);
                                     selected_lance = item_ID;
                                     changed_states = true;
-                                    locked_slot = slot;
                                 }
                             }
                         }
-                        else if (String.Compare(item_type, "Underarmor") == 0)
+                        else if (String.Compare(item_type, "Armor") == 0)
                         {
                             Armor c_armor = p1.get_armor_by_ID(item_ID);
-                            p1.equip_under_armor(c_armor);
-                        }
-                        else if (String.Compare(item_type, "Overarmor") == 0)
-                        {
-                            Armor c_armor = p1.get_armor_by_ID(item_ID);
-                            p1.equip_over_armor(c_armor);
+                            if (c_armor.what_armor_type() == Armor.Armor_Type.Helmet)
+                                p1.equip_helmet(c_armor);
+                            else if (c_armor.what_armor_type() == Armor.Armor_Type.OverArmor)
+                                p1.equip_over_armor(c_armor);
+                            else if (c_armor.what_armor_type() == Armor.Armor_Type.UnderArmor)
+                                p1.equip_under_armor(c_armor);
                         }
                         else if (String.Compare(item_type, "Potion") == 0)
                         {
                             Potion c_potion = p1.get_potion_by_ID(item_ID);
-                            if (c_potion != null && c_potion.get_my_quantity() > 0)
+                            if (current_state == Game_State.drinking_potion)
                             {
-                                if (current_state == Game_State.drinking_potion)
+                                if (c_potion != null)
+                                    p1.acquire_potion(c_potion);
+                                cancel_all_specials();
+                            }
+                            else
+                            {
+                                if (c_potion != null)
                                 {
-                                    cancel_all_specials();
-                                }
-                                else
-                                {
+                                    locked_slot = slot;
                                     potiPrompt.show();
                                     potiPrompt.current_potion(c_potion);
                                     potiPrompt.grab_injury_report(p1);
                                     //gameState = 7;
                                     current_state = Game_State.drinking_potion;
                                     changed_states = true;
-                                    locked_slot = slot;
                                 }
                             }
                         }
@@ -1112,10 +1154,10 @@ namespace Cronkpit
                             }
                             else
                             {
+                                locked_slot = slot;
                                 Scroll s = p1.get_scroll_by_ID(item_ID);
                                 start_spell_attack(s);
                                 changed_states = true;
-                                locked_slot = slot;
                             }
                         }
                     }
@@ -1242,6 +1284,10 @@ namespace Cronkpit
             current_floor = 0;
             p1 = new Player(Content, new gridCoordinate(-1, -1), ref msgBuf, chClass, 
                             chara, ref pDoll);
+            //Attach the iconbar status effect tracker to the player's
+            List<StatusEffect> sEffects = p1.get_status_effects();
+            icoBar.attach_player_sEffects(ref sEffects);
+            //Then init wireframes based on which character you picked
             initalize_menu_wireframes();
             p1.update_pdoll();
             icoBar.wipe();

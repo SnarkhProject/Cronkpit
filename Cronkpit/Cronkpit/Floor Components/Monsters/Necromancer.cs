@@ -74,9 +74,11 @@ namespace Cronkpit
             can_create_major = rank > 1;
 
             //Sensory
-            sight_range = 2;
+            base_sight_range = 2;
             sounds_i_can_hear.Add(SoundPulse.Sound_Types.Player);
-            listen_threshold.Add(8);
+            base_listen_threshold.Add(8);
+
+            set_senses_to_baseline();
 
             melee_dodge = 5;
             ranged_dodge = 5;
@@ -95,6 +97,28 @@ namespace Cronkpit
             splash_matrix.Add(new gridCoordinate(target_coord.x, target_coord.y - 1));
 
             return splash_matrix;
+        }
+
+        public void cast_acid_splash(Floor fl, gridCoordinate target_GC)
+        {
+            fl.addmsg("The Necromancer tosses a glob of acid at you!");
+            Projectile prj = new Projectile(randomly_chosen_personal_coord(), target_GC, Projectile.projectile_type.AcidCloud, ref cont, true, Scroll.Atk_Area_Type.smallfixedAOE);
+            prj.set_small_AOE_matrix(acid_splash_matrix(target_GC));
+            prj.set_damage_range(min_acidsplash_dmg, max_acidsplash_dmg);
+            prj.set_damage_type(acid_splash_dmgtyp);
+            fl.create_new_projectile(prj);
+            acid_splash_cooldown = 5;
+            fl.consume_mana(acidsplash_manacost);
+        }
+
+        public void cast_frostbolt(Floor fl, gridCoordinate target_GC)
+        {
+            fl.addmsg("The Necromancer fires a frostbolt at you!");
+            Projectile prj = new Projectile(randomly_chosen_personal_coord(), target_GC, Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
+            prj.set_damage_range(min_damage, max_damage);
+            prj.set_damage_type(dmg_type);
+            fl.create_new_projectile(prj);
+            fl.consume_mana(frostbolt_manacost);
         }
 
         public void create_minor_undead(Player pl, Floor fl)
@@ -147,6 +171,7 @@ namespace Cronkpit
                 create_minor_undead_cooldown = 5;
 
             raise_additional_undead(fl, pl, 1);
+            fl.consume_mana(create_minor_manacost);
         }
 
         public void raise_additional_undead(Floor fl, Player pl, int grade)
@@ -277,94 +302,85 @@ namespace Cronkpit
 
             heal_near_altar(fl);
 
-            if (!active)
+            if (!stunned)
             {
-                if (heard_something || can_see_player)
+                if (!active)
                 {
-                    active = true;
-                    listen_threshold[0] = 4;
-                    sight_range = 6;
-                    fl.addmsg("The Necromancer stops mumbling arcane phrases to " + pronoun + "self!");
-                    fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coords[0]);
-                }
-                else
-                {
-                    int should_i_wander = rGen.Next(10);
-                    if (should_i_wander == 1)
-                        wander(pl, fl, corporeal);
-                } 
-            }
-            else
-            {
-                if (can_see_player)
-                {
-                    if (can_create_major && create_major_undead_cooldown == 0)
+                    if (heard_something || can_see_player)
                     {
+                        active = true;
+                        base_listen_threshold[0] = 4;
+                        base_sight_range = 6;
+                        set_senses_to_baseline();
+
+                        fl.addmsg("The Necromancer stops mumbling arcane phrases to " + pronoun + "self!");
+                        fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coords[0]);
                     }
                     else
                     {
-                        if (create_minor_undead_cooldown == 0 && fl.check_mana() >= create_minor_manacost)
-                        {
-                            create_minor_undead(pl, fl);
-                            fl.consume_mana(create_minor_manacost);
-                        }
-                        else
-                        {
-                            if (acid_splash_cooldown == 0 && is_player_within_diamond(pl, acidsplash_range) &&
-                                fl.check_mana() >= acidsplash_manacost && !is_player_within(pl, 1))
-                            {
-                                fl.addmsg("The Necromancer tosses a glob of acid at you!");
-                                Projectile prj = new Projectile(randomly_chosen_personal_coord(), pl.get_my_grid_C(), Projectile.projectile_type.AcidCloud, ref cont, true, Scroll.Atk_Area_Type.smallfixedAOE);
-                                prj.set_small_AOE_matrix(acid_splash_matrix(pl.get_my_grid_C()));
-                                prj.set_damage_range(min_acidsplash_dmg, max_acidsplash_dmg);
-                                prj.set_damage_type(acid_splash_dmgtyp);
-                                fl.create_new_projectile(prj);
-                                acid_splash_cooldown = 5;
-                                fl.consume_mana(acidsplash_manacost);
-                            }
-                            else
-                            {
-                                if (is_player_within_diamond(pl, frostbolt_range) 
-                                    && fl.check_mana() >= frostbolt_manacost)
-                                {
-                                    fl.addmsg("The Necromancer fires a frostbolt at you!");
-                                    Projectile prj = new Projectile(randomly_chosen_personal_coord(), pl.get_my_grid_C(), Projectile.projectile_type.Frostbolt, ref cont, true, Scroll.Atk_Area_Type.singleTile);
-                                    prj.set_damage_range(min_damage, max_damage);
-                                    prj.set_damage_type(dmg_type);
-                                    fl.create_new_projectile(prj);
-                                    fl.consume_mana(frostbolt_manacost);
-                                }
-                                else
-                                {
-                                    advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 0, corporeal);
-                                    if(!has_moved)
-                                        if(is_player_within(pl, 1))
-                                        {
-                                            int wounds = rGen.Next(min_melee_damage, max_melee_damage + 1);
-                                            Attack dmg = new Attack(melee_damage_type, wounds);
-                                            pl.take_damage(dmg, fl, "");
-                                            fl.add_effect(melee_damage_type, pl.get_my_grid_C());
-                                            if(female)
-                                                fl.addmsg("The necromancer swipes at you with her dagger!");
-                                            else
-                                                fl.addmsg("The necromancer tries to club you with his censer!");
-                                        }
-                                }
-                            }
-                        }
+                        int should_i_wander = rGen.Next(10);
+                        if (should_i_wander == 1)
+                            wander(pl, fl, corporeal);
                     }
-                }
-                else if (!can_see_player && heard_something)
-                {
-                    follow_path_to_sound(fl, pl);
                 }
                 else
                 {
-                    int should_i_wander = rGen.Next(10);
-                    if (should_i_wander == 1)
-                        wander(pl, fl, corporeal);
+                    if (can_see_player)
+                    {
+                        //Try to cast create undead first.
+                        if (can_create_major && create_major_undead_cooldown == 0)
+                        {
+                        }
+                        else if(can_cast(create_minor_undead_cooldown, create_minor_manacost, fl))
+                            create_minor_undead(pl, fl);
+                        else
+                        {
+                            //If it can't do THAT, cast acid splash
+                            if(is_player_within_diamond(pl, acidsplash_range) && !is_player_within(pl, 1) &&
+                               can_cast(acid_splash_cooldown, acidsplash_manacost, fl))
+                                cast_acid_splash(fl, pl.get_my_grid_C());
+                            else
+                            {
+                                //if it can't do that, cast frostbolt.
+                                if(is_player_within(pl, frostbolt_range) && can_cast(0, frostbolt_manacost, fl))
+                                    cast_frostbolt(fl, pl.get_my_grid_C());
+                            }
+
+                            //If the necromancer can cast neither frostbolt or acid splash it will close
+                            //to melee range and start attacking with its melee weapon
+                            if (!can_cast(acid_splash_cooldown, acidsplash_manacost, fl) &&
+                                !can_cast(0, frostbolt_manacost, fl))
+                            {
+                                if (is_player_within(pl, 1))
+                                {
+                                    int wounds = rGen.Next(min_melee_damage, max_melee_damage + 1);
+                                    Attack dmg = new Attack(melee_damage_type, wounds);
+                                    pl.take_damage(dmg, fl, "");
+                                    fl.add_effect(melee_damage_type, pl.get_my_grid_C());
+                                    if (female)
+                                        fl.addmsg("The necromancer swipes at you with her dagger!");
+                                    else
+                                        fl.addmsg("The necromancer tries to club you with his censer!");
+                                }
+                                else
+                                    advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 0, corporeal);
+                            }
+                        }
+                    }
+                    else if (!can_see_player && heard_something)
+                    {
+                        follow_path_to_sound(fl, pl);
+                    }
+                    else
+                    {
+                        int should_i_wander = rGen.Next(10);
+                        if (should_i_wander == 1)
+                            wander(pl, fl, corporeal);
+                    }
                 }
             }
+
+            base.Update_Monster(pl, fl);
         }
     }
 }

@@ -46,10 +46,11 @@ namespace Cronkpit
                     my_idle_texture = cont.Load<Texture2D>("Entities/lowGold");
                     break;
             }
-            turns_idle = 5;
             my_Texture = my_idle_texture;
             //SENSORY
-            sight_range = 3;
+            base_sight_range = 3;
+
+            set_senses_to_baseline();
 
             //OTHER
             my_name = "Gold Mimic";
@@ -61,37 +62,45 @@ namespace Cronkpit
 
         public override void Update_Monster(Player pl, Floor fl)
         {
+            has_moved = false;
             if (is_player_within(pl, sight_range))
                 can_see_player = can_i_see_point(fl, pl.get_my_grid_C());
             else
                 can_see_player = false;
 
-            if (can_see_player)
+            if (!stunned)
             {
-                my_Texture = my_active_texture;
-                turns_idle = 0;
-                ranged_dodge = 10;
-                advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
-                
-                if(!has_moved && is_player_within(pl, 1))
+                if (can_see_player)
                 {
-                    fl.addmsg("The Gold Mimic slashes at you!");
-                    Attack dmg = dealDamage();
-                    fl.add_effect(dmg_type, pl.get_my_grid_C());
-                    pl.take_damage(dmg, fl, "");  
-                }
-            }
-            else
-            {
-                turns_idle++;
-                if (turns_idle > 2)
-                {
-                    my_Texture = my_idle_texture;
-                    ranged_dodge = 0;
+                    if (turns_idle > 2)
+                        fl.add_new_popup("Awakens!", Popup.popup_msg_color.Red, my_grid_coords[0]);
+                    my_Texture = my_active_texture;
+                    turns_idle = 0;
+                    ranged_dodge = 10;
+                    advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
+
+                    if (!has_moved && is_player_within(pl, 1))
+                    {
+                        fl.addmsg("The Gold Mimic slashes at you!");
+                        Attack dmg = dealDamage();
+                        fl.add_effect(dmg_type, pl.get_my_grid_C());
+                        pl.take_damage(dmg, fl, "");
+                    }
                 }
                 else
-                    wander(pl, fl, corporeal);
+                {
+                    turns_idle++;
+                    if (turns_idle > 2)
+                    {
+                        my_Texture = my_idle_texture;
+                        ranged_dodge = 0;
+                    }
+                    else
+                        wander(pl, fl, corporeal);
+                }
             }
+
+            base.Update_Monster(pl, fl);
         }
     }
 }

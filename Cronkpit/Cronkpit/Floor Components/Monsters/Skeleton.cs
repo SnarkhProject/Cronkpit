@@ -15,7 +15,11 @@ namespace Cronkpit
         Skeleton_Weapon_Type my_weapon_type;
         public gridCoordinate last_seen_player_at;
         bool have_i_seen_player;
+        //Flamebolt
         int flamebolt_mana_cost = 20;
+        int flamebolt_min_dmg = 1;
+        int flamebolt_max_dmg = 5;
+        Attack.Damage flamebolt_dmg_type = Attack.Damage.Fire;
 
         public Skeleton(gridCoordinate sGridCoord, ContentManager sCont, int sIndex, Skeleton_Weapon_Type wType)
             : base(sGridCoord, sCont, sIndex, Monster_Size.Normal)
@@ -50,8 +54,8 @@ namespace Cronkpit
                 case Skeleton_Weapon_Type.Flamebolt:
                     my_Texture = cont.Load<Texture2D>("Enemies/skeleton_mage");
                     min_damage = 1;
-                    max_damage = 5;
-                    dmg_type = Attack.Damage.Fire;
+                    max_damage = 1;
+                    dmg_type = Attack.Damage.Crushing;
                     break;
                 case Skeleton_Weapon_Type.Axe:
                     my_Texture = cont.Load<Texture2D>("Enemies/skeleton_axeman");
@@ -66,16 +70,39 @@ namespace Cronkpit
             last_seen_player_at = new gridCoordinate(my_grid_coords[0]);
 
             //SENSORY
-            sight_range = 5;
+            base_sight_range = 5;
             can_hear = true;
             sounds_i_can_hear.Add(SoundPulse.Sound_Types.Voidwraith_Scream);
-            listen_threshold.Add(1);
+            base_listen_threshold.Add(1);
+
+            set_senses_to_baseline();
 
             //OTHER
             my_name = "Skeleton";
             melee_dodge = 10;
             ranged_dodge = 10;
             set_initial_dodge_values();
+        }
+
+        public void fire_flamebolt(Floor fl, gridCoordinate target_GC)
+        {
+            Projectile prj = new Projectile(randomly_chosen_personal_coord(), target_GC,
+                                            Projectile.projectile_type.Flamebolt, ref cont, true, 
+                                            Scroll.Atk_Area_Type.singleTile);
+            prj.set_damage_range(flamebolt_min_dmg, flamebolt_max_dmg);
+            prj.set_damage_type(flamebolt_dmg_type);
+            fl.create_new_projectile(prj);
+            fl.consume_mana(flamebolt_mana_cost);
+        }
+
+        public void fire_arrow(Floor fl, gridCoordinate target_GC)
+        {
+            Projectile prj = new Projectile(randomly_chosen_personal_coord(), target_GC,
+                                            Projectile.projectile_type.Arrow, ref cont, true,
+                                            Scroll.Atk_Area_Type.singleTile);
+            prj.set_damage_range(min_damage, max_damage);
+            prj.set_damage_type(dmg_type);
+            fl.create_new_projectile(prj);
         }
 
         public override void Update_Monster(Player pl, Floor fl)
@@ -88,82 +115,59 @@ namespace Cronkpit
             else
                 can_see_player = false;
 
-            if (my_weapon_type == Skeleton_Weapon_Type.Bow || 
-               (my_weapon_type == Skeleton_Weapon_Type.Flamebolt && fl.check_mana() >= flamebolt_mana_cost))
+            if (!stunned)
             {
                 if (can_see_player)
                 {
-                    if(!is_player_within_diamond(pl, 4))
-                        advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
-                    else
+                    have_i_seen_player = true;
+                    last_seen_player_at = new gridCoordinate(pl.get_my_grid_C());
+
+                    if (my_weapon_type == Skeleton_Weapon_Type.Bow ||
+                       (my_weapon_type == Skeleton_Weapon_Type.Flamebolt && can_cast(0, flamebolt_mana_cost, fl)))
                     {
-                        if(!has_moved)
+                        if (!is_player_within_diamond(pl, 4))
+                            advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
+                        else
                         {
                             fl.addmsg("The Skeleton attacks you!");
-                            Attack dmg = dealDamage();
-
-                            Projectile.projectile_type prjtyp = 0;
-
                             if (my_weapon_type == Skeleton_Weapon_Type.Bow)
-                                prjtyp = Projectile.projectile_type.Arrow;
+                                fire_arrow(fl, pl.get_my_grid_C());
                             else if (my_weapon_type == Skeleton_Weapon_Type.Flamebolt)
-                                prjtyp = Projectile.projectile_type.Flamebolt;
-
-                            Projectile prj = new Projectile(randomly_chosen_personal_coord(), pl.get_my_grid_C(), prjtyp, 
-                                                            ref cont, true, Scroll.Atk_Area_Type.singleTile);
-                            prj.set_damage_range(min_damage, max_damage);
-                            prj.set_damage_type(dmg_type);
-                            fl.create_new_projectile(prj);
+                                fire_flamebolt(fl, pl.get_my_grid_C());
                         }
                     }
-                }
-            }
-            else
-            {
-                if (my_weapon_type == Skeleton_Weapon_Type.Flamebolt && fl.check_mana() < flamebolt_mana_cost)
-                {
-                    min_damage = 1;
-                    max_damage = 1;
-                    dmg_type = Attack.Damage.Crushing;
-                }
-
-                if(can_see_player)
-                    if(!is_player_within(pl, 1))
-                        advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
                     else
-                        if(!has_moved)
+                    {
+                        if (!is_player_within(pl, 1))
+                            advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
+                        else
                         {
                             fl.addmsg("The Skeleton attacks you!");
                             fl.add_effect(dmg_type, pl.get_my_grid_C());
                             Attack dmg = dealDamage();
                             pl.take_damage(dmg, fl, "");
                         }
-            }
+                    }
+                }
+                else if (!can_see_player && have_i_seen_player && !has_moved)
+                {
+                    advance_towards_single_point(last_seen_player_at, pl, fl, 0, corporeal);
+                    if (occupies_tile(last_seen_player_at))
+                        have_i_seen_player = false;
+                }
+                else if (!can_see_player && !have_i_seen_player && heard_something)
+                {
+                    follow_path_to_sound(fl, pl);
+                }
+                else if (!can_see_player && !have_i_seen_player && !heard_something && !has_moved)
+                {
+                    int should_i_wander = rGen.Next(6);
+                    if (should_i_wander == 1)
+                        wander(pl, fl, corporeal);
+                }
+        }
 
-            if (can_see_player)
-            {
-                have_i_seen_player = true;
-                last_seen_player_at = new gridCoordinate(pl.get_my_grid_C());
-            }
-            
-            if (!can_see_player && have_i_seen_player && !has_moved)
-            {
-                advance_towards_single_point(last_seen_player_at, pl, fl, 0, corporeal);
-                if (occupies_tile(last_seen_player_at))
-                    have_i_seen_player = false;
-            }
-
-            if (!can_see_player && !have_i_seen_player && heard_something)
-            {
-                follow_path_to_sound(fl, pl);
-            }
-            
-            if(!can_see_player && !have_i_seen_player &&!heard_something && !has_moved)
-            {
-                int should_i_wander = rGen.Next(6);
-                if (should_i_wander == 1)
-                    wander(pl, fl, corporeal);
-            }
+            base.Update_Monster(pl, fl);
         }
     }
 }

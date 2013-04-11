@@ -37,6 +37,10 @@ namespace Cronkpit
         int my_xPosition;
         int my_yPosition;
 
+        //Buff / debuff stuff
+        List<StatusEffect> pl_status_effects;
+        List<KeyValuePair<Scroll.Status_Type, Texture2D>> status_effect_textures;
+
         public IconBar(Texture2D d_texture, SpriteFont default_font, SpriteFont big_font, Rectangle cl)
         {
             number_of_icons = 8;
@@ -86,6 +90,19 @@ namespace Cronkpit
                 icon_shortcut_keys.Add("F" + functionKey.ToString());
                 functionKey++;
             }
+        }
+
+        public void attach_player_sEffects(ref List<StatusEffect> pl_statuses)
+        {
+            pl_status_effects = pl_statuses;
+        }
+
+        public void init_textures(List<KeyValuePair<Scroll.Status_Type, Texture2D>> li)
+        {
+            //0 is lynx's ferocity
+            //1 is panther's ferocity
+            //2 is tiger's ferocity
+            status_effect_textures = li;
         }
 
         public void reset_a_texture(Texture2D new_tex, int icon_to_reset)
@@ -146,6 +163,23 @@ namespace Cronkpit
         public int get_item_IDs_by_slot(int slot)
         {
             return icon_item_IDs[slot];
+        }
+
+        public string get_item_type_by_slot(int slot)
+        {
+            switch (icon_item_types[slot])
+            {
+                case Type_Tracker.Armor:
+                    return "Armor";
+                case Type_Tracker.Potion:
+                    return "Potion";
+                case Type_Tracker.Weapon:
+                    return "Weapon";
+                case Type_Tracker.Scroll:
+                    return "Scroll";
+            }
+
+            return "Something else";
         }
 
         public void assign_icon_to_slot(Texture2D next_icon, int slot)
@@ -245,6 +279,15 @@ namespace Cronkpit
 
         #region drawing stuff
 
+        private Texture2D fetch_texture_by_fx(Scroll.Status_Type effect)
+        {
+            for (int i = 0; i < status_effect_textures.Count; i++)
+                if (status_effect_textures[i].Key == effect)
+                    return status_effect_textures[i].Value;
+
+            return null;
+        }
+
         //Kept for posterity - not used anymore because ha ha screen coordinates.
         public void offset_drawing(Matrix offsetMatrix)
         {
@@ -253,8 +296,6 @@ namespace Cronkpit
 
             my_xPosition -= (int)offsetMatrix.M41;
             my_yPosition -= (int)offsetMatrix.M42;
-            //msg_pos.X -= (int)offsetMatrix.M41;
-            //msg_pos.Y -= (int)offsetMatrix.M42;
         }
 
         private void reset_color_alphas(float alpha_val)
@@ -284,6 +325,14 @@ namespace Cronkpit
                 sBatch.Draw(default_texture, new Rectangle(a_rect.Left-border_width, a_rect.Top-border_width, a_rect.Width+(border_width*2), border_width), my_red_color);
                 sBatch.Draw(default_texture, new Rectangle(a_rect.Left, a_rect.Bottom, a_rect.Width, border_width), my_red_color);
             }
+        }
+
+        public void draw_border_around_rect(Rectangle rect, int border_width, ref SpriteBatch sBatch)
+        {
+            sBatch.Draw(default_texture, new Rectangle(rect.Left - border_width, rect.Top - border_width, border_width, rect.Height + (border_width * 2)), my_red_color);
+            sBatch.Draw(default_texture, new Rectangle(rect.Right, rect.Top, border_width, rect.Height + border_width), my_red_color);
+            sBatch.Draw(default_texture, new Rectangle(rect.Left - border_width, rect.Top - border_width, rect.Width + (border_width * 2), border_width), my_red_color);
+            sBatch.Draw(default_texture, new Rectangle(rect.Left, rect.Bottom, rect.Width, border_width), my_red_color);
         }
 
         public void draw_my_icons(ref SpriteBatch sBatch)
@@ -333,6 +382,24 @@ namespace Cronkpit
             }
         }
 
+        public void draw_player_sEffects(ref SpriteBatch sBatch)
+        {
+            Rectangle rect = new Rectangle(client.Width - 52, client.Y + 20, 32, 32);
+            
+            for (int i = 0; i < pl_status_effects.Count; i++)
+            {
+                Texture2D ico_texture = fetch_texture_by_fx(pl_status_effects[i].my_type);
+                sBatch.Draw(ico_texture, rect, Color.White);
+                draw_border_around_rect(rect, 4, ref sBatch);
+
+                int strlen = (int)bFont.MeasureString(pl_status_effects[i].my_duration.ToString()).X/2;
+                Vector2 textPosition = new Vector2((rect.X + (rect.Width / 2)) - strlen, (rect.Bottom + bFont.LineSpacing/4));
+                sBatch.DrawString(bFont, pl_status_effects[i].my_duration.ToString(), textPosition, my_red_color);
+
+                rect.X -= 48;
+            }
+        }
+
         public void draw_me(ref SpriteBatch sBatch)
         {
             sBatch.Begin(SpriteSortMode.BackToFront, null);
@@ -349,6 +416,10 @@ namespace Cronkpit
 
             sBatch.Begin(SpriteSortMode.BackToFront, null);
             draw_my_cooldown_overlay(ref sBatch);
+            sBatch.End();
+
+            sBatch.Begin(SpriteSortMode.BackToFront, null);
+            draw_player_sEffects(ref sBatch);
             sBatch.End();
 
             sBatch.Begin(SpriteSortMode.BackToFront, null);

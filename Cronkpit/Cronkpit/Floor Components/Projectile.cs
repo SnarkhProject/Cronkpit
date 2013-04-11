@@ -15,7 +15,7 @@ namespace Cronkpit
                                       AcidCloud, Crossbow_Bolt, Fireball, Lightning_Bolt, Bonespear,
                                       Bloody_AcidCloud };
         projectile_type my_prj_type;
-        public enum special_anim { None, Earthquake, Alert, BloodAcid };
+        public enum special_anim { None, Blank, Earthquake, Alert, BloodAcid };
         Scroll.Atk_Area_Type attack_type;
         bool monster_projectile;
         bool destroys_walls;
@@ -35,12 +35,15 @@ namespace Cronkpit
         Vector2 my_current_position;
         int projectile_speed;
 
+        Weapon Weap;
+        Scroll Scll;
+
         gridCoordinate my_previous_coordinate;
 
         //Spell info
         List<gridCoordinate> Small_AoE_Matrix;
         List<Talisman> talisman_effects;
-        Scroll.Spell_Status_Effect attached_status_effect;
+        List<StatusEffect> attached_status_effects;
 
         //Used for AoE purposes only
         int AoE_size;
@@ -106,6 +109,10 @@ namespace Cronkpit
             attack_type = atk_a_typ;
             my_special_animation = special_anim.None;
             my_previous_coordinate = new gridCoordinate(-1, -1);
+
+            attached_status_effects = new List<StatusEffect>();
+            Scll = null;
+            Weap = null;
         }
 
         public Rectangle my_rect()
@@ -191,9 +198,21 @@ namespace Cronkpit
             talisman_effects = effects;
         }
 
-        public void attach_status_effect(Scroll.Spell_Status_Effect sx)
+        public void attach_status_effect(Scroll.Status_Type sx, int sd)
         {
-            attached_status_effect = sx;
+            attached_status_effects.Add(new StatusEffect(sx, sd));
+        }
+
+        public void attach_scroll(Scroll s)
+        {
+            Scll = s;
+            damage_type = s.get_damage_type();
+        }
+
+        public void attach_weapon(Weapon w)
+        {
+            Weap = w;
+            damage_type = w.get_my_damage_type();
         }
 
         //Getters
@@ -273,14 +292,24 @@ namespace Cronkpit
             return talisman_effects;
         }
 
-        public Scroll.Spell_Status_Effect get_attached_status()
+        public List<StatusEffect> get_attached_statuses()
         {
-            return attached_status_effect;
+            return attached_status_effects;
         }
 
         public bool is_damaging_projectile()
         {
             return damaging_projectile;
+        }
+
+        public Scroll get_attached_scroll()
+        {
+            return Scll;
+        }
+
+        public Weapon get_attached_weapon()
+        {
+            return Weap;
         }
     }
 }

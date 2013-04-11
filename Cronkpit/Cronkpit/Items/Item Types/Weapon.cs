@@ -193,62 +193,6 @@ namespace Cronkpit
                 return min_damage;
         }
 
-        public List<Attack> damage(ref Random rGen)
-        {
-            List<Attack> list_of_attacks = new List<Attack>();
-
-            int base_damage = rGen.Next(min_damage, max_damage+1) * hands;
-            int min_damage_modifier = 0;
-            int max_damage_modifier = 0;
-            for (int i = 0; i < talismans_equipped.Count; i++)
-            {
-                if (talismans_equipped[i].get_my_type() == Talisman.Talisman_Type.Expediency)
-                {
-                    int base_val = (int)talismans_equipped[i].get_my_prefix() + 2;
-                    min_damage_modifier += base_val;
-                    max_damage_modifier += (base_val * 2);
-                }
-            }
-            base_damage += rGen.Next(min_damage_modifier, max_damage_modifier + 1);
-            list_of_attacks.Add(new Attack(damageType, base_damage));
-
-            for (int i = 0; i < talismans_equipped.Count; i++)
-            {
-                if (talismans_equipped[i].extra_damage_specific_type_talisman())
-                {
-                    int base_val = (int)talismans_equipped[i].get_my_prefix() + 1;
-                    Attack.Damage dmg_typ = 0;
-                    switch (talismans_equipped[i].get_my_type())
-                    {
-                        case Talisman.Talisman_Type.Pressure:
-                            dmg_typ = Attack.Damage.Crushing;
-                            break;
-                        case Talisman.Talisman_Type.Heat:
-                            dmg_typ = Attack.Damage.Fire;
-                            break;
-                        case Talisman.Talisman_Type.Snow:
-                            dmg_typ = Attack.Damage.Frost;
-                            break;
-                        case Talisman.Talisman_Type.Razors:
-                            dmg_typ = Attack.Damage.Slashing;
-                            break;
-                        case Talisman.Talisman_Type.Heartsblood:
-                            dmg_typ = Attack.Damage.Piercing;
-                            break;
-                        case Talisman.Talisman_Type.Toxicity:
-                            dmg_typ = Attack.Damage.Acid;
-                            break;
-                        case Talisman.Talisman_Type.Sparks:
-                            dmg_typ = Attack.Damage.Electric;
-                            break;
-                    }
-                    list_of_attacks.Add(new Attack(dmg_typ, rGen.Next(base_val, (base_val * 2) + 1)));
-                }
-            }
-
-            return list_of_attacks;
-        }
-
         public int get_hand_count()
         {
             return hands;

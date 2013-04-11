@@ -75,12 +75,14 @@ namespace Cronkpit
             hitPoints = max_hitPoints;
 
             //SENSORY
-            sight_range = 6;
+            base_sight_range = 6;
             can_hear = true;
             sounds_i_can_hear.Add(SoundPulse.Sound_Types.Player);
             sounds_i_can_hear.Add(SoundPulse.Sound_Types.Voidwraith_Scream);
-            listen_threshold.Add(4);
-            listen_threshold.Add(1);
+            base_listen_threshold.Add(4);
+            base_listen_threshold.Add(1);
+
+            set_senses_to_baseline();
 
             my_name = "Boneyard";
             melee_dodge = 5;
@@ -139,7 +141,7 @@ namespace Cronkpit
                 if (biting_coords[i].x == pl.get_my_grid_C().x && biting_coords[i].y == pl.get_my_grid_C().y)
                 {
                     List<string> bparts = new List<string>();
-                    if(rGen.Next(2) == 0)
+                    if (rGen.Next(2) == 0)
                     {
                         bparts.Add("RLeg");
                         bparts.Add("RArm");
@@ -155,6 +157,8 @@ namespace Cronkpit
                     pl.take_damage(new Attack(Attack.Damage.Slashing, rGen.Next(bite_min_damage, bite_max_damage + 1)), fl, bparts[0]);
                     pl.take_damage(new Attack(Attack.Damage.Crushing, rGen.Next(bite_min_damage, bite_max_damage + 1)), fl, bparts[1]);
                     pl.take_damage(new Attack(Attack.Damage.Slashing, rGen.Next(bite_min_damage, bite_max_damage + 1)), fl, bparts[1]);
+                    fl.addmsg("You start bleeding profusely from the attack!");
+                    pl.add_single_statusEffect(new StatusEffect(Scroll.Status_Type.Hemorrhage, 5));
                 }
         }
 
@@ -336,6 +340,17 @@ namespace Cronkpit
             fl.create_new_projectile(boneSpear);
         }
 
+        public void fire_singletarget_bonespear(Floor fl, gridCoordinate target_GC)
+        {
+            fl.addmsg("The Boneyard spits a bone spear at you!");
+            Projectile bs = new Projectile(randomly_chosen_personal_coord(), target_GC,
+                                           Projectile.projectile_type.Bonespear, ref cont, true,
+                                           Scroll.Atk_Area_Type.singleTile);
+            bs.set_damage_range(bone_spear_mindmg, bone_spear_maxdmg);
+            bs.set_damage_type(bone_spear_dmgtyp);
+            fl.create_new_projectile(bs);
+        }
+
         public void bloodspray(Floor fl, Player pl)
         {
             int pl_x_dir = 0;
@@ -470,7 +485,7 @@ namespace Cronkpit
                 can_see_player = false;
 
             has_moved = false;
-            if (!effect_present(Scroll.Spell_Status_Effect.Stun))
+            if (!stunned)
             {
                 if (can_see_player)
                 {
@@ -529,14 +544,7 @@ namespace Cronkpit
                             {
                                 advance_towards_single_point(pl.get_my_grid_C(), pl, fl, 1, corporeal);
                                 if (!has_moved)
-                                {
-                                    Projectile bs = new Projectile(randomly_chosen_personal_coord(), pl.get_my_grid_C(),
-                                                                   Projectile.projectile_type.Bonespear, ref cont, true,
-                                                                   Scroll.Atk_Area_Type.singleTile);
-                                    bs.set_damage_range(bone_spear_mindmg, bone_spear_maxdmg);
-                                    bs.set_damage_type(bone_spear_dmgtyp);
-                                    fl.create_new_projectile(bs);
-                                }
+                                    fire_singletarget_bonespear(fl, pl.get_my_grid_C());
                                 else
                                     sequence_cooldown--;
                             }
@@ -610,6 +618,8 @@ namespace Cronkpit
                     follow_path_to_sound(fl, pl);
                 }
             }
+
+            base.Update_Monster(pl, fl);
         }
     }
 }

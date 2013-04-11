@@ -44,7 +44,7 @@ namespace Cronkpit
         protected SoundPulse.Sound_Types last_sound_i_heard;
         protected List<SoundPulse.Sound_Types> sounds_i_can_hear;
         public List<int> listen_threshold;
-        public List<int> base_listen_thresholds;
+        public List<int> base_listen_threshold;
 
         //Other stuff
         public bool active;
@@ -64,6 +64,9 @@ namespace Cronkpit
 
         //Status afflictions
         List<StatusEffect> BuffDebuffTracker;
+        protected bool stunned;
+        protected bool rooted;
+        protected bool disrupted;
 
         //Damage related - will be overhauling later.
         protected int max_hitPoints;
@@ -106,10 +109,14 @@ namespace Cronkpit
 
             //Sensory stuff
             //Sight
+            base_sight_range = 0;
             sight_range = 0;
             //Smell
             has_scent = false;
             smell_range = 0;
+            base_smell_range = 0;
+            base_smell_threshold = 0;
+            smell_threshold = 0;
             //Sound
             can_hear = false;
             heard_something = false;
@@ -117,6 +124,7 @@ namespace Cronkpit
             last_path_to_sound = new List<gridCoordinate>();
             sounds_i_can_hear = new List<SoundPulse.Sound_Types>();
             listen_threshold = new List<int>();
+            base_listen_threshold = new List<int>();
             last_sound_i_heard = SoundPulse.Sound_Types.None;
             
             //Damage stuff
@@ -153,6 +161,20 @@ namespace Cronkpit
             build_movement_and_direction_indexes();
         }
 
+        public void set_senses_to_baseline()
+        {
+            sight_range = base_sight_range;
+            smell_range = base_smell_range;
+            smell_threshold = base_smell_threshold;
+
+            if (listen_threshold.Count == 0)
+                for (int i = 0; i < base_listen_threshold.Count; i++)
+                    listen_threshold.Add(base_listen_threshold[i]);
+            else
+                for (int i = 0; i < base_listen_threshold.Count; i++)
+                    listen_threshold[i] = base_listen_threshold[i];
+        }
+
         public void build_movement_and_direction_indexes()
         {
             movement_indexes.Add(new int[] { 1, 0 });
@@ -172,7 +194,55 @@ namespace Cronkpit
             direction_indexes.Add(gridCoordinate.direction.DownLeft);
             direction_indexes.Add(gridCoordinate.direction.Down);
             direction_indexes.Add(gridCoordinate.direction.DownRight);
+        }        
+
+        //overidden on a per-monster basis. The goal is to ONLY have this function
+        //in each monster class, along with other monster-specific functions
+        public virtual void Update_Monster(Player pl, Floor fl)
+        {
+            int original_size = BuffDebuffTracker.Count;
+
+            for (int i = 0; i < BuffDebuffTracker.Count; i++)
+            {
+                BuffDebuffTracker[i].my_duration--;
+            }
+
+            for(int i = 0; i < original_size; i++)
+                for(int j = 0; j < BuffDebuffTracker.Count; j++)
+                    if (BuffDebuffTracker[j].my_duration == 0)
+                    {
+                        switch (BuffDebuffTracker[j].my_type)
+                        {
+                            case Scroll.Status_Type.Minor_Anosmia:
+                            case Scroll.Status_Type.Anosmia:
+                                smell_threshold = base_smell_threshold;
+                                smell_range = base_smell_range;
+                                break;
+                            case Scroll.Status_Type.Deaf:
+                                can_hear = true;
+                                break;
+                            case Scroll.Status_Type.Blind:
+                                sight_range = base_sight_range;
+                                break;
+                            case Scroll.Status_Type.Stun:
+                                stunned = false;
+                                break;
+                            case Scroll.Status_Type.Root:
+                                rooted = false;
+                                break;
+                            case Scroll.Status_Type.Disrupt:
+                                disrupted = false;
+                                break;
+                        }
+                        BuffDebuffTracker.RemoveAt(j);
+                    }
+
+            //Just in case the player put overlapping status effects
+            //of different types on the monster, this will reapply all effects to be safe
+            apply_debuff_effects();
         }
+
+        //drawing stuff. Maybe make more advanced later.
 
         //don't call unless you've started the spritebatch!
         public void drawMe(ref SpriteBatch sb)
@@ -181,17 +251,10 @@ namespace Cronkpit
             // FOR DEBUGGING PURPOSES - PERFECTLY SAFE TO UNCOMMENT.
             //for (int i = 0; i < shortest_path_to_sound.Count; i++)
             //{
-                //sb.Draw(sound_stuff, new Vector2(shortest_path_to_sound[i].x*32, shortest_path_to_sound[i].y*32), Color.White);
+            //sb.Draw(sound_stuff, new Vector2(shortest_path_to_sound[i].x*32, shortest_path_to_sound[i].y*32), Color.White);
             //}
         }
 
-        //overidden on a per-monster basis. The goal is to ONLY have this function
-        //in each monster class, along with other monster-specific functions
-        public virtual void Update_Monster(Player pl, Floor fl)
-        {
-        }
-
-        //drawing stuff. Maybe make more advanced later.
         public void snap_to_grid()
         {
             //my_grid_coords[0] should always be the upper left of the monster.
@@ -306,7 +369,7 @@ namespace Cronkpit
         {
             bool walked = false;
             int tries = 0;
-            while (tries < 5 && !walked)
+            while (tries < 5 && !walked && !rooted)
             {
                 gridCoordinate.direction target_direction = 0;
                 int numeric_direction = rGen.Next(8);
@@ -370,11 +433,11 @@ namespace Cronkpit
             //mode 0 = precise, mode 1 = nonprecise
             has_moved = false;
 
-            if(mode == 0)
+            if(mode == 0 && !rooted)
                 if (!occupies_tile(target_point))
                     advance_xy_position(target_point, pl, fl, corporeal);
 
-            if (mode == 1)
+            if (mode == 1 && !rooted)
             {
                 List<gridCoordinate> tiles_to_check = new List<gridCoordinate>();
                 tiles_to_check.Add(new gridCoordinate(target_point.x - 1, target_point.y));
@@ -506,8 +569,10 @@ namespace Cronkpit
                 }
             }
         }
+
         //damage stuff
-        public void takeDamage(List<Attack> atks, bool melee_attack, bool aoe_attack, List<string> msg_buf, Floor fl)
+        public void takeDamage(List<Attack> atks, List<StatusEffect> debuffs, 
+                               bool melee_attack, bool aoe_attack, List<string> msg_buf, Floor fl)
         {
             bool dodged = false;
             bool absorbed = false;
@@ -536,6 +601,9 @@ namespace Cronkpit
             if (!dodged)
             {
                 set_initial_dodge_values();
+                if (debuffs != null)
+                    add_debuffs(debuffs, fl);
+
                 for (int i = 0; i < atks.Count; i++)
                 {
                     int base_dmg = atks[i].get_damage_amt();
@@ -580,6 +648,94 @@ namespace Cronkpit
             {
                 msg_buf.Add("The " + my_name + " dodges your attack!");
                 fl.add_new_popup("Dodged!", Popup.popup_msg_color.LimeGreen, my_center_coordinate());
+            }
+        }
+
+        public void add_debuffs(List<StatusEffect> debuffs, Floor fl)
+        {
+            for (int i = 0; i < debuffs.Count; i++)
+            {
+                //Any one debuff can only be applied to a monster once.
+                //If you recast the debuff before it expires, the duration is reset
+                int debuff_slot = effect_present(debuffs[i].my_type);
+                if (debuff_slot != -1)
+                {
+                    BuffDebuffTracker[debuff_slot].my_duration = debuffs[i].my_duration;
+                    debuffs[i].my_duration = -1;
+                }
+
+                switch (debuffs[i].my_type)
+                {
+                    case Scroll.Status_Type.Stun:
+                        fl.add_new_popup("Stunned!", Popup.popup_msg_color.DarkPurple, my_center_coordinate());
+                        break;
+                    case Scroll.Status_Type.Root:
+                        fl.add_new_popup("Rooted!", Popup.popup_msg_color.DarkPurple, my_center_coordinate());
+                        break;
+                    case Scroll.Status_Type.Disrupt:
+                        fl.add_new_popup("Disrupted!", Popup.popup_msg_color.DarkPurple, my_center_coordinate());
+                        break;
+                    case Scroll.Status_Type.Blind:
+                        fl.add_new_popup("Blinded!", Popup.popup_msg_color.DarkPurple, my_center_coordinate());
+                        break;
+                    case Scroll.Status_Type.Anosmia:
+                    case Scroll.Status_Type.Minor_Anosmia:
+                        fl.add_new_popup("Anosmia!", Popup.popup_msg_color.DarkPurple, my_center_coordinate());
+                        break;
+                    case Scroll.Status_Type.Deaf:
+                        fl.add_new_popup("Deafened!", Popup.popup_msg_color.DarkPurple, my_center_coordinate());
+                        break;
+                }
+            }
+
+            int original_size = debuffs.Count;
+            for (int i = 0; i < original_size; i++)
+                for (int j = 0; j < debuffs.Count; j++)
+                    if (debuffs[j].my_duration == -1)
+                        debuffs.RemoveAt(j);
+
+            BuffDebuffTracker.AddRange(debuffs);
+            apply_debuff_effects();
+        }
+
+        public void apply_debuff_effects()
+        {
+            for (int i = 0; i < BuffDebuffTracker.Count; i++)
+            {
+                switch (BuffDebuffTracker[i].my_type)
+                {
+                    case Scroll.Status_Type.Stun:
+                        stunned = true;
+                        break;
+                    case Scroll.Status_Type.Root:
+                        rooted = true;
+                        break;
+                    case Scroll.Status_Type.Disrupt:
+                        disrupted = true;
+                        break;
+                    case Scroll.Status_Type.Blind:
+                        sight_range = 0;
+                        break;
+                    case Scroll.Status_Type.Anosmia:
+                    case Scroll.Status_Type.Minor_Anosmia:
+                        if (BuffDebuffTracker[i].my_type == Scroll.Status_Type.Anosmia)
+                        {
+                            smell_range = 0;
+                            smell_threshold = 64000;
+                        }
+                        else
+                        {
+                            if (effect_present(Scroll.Status_Type.Minor_Anosmia) != -1)
+                            {
+                                smell_range = Math.Max(0, smell_range -= 2);
+                                smell_threshold = Math.Max(0, smell_threshold += 2);
+                            }
+                        }
+                        break;
+                    case Scroll.Status_Type.Deaf:
+                        can_hear = false;
+                        break;
+                }
             }
         }
 
@@ -772,7 +928,7 @@ namespace Cronkpit
             }
             int path_length = last_path_to_sound.Count - 1;
              
-            if (path_length >= 0)
+            if (path_length >= 0 && !rooted)
             {
                 advance_towards_single_point(last_path_to_sound[path_length], pl, fl, 0, corporeal);
                 if (occupies_tile(last_path_to_sound[path_length]))
@@ -801,15 +957,22 @@ namespace Cronkpit
             return corporeal;
         }
 
-        public bool effect_present(Scroll.Spell_Status_Effect effect)
+        public int effect_present(Scroll.Status_Type effect)
         {
+            int target_index = -1;
             for (int i = 0; i < BuffDebuffTracker.Count; i++)
             {
-                if (BuffDebuffTracker[i].effect == effect)
-                    return true;
+                if (BuffDebuffTracker[i].my_type == effect)
+                    target_index = i;
             }
 
-            return false;
+            return target_index;
+        }
+
+        //Majjyk
+        public bool can_cast(int spell_cooldown, int manaCost, Floor fl)
+        {
+            return spell_cooldown == 0 && !disrupted && manaCost <= fl.check_mana();
         }
 
         #region special functions that are common among some monster groups

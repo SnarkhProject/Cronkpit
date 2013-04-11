@@ -23,11 +23,13 @@ namespace Cronkpit
             dmg_type = Attack.Damage.Slashing;
 
             //SENSORY
-            smell_range = 4;
-            smell_threshold = 10;
+            base_smell_range = 4;
+            base_smell_threshold = 10;
             can_hear = true;
             sounds_i_can_hear.Add(SoundPulse.Sound_Types.Voidwraith_Scream);
-            listen_threshold.Add(1);
+            base_listen_threshold.Add(1);
+
+            set_senses_to_baseline();
 
             //OTHER
             my_name = "Gorehound";
@@ -38,6 +40,7 @@ namespace Cronkpit
 
         public override void Update_Monster(Player pl, Floor fl)
         {
+            has_moved = false;
             Tile target_tile = strongest_smell_within(fl, 0, smell_threshold, smell_range);
             heal_near_altar(fl);
 
@@ -49,25 +52,30 @@ namespace Cronkpit
                 strongest_smell_coord = target_tile.get_grid_c();
             }
 
-            if (has_scent)
+            if (!stunned)
             {
-                if (is_player_within(pl, 1))
-                    advance_towards_single_point(strongest_smell_coord, pl, fl, 1, corporeal);
-                else
-                    advance_towards_single_point(strongest_smell_coord, pl, fl, 0, corporeal);
-
-                if (is_player_within(pl, 1) && !has_moved)
+                if (has_scent)
                 {
-                    fl.addmsg("The Gorehound lands a vicious bite!");
-                    fl.add_effect(dmg_type, pl.get_my_grid_C());
-                    Attack dmg = dealDamage();
-                    pl.take_damage(dmg, fl, "");
+                    if (is_player_within(pl, 1))
+                        advance_towards_single_point(strongest_smell_coord, pl, fl, 1, corporeal);
+                    else
+                        advance_towards_single_point(strongest_smell_coord, pl, fl, 0, corporeal);
+
+                    if (is_player_within(pl, 1) && !has_moved)
+                    {
+                        fl.addmsg("The Gorehound lands a vicious bite!");
+                        fl.add_effect(dmg_type, pl.get_my_grid_C());
+                        Attack dmg = dealDamage();
+                        pl.take_damage(dmg, fl, "");
+                    }
                 }
+                else if (!has_scent && heard_something)
+                    follow_path_to_sound(fl, pl);
+                else
+                    wander(pl, fl, corporeal);
             }
-            else if (!has_scent && heard_something)
-                follow_path_to_sound(fl, pl);
-            else
-                wander(pl, fl, corporeal);
+
+            base.Update_Monster(pl, fl);
         }
     }
 }

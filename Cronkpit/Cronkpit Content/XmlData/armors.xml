@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <XnaContent>
   <Asset Type="CKPLibrary.ArmorDC[]">
     <Item>
@@ -96,6 +97,188 @@
       <RigVal>0</RigVal>
       <HardVal>0</HardVal>
       <Integrity>4</Integrity>
+      <ArmorType>Helmet</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>895</IDNumber>
+      <Cost>250</Cost>
+      <Name>Terrycloth Robe</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Mage Ex-Priest </ValidClasses>
+      <AbVal>3</AbVal>
+      <InsVal>4</InsVal>
+      <PadVal>5</PadVal>
+      <RigVal>0</RigVal>
+      <HardVal>0</HardVal>
+      <Integrity>6</Integrity>
+      <ArmorType>Overarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>886</IDNumber>
+      <Cost>350</Cost>
+      <Name>Ringed Orange Robe</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Mage Ex-Priest </ValidClasses>
+      <AbVal>2</AbVal>
+      <InsVal>4</InsVal>
+      <PadVal>5</PadVal>
+      <RigVal>2</RigVal>
+      <HardVal>2</HardVal>
+      <Integrity>6</Integrity>
+      <ArmorType>Overarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>896</IDNumber>
+      <Cost>1750</Cost>
+      <Name>Steelcloth Robe</Name>
+      <ItemTier>2</ItemTier>
+      <ValidClasses>Mage Ex-Priest </ValidClasses>
+      <AbVal>4</AbVal>
+      <InsVal>7</InsVal>
+      <PadVal>7</PadVal>
+      <RigVal>3</RigVal>
+      <HardVal>3</HardVal>
+      <Integrity>8</Integrity>
+      <ArmorType>Overarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>897</IDNumber>
+      <Cost>250</Cost>
+      <Name>Linen Underwear</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Mage Ex-Priest </ValidClasses>
+      <AbVal>0</AbVal>
+      <InsVal>5</InsVal>
+      <PadVal>5</PadVal>
+      <RigVal>0</RigVal>
+      <HardVal>0</HardVal>
+      <Integrity>0</Integrity>
+      <ArmorType>Underarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>898</IDNumber>
+      <Cost>250</Cost>
+      <Name>Leather Armor</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <AbVal>2</AbVal>
+      <InsVal>4</InsVal>
+      <PadVal>4</PadVal>
+      <RigVal>2</RigVal>
+      <HardVal>3</HardVal>
+      <Integrity>4</Integrity>
+      <ArmorType>Overarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>900</IDNumber>
+      <Cost>1500</Cost>
+      <Name>Hide Armor</Name>
+      <ItemTier>2</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <AbVal>4</AbVal>
+      <InsVal>5</InsVal>
+      <PadVal>7</PadVal>
+      <RigVal>4</RigVal>
+      <HardVal>5</HardVal>
+      <Integrity>8</Integrity>
+      <ArmorType>Overarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>901</IDNumber>
+      <Cost>350</Cost>
+      <Name>Studded Leather</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <AbVal>2</AbVal>
+      <InsVal>3</InsVal>
+      <PadVal>4</PadVal>
+      <RigVal>2</RigVal>
+      <HardVal>5</HardVal>
+      <Integrity>4</Integrity>
+      <ArmorType>Overarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>902</IDNumber>
+      <Cost>350</Cost>
+      <Name>Heavy Padding</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <AbVal>0</AbVal>
+      <InsVal>0</InsVal>
+      <PadVal>9</PadVal>
+      <RigVal>0</RigVal>
+      <HardVal>0</HardVal>
+      <Integrity>5</Integrity>
+      <ArmorType>Underarmor</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>905</IDNumber>
+      <Cost>1200</Cost>
+      <Name>Steel Helmet</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Ex-Priest </ValidClasses>
+      <AbVal>6</AbVal>
+      <InsVal>0</InsVal>
+      <PadVal>2</PadVal>
+      <RigVal>8</RigVal>
+      <HardVal>8</HardVal>
+      <Integrity>6</Integrity>
+      <ArmorType>Helmet</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>0</IDNumber>
+      <Cost>0</Cost>
+      <Name>Steelcloth Hood</Name>
+      <ItemTier>2</ItemTier>
+      <ValidClasses>Mage Ex-Priest </ValidClasses>
+      <AbVal>2</AbVal>
+      <InsVal>7</InsVal>
+      <PadVal>6</PadVal>
+      <RigVal>3</RigVal>
+      <HardVal>3</HardVal>
+      <Integrity>6</Integrity>
+      <ArmorType>Helmet</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>906</IDNumber>
+      <Cost>250</Cost>
+      <Name>Leather Hat</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <AbVal>3</AbVal>
+      <InsVal>3</InsVal>
+      <PadVal>5</PadVal>
+      <RigVal>4</RigVal>
+      <HardVal>4</HardVal>
+      <Integrity>4</Integrity>
+      <ArmorType>Helmet</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>907</IDNumber>
+      <Cost>350</Cost>
+      <Name>Skullcap</Name>
+      <ItemTier>1</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <AbVal>4</AbVal>
+      <InsVal>0</InsVal>
+      <PadVal>4</PadVal>
+      <RigVal>6</RigVal>
+      <HardVal>6</HardVal>
+      <Integrity>4</Integrity>
+      <ArmorType>Helmet</ArmorType>
+    </Item>
+    <Item>
+      <IDNumber>908</IDNumber>
+      <Cost>1500</Cost>
+      <Name>Reinforced Leather Helm</Name>
+      <ItemTier>2</ItemTier>
+      <ValidClasses>Warrior Rogue </ValidClasses>
+      <AbVal>5</AbVal>
+      <InsVal>5</InsVal>
+      <PadVal>7</PadVal>
+      <RigVal>6</RigVal>
+      <HardVal>5</HardVal>
+      <Integrity>6</Integrity>
       <ArmorType>Helmet</ArmorType>
     </Item>
   </Asset>

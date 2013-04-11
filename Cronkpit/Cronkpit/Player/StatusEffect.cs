@@ -7,13 +7,13 @@ namespace Cronkpit
 {
     class StatusEffect
     {
-        public Scroll.Spell_Status_Effect effect;
-        public int remaining_duration;
+        public Scroll.Status_Type my_type;
+        public int my_duration;
 
-        public StatusEffect(Scroll.Spell_Status_Effect s_effect, int s_duration)
+        public StatusEffect(Scroll.Status_Type nextType, int nextDuration)
         {
-            effect = s_effect;
-            remaining_duration = s_duration;
+            my_type = nextType;
+            my_duration = nextDuration;
         }
     }
 }
