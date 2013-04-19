@@ -72,6 +72,8 @@ ipch/
 *.ncb
 *.opensdf
 *.sdf
+*key
+*.cacheFile
 
 # Visual Studio profiler
 *.psess
@@ -97,6 +99,7 @@ DocProject/Help/html
 publish
 
 # Others
+Cronkpit Content
 [Bb]in
 [Oo]bj
 sql
