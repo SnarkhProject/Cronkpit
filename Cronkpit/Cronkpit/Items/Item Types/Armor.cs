@@ -179,6 +179,8 @@ namespace Cronkpit
             return_array.Add("Absorbs " + ((modified_padding_value * 4) + (modified_insulative_value * 2) + absorb_all) + "% frost damage");
             return_array.Add("Absorbs " + ((modified_insulative_value * 4) + (modified_padding_value * 2) + absorb_all) + "% electric damage.");
             return_array.Add("Absorbs " + ((modified_insulative_value * 4) + (modified_ablative_value * 2) + absorb_all) + "% acid damage.");
+            return_array.Add(" ");
+            return_array.Add("Integrity: " + max_integrity.ToString());
 
             return return_array;
         }

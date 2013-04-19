@@ -51,13 +51,16 @@ namespace Cronkpit
                     break;
             }
 
+            if (hands == 2)
+                max_talismans = 4;
+
             //Specifically overwrites the hyperion spear to do fire damage
             if (IDno == 12)
                 damageType = Attack.Damage.Fire;
         }
 
-        public Weapon(int IDno, int goldVal, string myName, Weapon w)
-            : base(IDno, goldVal, myName)
+        public Weapon(Weapon w)
+            : base(w.get_my_IDno(), w.get_my_gold_value(), w.get_my_name())
         {
             weaponType = w.get_my_weapon_type();
             hands = w.get_hand_count();
@@ -87,7 +90,10 @@ namespace Cronkpit
                     break;
             }
 
-            if (IDno == 12)
+            if (hands == 2)
+                max_talismans = 4;
+
+            if (identification == 12)
                 damageType = Attack.Damage.Fire;
         }
 
@@ -150,20 +156,12 @@ namespace Cronkpit
             if (!in_shop)
             {
                 return_array.Add(" ");
-                switch (talismans_equipped.Count)
+                for (int i = 0; i < max_talismans; i++)
                 {
-                    case 0:
+                    if(i >= talismans_equipped.Count || talismans_equipped[i] == null)
                         return_array.Add("[ ] - No Talisman");
-                        return_array.Add("[ ] - No Talisman");
-                        break;
-                    case 1:
-                        return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
-                        return_array.Add("[ ] - No Talisman");
-                        break;
-                    case 2:
-                        return_array.Add("[X] - " + talismans_equipped[0].get_my_name());
-                        return_array.Add("[X] - " + talismans_equipped[1].get_my_name());
-                        break;
+                    else
+                        return_array.Add("[X] - " + talismans_equipped[i].get_my_name());
                 }
             }
             return_array.Add(" ");
@@ -171,15 +169,23 @@ namespace Cronkpit
             return_array.Add("Maximum Damage: " + max_damage*hands);
             return_array.Add("Range: " + weapon_range);
 
-            switch (weaponType)
+            if(weaponType == Type.Crossbow || 
+               weaponType == Type.Bow || 
+               weaponType == Type.Lance)
             {
-                case Weapon.Type.Crossbow:
-                case Weapon.Type.Bow:
                     return_array.Add(" ");
                     return_array.Add("Cannot equip two bows,");
                     return_array.Add("crossbows, or a bow and");
                     return_array.Add("a crossbow.");
-                    break;
+            }
+
+            if (weaponType == Type.Lance)
+            {
+                return_array.Add(" ");
+                return_array.Add("Must be in inventory to");
+                return_array.Add("use charge attack.");
+                return_array.Add("75% damage penalty when");
+                return_array.Add("equipped.");
             }
 
             return return_array;

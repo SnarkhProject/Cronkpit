@@ -2060,7 +2060,7 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Selene\Documents\Visual Studio 2010\Projects\Cronkpit\Cronkpit\Cronkpit\bin\x86\Debug\Content\XmlData\weapons.xnb</Output>
-      <Time>2013-03-28T03:56:44.1872293-04:00</Time>
+      <Time>2013-04-15T01:49:21.2836945-04:00</Time>
     </Item>
     <Item>
       <Source>XmlData\potions.xml</Source>

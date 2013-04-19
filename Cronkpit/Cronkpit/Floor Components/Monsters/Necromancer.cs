@@ -195,50 +195,53 @@ namespace Cronkpit
                     corpse_index++;
                 }
 
-                int target_corpse = rGen.Next(corpses.Count);
-                int corpse_ID = corpses[target_corpse].get_my_index();
-                gridCoordinate rezzed_corpse_pos = new gridCoordinate(corpses[target_corpse].get_g_coord());
-                fl.remove_doodad_at_index(corpse_ID);
-
-                List<Monster> fl_monsters = fl.see_badGuys();
-                int next_index = -1;
-                bool found_valid_number = false;
-                while (!found_valid_number)
+                if (corpses.Count > 0)
                 {
-                    next_index++;
-                    bool valid_number = true;
-                    for (int i = 0; i < fl_monsters.Count; i++)
+                    int target_corpse = rGen.Next(corpses.Count);
+                    int corpse_ID = corpses[target_corpse].get_my_index();
+                    gridCoordinate rezzed_corpse_pos = new gridCoordinate(corpses[target_corpse].get_g_coord());
+                    fl.remove_doodad_at_index(corpse_ID);
+
+                    List<Monster> fl_monsters = fl.see_badGuys();
+                    int next_index = -1;
+                    bool found_valid_number = false;
+                    while (!found_valid_number)
                     {
-                        if (next_index == fl_monsters[i].my_Index)
-                            valid_number = false;
+                        next_index++;
+                        bool valid_number = true;
+                        for (int i = 0; i < fl_monsters.Count; i++)
+                        {
+                            if (next_index == fl_monsters[i].my_Index)
+                                valid_number = false;
+                        }
+
+                        if (valid_number)
+                            found_valid_number = true;
                     }
 
-                    if (valid_number)
-                        found_valid_number = true;
+                    int whoCares = -1;
+                    bool force_wander = (pl.get_my_grid_C().x == rezzed_corpse_pos.x &&
+                                         pl.get_my_grid_C().y == rezzed_corpse_pos.y) ||
+                                         fl.is_monster_here(rezzed_corpse_pos, out whoCares) ||
+                                         !fl.isWalkable(rezzed_corpse_pos);
+                    switch (grade)
+                    {
+                        //Minor undead
+                        case 1:
+                            int minor_monster_type = rGen.Next(3);
+                            int minor_skel_type = rGen.Next(6);
+                            add_minor_undead(fl, minor_monster_type, minor_skel_type,
+                                             next_index, rezzed_corpse_pos, force_wander, pl);
+                            break;
+                        //Major undead
+                        case 2:
+                            break;
+                        //Lethal undead
+                        case 3:
+                            break;
+                    }
+                    fl.add_new_popup("Summoned!", Popup.popup_msg_color.Purple, rezzed_corpse_pos);
                 }
-
-                int whoCares = -1;
-                bool force_wander = (pl.get_my_grid_C().x == rezzed_corpse_pos.x &&
-                                     pl.get_my_grid_C().y == rezzed_corpse_pos.y) ||
-                                     fl.is_monster_here(rezzed_corpse_pos, out whoCares) ||
-                                     !fl.isWalkable(rezzed_corpse_pos);
-                switch (grade)
-                {
-                    //Minor undead
-                    case 1:
-                        int minor_monster_type = rGen.Next(3);
-                        int minor_skel_type = rGen.Next(6);
-                        add_minor_undead(fl, minor_monster_type, minor_skel_type,
-                                         next_index, rezzed_corpse_pos, force_wander, pl);
-                        break;
-                    //Major undead
-                    case 2:
-                        break;
-                    //Lethal undead
-                    case 3:
-                        break;
-                }
-                fl.add_new_popup("Summoned!", Popup.popup_msg_color.Purple, rezzed_corpse_pos);
             }
         }
 

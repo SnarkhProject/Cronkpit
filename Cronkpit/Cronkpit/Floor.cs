@@ -889,22 +889,22 @@ namespace Cronkpit
                         {
                             int number_of_corpses = randGen.Next(1, 4); //Math.Min(3, 5 - randGen.Next(6));
 
-                            if (is_tile_passable(target_corner_gc) &&
-                               !is_tile_passable(new gridCoordinate(target_corner_gc.x + x_dir_check, target_corner_gc.y)) &&
-                               !is_tile_passable(new gridCoordinate(target_corner_gc.x, target_corner_gc.y + y_dir_check)))
+                            if (isWalkable(target_corner_gc) &&
+                               !isWalkable(new gridCoordinate(target_corner_gc.x + x_dir_check, target_corner_gc.y)) &&
+                               !isWalkable(new gridCoordinate(target_corner_gc.x, target_corner_gc.y + y_dir_check)))
                                 Doodads.Add(new Doodad(Doodad.Doodad_Type.CorpsePile, cManager, target_corner_gc, Doodads.Count));
                             if (number_of_corpses >= 2)
                             {
                                 gridCoordinate pile_2 = new gridCoordinate(target_corner_gc.x + (x_dir_check * -1), target_corner_gc.y);
-                                if (is_tile_passable(pile_2) &&
-                                    !is_tile_passable(new gridCoordinate(pile_2.x, pile_2.y + y_dir_check)))
+                                if (isWalkable(pile_2) &&
+                                    !isWalkable(new gridCoordinate(pile_2.x, pile_2.y + y_dir_check)))
                                     Doodads.Add(new Doodad(Doodad.Doodad_Type.CorpsePile, cManager, pile_2, Doodads.Count));
                             }
                             if (number_of_corpses == 3)
                             {
                                 gridCoordinate pile_3 = new gridCoordinate(target_corner_gc.x, target_corner_gc.y + (y_dir_check * -1));
-                                if (is_tile_passable(pile_3) &&
-                                    !is_tile_passable(new gridCoordinate(pile_3.x + x_dir_check, pile_3.y)))
+                                if (isWalkable(pile_3) &&
+                                    !isWalkable(new gridCoordinate(pile_3.x + x_dir_check, pile_3.y)))
                                     Doodads.Add(new Doodad(Doodad.Doodad_Type.CorpsePile, cManager, pile_3, Doodads.Count));
                             }
                         }
@@ -912,19 +912,30 @@ namespace Cronkpit
                 }
             }
             //Add corpse mimics
+            List<Doodad> corpses = new List<Doodad>();
+            for (int i = 0; i < Doodads.Count; i++)
+                if (Doodads[i].get_my_doodad_type() == Doodad.Doodad_Type.CorpsePile)
+                    corpses.Add(Doodads[i]);
+
             int corpse_mimic_cap = Math.Max(2, fl_number - 8);
+            if (fl_number < 4)
+                corpse_mimic_cap = 0;
             int c_corpse_mimics = 0;
-            int corpse_mimic_chance = Math.Max(2, (fl_number * 2) - 4);
-            int original_size = Doodads.Count;
-            for(int i = 0; i < original_size; i++)
-                for (int j = 0; j < Doodads.Count; j++)
-                    if (Doodads[j].get_my_doodad_type() == Doodad.Doodad_Type.CorpsePile &&
-                       c_corpse_mimics < corpse_mimic_cap && randGen.Next(100) < corpse_mimic_chance)
-                    {
-                        gridCoordinate doodadC = new gridCoordinate(Doodads[j].get_g_coord());
-                        Doodads.RemoveAt(j);
-                        badGuys.Add(new CorpseMimic(doodadC, cManager, badGuys.Count, fl_number));
-                    }
+            int corpse_mimic_chance = fl_number * 2;
+            for (int i = 0; i < corpse_mimic_cap; i++)
+            {
+                if (randGen.Next(100) < corpse_mimic_chance)
+                {
+                    int chosen_corpse = randGen.Next(corpses.Count);
+                    gridCoordinate mimic_Position = corpses[chosen_corpse].get_g_coord();
+                    int doodad_ID = corpses[chosen_corpse].get_my_index();
+                    for (int j = 0; j < Doodads.Count; j++)
+                        if(Doodads[j].get_my_index() == doodad_ID)
+                            Doodads.RemoveAt(j);
+                    c_corpse_mimics++;
+                    badGuys.Add(new CorpseMimic(mimic_Position, cManager, badGuys.Count, fl_number));
+                }
+            }
 
             //Add gold piles
             int gold_per_floor = 500;
@@ -1145,22 +1156,23 @@ namespace Cronkpit
                         if (Money[i].get_my_grid_C().x == g_coords[j].x &&
                             Money[i].get_my_grid_C().y == g_coords[j].y)
                             good_position = false;
-                //make sure it's not the exit
+                //make sure it's not the exit or entrance
                 for (int i = 0; i < g_coords.Count; i++)
-                    if (floorTiles[g_coords[i].x][g_coords[i].y].get_my_tile_type() == Tile.Tile_Type.Exit)
+                    if (floorTiles[g_coords[i].x][g_coords[i].y].get_my_tile_type() == Tile.Tile_Type.Exit ||
+                        floorTiles[g_coords[i].x][g_coords[i].y].get_my_tile_type() == Tile.Tile_Type.Entrance)
                         good_position = false;
                 if (restrictions == random_coord_restrictions.Entrance)
                 {
                     for (int i = 0; i < g_coords.Count; i++)
-                        if (g_coords[i].x > dungeon_exit_coord.x - 10 && g_coords[i].x < dungeon_exit_coord.x + 10 &&
-                            g_coords[i].y > dungeon_exit_coord.y - 10 && g_coords[i].y < dungeon_exit_coord.y + 10)
+                        if (g_coords[i].x >= dungeon_exit_coord.x - 10 && g_coords[i].x <= dungeon_exit_coord.x + 10 &&
+                            g_coords[i].y >= dungeon_exit_coord.y - 10 && g_coords[i].y <= dungeon_exit_coord.y + 10)
                             good_position = false;
                 }
                 else if (restrictions == random_coord_restrictions.Monster)
                 {
                     for (int i = 0; i < g_coords.Count; i++)
-                        if (g_coords[i].x > dungeon_entrance_coord.x - 6 && g_coords[i].x < dungeon_entrance_coord.y + 6 &&
-                            g_coords[i].y > dungeon_entrance_coord.y - 6 && g_coords[i].y < dungeon_entrance_coord.y + 6)
+                        if (g_coords[i].x >= dungeon_entrance_coord.x - 6 && g_coords[i].x <= dungeon_entrance_coord.x + 6 &&
+                            g_coords[i].y >= dungeon_entrance_coord.y - 6 && g_coords[i].y <= dungeon_entrance_coord.y + 6)
                             good_position = false;
                 }
                         

@@ -204,6 +204,8 @@ namespace Cronkpit
         public void assign_type_to_slot(Type_Tracker tp, int slot)
         {
             icon_item_types[slot] = tp;
+            if (tp != Type_Tracker.Potion)
+                icon_quantities[slot] = 0;
         }
 
         public void update_cooldown_and_quant(Player pl)

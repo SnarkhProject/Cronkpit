@@ -285,7 +285,7 @@ namespace Cronkpit
             //if comparison.
             if (compareA1)
             {
-                int a1slashingabsorb = (a1.get_armor_value(Armor.Armor_Value.Hardness) * 4) + (a1.get_armor_value(Armor.Armor_Value.Padding) * 2);
+                int a1slashingabsorb = (a1.get_armor_value(Armor.Armor_Value.Hardness) * 4) + (a1.get_armor_value(Armor.Armor_Value.Rigidness) * 2);
                 draw_difference(a1slashingabsorb - slashingAbsorb, ixtextPosition, slashingAbsorb.ToString(), ref sBatch, true);
             }
             ixtextPosition.Y += linedif;

@@ -16,6 +16,7 @@ namespace Cronkpit
         protected int cost;
         protected string name;
         protected List<Talisman> talismans_equipped;
+        protected int max_talismans;
 
         public Item(int IDno, int goldVal, string my_name)
         {
@@ -23,6 +24,7 @@ namespace Cronkpit
             cost = goldVal;
             name = my_name;
             talismans_equipped = new List<Talisman>();
+            max_talismans = 2;
         }
 
         public string get_my_name()
@@ -75,7 +77,7 @@ namespace Cronkpit
         {
             bool can_add_talisman = true;
 
-            if (talismans_equipped.Count >= 2)
+            if (talismans_equipped.Count >= max_talismans)
                 can_add_talisman = false;
 
             for (int i = 0; i < talismans_equipped.Count; i++)

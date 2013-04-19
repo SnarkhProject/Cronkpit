@@ -308,6 +308,7 @@ namespace Cronkpit
 
         public void add_buff_debuff_descriptions(ref List<string> info)
         {
+            bool added_desc = false;
             switch (myBufforDebuff)
             {
                 case Status_Type.LynxFer:
@@ -323,12 +324,24 @@ namespace Cronkpit
                         nl += "60";
                     nl += "%";
                     info.Add(nl);
+                    added_desc = true;
                     break;
                 case Status_Type.Blind:
                     info.Add("Blinds enemies");
+                    added_desc = true;
+                    break;
+                case Status_Type.Deaf:
+                    info.Add("Deafens enemies");
+                    added_desc = true;
+                    break;
+                case Status_Type.Anosmia:
+                    info.Add("Removes an enemy's sense");
+                    info.Add("of smell.");
+                    added_desc = true;
                     break;
             }
-            info.Add("for " + buffDebuff_duration.ToString() + " turns.");
+            if(added_desc)
+                info.Add("for " + buffDebuff_duration.ToString() + " turns.");
         }
 
         //Void setters

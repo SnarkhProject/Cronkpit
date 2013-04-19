@@ -135,7 +135,7 @@
     </Item>
     <Item>
       <IDNumber>26</IDNumber>
-      <Cost>800</Cost>
+      <Cost>900</Cost>
       <Name>Broadsword</Name>
       <ItemTier>1</ItemTier>
       <ValidClasses>Warrior Rogue </ValidClasses>
@@ -255,14 +255,14 @@
     </Item>
     <Item>
       <IDNumber>47</IDNumber>
-      <Cost>1400</Cost>
+      <Cost>900</Cost>
       <Name>Steel Warhammer</Name>
       <ItemTier>1</ItemTier>
       <ValidClasses>Warrior Ex-Priest </ValidClasses>
       <WeaponType>Mace</WeaponType>
-      <Hands>2</Hands>
-      <MinDamage>3</MinDamage>
-      <MaxDamage>4</MaxDamage>
+      <Hands>1</Hands>
+      <MinDamage>4</MinDamage>
+      <MaxDamage>9</MaxDamage>
       <WeaponRange>1</WeaponRange>
     </Item>
     <Item>
@@ -274,7 +274,7 @@
       <WeaponType>Staff</WeaponType>
       <Hands>2</Hands>
       <MinDamage>2</MinDamage>
-      <MaxDamage>4</MaxDamage>
+      <MaxDamage>5</MaxDamage>
       <WeaponRange>2</WeaponRange>
     </Item>
     <Item>
@@ -284,9 +284,9 @@
       <ItemTier>1</ItemTier>
       <ValidClasses>Warrior Ex-Priest </ValidClasses>
       <WeaponType>Spear</WeaponType>
-      <Hands>1</Hands>
-      <MinDamage>3</MinDamage>
-      <MaxDamage>4</MaxDamage>
+      <Hands>2</Hands>
+      <MinDamage>4</MinDamage>
+      <MaxDamage>5</MaxDamage>
       <WeaponRange>2</WeaponRange>
     </Item>
   </Asset>

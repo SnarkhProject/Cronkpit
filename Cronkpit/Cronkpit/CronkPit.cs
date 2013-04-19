@@ -80,6 +80,7 @@ namespace Cronkpit
         RACursor ra1;
         SpriteFont sfont_thesecond;
         bool bad_turn;
+        bool won_game;
 
         //Icon bar management stuff
         int locked_slot;
@@ -166,6 +167,8 @@ namespace Cronkpit
                                  Content.Load<Texture2D>("UI Elements/ManaBall/cball_effect_mask"),
                                  client_rect());
             pDoll = new PaperDoll(client_rect());
+
+            won_game = false;
             //then init the base
             base.Initialize();
         }
@@ -208,8 +211,6 @@ namespace Cronkpit
             shopScr.init_controls(scroll_up_one_arrow, scroll_down_one_arrow);
             //init the iconbar status icon textures, the function is a lil ambiguous.
             icoBar.init_textures(status_icon_list);
-            
-            // TODO: use this.Content to load your game content here
         }
 
         public void initalize_menu_wireframes()
@@ -304,7 +305,7 @@ namespace Cronkpit
                 this.Exit();
 
             if (current_state != Game_State.main_menu && current_state != Game_State.shop_screen &&
-                current_state != Game_State.select_character)
+                current_state != Game_State.select_character && current_state != Game_State.won_game)
             {
                 if (!f1.projectiles_remaining_to_update())
                     updateInput();
@@ -327,7 +328,7 @@ namespace Cronkpit
 
                 if (p1.is_spot_dungeon_exit(f1))
                 {
-                    current_state = Game_State.won_game;
+                    won_game = true;
                 }
 
                 if (bad_turn && !f1.projectiles_remaining_to_update())
@@ -351,6 +352,12 @@ namespace Cronkpit
             }
             else
                 updateInput();
+
+            if (won_game)
+            {
+                current_state = Game_State.won_game;
+                f1 = null;
+            }
 
             //Only do this if it's visible!                
 
@@ -494,6 +501,12 @@ namespace Cronkpit
                         p1.move(direction_map[i], f1);
                         bad_turn = true;
                     }
+
+                if (check_key_press(Keys.NumPad5))
+                {
+                    p1.wait();
+                    bad_turn = true;
+                }
 
                 if (check_mouse_left_click())
                 {
@@ -862,6 +875,11 @@ namespace Cronkpit
                 if(check_key_release(Keys.F10))
                 {
                     current_state = Game_State.main_menu;
+
+                    won_game = false;
+                    if (!cSelect.selecting_character())
+                        cSelect.switch_mode();
+                    cSelect.init_character_textures();
                     icoBar.show();
                 }
             }

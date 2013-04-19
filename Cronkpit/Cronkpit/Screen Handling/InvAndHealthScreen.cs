@@ -474,15 +474,25 @@ namespace Cronkpit
                         else if(check_overlap(under_armor_equip_slot, draggable_item_rect))
                             attach_to = pl.show_under_armor();
 
-                        if(attach_to != null)
+                        if(attach_to != null &&
+                           (attach_to is Armor ||
+                            attach_to is Scroll ||
+                            attach_to is Weapon))
                         {
-                            if(attach_to is Armor && T.armor_talisman() && attach_to.can_add_talisman(T))
+                            if (attach_to is Armor && T.armor_talisman() && attach_to.can_add_talisman(T))
+                            {
                                 attach_to.add_talisman(T);
-                            else if((attach_to is Weapon || attach_to is Scroll) &&
-                                    !T.armor_talisman() && attach_to.can_add_talisman(T))
-                                attach_to.add_talisman(T);
-                                player_inv.RemoveAt(index_of_mouse_selected_item);
                                 equipped_talisman = true;
+                            }
+                            else if ((attach_to is Weapon || attach_to is Scroll) &&
+                                    !T.armor_talisman() && attach_to.can_add_talisman(T))
+                            {
+                                attach_to.add_talisman(T);
+                                equipped_talisman = true;
+                            }
+                            
+                            if(equipped_talisman)
+                                player_inv.RemoveAt(index_of_mouse_selected_item);
                         }
                     }
 
@@ -501,13 +511,12 @@ namespace Cronkpit
                         }
 
                     for (int i = 0; i < armor_equip_slots.Count; i++)
-                    {
                         if (check_overlap(armor_equip_slots[i], draggable_item_rect) && !equipped_new_item && !equipped_talisman)
-                        {
-                            pl.equip_armor((Armor)player_inv[index_of_mouse_selected_item]);
-                            equipped_new_item = true;
-                        }
-                    }
+                            if(player_inv[index_of_mouse_selected_item] is Armor)
+                            {
+                                pl.equip_armor((Armor)player_inv[index_of_mouse_selected_item]);
+                                equipped_new_item = true;
+                            }
 
                     //spot to check if I should put it in the icobar
                     bool done = false;
@@ -593,6 +602,12 @@ namespace Cronkpit
                                 case 4:
                                     the_icoBar.assign_id_number_to_slot(pl.show_under_armor().get_my_IDno(), i);
                                     the_icoBar.assign_icon_to_slot(pl.show_under_armor().get_my_texture(), i);
+                                    the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Armor, i);
+                                    done = true;
+                                    break;
+                                case 5:
+                                    the_icoBar.assign_id_number_to_slot(pl.show_helmet().get_my_IDno(), i);
+                                    the_icoBar.assign_icon_to_slot(pl.show_helmet().get_my_texture(), i);
                                     the_icoBar.assign_type_to_slot(IconBar.Type_Tracker.Armor, i);
                                     done = true;
                                     break;

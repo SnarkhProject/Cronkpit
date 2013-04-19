@@ -29,7 +29,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>25</ApplicationRevision>
+    <ApplicationRevision>29</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -164,9 +164,9 @@
     <Compile Include="Items\Item Types\Talisman.cs" />
     <Compile Include="Items\Item Types\Weapon.cs" />
     <Compile Include="Items\Item.cs" />
-    <Compile Include="Player\Limb.cs" />
-    <Compile Include="Player\Player.cs" />
-    <Compile Include="Player\RACursor.cs" />
+    <Compile Include="Screen Handling\Player\Limb.cs" />
+    <Compile Include="Screen Handling\Player\Player.cs" />
+    <Compile Include="Screen Handling\Player\RACursor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screen Handling\CharSelect.cs" />
@@ -181,7 +181,7 @@
     <Compile Include="Screen Handling\Shop Components\ComparisonPopup.cs" />
     <Compile Include="Screen Handling\Shop Components\ShopXManager.cs" />
     <Compile Include="Screen Handling\ShopScreen.cs" />
-    <Compile Include="Player\StatusEffect.cs" />
+    <Compile Include="Screen Handling\Player\StatusEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
