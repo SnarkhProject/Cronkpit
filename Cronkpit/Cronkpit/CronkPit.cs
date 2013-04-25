@@ -203,11 +203,13 @@ namespace Cronkpit
             Texture2D scroll_up_max_arrow = Content.Load<Texture2D>("UI Elements/Inventory Screen/invBox_max_scrollup");
             Texture2D scroll_down_one_arrow = Content.Load<Texture2D>("UI Elements/Inventory Screen/invbox_one_scrolldown");
             Texture2D scroll_down_max_arrow = Content.Load<Texture2D>("UI Elements/Inventory Screen/invbox_max_scrolldown");
+            Texture2D inv_scroll_left_arrow = Content.Load<Texture2D>("UI Elements/Inventory Screen/invbox_left_scroll");
+            Texture2D inv_scroll_right_arrow = Content.Load<Texture2D>("UI Elements/Inventory Screen/invbox_right_scroll");
             //Init textures
             msgBufBox.init_textures(scroll_up_one_arrow, scroll_up_max_arrow, scroll_down_one_arrow, 
                                     scroll_down_max_arrow);
             invScr.init_textures(scroll_up_max_arrow, scroll_up_one_arrow, scroll_down_max_arrow, 
-                                scroll_down_one_arrow);
+                                scroll_down_one_arrow, inv_scroll_left_arrow, inv_scroll_right_arrow);
             shopScr.init_controls(scroll_up_one_arrow, scroll_down_one_arrow);
             //init the iconbar status icon textures, the function is a lil ambiguous.
             icoBar.init_textures(status_icon_list);

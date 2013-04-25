@@ -440,7 +440,6 @@ namespace Cronkpit
                                                                    potential_spray_targets[left_y].y + (pl_y_dir*-1)));
                 potential_spray_targets.Add(new gridCoordinate(potential_spray_targets[right_y].x,
                                                                potential_spray_targets[right_y].y + (pl_y_dir*-1)));
-
             }
 
             int potential_targets = 3;
@@ -452,7 +451,7 @@ namespace Cronkpit
                 while (!found_valid_target && potential_spray_targets.Count > 0)
                 {
                     int chosen_coord = rGen.Next(potential_spray_targets.Count);
-                    if (can_i_see_point(fl, potential_spray_targets[chosen_coord], VisionRay.fineness.Roughest))
+                    if (can_i_see_point(fl, potential_spray_targets[chosen_coord]))
                     {
                         blood_spray_targets.Add(potential_spray_targets[chosen_coord]);
                         found_valid_target = true;

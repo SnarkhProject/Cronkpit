@@ -189,7 +189,7 @@ namespace Cronkpit
                        corpse_position.x >= my_grid_coords[0].x - (sight_range-1) &&
                        corpse_position.y <= my_grid_coords[0].y + (sight_range-1) && 
                        corpse_position.y >= my_grid_coords[0].y - (sight_range-1) &&
-                       can_i_see_point(fl, corpse_position, VisionRay.fineness.Roughest) &&
+                       can_i_see_point(fl, corpse_position) &&
                        !occupies_tile(corpse_position))
                         corpses.Add(fl.Doodad_by_index(corpse_index));
                     corpse_index++;

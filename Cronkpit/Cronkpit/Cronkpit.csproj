@@ -29,7 +29,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>29</ApplicationRevision>
+    <ApplicationRevision>30</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -125,8 +125,9 @@
     <Compile Include="Floor Components\Effect.cs" />
     <Compile Include="Floor Components\Doodad.cs" />
     <Compile Include="Floor Components\Goldpile.cs" />
-    <Compile Include="Floor Components\Hall.cs" />
+    <Compile Include="Floor Components\Dungeon Areas\Hall.cs" />
     <Compile Include="Floor Components\Monster Senses\Scent.cs" />
+    <Compile Include="Floor Components\Monster Senses\Smellqueue.cs" />
     <Compile Include="Floor Components\Monster Senses\SoundPulse.cs" />
     <Compile Include="Floor Components\Monster Senses\VisionRay.cs" />
     <Compile Include="Floor Components\Monster.cs" />
@@ -147,14 +148,15 @@
     <Compile Include="Floor Components\Monsters\Voidwraith.cs" />
     <Compile Include="Floor Components\Monsters\Zombie.cs" />
     <Compile Include="Floor Components\Monsters\ZombieFanatic.cs" />
-    <Compile Include="Floor Components\MossyPatch.cs" />
+    <Compile Include="Floor Components\Dungeon Areas\MossyPatch.cs" />
+    <Compile Include="Floor Components\Dungeon Areas\NaturalFeature.cs" />
     <Compile Include="Floor Components\PersistentEffect.cs" />
     <Compile Include="Floor Components\Popup.cs" />
     <Compile Include="Floor Components\Projectile.cs" />
-    <Compile Include="Floor Components\Room.cs" />
+    <Compile Include="Floor Components\Dungeon Areas\Room.cs" />
     <Compile Include="Floor Components\Spawn Table\SpawnData.cs" />
     <Compile Include="Floor Components\Spawn Table\SpawnTable.cs" />
-    <Compile Include="Floor Components\Tile.cs" />
+    <Compile Include="Floor Components\Dungeon Areas\Tile.cs" />
     <Compile Include="Floor.cs" />
     <Compile Include="CronkPit.cs" />
     <Compile Include="gridCoordinate.cs" />
@@ -164,9 +166,9 @@
     <Compile Include="Items\Item Types\Talisman.cs" />
     <Compile Include="Items\Item Types\Weapon.cs" />
     <Compile Include="Items\Item.cs" />
-    <Compile Include="Screen Handling\Player\Limb.cs" />
-    <Compile Include="Screen Handling\Player\Player.cs" />
-    <Compile Include="Screen Handling\Player\RACursor.cs" />
+    <Compile Include="Player\Limb.cs" />
+    <Compile Include="Player\Player.cs" />
+    <Compile Include="Player\RACursor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screen Handling\CharSelect.cs" />
@@ -181,7 +183,7 @@
     <Compile Include="Screen Handling\Shop Components\ComparisonPopup.cs" />
     <Compile Include="Screen Handling\Shop Components\ShopXManager.cs" />
     <Compile Include="Screen Handling\ShopScreen.cs" />
-    <Compile Include="Screen Handling\Player\StatusEffect.cs" />
+    <Compile Include="Player\StatusEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -224,10 +226,6 @@
       <ProductName>Microsoft XNA Framework Redistributable 4.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Cronkpit_1_TemporaryKey.pfx" />
-    <None Include="Cronkpit_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

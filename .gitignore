@@ -72,8 +72,6 @@ ipch/
 *.ncb
 *.opensdf
 *.sdf
-*key
-*.cacheFile
 
 # Visual Studio profiler
 *.psess
@@ -99,7 +97,6 @@ DocProject/Help/html
 publish
 
 # Others
-Cronkpit Content
 [Bb]in
 [Oo]bj
 sql
@@ -109,6 +106,7 @@ ClientBin
 stylecop.*
 ~$*
 *.dbmdl
+*.xnb
 Generated_Code #added for RIA/Silverlight projects
 
 # Backup & report files from converting an old project file to a newer

@@ -8,6 +8,7 @@ namespace Cronkpit
     struct gridCoordinate 
     {
         public enum direction { UpLeft, Up, UpRight, Left, Right, DownLeft, Down, DownRight };
+        public enum coord { xCoord, yCoord };
         public int x;
         public int y;
 
@@ -63,6 +64,20 @@ namespace Cronkpit
                     x++;
                     break;
             }
+        }
+
+        public void combineCoords(gridCoordinate g)
+        {
+            x += g.x;
+            y += g.y;
+        }
+
+        public int get_a_coord(coord c)
+        {
+            if (c == coord.xCoord)
+                return x;
+            else
+                return y;
         }
     }
 }

@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="CKPLibrary.ShopPromptDC[]">
+    <Item>
+      <Shop_Section>Intro</Shop_Section>
+      <Prompt_Text>
+        <Item>The [SHOPKEEPER] looks up at you and is about to tell you off,</Item>
+        <Item>thinking you're like many of the other raggedy and ill-mannered</Item>
+        <Item>dungeon trash that crawl through their store, when they see how</Item>
+        <Item>politely you stand at the counter, not touching a single thing.</Item>
+        <Item>The [SHOPKEEPER] stares at you dumbfoundedly for a second, mouth </Item>
+        <Item>agape before coughing and saying "So. Um. How can I..." they </Item>
+        <Item>struggle to remember what to say. "...Help you?" You look at the </Item>
+        <Item>shopkeeper oddly before asking to see their wares.  </Item>
+      </Prompt_Text>
+    </Item>
+    <Item>
+      <Shop_Section>Weapons</Shop_Section>
+      <Prompt_Text>
+        <Item>"Sure thing." The [SHOPKEEPER] carefully points you over to the</Item>
+        <Item>weapons rack, and eyes you uneasily. You go over to look at them </Item>
+        <Item>before whipping back around to the [SHOPKEEPER]. "What's with</Item>
+        <Item>that look you're giving me?" You ask, narrowing your eyes at the </Item>
+        <Item>[SHOPKEEPER]. They just stiffen up and say "I'm just not used to </Item>
+        <Item>having a customer I didn't have to yell at all the time." You</Item>
+        <Item>scoff and turn back to the rack, saying "Tell me about it."  </Item>
+      </Prompt_Text>
+    </Item>
+    <Item>
+      <Shop_Section>Armor</Shop_Section>
+      <Prompt_Text>
+        <Item>You're turning over a piece of armor when you notice the rear of </Item>
+        <Item>it is rusted. "Hey, not to be rude, but it seems your armor isn't</Item>
+        <Item>up to snuff." "What?!" The [SHOPKEEPER] roars, thinking that he's</Item>
+        <Item>finally caught you being like all the other customers. </Item>
+        <Item>Instead, he finds that the piece of armor you mentioned is indeed</Item>
+        <Item>rusted badly. The [SHOPKEEPER] roars in anger as he realizes what</Item>
+        <Item>the cause is. "That damn demon! Her and her stupid tail! I knew </Item>
+        <Item>she was going to fuck something up!" You quietly place the armor </Item>
+        <Item>back down and look at the other armors without saying a word.</Item>
+      </Prompt_Text>
+    </Item>
+    <Item>
+      <Shop_Section>Scrolls</Shop_Section>
+      <Prompt_Text>
+        <Item>"Do you have any scrolls to sell?" The [SHOPKEEPER] lays a stack </Item>
+        <Item>of them out for you to peruse. As you flip through them, you pipe</Item>
+        <Item>up and say "Hey, this one's only a Flamebolt scroll. You've got </Item>
+        <Item>it mixed in with the expensive scrolls. What're you trying to</Item>
+        <Item>pull?" The [SHOPKEEPER], flustered, starts to go over to the pile</Item>
+        <Item>of scrolls to reorganize them. "First decent customer in ages and</Item>
+        <Item>my shop is a wreck! Those lousy demons..." The [SHOPKEEPER] </Item>
+        <Item>slams his fist against the counter. You huff and roll your eyes. </Item>
+        <Item>"You're telling me." </Item>
+      </Prompt_Text>
+    </Item>
+    <Item>
+      <Shop_Section>Buyback</Shop_Section>
+      <Prompt_Text>
+        <Item>You get the [SHOPKEEPER]'s attention as you realize you might've </Item>
+        <Item>made a mistake. "Hey. On second thought, I need that back." The</Item>
+        <Item>[SHOPKEEPER] grumbles a bit before pulling back out all the stuff</Item>
+        <Item>you just sold to them. The [SHOPKEEPER] looks a little skittish </Item>
+        <Item>as they say "You know, you can't just take it back. You're going </Item>
+        <Item>to have to buy it back." "Oh, I know." You say. "What kind of </Item>
+        <Item>jerk would sell you something and then just take it back?" The </Item>
+        <Item>[SHOPKEEPER] chuckles darkly. "You'd be surprised." </Item>
+      </Prompt_Text>
+    </Item>
+    <Item>
+      <Shop_Section>Sell</Shop_Section>
+      <Prompt_Text>
+        <Item>"Would you be interested in any of this stuff?" You lay out some </Item>
+        <Item>of the items you've picked up thus far through your adventure. </Item>
+        <Item>The [SHOPKEEPER] looks over it and says "I don't think I can give</Item>
+        <Item>you that much for this cra...stuff." "Oh, that's fine. Whatever </Item>
+        <Item>you can spare would be great." The [SHOPKEEPER] blanches a bit at</Item>
+        <Item>how agreeable you are, and makes a mental note to give you more </Item>
+        <Item>than what he was planning on giving you. </Item>
+      </Prompt_Text>
+    </Item>
+    <Item>
+      <Shop_Section>Talismans</Shop_Section>
+      <Prompt_Text>
+        <Item>You ask about talismans. The [SHOPKEEPER] grunts and pulls out a </Item>
+        <Item>bunch of them. You sift through the pile of paper tags, careful</Item>
+        <Item>not to get any two stuck together. You hold one up to the </Item>
+        <Item>[SHOPKEEPER] and ask "What's this one do? I can't quite make out</Item>
+        <Item>the markings." They squint at it a bit. "Makes you heavier." You </Item>
+        <Item>look at the scroll and say "Interesting, but not what I need" </Item>
+        <Item>and hand it back to the [SHOPKEEPER]. They flinch as you do, </Item>
+        <Item>thinking you were going to throw it at them. When they realize </Item>
+        <Item>that's not the case, they snatch it from your hand and put it </Item>
+        <Item>away while you keep browsing. </Item>
+      </Prompt_Text>
+    </Item>
+    <Item>
+      <Shop_Section>Consumables</Shop_Section>
+      <Prompt_Text>
+        <Item>As you're looking through the shop's wares, you realize you could</Item>
+        <Item>probably use some health and repair potions. You ask the</Item>
+        <Item>[SHOPKEEPER] if they have any. "I should have some around here </Item>
+        <Item>somewhere," they grumble as they look. "How strong a potion you </Item>
+        <Item>need?" "Min-" You catch yourself, thinking back to when Falsael </Item>
+        <Item>tore a hole in your armor in the last battle, completely </Item>
+        <Item>oblivious to you being right next to her. "Major. Lots of them." </Item>
+      </Prompt_Text>
+    </Item>
+  </Asset>
+</XnaContent>

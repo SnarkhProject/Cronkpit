@@ -98,10 +98,16 @@ namespace Cronkpit
         Texture2D injSummary_scroll_down_max;
         Texture2D injSummary_scroll_down_one;
 
+        Texture2D inv_left_scroll_texture;
+        Texture2D inv_right_scroll_texture;
+
         Rectangle injSummary_scroll_up_max_rect;
         Rectangle injSummary_scroll_up_one_rect;
         Rectangle injSummary_scroll_down_max_rect;
         Rectangle injSummary_scroll_down_one_rect;
+
+        Rectangle inv_left_scroll_rect;
+        Rectangle inv_right_scroll_rect;
 
         //We finally leave that here to go into COLORS
         Color my_dark_color;
@@ -225,7 +231,7 @@ namespace Cronkpit
             injSummary_scroll_down_one_rect = new Rectangle(scrollElements_x, fourth_y, 18, 18);
             
             //Item stuff
-            item_start_position = new Vector2(my_xPosition + bpbBG_xPos +10, my_yPosition + bpbBG_yPos+10);
+            item_start_position = new Vector2(my_xPosition + bpbBG_xPos + 40, my_yPosition + bpbBG_yPos+10);
             Vector2 item_start_position2 = new Vector2(item_start_position.X, item_start_position.Y);
             item_icon_rects = new List<Rectangle>();
             pair_list = new List<rect_inv_item_pair>();
@@ -234,6 +240,8 @@ namespace Cronkpit
                 item_icon_rects.Add(new Rectangle((int)item_start_position2.X, (int)item_start_position2.Y, 48, 48));
                 item_start_position2.X += 60;
             }
+            inv_left_scroll_rect = new Rectangle(my_xPosition + bpbBG_xPos + 10, my_yPosition + bpbBG_yPos+10, 16, 48);
+            inv_right_scroll_rect = new Rectangle(my_xPosition+ bpbBG_width - 26, my_yPosition + bpbBG_yPos+10, 16, 48);
 
             my_dark_color = new Color(0, 0, 0);
             my_grey_color = new Color(100, 100, 100);
@@ -249,12 +257,15 @@ namespace Cronkpit
         }
 
         public void init_textures(Texture2D inj_scum, Texture2D inj_scuo, 
-                                    Texture2D inj_scdm, Texture2D inj_scdo)
+                                  Texture2D inj_scdm, Texture2D inj_scdo, 
+                                  Texture2D inv_scleft, Texture2D inv_scright)
         {
             injSummary_scroll_up_max = inj_scum;
             injSummary_scroll_up_one = inj_scuo;
             injSummary_scroll_down_max = inj_scdm;
             injSummary_scroll_down_one = inj_scdo;
+            inv_left_scroll_texture = inv_scleft;
+            inv_right_scroll_texture = inv_scright;
         }
 
         public void init_wframes(Texture2D wFrameTex, Texture2D[] tex_masks)
@@ -439,6 +450,20 @@ namespace Cronkpit
                 if (injSummary_scroll_down_max_rect.Contains((int)mousePosition.X, (int)mousePosition.Y))
                 {
                     scroll_ctab_MSG(1000);
+                }
+
+                if(inv_left_scroll_rect.Contains((int)mousePosition.X, (int)mousePosition.Y))
+                {
+                    item_start_index--;
+                    if(item_start_index < 0)
+                        item_start_index = 0;
+                }
+
+                if(inv_right_scroll_rect.Contains((int)mousePosition.X, (int)mousePosition.Y))
+                {
+                    item_start_index++;
+                    if(item_start_index + number_of_items_shown >= player_inv.Count)
+                        item_start_index = Math.Max(0, player_inv.Count - number_of_items_shown);
                 }
             }
             //On the hold, move the rectangle.
@@ -778,7 +803,7 @@ namespace Cronkpit
                 }
             }
 
-            //Then equipment text!
+            //Then equipment text! + scrolling arrows.
             sBatch.DrawString(player_name_font, player_name, player_name_pos, my_text_color);
             sBatch.DrawString(stdFont, "Gold: " + player_gold, goldmsg_pos, my_text_color);
 
@@ -786,6 +811,8 @@ namespace Cronkpit
             sBatch.Draw(injSummary_scroll_up_one, injSummary_scroll_up_one_rect, Color.White);
             sBatch.Draw(injSummary_scroll_down_max, injSummary_scroll_down_max_rect, Color.White);
             sBatch.Draw(injSummary_scroll_down_one, injSummary_scroll_down_one_rect, Color.White);
+            sBatch.Draw(inv_right_scroll_texture, inv_right_scroll_rect, Color.White);
+            sBatch.Draw(inv_left_scroll_texture, inv_left_scroll_rect, Color.White);
         }
 
         public void draw_tooltip_box(ref SpriteBatch sBatch, Item tooltip_target)

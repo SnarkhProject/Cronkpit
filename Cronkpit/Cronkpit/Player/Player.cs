@@ -168,13 +168,8 @@ namespace Cronkpit
 
         public void move(gridCoordinate.direction dir, Floor fl)
         {
-            //0 = up, 1 = down, 2 = left, 3 = right
-            //4 = downright, 5 = downleft, 6 = upright, 7 = upleft
             int MonsterID = -1;
             int DoodadID = -1;
-            int my_smell = my_scent_value();
-            int my_sound = my_sound_value();
-            //damage stuff
             gridCoordinate test_coord = new gridCoordinate(my_grid_coord);
             test_coord.shift_direction(dir);
 
@@ -185,10 +180,11 @@ namespace Cronkpit
             }
             else
             {
+                //Check for monsters / doodads first.
                 fl.is_monster_here(test_coord, out MonsterID);
-                //Check to see if there's a door there. If there is, open it.
-                fl.open_door_here(test_coord);
                 fl.is_destroyable_Doodad_here(test_coord, out DoodadID);
+                //Check to see if there's a door there. If there is, attempt to open it.
+                fl.open_door_here(test_coord);
             }
 
             if (MonsterID != -1)
@@ -196,8 +192,14 @@ namespace Cronkpit
 
             if(DoodadID != -1)
                 melee_attack(fl, my_grid_coord, test_coord);
-            //after moving, loot and then add smell to current tile.
+            //after moving, loot the current tile, and set sound / smell values.
             loot(fl);
+            total_sound = my_sound_value();
+            total_scent = my_scent_value();
+        }
+
+        public void wait()
+        {
             total_sound = my_sound_value();
             total_scent = my_scent_value();
         }
@@ -1025,10 +1027,7 @@ namespace Cronkpit
             }
             else if (thing is Weapon)
             {
-                Weapon weapon_thing = (Weapon)thing;
-                Weapon acquired_weapon = new Weapon(weapon_thing.get_my_IDno(),
-                                                    weapon_thing.get_my_gold_value(),
-                                                    weapon_thing.get_my_name(), weapon_thing);
+                Weapon acquired_weapon = new Weapon((Weapon)thing);
                 inventory.Add(acquired_weapon);
             }
             else if (thing is Scroll)
@@ -1517,16 +1516,9 @@ namespace Cronkpit
                 if (dmg > 0)
                         fl.add_new_popup("-" + dmg + " " + target_limb.get_shortname(), Popup.popup_msg_color.Red, my_grid_coord);
                     message_buffer.Add("Your " + target_limb.get_longname() + " takes " + dmg + " wounds!");
-
-                calculate_dodge_chance();
-                update_pdoll();
             }
 
-            if (L_Arm.is_disabled())
-                unequip(Equip_Slot.Mainhand);
-
-            if (R_Arm.is_disabled())
-                unequip(Equip_Slot.Offhand);
+            handle_postdamage_calculations();
 
             if (!is_alive())
                 message_buffer.Add("Your wounds are too much for you. You collapse and your vision fades.");
@@ -1558,9 +1550,14 @@ namespace Cronkpit
                     target_part = Torso;
                     break;
             }
+            if (target_part.is_disabled())
+                target_part = Torso;
+
             target_part.add_injury(dmgTyp, dmg);
             fl.add_new_popup("-1 " + target_part.get_shortname(), Popup.popup_msg_color.Red, my_grid_coord);
             message_buffer.Add("Your " + target_part.get_longname() + " takes " + dmg.ToString() + " wounds.");
+
+            handle_postdamage_calculations();
         }
 
         public void take_aoe_damage(int min_dmg, int max_dmg, 
@@ -1633,7 +1630,8 @@ namespace Cronkpit
                     fl.add_new_popup("-" + next_attack.get_damage_amt() + " " + target_limbs[i].get_shortname(), Popup.popup_msg_color.Red, my_grid_coord);
                 message_buffer.Add("Your " + target_limbs[i].get_longname() + " takes " + next_attack.get_damage_amt() + " wounds!");
             }
-            update_pdoll();
+
+            handle_postdamage_calculations();
         }
 
         public void add_single_statusEffect(StatusEffect se)
@@ -2249,6 +2247,22 @@ namespace Cronkpit
         }
 
         #region calculate stats area
+
+        public void handle_postdamage_calculations()
+        {
+            update_pdoll();
+            handle_limb_unequip();
+            calculate_dodge_chance();
+        }
+
+        public void handle_limb_unequip()
+        {
+            if (L_Arm.is_disabled())
+                unequip(Equip_Slot.Mainhand);
+
+            if (R_Arm.is_disabled())
+                unequip(Equip_Slot.Offhand);
+        }
 
         public void calculate_dodge_chance()
         {

@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="CKPLibrary.FloorThemeDC[]">
+    <Item>
+      <FloorNumber>1</FloorNumber>
+      <Roomlist>
+        <Item>1 River</Item>
+      </Roomlist>
+      <SpecificRooms>No</SpecificRooms>
+    </Item>
+    <Item>
+      <FloorNumber>2</FloorNumber>
+      <Roomlist>
+        <Item>4 Corpse Storage</Item>
+      </Roomlist>
+      <SpecificRooms>No</SpecificRooms>
+    </Item>
+    <Item>
+      <FloorNumber>3</FloorNumber>
+      <Roomlist />
+      <SpecificRooms>Yes</SpecificRooms>
+    </Item>
+    <Item>
+      <FloorNumber>4</FloorNumber>
+      <Roomlist />
+      <SpecificRooms>No</SpecificRooms>
+    </Item>
+    <Item>
+      <FloorNumber>5</FloorNumber>
+      <Roomlist>
+        <Item>4 Library</Item>
+      </Roomlist>
+      <SpecificRooms>No</SpecificRooms>
+    </Item>
+    <Item>
+      <FloorNumber>6</FloorNumber>
+      <Roomlist />
+      <SpecificRooms>No</SpecificRooms>
+    </Item>
+    <Item>
+      <FloorNumber>7</FloorNumber>
+      <Roomlist>
+        <Item>2 Jail</Item>
+        <Item>1 Knight Armory</Item>
+      </Roomlist>
+      <SpecificRooms>No</SpecificRooms>
+    </Item>
+    <Item>
+      <FloorNumber>8</FloorNumber>
+      <Roomlist>
+        <Item>4 Sewer Shaft</Item>
+        <Item>1 Sewer</Item>
+      </Roomlist>
+      <SpecificRooms>No</SpecificRooms>
+    </Item>
+    <Item>
+      <FloorNumber>9</FloorNumber>
+      <Roomlist>
+        <Item>1 Chasm</Item>
+      </Roomlist>
+      <SpecificRooms>Yes</SpecificRooms>
+    </Item>
+    <Item>
+      <FloorNumber>10</FloorNumber>
+      <Roomlist />
+      <SpecificRooms>No</SpecificRooms>
+    </Item>
+    <Item>
+      <FloorNumber>11</FloorNumber>
+      <Roomlist>
+        <Item>1 Chasm</Item>
+        <Item>4 Rubble Room</Item>
+      </Roomlist>
+      <SpecificRooms>No</SpecificRooms>
+    </Item>
+    <Item>
+      <FloorNumber>12</FloorNumber>
+      <Roomlist />
+      <SpecificRooms>Yes</SpecificRooms>
+    </Item>
+  </Asset>
+</XnaContent>

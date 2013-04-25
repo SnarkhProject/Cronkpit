@@ -123,19 +123,19 @@ namespace Cronkpit
             switch (iTyp)
             {
                 case Permanent_ITypes.Armor:
-                    raw_items = cManager.Load<ArmorDC[]>("XmlData/armors");
+                    raw_items = cManager.Load<ArmorDC[]>("XmlData/Items/armors");
                     break;
                 case Permanent_ITypes.Weapon:
-                    raw_items = cManager.Load<WeaponDC[]>("XmlData/weapons");
+                    raw_items = cManager.Load<WeaponDC[]>("XmlData/Items/weapons");
                     break;
                 case Permanent_ITypes.Scroll:
-                    raw_items = cManager.Load<ScrollDC[]>("XmlData/scrolls");
+                    raw_items = cManager.Load<ScrollDC[]>("XmlData/Items/scrolls");
                     break;
             }
 
             int playerGold = pl.get_my_gold();
             int tiers_available = calc_tier(playerGold);
-            int teaser_tier = pl.get_my_lifetime_gold();
+            int teaser_tier = calc_tier(pl.get_my_lifetime_gold());
             string pl_chclass = pl.my_class_as_string();
 
             for (int i = 0; i < raw_items.Count(); i++)
@@ -184,7 +184,7 @@ namespace Cronkpit
 
         public List<Item> retrieve_random_consumables(Player pl, int number)
         {
-            PotionDC[] raw_potion_data = cManager.Load<PotionDC[]>("XmlData/potions");
+            PotionDC[] raw_potion_data = cManager.Load<PotionDC[]>("XmlData/Items/potions");
             List<PotionDC> selected_potion_data = new List<PotionDC>();
 
             List<Item> fetched_list = new List<Item>();

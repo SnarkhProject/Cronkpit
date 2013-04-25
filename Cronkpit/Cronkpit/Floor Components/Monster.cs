@@ -776,31 +776,36 @@ namespace Cronkpit
         }
 
         //now for the good stuff - SENSORY STUFF.
-        //Probably not going to use this.
-        public Tile strongest_smell_within(Floor fl, int targetSmell, int smell_threshold, int radius)
+        public Tile find_strongest_scent(Floor fl, int targetSmell, int smell_threshold, int smellRange)
         {
-            List<gridCoordinate> smelled_from = new List<gridCoordinate>();
-            for (int i = 0; i < my_grid_coords.Count; i++)
-                if (fl.check_for_smellable_smell(my_grid_coords[i], targetSmell, smell_threshold, radius))
-                    smelled_from.Add(my_grid_coords[i]);
+            List<Tile> target_tiles = new List<Tile>();
+            switch (my_monster_size)
+            {
+                case Monster_Size.Normal:
+                    target_tiles.AddRange(fl.find_smellable_tiles(my_grid_coords[0], smellRange));
+                    break;
+                case Monster_Size.Large:
+                    for (int i = 0; i < my_grid_coords.Count; i++)
+                        target_tiles.AddRange(fl.find_smellable_tiles(my_grid_coords[0], smellRange));
+                    break;
+            }
 
-            List<Tile> strongest_smells = new List<Tile>();
-            for (int i = 0; i < smelled_from.Count; i++)
-                strongest_smells.Add(fl.establish_los_strongest_smell(smelled_from[i], radius, targetSmell, smell_threshold));
-
-            int strongest_smell = -1;
-            int target_index = 0;
-            for (int i = 0; i < strongest_smells.Count; i++)
-                if (strongest_smells[i] != null && strongest_smells[i].strength_of_scent(targetSmell) > strongest_smell)
+            int target_index = -1;
+            int strongest_smell = smell_threshold - 1;
+            fl.scrub_all_auras();
+            for (int i = 0; i < target_tiles.Count; i++)
+            {
+                if (target_tiles[i].strength_of_scent(targetSmell) > strongest_smell)
                 {
                     target_index = i;
-                    strongest_smell = strongest_smells[i].strength_of_scent(targetSmell);
+                    strongest_smell = target_tiles[i].strength_of_scent(targetSmell);
                 }
+            }
 
-            if (strongest_smell > -1)
-                return strongest_smells[target_index];
-            else
+            if (target_index == -1)
                 return null;
+            else
+                return target_tiles[target_index];
         }
 
         public bool is_player_within(Player pl, int radius)
@@ -860,13 +865,12 @@ namespace Cronkpit
             return within_radius;
         }
 
-        public bool can_i_see_point(Floor fl, gridCoordinate target_point,
-                                    VisionRay.fineness fineness = VisionRay.fineness.Average)
+        public bool can_i_see_point(Floor fl, gridCoordinate target_point)
         {
             bool can_see_target = false;
             for (int i = 0; i < my_grid_coords.Count; i++)
             {
-                if (fl.establish_los(my_grid_coords[i], target_point, fineness))
+                if (fl.establish_los(my_grid_coords[i], target_point))
                     can_see_target = true;
             }
 

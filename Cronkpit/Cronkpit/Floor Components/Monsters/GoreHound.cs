@@ -41,9 +41,10 @@ namespace Cronkpit
         public override void Update_Monster(Player pl, Floor fl)
         {
             has_moved = false;
-            Tile target_tile = strongest_smell_within(fl, 0, smell_threshold, smell_range);
+            Tile target_tile = find_strongest_scent(fl, 0, smell_threshold, smell_range);
             heal_near_altar(fl);
 
+            
             if (target_tile == null)
                 has_scent = false;
             else
