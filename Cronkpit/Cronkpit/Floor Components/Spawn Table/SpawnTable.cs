@@ -159,6 +159,15 @@ namespace Cronkpit
             return spData[spData.Count - 1].my_assoc_monster;
         }
 
+        public bool monster_in_table(string monsterName)
+        {
+            for (int i = 0; i < spData.Count; i++)
+                if (String.Compare(spData[i].my_assoc_monster, monsterName) == 0)
+                    return true;
+
+            return false;
+        }
+
         public int return_spawn_chance_by_monster(string monster_name)
         {
             for (int i = 0; i < spData.Count; i++)

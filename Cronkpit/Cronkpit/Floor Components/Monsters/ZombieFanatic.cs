@@ -22,7 +22,7 @@ namespace Cronkpit
             hitPoints = max_hitPoints;
             armorPoints = 20;
             min_damage = 2;
-            max_damage = 4;
+            max_damage = 3;
             dmg_type = Attack.Damage.Slashing;
 
             //SENSORY

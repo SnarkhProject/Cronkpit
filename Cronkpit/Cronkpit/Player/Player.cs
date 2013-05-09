@@ -170,6 +170,7 @@ namespace Cronkpit
         {
             int MonsterID = -1;
             int DoodadID = -1;
+            bool opened_door = false;
             gridCoordinate test_coord = new gridCoordinate(my_grid_coord);
             test_coord.shift_direction(dir);
 
@@ -184,13 +185,13 @@ namespace Cronkpit
                 fl.is_monster_here(test_coord, out MonsterID);
                 fl.is_destroyable_Doodad_here(test_coord, out DoodadID);
                 //Check to see if there's a door there. If there is, attempt to open it.
-                fl.open_door_here(test_coord);
+                fl.open_door_here(test_coord, out opened_door);
             }
 
             if (MonsterID != -1)
                 melee_attack(fl, my_grid_coord, test_coord);
 
-            if(DoodadID != -1)
+            if(DoodadID != -1 && !opened_door)
                 melee_attack(fl, my_grid_coord, test_coord);
             //after moving, loot the current tile, and set sound / smell values.
             loot(fl);

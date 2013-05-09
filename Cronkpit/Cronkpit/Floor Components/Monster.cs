@@ -357,8 +357,15 @@ namespace Cronkpit
                              !fl.am_i_on_other_monster(targetpoint, my_Index) &&
                              !fl.is_void_tile(targetpoint));
 
+            bool door_opened = false;
             if(smart_monster)
-                fl.open_door_here(targetpoint);
+                fl.open_door_here(targetpoint, out door_opened);
+            if (smart_monster && !door_opened)
+            {
+                int DoodadID = -1;
+                fl.is_destroyable_Doodad_here(targetpoint, out DoodadID);
+                fl.damage_Doodad(rGen.Next(min_damage, max_damage + 1), DoodadID);
+            }
 
             return spot_free;
         }

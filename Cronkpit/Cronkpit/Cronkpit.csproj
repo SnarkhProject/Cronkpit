@@ -29,7 +29,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>30</ApplicationRevision>
+    <ApplicationRevision>31</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -124,6 +124,7 @@
     <Compile Include="Camera.cs" />
     <Compile Include="Floor Components\Effect.cs" />
     <Compile Include="Floor Components\Doodad.cs" />
+    <Compile Include="Floor Components\FloorBuilder.cs" />
     <Compile Include="Floor Components\Goldpile.cs" />
     <Compile Include="Floor Components\Dungeon Areas\Hall.cs" />
     <Compile Include="Floor Components\Monster Senses\Scent.cs" />

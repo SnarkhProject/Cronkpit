@@ -1379,6 +1379,10 @@ namespace Cronkpit
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
+            f1.draw_tile_overlays(ref spriteBatch);
+            spriteBatch.End();
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, cam.viewMatrix);
             f1.draw_tile_auras(ref spriteBatch);
             spriteBatch.End();
 

@@ -12,7 +12,7 @@ namespace Cronkpit
     class Doodad
     {
         public enum Doodad_Type { ArmorSuit, Destroyed_ArmorSuit, Door, CorpsePile, Altar,
-                                  Destroyed_Altar };
+                                  Destroyed_Altar, Cage, Blood_Splatter, Bookshelf, Destroyed_Bookshelf };
         Doodad_Type my_doodad_type;
         Texture2D my_impassable_texture;
         Texture2D my_passable_texture;
@@ -40,6 +40,7 @@ namespace Cronkpit
                       bool stone_doorframe = false)
         {
             my_doodad_type = dType;
+            HP = 0;
             switch (my_doodad_type)
             {
                 case Doodad_Type.ArmorSuit:
@@ -58,7 +59,6 @@ namespace Cronkpit
                     passable = true;
                     destroyable = false;
                     blocks_los = false;
-                    HP = 0;
                     break;
                 case Doodad_Type.CorpsePile:
                     my_impassable_texture = cManage.Load<Texture2D>("Background/Doodads/corpsepile");
@@ -67,7 +67,6 @@ namespace Cronkpit
                     passable = true;
                     destroyable = false;
                     blocks_los = false;
-                    HP = 0;
                     break;
                 case Doodad_Type.Door:
                     if (stone_doorframe)
@@ -95,6 +94,39 @@ namespace Cronkpit
                     my_passable_texture = cManage.Load<Texture2D>("Background/Doodads/altar_destroyed");
                     name = "altar";
                     passable = false;
+                    destroyable = false;
+                    blocks_los = false;
+                    break;
+                case Doodad_Type.Blood_Splatter:
+                    my_impassable_texture = cManage.Load<Texture2D>("Background/Doodads/splat");
+                    my_passable_texture = my_impassable_texture;
+                    name = "blood splatter";
+                    passable = true;
+                    destroyable = false;
+                    blocks_los = false;
+                    break;
+                case Doodad_Type.Cage:
+                    my_impassable_texture = cManage.Load<Texture2D>("Background/Doodads/cage");
+                    my_passable_texture = cManage.Load<Texture2D>("Background/Doodads/cage");
+                    name = "cage";
+                    passable = false;
+                    destroyable = true;
+                    blocks_los = false;
+                    HP = 20;
+                    break;
+                case Doodad_Type.Bookshelf:
+                    my_impassable_texture = cManage.Load<Texture2D>("Background/Doodads/bookshelf");
+                    my_passable_texture = cManage.Load<Texture2D>("Background/Doodads/bookshelf_destroyed");
+                    name = "bookshelf";
+                    passable = false;
+                    destroyable = true;
+                    blocks_los = true;
+                    HP = 10;
+                    break;
+                case Doodad_Type.Destroyed_Bookshelf:
+                    my_passable_texture = cManage.Load<Texture2D>("Background/Doodads/bookshelf_destroyed");
+                    name = "bookshelf";
+                    passable = true;
                     destroyable = false;
                     blocks_los = false;
                     break;

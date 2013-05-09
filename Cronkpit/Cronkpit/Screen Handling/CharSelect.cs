@@ -15,11 +15,13 @@ namespace Cronkpit
         private enum Menu_Mode { CharSelect, ClassSelect };
         int current_character_selected;
         int current_class_selected;
+        List<Texture2D> char_class_img;
         List<Texture2D> character_images;
         List<string> character_names;
         ContentManager cManager;
 
         Rectangle client_rect;
+        Rectangle char_img_rect;
 
         List<string> petaer_info;
         List<string> ziktofel_info;
@@ -33,12 +35,13 @@ namespace Cronkpit
         List<Rectangle> class_iconrects;
         List<Texture2D> class_icontexts;
         List<string> class_names;
-        Texture2D condensed_charimg;
+        
         
         public CharSelect(ref ContentManager content, SpriteFont s_font, SpriteFont b_font,
                           Rectangle client)
         {
             character_images = new List<Texture2D>();
+            char_class_img = new List<Texture2D>();
             character_names = new List<string>();
             cManager = content;
             my_mode = Menu_Mode.CharSelect;
@@ -62,6 +65,7 @@ namespace Cronkpit
             class_iconrects.Add(new Rectangle(baseXcoord + (spacing), baseYcoord, size, size));
             class_iconrects.Add(new Rectangle(baseXcoord, baseYcoord + (spacing), size, size));
             class_iconrects.Add(new Rectangle(baseXcoord + (spacing), baseYcoord + (spacing), size, size));
+            char_img_rect = new Rectangle(15, 15, 240, 575);
             class_icontexts = new List<Texture2D>();
             class_names = new List<string>();
         }
@@ -150,19 +154,37 @@ namespace Cronkpit
                 my_mode = Menu_Mode.ClassSelect;
 
                 string basePath = "UI Elements/Large Chara Images/";
+                //Order of class descriptors is
+                //ExPriest
+                //Warrior
+                //Rogue
+                //Mage
+                char_class_img.Clear();
                 switch (current_character_selected)
                 {
                     case 0:
-                        condensed_charimg = cManager.Load<Texture2D>(basePath + "Petaer_large_condensed");
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "Petaer_large_condensed"));
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "Petaer_large_condensed"));
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "Petaer_large_condensed"));
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "Petaer_large_condensed"));
                         break;
                     case 1:
-                        condensed_charimg = cManager.Load<Texture2D>(basePath + "Ziktofel_large_condensed");
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "Ziktofel_large_condensed"));
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "Ziktofel_large_condensed"));
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "Ziktofel_large_condensed"));
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "Ziktofel_large_condensed"));
                         break;
                     case 2:
-                        condensed_charimg = cManager.Load<Texture2D>(basePath + "Halephon_large_condensed");
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "halephon_cleric"));
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "halephon_warrior"));
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "halephon_rogue"));
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "halephon_mage"));
                         break;
                     case 3:
-                        condensed_charimg = cManager.Load<Texture2D>(basePath + "Falsael_large_condensed");
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "Falsael_large_condensed"));
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "Falsael_large_condensed"));
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "Falsael_large_condensed"));
+                        char_class_img.Add(cManager.Load<Texture2D>(basePath + "Falsael_large_condensed"));
                         break;
                 }
             }
@@ -239,7 +261,6 @@ namespace Cronkpit
             //draw condensed icon on the right of the screen
             //draw classes in a 2-wide row to the left of that
             //put info to the left of that.
-            sBatch.Draw(condensed_charimg, new Vector2(0, 0), Color.White);
             sBatch.DrawString(text_font, "Select class:", new Vector2(270, 50), Color.White);
 
             string classname = "";
@@ -258,7 +279,7 @@ namespace Cronkpit
 
             Vector2 classDesc_baseCoord = new Vector2(440, 80);
             
-
+            //Draw class descriptions
             ClassDescDC[] class_descriptors = cManager.Load<ClassDescDC[]>("XmlData/classdescriptions");
             int target_index = -1;
             for (int a = 0; a < class_descriptors.Count(); a++)
@@ -277,6 +298,11 @@ namespace Cronkpit
                     sBatch.DrawString(text_font, class_descriptors[target_index].Description[i], classDesc_baseCoord, Color.White);
                     classDesc_baseCoord.Y += text_font.LineSpacing;
                 }
+            }
+
+            if (target_index > -1)
+            {
+                sBatch.Draw(char_class_img[target_index], char_img_rect, Color.White);
             }
         }
     }

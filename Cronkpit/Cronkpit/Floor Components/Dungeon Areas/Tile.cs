@@ -15,10 +15,13 @@ namespace Cronkpit
         public enum Tile_Type { StoneWall, DirtWall, StoneFloor, DirtFloor,
                                 Rubble_Wall, Rubble_Floor, Exit, Void,
                                 Dungeon_Exit, Locked_Dungeon_Exit, Entrance,
-                                Gravel, Shallow_Water, Deep_Water };
+                                Gravel, Shallow_Water, Deep_Water, Shallow_Blood,
+                                Deep_Blood };
+        public enum Bit_Directions { N = 1, E = 2, S = 4, W = 8, NW = 16, NE = 32, SE = 64, SW = 128 };
 
         private Texture2D my_Texture;
         private Texture2D my_blank_texture;
+        private Texture2D my_overlay;
         private Aura my_Aura;
         private Vector2 my_Position;
         private ContentManager cont;
@@ -48,6 +51,7 @@ namespace Cronkpit
             smells = new List<Scent>();
             my_Aura = Aura.None;
             my_blank_texture = bText;
+            my_overlay = null;
 
             corner_1 = new Vector2(sPos.X + 16, sPos.Y + 13);
             corner_2 = new Vector2(sPos.X + 16, sPos.Y + 19);
@@ -161,6 +165,7 @@ namespace Cronkpit
                     sound_absorbtion_value = 2;
                     my_Texture = relevant_textures[0];
                     break;
+                case Tile_Type.Shallow_Blood:
                 case Tile_Type.Shallow_Water:
                     opaque = false;
                     deflect_sound = false;
@@ -184,6 +189,66 @@ namespace Cronkpit
                     my_Texture = relevant_textures[0];
                     break;
             }
+        }
+
+        public void set_tile_type_str(string sType, List<KeyValuePair<Tile_Type, Texture2D>> textures)
+        {
+            Tile_Type next_tilTyp = Tile_Type.Void;
+            switch (sType)
+            {
+                case "DWr":
+                    next_tilTyp = Tile_Type.Deep_Water;
+                    break;
+                case "DF":
+                    next_tilTyp = Tile_Type.DirtFloor;
+                    break;
+                case "DW":
+                    next_tilTyp = Tile_Type.DirtWall;
+                    break;
+                case "GV":
+                    next_tilTyp = Tile_Type.Gravel;
+                    break;
+                case "SWr":
+                    next_tilTyp = Tile_Type.Shallow_Water;
+                    break;
+                case "SF":
+                    next_tilTyp = Tile_Type.StoneFloor;
+                    break;
+                case "SW":
+                    next_tilTyp = Tile_Type.StoneWall;
+                    break;
+                case "SB":
+                    next_tilTyp = Tile_Type.Shallow_Blood;
+                    break;
+                case "DB":
+                    next_tilTyp = Tile_Type.Deep_Blood;
+                    break;
+            }
+
+            set_tile_type(next_tilTyp, textures);
+        }
+
+        public void set_all_overlays(List<List<Tile>> board, Texture2D[] overlays)
+        {
+            int lookup_value = 0;
+
+            int my_x = grid_coord.x;
+            int my_y = grid_coord.y;
+            int my_x_p = Math.Min(49, my_x + 1);
+            int my_x_n = Math.Max(0, my_x - 1);
+            int my_y_p = Math.Min(49, my_y + 1);
+            int my_y_n = Math.Max(0, my_y - 1);
+
+            lookup_value += (int)Bit_Directions.NW * (board[my_x_n][my_y_n].isWater() ? 1 : 0);
+            lookup_value += (int)Bit_Directions.N * (board[my_x][my_y_n].isWater() ? 1 : 0);
+            lookup_value += (int)Bit_Directions.NE * (board[my_x_p][my_y_n].isWater() ? 1 : 0);
+            lookup_value += (int)Bit_Directions.E * (board[my_x_p][my_y].isWater() ? 1 : 0);
+            lookup_value += (int)Bit_Directions.W * (board[my_x_n][my_y].isWater() ? 1 : 0);
+            lookup_value += (int)Bit_Directions.SE * (board[my_x_p][my_y_p].isWater() ? 1 : 0);
+            lookup_value += (int)Bit_Directions.S * (board[my_x][my_y_p].isWater() ? 1 : 0);
+            lookup_value += (int)Bit_Directions.SW * (board[my_x_n][my_y_p].isWater() ? 1 : 0);
+
+            my_overlay = overlays[lookup_value];
         }
 
         public void mossify(Texture2D[] textures)
@@ -222,6 +287,17 @@ namespace Cronkpit
             sound_absorbtion_value = temp_sound_absorb;
         }
 
+        public Tile_Type get_my_tile_type()
+        {
+            return tile_typ;
+        }
+
+        public bool isWater()
+        {
+            return tile_typ == Tile_Type.Shallow_Water || tile_typ == Tile_Type.Deep_Water ||
+                   tile_typ == Tile_Type.Shallow_Blood || tile_typ == Tile_Type.Deep_Blood;
+        }
+
         public bool isVoid()
         {
             return tile_typ == Tile_Type.Void;
@@ -232,9 +308,19 @@ namespace Cronkpit
             return passable;
         }
 
+        public bool isWall()
+        {
+            return tile_typ == Tile_Type.StoneWall || tile_typ == Tile_Type.DirtWall;
+        }
+
         public bool isExit()
         {
             return tile_typ == Tile_Type.Exit;
+        }
+
+        public bool isOverlaid()
+        {
+            return tile_typ == Tile_Type.DirtFloor || tile_typ == Tile_Type.Gravel;
         }
 
         public bool isExitorEntrance()
@@ -349,6 +435,12 @@ namespace Cronkpit
                 sb.Draw(my_Texture, my_Position, Color.White);
         }
 
+        public void draw_my_overlay(ref SpriteBatch sb)
+        {
+            if (my_overlay != null)
+                sb.Draw(my_overlay, my_Position, Color.White);
+        }
+
         public void draw_my_aura(ref SpriteBatch sb)
         {
             Rectangle my_rect = new Rectangle((int)my_Position.X, (int)my_Position.Y, 32, 32);
@@ -366,11 +458,6 @@ namespace Cronkpit
 
             if (!isVoid() && my_Aura != Aura.None)
                 sb.Draw(my_blank_texture, my_rect, my_color);
-        }
-
-        public Tile_Type get_my_tile_type()
-        {
-            return tile_typ;
         }
     }
 }
